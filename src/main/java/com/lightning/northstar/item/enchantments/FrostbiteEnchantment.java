@@ -11,19 +11,19 @@ import net.minecraft.world.item.enchantment.FireAspectEnchantment;
 
 public class FrostbiteEnchantment extends Enchantment {
 
-	public FrostbiteEnchantment(Rarity rarity, EnchantmentCategory category, EquipmentSlot[] slot) {
-		super(rarity, category, slot);
-	}
-	
-	public int getMinCost(int pEnchantmentLevel) {
-		return pEnchantmentLevel * 10;
-	}
+    public FrostbiteEnchantment(Rarity rarity, EnchantmentCategory category, EquipmentSlot[] slot) {
+        super(rarity, category, slot);
+    }
+    
+    public int getMinCost(int pEnchantmentLevel) {
+        return pEnchantmentLevel * 10;
+    }
 
-	public int getMaxCost(int pEnchantmentLevel) {
-		return this.getMinCost(pEnchantmentLevel) + 25;
-	}
+    public int getMaxCost(int pEnchantmentLevel) {
+        return this.getMinCost(pEnchantmentLevel) + 25;
+    }
 
-	@Override
+    @Override
 	public int getMaxLevel() {
 		return 3;
 	}

@@ -13,7 +13,7 @@ import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 
 public class GlowingOreFeature extends Feature<OreConfiguration> {
-	public GlowingOreFeature(Codec<OreConfiguration> pCodec) {
+    public GlowingOreFeature(Codec<OreConfiguration> pCodec) {
 		super(pCodec);
 	}
 

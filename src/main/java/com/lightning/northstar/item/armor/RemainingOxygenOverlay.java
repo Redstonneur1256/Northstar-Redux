@@ -15,15 +15,15 @@ import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
 public class RemainingOxygenOverlay implements IGuiOverlay {
-	public static final RemainingOxygenOverlay INSTANCE = new RemainingOxygenOverlay();
-	
-	@Override
-	public void render(ForgeGui gui, PoseStack poseStack, float partialTick, int width, int height) {
-		Minecraft mc = Minecraft.getInstance();
-		if (mc.options.hideGui || mc.gameMode.getPlayerMode() == GameType.SPECTATOR)
-			return;
+    public static final RemainingOxygenOverlay INSTANCE = new RemainingOxygenOverlay();
 
-		LocalPlayer player = mc.player;
+    @Override
+    public void render(ForgeGui gui, PoseStack poseStack, float partialTick, int width, int height) {
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.options.hideGui || mc.gameMode.getPlayerMode() == GameType.SPECTATOR)
+            return;
+
+        LocalPlayer player = mc.player;
 		if (player == null)
 			return;
 		if (player.isCreative())

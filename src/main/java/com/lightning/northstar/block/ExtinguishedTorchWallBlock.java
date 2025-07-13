@@ -33,38 +33,38 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class ExtinguishedTorchWallBlock extends Block{
-	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
-	   protected static final float AABB_OFFSET = 2.5F;
-	   private static final Map<Direction, VoxelShape> AABBS = Maps.newEnumMap(ImmutableMap.of(Direction.NORTH, Block.box(5.5D, 3.0D, 11.0D, 10.5D, 13.0D, 16.0D),
-			   Direction.SOUTH, Block.box(5.5D, 3.0D, 0.0D, 10.5D, 13.0D, 5.0D), Direction.WEST, Block.box(11.0D, 3.0D, 5.5D, 16.0D, 13.0D, 10.5D),
-			   Direction.EAST, Block.box(0.0D, 3.0D, 5.5D, 5.0D, 13.0D, 10.5D)));
+    public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
+       protected static final float AABB_OFFSET = 2.5F;
+       private static final Map<Direction, VoxelShape> AABBS = Maps.newEnumMap(ImmutableMap.of(Direction.NORTH, Block.box(5.5D, 3.0D, 11.0D, 10.5D, 13.0D, 16.0D),
+               Direction.SOUTH, Block.box(5.5D, 3.0D, 0.0D, 10.5D, 13.0D, 5.0D), Direction.WEST, Block.box(11.0D, 3.0D, 5.5D, 16.0D, 13.0D, 10.5D),
+               Direction.EAST, Block.box(0.0D, 3.0D, 5.5D, 5.0D, 13.0D, 10.5D)));
 
-	public ExtinguishedTorchWallBlock(BlockBehaviour.Properties pProperties) {
-	super(pProperties);
-	this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
-	}
-	public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-		return getShape(pState);
-	}
+    public ExtinguishedTorchWallBlock(BlockBehaviour.Properties pProperties) {
+    super(pProperties);
+    this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
+    }
+    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+        return getShape(pState);
+    }
 
-	public static VoxelShape getShape(BlockState pState) {
-		return AABBS.get(pState.getValue(FACING));
-	}
+    public static VoxelShape getShape(BlockState pState) {
+        return AABBS.get(pState.getValue(FACING));
+    }
 
-	
-	
-	public BlockState updateShape(BlockState pState, Direction pFacing, BlockState pFacingState, LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pFacingPos) {
-		return pFacing.getOpposite() == pState.getValue(FACING) && !pState.canSurvive(pLevel, pCurrentPos) ? Blocks.AIR.defaultBlockState() : pState;
-	}
-	
-	@Nullable
-	public BlockState getStateForPlacement(BlockPlaceContext pContext) {
-		BlockState blockstate = this.defaultBlockState();
-		LevelReader levelreader = pContext.getLevel();
-		BlockPos blockpos = pContext.getClickedPos();
-		Direction[] adirection = pContext.getNearestLookingDirections();
-		      
-		for(Direction direction : adirection) {
+
+
+    public BlockState updateShape(BlockState pState, Direction pFacing, BlockState pFacingState, LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pFacingPos) {
+        return pFacing.getOpposite() == pState.getValue(FACING) && !pState.canSurvive(pLevel, pCurrentPos) ? Blocks.AIR.defaultBlockState() : pState;
+    }
+
+    @Nullable
+    public BlockState getStateForPlacement(BlockPlaceContext pContext) {
+        BlockState blockstate = this.defaultBlockState();
+        LevelReader levelreader = pContext.getLevel();
+        BlockPos blockpos = pContext.getClickedPos();
+        Direction[] adirection = pContext.getNearestLookingDirections();
+
+    	for(Direction direction : adirection) {
 			if (direction.getAxis().isHorizontal()) {
 				Direction direction1 = direction.getOpposite();
 				blockstate = blockstate.setValue(FACING, direction1);

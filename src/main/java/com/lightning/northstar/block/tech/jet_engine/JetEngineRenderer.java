@@ -26,7 +26,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class JetEngineRenderer extends SafeBlockEntityRenderer<JetEngineBlockEntity>  {
-	
+    
 	public JetEngineRenderer(BlockEntityRendererProvider.Context context) {}
 
 	@Override

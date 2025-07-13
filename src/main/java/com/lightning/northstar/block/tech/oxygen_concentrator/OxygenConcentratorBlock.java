@@ -17,18 +17,18 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class OxygenConcentratorBlock extends HorizontalKineticBlock implements IBE<OxygenConcentratorBlockEntity> {
-	   protected static final VoxelShape AABB = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D);
+       protected static final VoxelShape AABB = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D);
 
-	public OxygenConcentratorBlock(Properties properties) {
-		super(properties);
-	}
-	
-//	@Override
-//	public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand,
-//		BlockHitResult pHit) { 	       	
-//		if (!pLevel.isClientSide()) {
-//			BlockEntity entity = pLevel.getBlockEntity(pPos);
-//			if(entity instanceof OxygenConcentratorBlockEntity) {
+    public OxygenConcentratorBlock(Properties properties) {
+        super(properties);
+    }
+
+//    @Override
+//    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand,
+//        BlockHitResult pHit) {
+//        if (!pLevel.isClientSide()) {
+//            BlockEntity entity = pLevel.getBlockEntity(pPos);
+//            if(entity instanceof OxygenConcentratorBlockEntity) {
  //              NetworkHooks.openScreen(((ServerPlayer)pPlayer), (OxygenConcentratorBlockEntity)entity, pPos);
  //               
  //           } else {
@@ -37,33 +37,33 @@ public class OxygenConcentratorBlock extends HorizontalKineticBlock implements I
  //       }
  //       return InteractionResult.sidedSuccess(pLevel.isClientSide());
  //   }
-	
-	@Override
-	public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-		return IBE.super.newBlockEntity(pPos, pState);
-	}
 
-	@Override
-	public Axis getRotationAxis(BlockState state) {
-		return Axis.Y;
-	}
-	public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-		return AABB;
-	}
-	
-	@Override
-	public boolean hasShaftTowards(LevelReader world, BlockPos pos, BlockState state, Direction face) {
-		return face == Direction.DOWN;
-	}
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
+        return IBE.super.newBlockEntity(pPos, pState);
+    }
 
-	@Override
-	public Class<OxygenConcentratorBlockEntity> getBlockEntityClass() {
-		return OxygenConcentratorBlockEntity.class;
-	}
+    @Override
+    public Axis getRotationAxis(BlockState state) {
+        return Axis.Y;
+    }
+    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+        return AABB;
+    }
 
-	@Override
-	public BlockEntityType<? extends OxygenConcentratorBlockEntity> getBlockEntityType() {
-		return NorthstarBlockEntityTypes.OXYGEN_CONCENTRATOR.get();
-	}
+    @Override
+    public boolean hasShaftTowards(LevelReader world, BlockPos pos, BlockState state, Direction face) {
+        return face == Direction.DOWN;
+    }
+
+    @Override
+    public Class<OxygenConcentratorBlockEntity> getBlockEntityClass() {
+        return OxygenConcentratorBlockEntity.class;
+    }
+
+    @Override
+    public BlockEntityType<? extends OxygenConcentratorBlockEntity> getBlockEntityType() {
+        return NorthstarBlockEntityTypes.OXYGEN_CONCENTRATOR.get();
+    }
 
 }

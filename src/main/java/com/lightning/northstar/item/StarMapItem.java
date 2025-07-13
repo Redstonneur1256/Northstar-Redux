@@ -11,14 +11,14 @@ import net.minecraft.world.item.ItemStack;
 
 public class StarMapItem extends Item {
 
-	public StarMapItem(Properties pProperties) {
-		super(pProperties);
-	}
+    public StarMapItem(Properties pProperties) {
+        super(pProperties);
+    }
 
-	public void fillItemCategory(CreativeModeTab pGroup, NonNullList<ItemStack> pItems) {
-		if(this.allowedIn(pGroup)) {
-			ItemStack earth = new ItemStack(NorthstarItems.STAR_MAP.get());
-			earth.setHoverName(Component.translatable("item.northstar.star_map" + "_" + "earth").setStyle(Style.EMPTY.withColor(ChatFormatting.AQUA).withItalic(false)));
+    public void fillItemCategory(CreativeModeTab pGroup, NonNullList<ItemStack> pItems) {
+        if(this.allowedIn(pGroup)) {
+            ItemStack earth = new ItemStack(NorthstarItems.STAR_MAP.get());
+        	earth.setHoverName(Component.translatable("item.northstar.star_map" + "_" + "earth").setStyle(Style.EMPTY.withColor(ChatFormatting.AQUA).withItalic(false)));
 	        CompoundTag earthTag = earth.getOrCreateTagElement("Planet");
 	        earthTag.putString("name", "earth");
 	        pItems.add(earth);

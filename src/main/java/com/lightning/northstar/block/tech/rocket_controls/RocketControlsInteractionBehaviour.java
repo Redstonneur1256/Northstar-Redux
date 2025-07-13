@@ -15,31 +15,31 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 
 public class RocketControlsInteractionBehaviour extends MovingInteractionBehaviour {
-	@Override
-	public boolean handlePlayerInteraction(Player player, InteractionHand activeHand, BlockPos localPos,
-		AbstractContraptionEntity contraptionEntity) {
-		if(!(contraptionEntity instanceof RocketContraptionEntity rce))
-			return false;
+    @Override
+    public boolean handlePlayerInteraction(Player player, InteractionHand activeHand, BlockPos localPos,
+        AbstractContraptionEntity contraptionEntity) {
+        if(!(contraptionEntity instanceof RocketContraptionEntity rce))
+            return false;
 
-//		System.out.println("Huhh????");
+//        System.out.println("Huhh????");
 
-		UUID currentlyControlling = rce.getControllingPlayer()
-			.orElse(null);
+        UUID currentlyControlling = rce.getControllingPlayer()
+            .orElse(null);
 
-		if (currentlyControlling != null) {
-			rce.stopControlling(localPos);
-			if (Objects.equal(currentlyControlling, player.getUUID()))
-				return true;
-		}
+        if (currentlyControlling != null) {
+            rce.stopControlling(localPos);
+            if (Objects.equal(currentlyControlling, player.getUUID()))
+                return true;
+        }
 
-//		System.out.println("I LIVED!!!!!!!!!");
-		if (!contraptionEntity.startControlling(localPos, player))
-			return false;
+//        System.out.println("I LIVED!!!!!!!!!");
+        if (!contraptionEntity.startControlling(localPos, player))
+            return false;
 
-		rce.setControllingPlayer(player.getUUID());
-		if (player.level.isClientSide)
-			DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
-				() -> () -> RocketControlsHandler.startControlling(rce, localPos));
-		return true;
-	}
+        rce.setControllingPlayer(player.getUUID());
+        if (player.level.isClientSide)
+            DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
+                () -> () -> RocketControlsHandler.startControlling(rce, localPos));
+        return true;
+    }
 }

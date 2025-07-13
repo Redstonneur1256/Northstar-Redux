@@ -6,9 +6,9 @@ import com.mojang.math.Vector3f;
 import com.simibubi.create.compat.jei.category.animations.AnimatedKinetics;
 
 public class AnimatedIceBox extends AnimatedKinetics {
-	
+    
 
-	public AnimatedIceBox() {
+    public AnimatedIceBox() {
 	}
 
 	@Override

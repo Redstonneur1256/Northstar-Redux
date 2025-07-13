@@ -7,19 +7,19 @@ import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 
 public class IronSpaceSuitArmorModel extends AnimatedGeoModel<IronSpaceSuitArmorItem>{
-	@Override
-	public ResourceLocation getAnimationResource(IronSpaceSuitArmorItem animatable) {
-		return NorthstarEntityResources.IRONSPACESUITARMOR_ANIMATIONS;
-	}
+    @Override
+    public ResourceLocation getAnimationResource(IronSpaceSuitArmorItem animatable) {
+        return NorthstarEntityResources.IRONSPACESUITARMOR_ANIMATIONS;
+    }
 
-	@Override
-	public ResourceLocation getModelResource(IronSpaceSuitArmorItem object) {
-		return NorthstarEntityResources.IRONSPACESUITARMOR_MODEL;
-	}
+    @Override
+    public ResourceLocation getModelResource(IronSpaceSuitArmorItem object) {
+        return NorthstarEntityResources.IRONSPACESUITARMOR_MODEL;
+    }
 
-	@Override
-	public ResourceLocation getTextureResource(IronSpaceSuitArmorItem object) {
-		return NorthstarEntityResources.IRONSPACESUITARMOR_TEXTURE;
-	}
+    @Override
+    public ResourceLocation getTextureResource(IronSpaceSuitArmorItem object) {
+        return NorthstarEntityResources.IRONSPACESUITARMOR_TEXTURE;
+    }
 
 }

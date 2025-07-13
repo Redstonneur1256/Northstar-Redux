@@ -6,14 +6,14 @@ import net.minecraft.world.item.Item;
 
 public class MarsTulipBlock extends MartianFlowerBlock {
 
-	public MarsTulipBlock(Properties pProperties) {
-		super(pProperties);
-	}
-	
-	@Override
-	public Item getSeedItem() {
-		return NorthstarItems.MARS_TULIP_SEEDS.get();
-	}
-	
+    public MarsTulipBlock(Properties pProperties) {
+        super(pProperties);
+    }
+    
+    @Override
+    public Item getSeedItem() {
+        return NorthstarItems.MARS_TULIP_SEEDS.get();
+    }
+    
 
 }

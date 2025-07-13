@@ -56,24 +56,24 @@ public class TelescopeScreen extends AbstractContainerScreen<TelescopeMenu>{
     
     private int minX = Integer.MAX_VALUE;
     private int minY = Integer.MAX_VALUE;
-	private int maxX = Integer.MIN_VALUE;
+    private int maxX = Integer.MIN_VALUE;
     private int maxY = Integer.MIN_VALUE;
     private Level level;
     private Inventory inv;
     public String SelectedPlanet = null;
     
 
-	public TelescopeScreen(TelescopeMenu pMenu, Inventory pPlayerInventory, Component pTitle) 
-		{super(pMenu, pPlayerInventory, pTitle); inv = pPlayerInventory;}
-	
-	
-	@Override
-	protected void renderLabels(PoseStack pPoseStack, int pMouseX, int pMouseY) {
+    public TelescopeScreen(TelescopeMenu pMenu, Inventory pPlayerInventory, Component pTitle) 
+        {super(pMenu, pPlayerInventory, pTitle); inv = pPlayerInventory;}
+    
+    
+    @Override
+    protected void renderLabels(PoseStack pPoseStack, int pMouseX, int pMouseY) {
         int x = imageWidth / 2 - 25;
         int y = this.titleLabelY - 43;
-		this.font.draw(pPoseStack, this.title, x, y, 4210752);
-	}
-	
+        this.font.draw(pPoseStack, this.title, x, y, 4210752);
+    }
+    
     @Override
     protected void init() {
         super.init();
@@ -107,7 +107,7 @@ public class TelescopeScreen extends AbstractContainerScreen<TelescopeMenu>{
               blit(pPoseStack, k + 900 * i1, l + 900 * j1, 0.0F, 0.0F, 900, 900, 900, 900);
            }
         }
-    	
+        
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TELESCOPE_TEXTURE);
@@ -116,10 +116,10 @@ public class TelescopeScreen extends AbstractContainerScreen<TelescopeMenu>{
     }    
     
     @SuppressWarnings("resource")
-	public void renderPlanets(PoseStack pPoseStack, int mouseX, int mouseY, float delta) {
-    	
-    	ResourceKey<Level> player_dim = Minecraft.getInstance().player.getLevel().dimension();
-    	if (player_dim != NorthstarDimensions.MARS_DIM_KEY) {
+    public void renderPlanets(PoseStack pPoseStack, int mouseX, int mouseY, float delta) {
+        
+        ResourceKey<Level> player_dim = Minecraft.getInstance().player.getLevel().dimension();
+        if (player_dim != NorthstarDimensions.MARS_DIM_KEY) {
         int mars_x = (int) NorthstarPlanets.mars_x;
         int mars_y = (int) NorthstarPlanets.mars_y;
         pPoseStack.pushPose();
@@ -140,7 +140,7 @@ public class TelescopeScreen extends AbstractContainerScreen<TelescopeMenu>{
         this.blit(pPoseStack, (pd_x * 20) + (int)scrollX * 20, (pd_y * 20) + (int)scrollY * 20, 0, 0, 255, 255);
         pPoseStack.popPose();}
         
-    	if (player_dim != NorthstarDimensions.VENUS_DIM_KEY) {
+        if (player_dim != NorthstarDimensions.VENUS_DIM_KEY) {
         int venus_x = (int) NorthstarPlanets.venus_x;
         int venus_y = (int) NorthstarPlanets.venus_y;
         pPoseStack.pushPose();
@@ -151,7 +151,7 @@ public class TelescopeScreen extends AbstractContainerScreen<TelescopeMenu>{
         this.blit(pPoseStack, ((venus_x * 20) + (int)scrollX * 20), ((venus_y * 20) + (int)scrollY * 20), 0, 0, 255, 255);
         pPoseStack.popPose();}
 
-    	if (player_dim != NorthstarDimensions.MERCURY_DIM_KEY) {
+        if (player_dim != NorthstarDimensions.MERCURY_DIM_KEY) {
         int mercury_x = (int) NorthstarPlanets.mercury_x;
         int mercury_y = (int) NorthstarPlanets.mercury_y;
         pPoseStack.pushPose();
@@ -161,7 +161,7 @@ public class TelescopeScreen extends AbstractContainerScreen<TelescopeMenu>{
         RenderSystem.setShaderTexture(0, MERCURY);
         this.blit(pPoseStack, (mercury_x * 20) + (int)scrollX * 20, (mercury_y * 20) + (int)scrollY * 20, 0, 0, 255, 255);
         pPoseStack.popPose();
-    	}
+        }
         
         int jupiter_x = (int) NorthstarPlanets.jupiter_x;
         int jupiter_y = (int) NorthstarPlanets.jupiter_y;

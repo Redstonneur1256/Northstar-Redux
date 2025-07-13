@@ -7,9 +7,9 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class LaserLenseBlockEntity extends BlockEntity{
 
-	public LaserLenseBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
-		super(pType, pPos, pBlockState);
+    public LaserLenseBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
+        super(pType, pPos, pBlockState);
 
-	}
+    }
 
 }

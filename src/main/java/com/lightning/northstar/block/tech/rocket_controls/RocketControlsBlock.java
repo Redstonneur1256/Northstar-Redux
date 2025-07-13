@@ -17,37 +17,37 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class RocketControlsBlock extends HorizontalDirectionalBlock implements IWrenchable, IBE<RocketControlsBlockEntity> {
-	protected static final VoxelShape SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 20.0D, 16.0D);
-	
-	public RocketControlsBlock(Properties properties) {
-		super(properties);
-		registerDefaultState(defaultBlockState().setValue(FACING, Direction.NORTH));
-	}
-	@Override
-	protected void createBlockStateDefinition(Builder<Block, BlockState> pBuilder) {
-		super.createBlockStateDefinition(pBuilder.add(FACING));
-	}
-	
-	public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-		return SHAPE;
-	}
-	
-	@Override
-	public BlockState getStateForPlacement(BlockPlaceContext pContext) {
-		BlockState state = defaultBlockState();
-		Direction horizontalDirection = pContext.getHorizontalDirection();
+    protected static final VoxelShape SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 20.0D, 16.0D);
+    
+    public RocketControlsBlock(Properties properties) {
+        super(properties);
+        registerDefaultState(defaultBlockState().setValue(FACING, Direction.NORTH));
+    }
+    @Override
+    protected void createBlockStateDefinition(Builder<Block, BlockState> pBuilder) {
+        super.createBlockStateDefinition(pBuilder.add(FACING));
+    }
+    
+    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+        return SHAPE;
+    }
+    
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext pContext) {
+        BlockState state = defaultBlockState();
+        Direction horizontalDirection = pContext.getHorizontalDirection();
 
-		state = state.setValue(FACING, horizontalDirection.getOpposite());
-		return state;
-	}
-	@Override
-	public Class<RocketControlsBlockEntity> getBlockEntityClass() {
-		return RocketControlsBlockEntity.class;
-	}
-	@Override
-	public BlockEntityType<? extends RocketControlsBlockEntity> getBlockEntityType() {
-		return NorthstarBlockEntityTypes.ROCKET_CONTROLS.get();
-	}
+        state = state.setValue(FACING, horizontalDirection.getOpposite());
+        return state;
+    }
+    @Override
+    public Class<RocketControlsBlockEntity> getBlockEntityClass() {
+        return RocketControlsBlockEntity.class;
+    }
+    @Override
+    public BlockEntityType<? extends RocketControlsBlockEntity> getBlockEntityType() {
+        return NorthstarBlockEntityTypes.ROCKET_CONTROLS.get();
+    }
 
-	
+    
 }

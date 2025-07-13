@@ -8,24 +8,24 @@ import com.simibubi.create.content.kinetics.base.SingleRotatingInstance;
 import com.simibubi.create.content.kinetics.base.flwdata.RotatingData;
 
 public class ElectrolysisMachineInstance extends SingleRotatingInstance<ElectrolysisMachineBlockEntity> implements DynamicInstance{
-	
-	@SuppressWarnings("unused")
-	private final ElectrolysisMachineBlockEntity elecMac;
 
-	public ElectrolysisMachineInstance(MaterialManager materialManager, ElectrolysisMachineBlockEntity blockEntity) {
-		super(materialManager, blockEntity);
-		this.elecMac = blockEntity;
-	}
-	@Override
-	protected Instancer<RotatingData> getModel() {
-		return getRotatingMaterial().getModel(NorthstarPartialModels.HALF_SHAFT);
-	}
+    @SuppressWarnings("unused")
+    private final ElectrolysisMachineBlockEntity elecMac;
 
-	
-	@Override
-	public void remove() {
-		super.remove();
-	}
-	@Override
-	public void beginFrame() {}
+    public ElectrolysisMachineInstance(MaterialManager materialManager, ElectrolysisMachineBlockEntity blockEntity) {
+        super(materialManager, blockEntity);
+        this.elecMac = blockEntity;
+    }
+    @Override
+    protected Instancer<RotatingData> getModel() {
+        return getRotatingMaterial().getModel(NorthstarPartialModels.HALF_SHAFT);
+    }
+
+
+    @Override
+    public void remove() {
+        super.remove();
+    }
+    @Override
+    public void beginFrame() {}
 }

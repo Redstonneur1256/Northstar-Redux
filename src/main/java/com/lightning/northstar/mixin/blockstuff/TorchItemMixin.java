@@ -19,29 +19,29 @@ import net.minecraft.world.level.block.state.BlockState;
 
 @Mixin(StandingAndWallBlockItem.class)
 public class TorchItemMixin {
-	
-		@Inject(method = "getPlacementState", at = @At("HEAD"), cancellable = true)
-		public void getPlacementState(BlockPlaceContext pContext, CallbackInfoReturnable<BlockState> info) {
-	    	if (pContext.getItemInHand().getItem() == Items.TORCH) 
-	    	{        	   
-	    		if(!OxygenStuff.hasOxygen(pContext.getClickedPos(),pContext.getLevel().dimension())){
-		        	BlockState state = NorthstarTechBlocks.EXTINGUISHED_TORCH_WALL.getDefaultState();
-		        	for(Direction dirs : pContext.getNearestLookingDirections()) {
-		        		if(dirs != Direction.DOWN && dirs != Direction.UP) {
-		        			if(state.setValue(ExtinguishedTorchWallBlock.FACING, dirs).canSurvive(pContext.getLevel(), pContext.getClickedPos())) {
-		        				pContext.getLevel().playSound(null, pContext.getClickedPos(), SoundEvents.CANDLE_EXTINGUISH, SoundSource.BLOCKS, 1, 0);
-		        				info.setReturnValue(NorthstarTechBlocks.EXTINGUISHED_TORCH_WALL.get().defaultBlockState().setValue(ExtinguishedTorchWallBlock.FACING, dirs));
-		        				return;
-		        			}
-		        		}
-		        	}
-	    			if (NorthstarTechBlocks.EXTINGUISHED_TORCH.get().defaultBlockState().canSurvive(pContext.getLevel(), pContext.getClickedPos())) {
-		        		pContext.getLevel().playSound(null, pContext.getClickedPos(), SoundEvents.CANDLE_EXTINGUISH, SoundSource.BLOCKS, 1, 0);
-		        		info.setReturnValue(NorthstarTechBlocks.EXTINGUISHED_TORCH.get().defaultBlockState());
-		        		return;
-		        	}
-	    		}
-	    	}
-		}
+    
+        @Inject(method = "getPlacementState", at = @At("HEAD"), cancellable = true)
+        public void getPlacementState(BlockPlaceContext pContext, CallbackInfoReturnable<BlockState> info) {
+            if (pContext.getItemInHand().getItem() == Items.TORCH) 
+            {               
+                if(!OxygenStuff.hasOxygen(pContext.getClickedPos(),pContext.getLevel().dimension())){
+                    BlockState state = NorthstarTechBlocks.EXTINGUISHED_TORCH_WALL.getDefaultState();
+                    for(Direction dirs : pContext.getNearestLookingDirections()) {
+                        if(dirs != Direction.DOWN && dirs != Direction.UP) {
+                            if(state.setValue(ExtinguishedTorchWallBlock.FACING, dirs).canSurvive(pContext.getLevel(), pContext.getClickedPos())) {
+                                pContext.getLevel().playSound(null, pContext.getClickedPos(), SoundEvents.CANDLE_EXTINGUISH, SoundSource.BLOCKS, 1, 0);
+                                info.setReturnValue(NorthstarTechBlocks.EXTINGUISHED_TORCH_WALL.get().defaultBlockState().setValue(ExtinguishedTorchWallBlock.FACING, dirs));
+                                return;
+                            }
+                        }
+                    }
+                    if (NorthstarTechBlocks.EXTINGUISHED_TORCH.get().defaultBlockState().canSurvive(pContext.getLevel(), pContext.getClickedPos())) {
+                        pContext.getLevel().playSound(null, pContext.getClickedPos(), SoundEvents.CANDLE_EXTINGUISH, SoundSource.BLOCKS, 1, 0);
+                        info.setReturnValue(NorthstarTechBlocks.EXTINGUISHED_TORCH.get().defaultBlockState());
+                        return;
+                    }
+                }
+            }
+        }
 
 }

@@ -13,27 +13,27 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class OxygenDetectorBlockEntity extends SmartBlockEntity {
 
-	public OxygenDetectorBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-		super(type, pos, state);
-	}
+    public OxygenDetectorBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+        super(type, pos, state);
+    }
 
-	@Override
-	public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
-		
-	}
-	
-	@Override
-	public void tick() {
-		BlockState currentState = this.level.getBlockState(worldPosition);
-		Direction dir = currentState.getValue(OxygenDetectorBlock.FACING);
-		BlockPos facingpos = worldPosition.relative(dir);
-		boolean oxyflag = OxygenStuff.hasOxygen(facingpos, level.dimension());
+    @Override
+    public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
 
-		if(oxyflag && !currentState.getValue(OxygenDetectorBlock.POWERED)) {
-			this.level.setBlock(worldPosition, currentState.setValue(OxygenDetectorBlock.POWERED, true), 3);
-		}else if(!oxyflag && currentState.getValue(OxygenDetectorBlock.POWERED)){
-			this.level.setBlock(worldPosition, currentState.setValue(OxygenDetectorBlock.POWERED, false), 3);
-		}
-	}
+    }
+
+    @Override
+    public void tick() {
+        BlockState currentState = this.level.getBlockState(worldPosition);
+        Direction dir = currentState.getValue(OxygenDetectorBlock.FACING);
+        BlockPos facingpos = worldPosition.relative(dir);
+        boolean oxyflag = OxygenStuff.hasOxygen(facingpos, level.dimension());
+
+        if(oxyflag && !currentState.getValue(OxygenDetectorBlock.POWERED)) {
+            this.level.setBlock(worldPosition, currentState.setValue(OxygenDetectorBlock.POWERED, true), 3);
+        }else if(!oxyflag && currentState.getValue(OxygenDetectorBlock.POWERED)){
+            this.level.setBlock(worldPosition, currentState.setValue(OxygenDetectorBlock.POWERED, false), 3);
+        }
+    }
 
 }

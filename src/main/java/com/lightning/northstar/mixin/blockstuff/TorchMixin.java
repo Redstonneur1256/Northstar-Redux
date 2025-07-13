@@ -22,37 +22,37 @@ import net.minecraft.world.level.block.state.BlockState;
 
 @Mixin(TorchBlock.class)
 public class TorchMixin {
-	
+    
  //   @Inject(method = "getStateForPlacement", at = @At("HEAD"), cancellable = true)
-	public void getStateForPlacement(BlockPlaceContext pContext, CallbackInfoReturnable<BlockState> info) {
-    	if (pContext.getItemInHand().getItem() == Items.TORCH) 
-    	{        		
+    public void getStateForPlacement(BlockPlaceContext pContext, CallbackInfoReturnable<BlockState> info) {
+        if (pContext.getItemInHand().getItem() == Items.TORCH) 
+        {                
             System.out.println(OxygenStuff.hasOxygen(pContext.getClickedPos(),pContext.getLevel().dimension()));
-        	
-        	if(!OxygenStuff.hasOxygen(pContext.getClickedPos(),pContext.getLevel().dimension())) {
-        		pContext.getLevel().playSound(null, pContext.getClickedPos(), SoundEvents.CANDLE_EXTINGUISH, SoundSource.BLOCKS, 1, 0);
-        		info.setReturnValue(NorthstarTechBlocks.EXTINGUISHED_TORCH.get().defaultBlockState());}
-    	}
+            
+            if(!OxygenStuff.hasOxygen(pContext.getClickedPos(),pContext.getLevel().dimension())) {
+                pContext.getLevel().playSound(null, pContext.getClickedPos(), SoundEvents.CANDLE_EXTINGUISH, SoundSource.BLOCKS, 1, 0);
+                info.setReturnValue(NorthstarTechBlocks.EXTINGUISHED_TORCH.get().defaultBlockState());}
+        }
     }
     
     @Inject(method = "updateShape", at = @At("TAIL"), cancellable = true)
-	public void updateShape(BlockState pState, Direction pDirection, BlockState pNeighborState, 
-	LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pNeighborPos, CallbackInfoReturnable<BlockState> info) {
-    	try {
-	    	if(pState.getBlock() == Blocks.TORCH) {
-	    	if(!OxygenStuff.hasOxygen(pCurrentPos,((Level)pLevel).dimension())) {
-	    		if(!pState.canSurvive(pLevel, pCurrentPos)) {
-	    			info.setReturnValue(Blocks.AIR.defaultBlockState());
-	    			return;
-	    		}
-	    		pLevel.playSound(null, pCurrentPos, SoundEvents.CANDLE_EXTINGUISH, SoundSource.BLOCKS, 1, 0);
-	    		info.setReturnValue(NorthstarTechBlocks.EXTINGUISHED_TORCH.get().defaultBlockState());
-	    	}
-	    	}
-		} catch (Exception e) {
-			//oops
-		}
-		   
-	}
+    public void updateShape(BlockState pState, Direction pDirection, BlockState pNeighborState, 
+    LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pNeighborPos, CallbackInfoReturnable<BlockState> info) {
+        try {
+            if(pState.getBlock() == Blocks.TORCH) {
+            if(!OxygenStuff.hasOxygen(pCurrentPos,((Level)pLevel).dimension())) {
+                if(!pState.canSurvive(pLevel, pCurrentPos)) {
+                    info.setReturnValue(Blocks.AIR.defaultBlockState());
+                    return;
+                }
+                pLevel.playSound(null, pCurrentPos, SoundEvents.CANDLE_EXTINGUISH, SoundSource.BLOCKS, 1, 0);
+                info.setReturnValue(NorthstarTechBlocks.EXTINGUISHED_TORCH.get().defaultBlockState());
+            }
+            }
+        } catch (Exception e) {
+            //oops
+        }
+           
+    }
 
 }

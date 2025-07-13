@@ -25,14 +25,14 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
 @EventBusSubscriber(value = Dist.CLIENT)
 public class SpaceSuitFirstPersonRenderer{
-	
-	private static boolean rendererActive = false;
-	private static ResourceLocation activeHand = NorthstarEntityResources.IRONSPACESUIT_ARMOR_ARM;
-	
-	public static void clientTick() {
-		Minecraft mc = Minecraft.getInstance(); 
-		rendererActive =
-			mc.player != null && IronSpaceSuitArmorItem.hasChestplateOn(mc.player) && mc.player.getInventory().getArmor(2).is(NorthstarTags.NorthstarItemTags.OXYGEN_SOURCES.tag) || mc.player.getInventory().getArmor(2).getItem() == NorthstarItems.BROKEN_IRON_SPACE_SUIT_CHESTPIECE.get();
+
+    private static boolean rendererActive = false;
+    private static ResourceLocation activeHand = NorthstarEntityResources.IRONSPACESUIT_ARMOR_ARM;
+
+    public static void clientTick() {
+        Minecraft mc = Minecraft.getInstance();
+        rendererActive =
+            mc.player != null && IronSpaceSuitArmorItem.hasChestplateOn(mc.player) && mc.player.getInventory().getArmor(2).is(NorthstarTags.NorthstarItemTags.OXYGEN_SOURCES.tag) || mc.player.getInventory().getArmor(2).getItem() == NorthstarItems.BROKEN_IRON_SPACE_SUIT_CHESTPIECE.get();
 		if(mc.player != null && mc.player.getInventory().getArmor(2).getItem() == NorthstarItems.IRON_SPACE_SUIT_CHESTPIECE.get()) {
 			activeHand = NorthstarEntityResources.IRONSPACESUIT_ARMOR_ARM;
 		}

@@ -66,104 +66,104 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class NorthstarBlocks {
 
-	
-	public static final DeferredRegister<Block> BLOCKS =
-			DeferredRegister.create(ForgeRegistries.BLOCKS, Northstar.MOD_ID);
-	
-	private static boolean never(BlockState blockstate, BlockGetter blockgetter, BlockPos blockpos) {
-	 	return false;
- 	}
-	
-	// martian steel stuff yay :]
+
+    public static final DeferredRegister<Block> BLOCKS =
+            DeferredRegister.create(ForgeRegistries.BLOCKS, Northstar.MOD_ID);
+
+    private static boolean never(BlockState blockstate, BlockGetter blockgetter, BlockPos blockpos) {
+         return false;
+     }
+
+    // martian steel stuff yay :]
     public static final RegistryObject<Block> MARTIAN_STEEL_BLOCK = registerBlock("martian_steel_block",
-    		() -> new Block(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLACK) .sound(SoundType.NETHERITE_BLOCK) .strength(30f,15f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+            () -> new Block(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLACK) .sound(SoundType.NETHERITE_BLOCK) .strength(30f,15f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> MARTIAN_STEEL_SHEETMETAL = registerBlock("martian_steel_sheetmetal",
-    		() -> new Block(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLACK) .sound(SoundType.NETHERITE_BLOCK) .strength(5f,15f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+            () -> new Block(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLACK) .sound(SoundType.NETHERITE_BLOCK) .strength(5f,15f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> MARTIAN_STEEL_SHEETMETAL_SLAB = registerBlock("martian_steel_sheetmetal_slab",
-    		() -> new SlabBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLACK) .sound(SoundType.NETHERITE_BLOCK) .strength(5f,15f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+            () -> new SlabBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLACK) .sound(SoundType.NETHERITE_BLOCK) .strength(5f,15f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> MARTIAN_STEEL_SHEETMETAL_VERTICAL_SLAB = registerBlock("martian_steel_sheetmetal_vertical_slab",
-    		() -> new VerticalSlabBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLACK) .sound(SoundType.NETHERITE_BLOCK) .strength(5f,15f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+            () -> new VerticalSlabBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLACK) .sound(SoundType.NETHERITE_BLOCK) .strength(5f,15f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> MARTIAN_STEEL_PLATING = registerBlock("martian_steel_plating",
-    		() -> new Block(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLACK) .sound(SoundType.NETHERITE_BLOCK) .strength(5f,15f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+            () -> new Block(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLACK) .sound(SoundType.NETHERITE_BLOCK) .strength(5f,15f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> MARTIAN_STEEL_LARGE_PLATING = registerBlock("martian_steel_large_plating",
-    		() -> new Block(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLACK) .sound(SoundType.NETHERITE_BLOCK) .strength(5f,15f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+            () -> new Block(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLACK) .sound(SoundType.NETHERITE_BLOCK) .strength(5f,15f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> MARTIAN_STEEL_PLATING_SLAB = registerBlock("martian_steel_plating_slab",
-    		() -> new SlabBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLACK) .sound(SoundType.NETHERITE_BLOCK) .strength(5f,15f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+            () -> new SlabBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLACK) .sound(SoundType.NETHERITE_BLOCK) .strength(5f,15f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> MARTIAN_STEEL_PLATING_VERTICAL_SLAB = registerBlock("martian_steel_plating_vertical_slab",
-    		() -> new VerticalSlabBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLACK) .sound(SoundType.NETHERITE_BLOCK) .strength(5f,15f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
-	@SuppressWarnings("deprecation")
-	public static final RegistryObject<Block> MARTIAN_STEEL_PLATING_STAIRS = registerBlock("martian_steel_plating_stairs",
-    		() -> new StairBlock(MARTIAN_STEEL_PLATING.get().defaultBlockState(), BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLACK) .sound(SoundType.NETHERITE_BLOCK) .strength(5f,15f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+            () -> new VerticalSlabBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLACK) .sound(SoundType.NETHERITE_BLOCK) .strength(5f,15f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+    @SuppressWarnings("deprecation")
+    public static final RegistryObject<Block> MARTIAN_STEEL_PLATING_STAIRS = registerBlock("martian_steel_plating_stairs",
+            () -> new StairBlock(MARTIAN_STEEL_PLATING.get().defaultBlockState(), BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLACK) .sound(SoundType.NETHERITE_BLOCK) .strength(5f,15f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> MARTIAN_STEEL_PILLAR = registerBlock("martian_steel_pillar",
-    		() -> new RotatedPillarBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLACK) .sound(SoundType.NETHERITE_BLOCK) .strength(5f,15f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLACK) .sound(SoundType.NETHERITE_BLOCK) .strength(5f,15f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> MARTIAN_STEEL_GRATE = registerBlock("martian_steel_grate",
-    		() -> new GrateBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY).sound(SoundType.NETHERITE_BLOCK) 
-    		.strength(4f,12f).requiresCorrectToolForDrops().noOcclusion().isSuffocating(NorthstarBlocks::never).isViewBlocking(NorthstarBlocks::never)), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+            () -> new GrateBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY).sound(SoundType.NETHERITE_BLOCK)
+            .strength(4f,12f).requiresCorrectToolForDrops().noOcclusion().isSuffocating(NorthstarBlocks::never).isViewBlocking(NorthstarBlocks::never)), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> MARTIAN_STEEL_LAMP = registerBlock("martian_steel_lamp",
-    		() -> new Block(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLACK).lightLevel((p_50872_) -> {return 15;}) .sound(SoundType.NETHERITE_BLOCK) .strength(4f,12f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+            () -> new Block(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLACK).lightLevel((p_50872_) -> {return 15;}) .sound(SoundType.NETHERITE_BLOCK) .strength(4f,12f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> MARTIAN_STEEL_BLUE_LAMP = registerBlock("martian_steel_blue_lamp",
-    		() -> new Block(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLACK).lightLevel((p_50872_) -> {return 15;}) .sound(SoundType.NETHERITE_BLOCK) .strength(4f,12f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+            () -> new Block(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLACK).lightLevel((p_50872_) -> {return 15;}) .sound(SoundType.NETHERITE_BLOCK) .strength(4f,12f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     
     //iron stuff
     public static final RegistryObject<Block> IRON_SHEETMETAL = registerBlock("iron_sheetmetal",
-    		() -> new Block(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY) .sound(SoundType.NETHERITE_BLOCK) .strength(4f,12f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+            () -> new Block(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY) .sound(SoundType.NETHERITE_BLOCK) .strength(4f,12f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> IRON_SHEETMETAL_SLAB = registerBlock("iron_sheetmetal_slab",
-    		() -> new SlabBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY) .sound(SoundType.NETHERITE_BLOCK) .strength(4f,12f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+            () -> new SlabBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY) .sound(SoundType.NETHERITE_BLOCK) .strength(4f,12f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> IRON_SHEETMETAL_VERTICAL_SLAB = registerBlock("iron_sheetmetal_vertical_slab",
-    		() -> new VerticalSlabBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY) .sound(SoundType.NETHERITE_BLOCK) .strength(4f,12f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+            () -> new VerticalSlabBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY) .sound(SoundType.NETHERITE_BLOCK) .strength(4f,12f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> IRON_PLATING = registerBlock("iron_plating",
-    		() -> new Block(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY) .sound(SoundType.NETHERITE_BLOCK) .strength(4f,12f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+            () -> new Block(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY) .sound(SoundType.NETHERITE_BLOCK) .strength(4f,12f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> IRON_PLATING_SLAB = registerBlock("iron_plating_slab",
-    		() -> new SlabBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY) .sound(SoundType.NETHERITE_BLOCK) .strength(4f,12f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+            () -> new SlabBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY) .sound(SoundType.NETHERITE_BLOCK) .strength(4f,12f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> IRON_PLATING_VERTICAL_SLAB = registerBlock("iron_plating_vertical_slab",
-    		() -> new VerticalSlabBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY) .sound(SoundType.NETHERITE_BLOCK) .strength(4f,12f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+            () -> new VerticalSlabBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY) .sound(SoundType.NETHERITE_BLOCK) .strength(4f,12f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     @SuppressWarnings("deprecation")
-	public static final RegistryObject<Block> IRON_PLATING_STAIRS = registerBlock("iron_plating_stairs",
-    		() -> new StairBlock(IRON_PLATING.get().defaultBlockState(), BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY) .sound(SoundType.NETHERITE_BLOCK) .strength(4f,12f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+    public static final RegistryObject<Block> IRON_PLATING_STAIRS = registerBlock("iron_plating_stairs",
+            () -> new StairBlock(IRON_PLATING.get().defaultBlockState(), BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY) .sound(SoundType.NETHERITE_BLOCK) .strength(4f,12f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> IRON_PILLAR = registerBlock("iron_pillar",
-    		() -> new RotatedPillarBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY) .sound(SoundType.NETHERITE_BLOCK) .strength(4f,12f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY) .sound(SoundType.NETHERITE_BLOCK) .strength(4f,12f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> IRON_GRATE = registerBlock("iron_grate",
-    		() -> new GrateBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY).sound(SoundType.NETHERITE_BLOCK) 
-    		.strength(4f,8f).requiresCorrectToolForDrops().noOcclusion().isSuffocating(NorthstarBlocks::never).isViewBlocking(NorthstarBlocks::never)), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+            () -> new GrateBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY).sound(SoundType.NETHERITE_BLOCK)
+            .strength(4f,8f).requiresCorrectToolForDrops().noOcclusion().isSuffocating(NorthstarBlocks::never).isViewBlocking(NorthstarBlocks::never)), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     
     
     public static final RegistryObject<Block> VENT_BLOCK = registerBlock("vent_block",
-    		() -> new GrateBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY).sound(SoundType.NETHERITE_BLOCK) 
-    		.strength(4f,8f).requiresCorrectToolForDrops().noOcclusion().isSuffocating(NorthstarBlocks::never).isViewBlocking(NorthstarBlocks::never)), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+            () -> new GrateBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY).sound(SoundType.NETHERITE_BLOCK)
+            .strength(4f,8f).requiresCorrectToolForDrops().noOcclusion().isSuffocating(NorthstarBlocks::never).isViewBlocking(NorthstarBlocks::never)), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     
     
     //tungsten stuff
     public static final RegistryObject<Block> TUNGSTEN_BLOCK = registerBlock("tungsten_block",
-    		() -> new Block(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLACK) .sound(SoundType.NETHERITE_BLOCK) .strength(30f,16f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+            () -> new Block(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLACK) .sound(SoundType.NETHERITE_BLOCK) .strength(30f,16f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> TUNGSTEN_SHEETMETAL = registerBlock("tungsten_sheetmetal",
-    		() -> new Block(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY) .sound(SoundType.NETHERITE_BLOCK) .strength(6f,16f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+            () -> new Block(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY) .sound(SoundType.NETHERITE_BLOCK) .strength(6f,16f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> TUNGSTEN_SHEETMETAL_SLAB = registerBlock("tungsten_sheetmetal_slab",
-    		() -> new SlabBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY) .sound(SoundType.NETHERITE_BLOCK) .strength(6f,16f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+            () -> new SlabBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY) .sound(SoundType.NETHERITE_BLOCK) .strength(6f,16f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> TUNGSTEN_SHEETMETAL_VERTICAL_SLAB = registerBlock("tungsten_sheetmetal_vertical_slab",
-    		() -> new VerticalSlabBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY) .sound(SoundType.NETHERITE_BLOCK) .strength(6f,16f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+            () -> new VerticalSlabBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY) .sound(SoundType.NETHERITE_BLOCK) .strength(6f,16f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
    public static final RegistryObject<Block> TUNGSTEN_PLATING = registerBlock("tungsten_plating",
-    		() -> new Block(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY) .sound(SoundType.NETHERITE_BLOCK) .strength(6f,16f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+            () -> new Block(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY) .sound(SoundType.NETHERITE_BLOCK) .strength(6f,16f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> TUNGSTEN_PLATING_SLAB = registerBlock("tungsten_plating_slab",
-    		() -> new SlabBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY) .sound(SoundType.NETHERITE_BLOCK) .strength(6f,16f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+            () -> new SlabBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY) .sound(SoundType.NETHERITE_BLOCK) .strength(6f,16f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> TUNGSTEN_PLATING_VERTICAL_SLAB = registerBlock("tungsten_plating_vertical_slab",
-    		() -> new VerticalSlabBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY) .sound(SoundType.NETHERITE_BLOCK) .strength(6f,16f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+            () -> new VerticalSlabBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY) .sound(SoundType.NETHERITE_BLOCK) .strength(6f,16f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     @SuppressWarnings("deprecation")
-	public static final RegistryObject<Block> TUNGSTEN_PLATING_STAIRS = registerBlock("tungsten_plating_stairs",
-    		() -> new StairBlock(TUNGSTEN_PLATING.get().defaultBlockState(), BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY) .sound(SoundType.NETHERITE_BLOCK) .strength(6f,16f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+    public static final RegistryObject<Block> TUNGSTEN_PLATING_STAIRS = registerBlock("tungsten_plating_stairs",
+            () -> new StairBlock(TUNGSTEN_PLATING.get().defaultBlockState(), BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY) .sound(SoundType.NETHERITE_BLOCK) .strength(6f,16f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> TUNGSTEN_PILLAR = registerBlock("tungsten_pillar",
-    		() -> new RotatedPillarBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY) .sound(SoundType.NETHERITE_BLOCK) .strength(6f,16f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY) .sound(SoundType.NETHERITE_BLOCK) .strength(6f,16f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> TUNGSTEN_GRATE = registerBlock("tungsten_grate",
-    		() -> new GrateBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY).sound(SoundType.NETHERITE_BLOCK) 
-    		.strength(5f,16f).requiresCorrectToolForDrops().noOcclusion().isSuffocating(NorthstarBlocks::never).isViewBlocking(NorthstarBlocks::never)), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);    
+            () -> new GrateBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY).sound(SoundType.NETHERITE_BLOCK)
+            .strength(5f,16f).requiresCorrectToolForDrops().noOcclusion().isSuffocating(NorthstarBlocks::never).isViewBlocking(NorthstarBlocks::never)), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     
     public static final RegistryObject<Block> GLOWSTONE_LAMP = registerBlock("glowstone_lamp",
-    		() -> new Block(BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.COLOR_YELLOW).lightLevel((p_50872_) -> {return 15;}) .sound(SoundType.GLASS) .strength(2f,5f)), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);    
+            () -> new Block(BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.COLOR_YELLOW).lightLevel((p_50872_) -> {return 15;}) .sound(SoundType.GLASS) .strength(2f,5f)), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     
     public static final RegistryObject<Block> MARS_SAND = registerBlock("mars_sand",
             () -> new GravelBlock(BlockBehaviour.Properties.of(Material.SAND, MaterialColor.COLOR_ORANGE).sound(SoundType.GRAVEL)
                     .strength(0.5f, 1.6f)), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> MARS_GRAVEL = registerBlock("mars_gravel",
-    		() -> new GravelBlock(BlockBehaviour.Properties.of(Material.SAND, MaterialColor.COLOR_ORANGE).sound(SoundType.GRAVEL)
+            () -> new GravelBlock(BlockBehaviour.Properties.of(Material.SAND, MaterialColor.COLOR_ORANGE).sound(SoundType.GRAVEL)
                     .strength(0.65f, 2.0f)), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> MARS_SOIL = registerBlock("mars_soil",
             () -> new MarsSoilBlock(BlockBehaviour.Properties.of(Material.DIRT, MaterialColor.COLOR_ORANGE).sound(SoundType.GRAVEL)
@@ -173,7 +173,7 @@ public class NorthstarBlocks {
                     .strength(0.65f, 8f).randomTicks()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> MARTIAN_TALL_GRASS = registerBlock("martian_tall_grass",
             () -> new MartianTallGrassBlock(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT, MaterialColor.COLOR_PURPLE).sound(SoundType.GRASS)
-            		.noCollission().instabreak().randomTicks().offsetType(BlockBehaviour.OffsetType.XYZ)), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+                    .noCollission().instabreak().randomTicks().offsetType(BlockBehaviour.OffsetType.XYZ)), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> MARS_FARMLAND = registerBlock("mars_farmland",
             () -> new MarsFarmlandBlock(BlockBehaviour.Properties.of(Material.DIRT, MaterialColor.COLOR_ORANGE).randomTicks().sound(SoundType.GRAVEL)
                     .strength(0.5f, 8f)), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
@@ -201,7 +201,7 @@ public class NorthstarBlocks {
             () -> new SlabBlock(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_LIGHT_GREEN).sound(SoundType.WOOD)
                     .strength(2f, 3f)), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     @SuppressWarnings("deprecation")
-	public static final RegistryObject<Block> COILER_STAIRS = registerBlock("coiler_stairs",
+    public static final RegistryObject<Block> COILER_STAIRS = registerBlock("coiler_stairs",
             () -> new StairBlock(OAK_PLANKS.defaultBlockState(), BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_LIGHT_GREEN).sound(SoundType.WOOD)
                     .strength(2f, 3f)), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     
@@ -234,7 +234,7 @@ public class NorthstarBlocks {
             () -> new SlabBlock(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BLUE).sound(SoundType.WOOD)
                     .strength(2f, 3f)), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     @SuppressWarnings("deprecation")
-	public static final RegistryObject<Block> WILTER_STAIRS = registerBlock("wilter_stairs",
+    public static final RegistryObject<Block> WILTER_STAIRS = registerBlock("wilter_stairs",
             () -> new StairBlock(OAK_PLANKS.defaultBlockState(), BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BLUE).sound(SoundType.WOOD)
                     .strength(2f, 3f)), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     
@@ -255,7 +255,7 @@ public class NorthstarBlocks {
             () -> new SlabBlock(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_RED).sound(SoundType.WOOD)
                     .strength(2f, 3f)), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     @SuppressWarnings("deprecation")
-	public static final RegistryObject<Block> ARGYRE_STAIRS = registerBlock("argyre_stairs",
+    public static final RegistryObject<Block> ARGYRE_STAIRS = registerBlock("argyre_stairs",
             () -> new StairBlock(OAK_PLANKS.defaultBlockState(), BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_RED).sound(SoundType.WOOD)
                     .strength(2f, 3f)), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     
@@ -310,7 +310,7 @@ public class NorthstarBlocks {
             () -> new VerticalSlabBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_ORANGE).sound(SoundType.DEEPSLATE_BRICKS)
                     .strength(3.5f, 12f).requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     @SuppressWarnings("deprecation")
-	public static final RegistryObject<Block> MARS_STONE_BRICK_STAIRS = registerBlock("mars_stone_brick_stairs",
+    public static final RegistryObject<Block> MARS_STONE_BRICK_STAIRS = registerBlock("mars_stone_brick_stairs",
             () -> new StairBlock(STONE.defaultBlockState() ,BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_ORANGE).sound(SoundType.DEEPSLATE_BRICKS)
                     .strength(3.5f, 12f).requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> MARS_STONE_BRICK_WALL = registerBlock("mars_stone_brick_wall",
@@ -326,7 +326,7 @@ public class NorthstarBlocks {
             () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).sound(SoundType.DEEPSLATE_BRICKS)
                     .strength(3.5f, 12f).requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> MARS_STONE_LAMP = registerBlock("mars_stone_lamp",
-    		() -> new Block(BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.COLOR_YELLOW).lightLevel((p_50872_) -> {return 15;}) .sound(SoundType.GLASS) .strength(3f,6.5f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS); 
+            () -> new Block(BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.COLOR_YELLOW).lightLevel((p_50872_) -> {return 15;}) .sound(SoundType.GLASS) .strength(3f,6.5f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
 
     //mars ores
     public static final RegistryObject<Block> MARS_IRON_ORE = registerBlock("mars_iron_ore",
@@ -403,7 +403,7 @@ public class NorthstarBlocks {
             () -> new VerticalSlabBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).sound(SoundType.DEEPSLATE_BRICKS)
                     .strength(3.5f, 12f).requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     @SuppressWarnings("deprecation")
-	public static final RegistryObject<Block> MOON_STONE_BRICK_STAIRS = registerBlock("moon_stone_brick_stairs",
+    public static final RegistryObject<Block> MOON_STONE_BRICK_STAIRS = registerBlock("moon_stone_brick_stairs",
             () -> new StairBlock(STONE.defaultBlockState() ,BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).sound(SoundType.DEEPSLATE_BRICKS)
                     .strength(3.5f, 12f).requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> MOON_STONE_BRICK_WALL = registerBlock("moon_stone_brick_wall",
@@ -413,7 +413,7 @@ public class NorthstarBlocks {
             () -> new RotatedPillarBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).sound(SoundType.DEEPSLATE_BRICKS)
                     .strength(3.5f, 12f).requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> MOON_STONE_LAMP = registerBlock("moon_stone_lamp",
-    		() -> new Block(BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.COLOR_YELLOW).lightLevel((p_50872_) -> {return 15;}) .sound(SoundType.GLASS) .strength(3f,6.5f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS); 
+            () -> new Block(BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.COLOR_YELLOW).lightLevel((p_50872_) -> {return 15;}) .sound(SoundType.GLASS) .strength(3f,6.5f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> CHISELED_MOON_STONE = registerBlock("chiseled_moon_stone",
             () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).sound(SoundType.DEEPSLATE_BRICKS)
                     .strength(3.5f, 12f).requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
@@ -511,49 +511,49 @@ public class NorthstarBlocks {
     
     public static final RegistryObject<Block> SPIKE_FUNGUS = registerBlock("spike_fungus",
             () -> new VenusMushroomBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).sound(SoundType.FUNGUS)
-            		.strength(0f, 0.5f).noCollission().instabreak(), () -> {return NorthstarConfiguredFeatures.SPIKE_FUNGUS.getHolder().get();}, () -> {return null;}),   NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+                    .strength(0f, 0.5f).noCollission().instabreak(), () -> {return NorthstarConfiguredFeatures.SPIKE_FUNGUS.getHolder().get();}, () -> {return null;}),   NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> BLOOM_FUNGUS = registerBlock("bloom_fungus",
             () -> new VenusMushroomBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_ORANGE).sound(SoundType.FUNGUS)
-            		.strength(0f, 0.5f).noCollission().instabreak().lightLevel((p_50872_) -> {return 7;}), () -> {return NorthstarConfiguredFeatures.BLOOM_FUNGUS.getHolder().get();}, () -> {return NorthstarConfiguredFeatures.ROOF_BLOOM_FUNGUS.getHolder().get();}), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+                    .strength(0f, 0.5f).noCollission().instabreak().lightLevel((p_50872_) -> {return 7;}), () -> {return NorthstarConfiguredFeatures.BLOOM_FUNGUS.getHolder().get();}, () -> {return NorthstarConfiguredFeatures.ROOF_BLOOM_FUNGUS.getHolder().get();}), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> PLATE_FUNGUS = registerBlock("plate_fungus",
             () -> new VenusMushroomBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_GREEN).sound(SoundType.FUNGUS)
-            		.strength(0f, 0.5f).noCollission().instabreak(), () -> {return NorthstarConfiguredFeatures.PLATE_FUNGUS.getHolder().get();}, () -> {return NorthstarConfiguredFeatures.ROOF_PLATE_FUNGUS.getHolder().get();}),   NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+                    .strength(0f, 0.5f).noCollission().instabreak(), () -> {return NorthstarConfiguredFeatures.PLATE_FUNGUS.getHolder().get();}, () -> {return NorthstarConfiguredFeatures.ROOF_PLATE_FUNGUS.getHolder().get();}),   NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> SPIKE_FUNGUS_BLOCK = registerBlock("spike_fungus_block",
             () -> new HugeMushroomBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).sound(SoundType.FUNGUS)
-            		.strength(3f, 6f).requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+                    .strength(3f, 6f).requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> BLOOM_FUNGUS_BLOCK = registerBlock("bloom_fungus_block",
             () -> new HugeMushroomBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_ORANGE).sound(SoundType.FUNGUS)
-            		.strength(3f, 6f).requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+                    .strength(3f, 6f).requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> BLOOM_FUNGUS_STEM_BLOCK = registerBlock("bloom_fungus_stem_block",
             () -> new HugeMushroomBlock(BlockBehaviour.Properties   .of(Material.STONE, MaterialColor.TERRACOTTA_ORANGE).sound(SoundType.FUNGUS)
-            		.strength(3f, 6f).requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+                    .strength(3f, 6f).requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     
     public static final RegistryObject<Block> PLATE_FUNGUS_STEM_BLOCK = registerBlock("plate_fungus_stem_block",
             () -> new HugeMushroomBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_LIGHT_GREEN).sound(SoundType.FUNGUS)
-            		.strength(3f, 6f).requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+                    .strength(3f, 6f).requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> PLATE_FUNGUS_CAP_BLOCK = registerBlock("plate_fungus_cap_block",
             () -> new HugeMushroomBlock(BlockBehaviour.Properties   .of(Material.STONE, MaterialColor.COLOR_GREEN).sound(SoundType.FUNGUS)
-            		.strength(4f, 6f).requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+                    .strength(4f, 6f).requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     
     public static final RegistryObject<Block> TOWER_FUNGUS = registerBlock("tower_fungus",
             () -> new TallFungusBlock(BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_BLUE).sound(SoundType.FUNGUS)
                     .randomTicks() .instabreak() .noCollission(), () -> {return NorthstarConfiguredFeatures.TOWER_FUNGUS.getHolder().get();}, () -> {return NorthstarConfiguredFeatures.ROOF_TOWER_FUNGUS.getHolder().get();}),  NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> TOWER_FUNGUS_STEM_BLOCK = registerBlock("tower_fungus_stem_block",
             () -> new HugeMushroomBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLUE).sound(SoundType.FUNGUS)
-            		.strength(3f, 6f).requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+                    .strength(3f, 6f).requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> TOWER_FUNGUS_CAP_BLOCK = registerBlock("tower_fungus_cap_block",
             () -> new HugeMushroomBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLUE).sound(SoundType.FUNGUS)
-            		.strength(4f, 6f).requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+                    .strength(4f, 6f).requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     
     public static final RegistryObject<Block> VENUS_VINES = registerBlock("venus_vines",
             () -> new VenusVinesBlock(BlockBehaviour.Properties.of(Material.LEAVES, MaterialColor.COLOR_GREEN).sound(SoundType.GRASS)
-            		.strength(0.5f, 0.5f).randomTicks().noCollission().noOcclusion()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+                    .strength(0.5f, 0.5f).randomTicks().noCollission().noOcclusion()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> GLOWING_VENUS_VINES = registerBlock("glowing_venus_vines",
             () -> new VenusVinesBlock(BlockBehaviour.Properties.of(Material.LEAVES, MaterialColor.COLOR_GREEN).sound(SoundType.GRASS)
-            		.strength(0.5f, 0.5f).randomTicks().noCollission().noOcclusion().lightLevel((light) -> {return 11;})), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+                    .strength(0.5f, 0.5f).randomTicks().noCollission().noOcclusion().lightLevel((light) -> {return 11;})), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> TALL_VENUS_MYCELIUM = registerBlock("tall_venus_mycelium",
             () -> new VenusTallMyceliumBlock(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT, MaterialColor.COLOR_YELLOW).sound(SoundType.GRASS)
-            		.noCollission().instabreak().randomTicks().offsetType(BlockBehaviour.OffsetType.XZ)), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+                    .noCollission().instabreak().randomTicks().offsetType(BlockBehaviour.OffsetType.XZ)), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     
   //venus deco blocks
     public static final RegistryObject<Block> VENUS_STONE_BRICKS = registerBlock("venus_stone_bricks",
@@ -566,7 +566,7 @@ public class NorthstarBlocks {
             () -> new VerticalSlabBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_ORANGE).sound(SoundType.DEEPSLATE_BRICKS)
                     .strength(3.5f, 12f).requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     @SuppressWarnings("deprecation")
-	public static final RegistryObject<Block> VENUS_STONE_BRICK_STAIRS = registerBlock("venus_stone_brick_stairs",
+    public static final RegistryObject<Block> VENUS_STONE_BRICK_STAIRS = registerBlock("venus_stone_brick_stairs",
             () -> new StairBlock(STONE.defaultBlockState() ,BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_ORANGE).sound(SoundType.DEEPSLATE_BRICKS)
                     .strength(3.5f, 12f).requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> VENUS_STONE_BRICK_WALL = registerBlock("venus_stone_brick_wall",
@@ -582,7 +582,7 @@ public class NorthstarBlocks {
             () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).sound(SoundType.DEEPSLATE_BRICKS)
                     .strength(3.5f, 12f).requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> VENUS_STONE_LAMP = registerBlock("venus_stone_lamp",
-    		() -> new Block(BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.COLOR_YELLOW).lightLevel((p_50872_) -> {return 15;}) .sound(SoundType.GLASS) .strength(3f,6.5f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS); 
+            () -> new Block(BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.COLOR_YELLOW).lightLevel((p_50872_) -> {return 15;}) .sound(SoundType.GLASS) .strength(3f,6.5f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     //venus ores
     public static final RegistryObject<Block> VENUS_COAL_ORE = registerBlock("venus_coal_ore",
             () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_YELLOW).sound(SoundType.DEEPSLATE)
@@ -649,7 +649,7 @@ public class NorthstarBlocks {
             () -> new VerticalSlabBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_ORANGE).sound(SoundType.DEEPSLATE_BRICKS)
                     .strength(3.5f, 12f).requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     @SuppressWarnings("deprecation")
-	public static final RegistryObject<Block> MERCURY_STONE_BRICK_STAIRS = registerBlock("mercury_stone_brick_stairs",
+    public static final RegistryObject<Block> MERCURY_STONE_BRICK_STAIRS = registerBlock("mercury_stone_brick_stairs",
             () -> new StairBlock(STONE.defaultBlockState() ,BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_ORANGE).sound(SoundType.DEEPSLATE_BRICKS)
                     .strength(3.5f, 12f).requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> MERCURY_STONE_BRICK_WALL = registerBlock("mercury_stone_brick_wall",
@@ -665,7 +665,7 @@ public class NorthstarBlocks {
             () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).sound(SoundType.DEEPSLATE_BRICKS)
                     .strength(3.5f, 12f).requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> MERCURY_STONE_LAMP = registerBlock("mercury_stone_lamp",
-    		() -> new Block(BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.COLOR_YELLOW).lightLevel((p_50872_) -> {return 15;}) .sound(SoundType.GLASS) .strength(3f,6.5f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS); 
+            () -> new Block(BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.COLOR_YELLOW).lightLevel((p_50872_) -> {return 15;}) .sound(SoundType.GLASS) .strength(3f,6.5f) .requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
 
     //mercury ores
     public static final RegistryObject<Block> MERCURY_IRON_ORE = registerBlock("mercury_iron_ore",
@@ -734,7 +734,7 @@ public class NorthstarBlocks {
             () -> new SlabBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_GRAY).sound(SoundType.BASALT)
                     .strength(4f, 4f)), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     @SuppressWarnings("deprecation")
-	public static final RegistryObject<Block> CALORIAN_STAIRS = registerBlock("calorian_stairs",
+    public static final RegistryObject<Block> CALORIAN_STAIRS = registerBlock("calorian_stairs",
             () -> new StairBlock(CALORIAN_PLANKS.get().defaultBlockState(), BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_GRAY).sound(SoundType.BASALT)
                     .strength(4f, 4f)), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     
@@ -743,10 +743,10 @@ public class NorthstarBlocks {
                     .strength(1f, 1f).noCollission().noOcclusion().isSuffocating(NorthstarBlocks::never).isViewBlocking(NorthstarBlocks::never)), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> MERCURY_SHELF_FUNGUS_BLOCK = registerBlock("mercury_shelf_fungus_block",
             () -> new HugeMushroomBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_GRAY).sound(SoundType.BASALT)
-            		.strength(4f, 6f).requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+                    .strength(4f, 6f).requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
     public static final RegistryObject<Block> MERCURY_CACTUS = registerBlock("mercury_cactus",
             () -> new MercuryCactusBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_GRAY).sound(SoundType.BASALT)
-            		.strength(4f, 6f).requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+                    .strength(4f, 6f).requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
  
     
  //   public static final RegistryObject<Block> TEST = registerBlock("test_sapling",
@@ -764,7 +764,7 @@ public class NorthstarBlocks {
     
     public static final RegistryObject<MethaneIceBlock> METHANE_ICE = registerBlock("methane_ice",
             () -> new MethaneIceBlock(BlockBehaviour.Properties.of(Material.ICE, MaterialColor.COLOR_LIGHT_GREEN).sound(SoundType.GLASS).friction(0.989F)
-            		.randomTicks().strength(0.5F).noOcclusion().requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+                	.randomTicks().strength(0.5F).noOcclusion().requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
 
     public static final RegistryObject<Block> ICICLE = registerBlock("icicle",
             () -> new IcicleBlock(BlockBehaviour.Properties.of(Material.ICE, MaterialColor.COLOR_LIGHT_BLUE).sound(SoundType.GLASS)

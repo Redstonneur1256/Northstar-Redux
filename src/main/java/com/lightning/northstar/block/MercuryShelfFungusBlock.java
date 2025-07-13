@@ -32,65 +32,65 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class MercuryShelfFungusBlock extends Block implements SimpleWaterloggedBlock{
-	public static final int MIN_SHELVES = 1;
-	public static final int MAX_SHELVES = 6;
-	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
-	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-	public static final IntegerProperty SHELVES = IntegerProperty.create("shelves", 1, 6);
-	protected static final float AABB_OFFSET = 2.5F;
-	private static final Map<Direction, VoxelShape> AABBS = Maps.newEnumMap(ImmutableMap.of(Direction.NORTH, Block.box(2D, 3.0D, 11.0D, 14D, 13.0D, 16.0D),
-			Direction.SOUTH, Block.box(2D, 3.0D, 0.0D, 14D, 13.0D, 5.0D), Direction.WEST, Block.box(11.0D, 3.0D, 2D, 16.0D, 13.0D, 14D),
-			Direction.EAST, Block.box(0.0D, 3.0D, 2D, 5.0D, 13.0D, 14D)));
-	
+    public static final int MIN_SHELVES = 1;
+    public static final int MAX_SHELVES = 6;
+    public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
+    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    public static final IntegerProperty SHELVES = IntegerProperty.create("shelves", 1, 6);
+    protected static final float AABB_OFFSET = 2.5F;
+    private static final Map<Direction, VoxelShape> AABBS = Maps.newEnumMap(ImmutableMap.of(Direction.NORTH, Block.box(2D, 3.0D, 11.0D, 14D, 13.0D, 16.0D),
+            Direction.SOUTH, Block.box(2D, 3.0D, 0.0D, 14D, 13.0D, 5.0D), Direction.WEST, Block.box(11.0D, 3.0D, 2D, 16.0D, 13.0D, 14D),
+            Direction.EAST, Block.box(0.0D, 3.0D, 2D, 5.0D, 13.0D, 14D)));
+    
 
-	public MercuryShelfFungusBlock(BlockBehaviour.Properties pProperties) {
-		super(pProperties);
-		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, false).setValue(SHELVES, MIN_SHELVES));
-	}
-	public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-		return getShape(pState);
-	}
+    public MercuryShelfFungusBlock(BlockBehaviour.Properties pProperties) {
+        super(pProperties);
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, false).setValue(SHELVES, MIN_SHELVES));
+    }
+    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+        return getShape(pState);
+    }
 
-	public static VoxelShape getShape(BlockState pState) {
-		return AABBS.get(pState.getValue(FACING));
-	}
+    public static VoxelShape getShape(BlockState pState) {
+        return AABBS.get(pState.getValue(FACING));
+    }
 
-	@Override
-	public boolean propagatesSkylightDown(BlockState pState, BlockGetter pReader, BlockPos pPos) {
-		return pState.getFluidState().isEmpty();
-	}
-	@SuppressWarnings("deprecation")
-	@Override
-	public boolean isPathfindable(BlockState pState, BlockGetter pLevel, BlockPos pPos, PathComputationType pType) {
-		return pType == PathComputationType.AIR && !this.hasCollision ? true : super.isPathfindable(pState, pLevel, pPos, pType);
-	}
+    @Override
+    public boolean propagatesSkylightDown(BlockState pState, BlockGetter pReader, BlockPos pPos) {
+        return pState.getFluidState().isEmpty();
+    }
+    @SuppressWarnings("deprecation")
+    @Override
+    public boolean isPathfindable(BlockState pState, BlockGetter pLevel, BlockPos pPos, PathComputationType pType) {
+        return pType == PathComputationType.AIR && !this.hasCollision ? true : super.isPathfindable(pState, pLevel, pPos, pType);
+    }
 
-	
-	
-	public BlockState updateShape(BlockState pState, Direction pFacing, BlockState pFacingState, LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pFacingPos) {
-		return pFacing.getOpposite() == pState.getValue(FACING) && !pState.canSurvive(pLevel, pCurrentPos) ? Blocks.AIR.defaultBlockState() : pState;
-	}
-	
-	public boolean canBeReplaced(BlockState pState, BlockPlaceContext pUseContext) {
-		return pUseContext.getItemInHand().is(this.asItem());
-	}
-	
-	@Nullable
-	@Override
-	public BlockState getStateForPlacement(BlockPlaceContext pContext) {
-		BlockState blockstate = this.defaultBlockState();
-		BlockState clickedState = pContext.getLevel().getBlockState(pContext.getClickedPos());
-		System.out.println(clickedState.getBlock());
-		if (clickedState.is(blockstate.getBlock())) {
-			return clickedState.setValue(SHELVES, Integer.valueOf(Math.min(MAX_SHELVES, clickedState.getValue(SHELVES) + 1)));
-		}
-		FluidState fluidstate = pContext.getLevel().getFluidState(pContext.getClickedPos());
-		LevelReader levelreader = pContext.getLevel();
-		BlockPos blockpos = pContext.getClickedPos();
-		Direction[] adirection = pContext.getNearestLookingDirections();
-		      
-		for(Direction direction : adirection) {
-			if (direction.getAxis().isHorizontal()) {
+    
+    
+    public BlockState updateShape(BlockState pState, Direction pFacing, BlockState pFacingState, LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pFacingPos) {
+        return pFacing.getOpposite() == pState.getValue(FACING) && !pState.canSurvive(pLevel, pCurrentPos) ? Blocks.AIR.defaultBlockState() : pState;
+    }
+    
+    public boolean canBeReplaced(BlockState pState, BlockPlaceContext pUseContext) {
+        return pUseContext.getItemInHand().is(this.asItem());
+    }
+    
+    @Nullable
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext pContext) {
+        BlockState blockstate = this.defaultBlockState();
+        BlockState clickedState = pContext.getLevel().getBlockState(pContext.getClickedPos());
+        System.out.println(clickedState.getBlock());
+        if (clickedState.is(blockstate.getBlock())) {
+            return clickedState.setValue(SHELVES, Integer.valueOf(Math.min(MAX_SHELVES, clickedState.getValue(SHELVES) + 1)));
+        }
+        FluidState fluidstate = pContext.getLevel().getFluidState(pContext.getClickedPos());
+        LevelReader levelreader = pContext.getLevel();
+        BlockPos blockpos = pContext.getClickedPos();
+        Direction[] adirection = pContext.getNearestLookingDirections();
+              
+        for(Direction direction : adirection) {
+    		if (direction.getAxis().isHorizontal()) {
 				Direction direction1 = direction.getOpposite();
 				blockstate = blockstate.setValue(FACING, direction1);
 				if (blockstate.canSurvive(levelreader, blockpos)) {

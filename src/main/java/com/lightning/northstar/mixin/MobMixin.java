@@ -15,12 +15,12 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 public class MobMixin {
 
     @Inject(method = "doHurtTarget", at = @At("HEAD"), cancellable = true)
-	private void doHurtTarget(Entity pEntity, CallbackInfoReturnable<Boolean> info) {
-		int i = EnchantmentHelper.getEnchantmentLevel(NorthstarEnchantments.FROSTBITE.get(), (Mob)(Object) this);
-		if (i > 0) {
-			pEntity.setTicksFrozen((i * 80) + 150);
-		}
+    private void doHurtTarget(Entity pEntity, CallbackInfoReturnable<Boolean> info) {
+        int i = EnchantmentHelper.getEnchantmentLevel(NorthstarEnchantments.FROSTBITE.get(), (Mob)(Object) this);
+        if (i > 0) {
+            pEntity.setTicksFrozen((i * 80) + 150);
+        }
 
-	}
+    }
 
 }

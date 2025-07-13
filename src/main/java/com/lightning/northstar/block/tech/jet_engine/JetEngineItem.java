@@ -19,13 +19,13 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class JetEngineItem extends BlockItem {
 
-	public JetEngineItem(Block block, Properties p) {
-		super(block, p);
-	}
+    public JetEngineItem(Block block, Properties p) {
+        super(block, p);
+    }
 
-	@Override
-	public InteractionResult place(BlockPlaceContext ctx) {
-		InteractionResult initialResult = super.place(ctx);
+    @Override
+    public InteractionResult place(BlockPlaceContext ctx) {
+        InteractionResult initialResult = super.place(ctx);
 		if (!initialResult.consumesAction())
 			return initialResult;
 		tryMultiPlace(ctx);

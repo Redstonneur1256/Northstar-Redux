@@ -34,21 +34,21 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class TelescopeBlockEntity extends SmartBlockEntity implements MenuProvider {
 
-	protected final ContainerData data;
+    protected final ContainerData data;
     public String SelectedPlanet = null;
-	
-	public TelescopeBlockEntity(BlockPos pPos, BlockState pBlockState) {
-		super(NorthstarBlockEntityTypes.TELESCOPE.get(), pPos, pBlockState);
+    
+    public TelescopeBlockEntity(BlockPos pPos, BlockState pBlockState) {
+        super(NorthstarBlockEntityTypes.TELESCOPE.get(), pPos, pBlockState);
         this.data = new ContainerData() {
 
-			@Override
-			public int get(int pIndex) {
-				return 0;
-			}
+            @Override
+            public int get(int pIndex) {
+                return 0;
+            }
 
-			@Override
-			public void set(int pIndex, int pValue) {
-				return;
+            @Override
+            public void set(int pIndex, int pValue) {
+            	return;
 			}
 
 			@Override

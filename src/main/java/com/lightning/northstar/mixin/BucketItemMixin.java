@@ -34,71 +34,71 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.BlockHitResult;
 
 @Mixin(BucketItem.class)
-public abstract class BucketItemMixin extends Item{	
+public abstract class BucketItemMixin extends Item{    
     @Shadow
     @Final
-	private Fluid content;
-	public BucketItemMixin(Properties pProperties) {
-		super(pProperties);
-	}
-	@SuppressWarnings("deprecation")
-//	 @Inject(method = "emptyContents(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/BlockHitResult;Lnet/minecraft/world/item/ItemStack;)Z",
-//	at = @At(value = "HEAD", target = "Lnet/minecraft/world/item/BucketItem;emptyContents(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/BlockHitResult;)Z"),
-//	cancellable = true)
-	protected void emptyContentsReal(@Nullable Player pPlayer, Level pLevel, BlockPos pPos, @Nullable BlockHitResult blockHitResult, CallbackInfoReturnable<Boolean> info) {
-		BlockState blockstate = pLevel.getBlockState(pPos);
-		if (!(this.content instanceof FlowingFluid)) {
-			info.setReturnValue(false);
-		} else if (pLevel.dimensionType().ultraWarm() && this.content.is(FluidTags.WATER) && TemperatureStuff.getTemp(pPos, pLevel) < 212) {
-			if (!pLevel.setBlock(pPos, this.content.defaultFluidState().createLegacyBlock(), 11) && !blockstate.getFluidState().isSource()) {
-				info.setReturnValue(false);
-			} else {
-				this.playEmptySound(pPlayer, pLevel, pPos, this.content);
-				info.setReturnValue(true);
-			}
-		}
-	}
+    private Fluid content;
+    public BucketItemMixin(Properties pProperties) {
+        super(pProperties);
+    }
     @SuppressWarnings("deprecation")
-	@Inject(method = "emptyContents(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/BlockHitResult;Lnet/minecraft/world/item/ItemStack;)Z",
+//     @Inject(method = "emptyContents(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/BlockHitResult;Lnet/minecraft/world/item/ItemStack;)Z",
+//    at = @At(value = "HEAD", target = "Lnet/minecraft/world/item/BucketItem;emptyContents(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/BlockHitResult;)Z"),
+//    cancellable = true)
+    protected void emptyContentsReal(@Nullable Player pPlayer, Level pLevel, BlockPos pPos, @Nullable BlockHitResult blockHitResult, CallbackInfoReturnable<Boolean> info) {
+        BlockState blockstate = pLevel.getBlockState(pPos);
+        if (!(this.content instanceof FlowingFluid)) {
+            info.setReturnValue(false);
+        } else if (pLevel.dimensionType().ultraWarm() && this.content.is(FluidTags.WATER) && TemperatureStuff.getTemp(pPos, pLevel) < 212) {
+            if (!pLevel.setBlock(pPos, this.content.defaultFluidState().createLegacyBlock(), 11) && !blockstate.getFluidState().isSource()) {
+                info.setReturnValue(false);
+            } else {
+                this.playEmptySound(pPlayer, pLevel, pPos, this.content);
+                info.setReturnValue(true);
+            }
+        }
+    }
+    @SuppressWarnings("deprecation")
+    @Inject(method = "emptyContents(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/BlockHitResult;Lnet/minecraft/world/item/ItemStack;)Z",
     at = @At(value = "HEAD", target = "Lnet/minecraft/world/item/BucketItem;emptyContents(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/BlockHitResult;)Z"),
     cancellable = true)
     private void emptyContentsReal(@Nullable Player pPlayer, Level pLevel, BlockPos pPos, @Nullable BlockHitResult blockHitResult, ItemStack container, CallbackInfoReturnable<Boolean> info) {
-//		System.out.println("YOooo buckets are real");
-    	BucketItem item = (BucketItem) (Object) this;
- //   	System.out.println(item.getFluid());
-		int temp = TemperatureStuff.getTemp(pPos, pLevel);
-//		System.out.println(temp);
-		BlockState blockstate = pLevel.getBlockState(pPos);
-//		System.out.println(item.getFluid());
-		if(item.getFluid() == null)
-			return;
-		int boilingpoint = TemperatureStuff.getBoilingPoint(item.getFluid().defaultFluidState());
-		int freezingpoint = TemperatureStuff.getFreezingPoint(item.getFluid().defaultFluidState());
-		Block block = pLevel.getBlockState(pPos).getBlock();
-		if (!(item.getFluid() instanceof FlowingFluid)) {
-			return;
-		} else if (pLevel.dimensionType().ultraWarm() && temp < boilingpoint && temp > freezingpoint) {
-			if(pLevel.getBlockState(pPos).is(Blocks.AIR) || pLevel.getBlockState(pPos).canBeReplaced(content)) {
-				if (!pLevel.setBlock(pPos, item.getFluid().defaultFluidState().createLegacyBlock(), 11) && !blockstate.getFluidState().isSource()) {
-					return;
-				} else {
-					this.playEmptySound(pPlayer, pLevel, pPos, item.getFluid());
-					info.setReturnValue(true);
-				}
-			}else if(block instanceof LiquidBlockContainer && ((LiquidBlockContainer)block).canPlaceLiquid(pLevel,pPos,blockstate,content)) {
-	            ((LiquidBlockContainer)block).placeLiquid(pLevel, pPos, blockstate, ((FlowingFluid)this.content).getSource(false));
-	            this.playEmptySound(pPlayer, pLevel, pPos, item.getFluid());
-				info.setReturnValue(true);
-			}
-		} else if (temp < freezingpoint && item.getFluid().is(FluidTags.WATER) && pLevel.getBlockState(pPos).is(Blocks.AIR)) {
-			if (!pLevel.setBlock(pPos, Blocks.ICE.defaultBlockState(), 11)) {
-				return;
-			} else {
-				this.playEmptySound(pPlayer, pLevel, pPos, item.getFluid());
-				info.setReturnValue(true);
-			}
-		}
-		else if(temp > boilingpoint) {
+//        System.out.println("YOooo buckets are real");
+        BucketItem item = (BucketItem) (Object) this;
+ //       System.out.println(item.getFluid());
+        int temp = TemperatureStuff.getTemp(pPos, pLevel);
+//        System.out.println(temp);
+        BlockState blockstate = pLevel.getBlockState(pPos);
+//        System.out.println(item.getFluid());
+        if(item.getFluid() == null)
+            return;
+        int boilingpoint = TemperatureStuff.getBoilingPoint(item.getFluid().defaultFluidState());
+        int freezingpoint = TemperatureStuff.getFreezingPoint(item.getFluid().defaultFluidState());
+        Block block = pLevel.getBlockState(pPos).getBlock();
+        if (!(item.getFluid() instanceof FlowingFluid)) {
+            return;
+        } else if (pLevel.dimensionType().ultraWarm() && temp < boilingpoint && temp > freezingpoint) {
+            if(pLevel.getBlockState(pPos).is(Blocks.AIR) || pLevel.getBlockState(pPos).canBeReplaced(content)) {
+                if (!pLevel.setBlock(pPos, item.getFluid().defaultFluidState().createLegacyBlock(), 11) && !blockstate.getFluidState().isSource()) {
+                    return;
+                } else {
+                    this.playEmptySound(pPlayer, pLevel, pPos, item.getFluid());
+                    info.setReturnValue(true);
+                }
+            }else if(block instanceof LiquidBlockContainer && ((LiquidBlockContainer)block).canPlaceLiquid(pLevel,pPos,blockstate,content)) {
+                ((LiquidBlockContainer)block).placeLiquid(pLevel, pPos, blockstate, ((FlowingFluid)this.content).getSource(false));
+                this.playEmptySound(pPlayer, pLevel, pPos, item.getFluid());
+                info.setReturnValue(true);
+            }
+        } else if (temp < freezingpoint && item.getFluid().is(FluidTags.WATER) && pLevel.getBlockState(pPos).is(Blocks.AIR)) {
+            if (!pLevel.setBlock(pPos, Blocks.ICE.defaultBlockState(), 11)) {
+                return;
+            } else {
+                this.playEmptySound(pPlayer, pLevel, pPos, item.getFluid());
+                info.setReturnValue(true);
+            }
+        }
+        else if(temp > boilingpoint) {
             int i = pPos.getX();
             int j = pPos.getY();
             int k = pPos.getZ();
@@ -109,15 +109,15 @@ public abstract class BucketItemMixin extends Item{
             }
             info.setReturnValue(true);
 
-		}
+        }
     }
     
-	
-	@SuppressWarnings("deprecation")
-	protected void playEmptySound(@Nullable Player pPlayer, LevelAccessor pLevel, BlockPos pPos, Fluid content) {
-		SoundEvent soundevent = content.getFluidType().getSound(pPlayer, pLevel, pPos, net.minecraftforge.common.SoundActions.BUCKET_EMPTY);
-		if(soundevent == null) soundevent = content.is(FluidTags.LAVA) ? SoundEvents.BUCKET_EMPTY_LAVA : SoundEvents.BUCKET_EMPTY;
-		pLevel.playSound(pPlayer, pPos, soundevent, SoundSource.BLOCKS, 1.0F, 1.0F);
-		pLevel.gameEvent(pPlayer, GameEvent.FLUID_PLACE, pPos);
-	}
+    
+    @SuppressWarnings("deprecation")
+    protected void playEmptySound(@Nullable Player pPlayer, LevelAccessor pLevel, BlockPos pPos, Fluid content) {
+        SoundEvent soundevent = content.getFluidType().getSound(pPlayer, pLevel, pPos, net.minecraftforge.common.SoundActions.BUCKET_EMPTY);
+        if(soundevent == null) soundevent = content.is(FluidTags.LAVA) ? SoundEvents.BUCKET_EMPTY_LAVA : SoundEvents.BUCKET_EMPTY;
+        pLevel.playSound(pPlayer, pPos, soundevent, SoundSource.BLOCKS, 1.0F, 1.0F);
+        pLevel.gameEvent(pPlayer, GameEvent.FLUID_PLACE, pPos);
+    }
 }

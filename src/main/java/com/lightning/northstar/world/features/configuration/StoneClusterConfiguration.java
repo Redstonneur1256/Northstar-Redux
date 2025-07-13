@@ -10,8 +10,8 @@ import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvi
 import net.minecraft.world.level.material.FluidState;
 
 public class StoneClusterConfiguration implements FeatureConfiguration {
-	   public static final Codec<StoneClusterConfiguration> CODEC = RecordCodecBuilder.create((p_160784_) -> {
-		      return p_160784_.group(Codec.intRange(1, 512).fieldOf("floor_to_ceiling_search_range").forGetter((p_160806_) -> {
+       public static final Codec<StoneClusterConfiguration> CODEC = RecordCodecBuilder.create((p_160784_) -> {
+              return p_160784_.group(Codec.intRange(1, 512).fieldOf("floor_to_ceiling_search_range").forGetter((p_160806_) -> {
 		         return p_160806_.floorToCeilingSearchRange;
 		      }), IntProvider.codec(1, 128).fieldOf("height").forGetter((p_160804_) -> {
 		         return p_160804_.height;

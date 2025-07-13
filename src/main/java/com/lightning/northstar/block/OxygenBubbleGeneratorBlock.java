@@ -31,11 +31,11 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 
 public class OxygenBubbleGeneratorBlock extends BaseEntityBlock{
-	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
-	public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
+    public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
+    public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
 
-	protected OxygenBubbleGeneratorBlock(Properties pProperties) {
-		super(pProperties);
+    protected OxygenBubbleGeneratorBlock(Properties pProperties) {
+        super(pProperties);
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
 	}
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {

@@ -26,53 +26,53 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class BrokenIronSpaceSuitLayerRenderer <T extends LivingEntity, M extends EntityModel<T>> extends RenderLayer<T, M> {
 
-	public BrokenIronSpaceSuitLayerRenderer(RenderLayerParent<T, M> pRenderer) {
-		super(pRenderer);
-	}
+    public BrokenIronSpaceSuitLayerRenderer(RenderLayerParent<T, M> pRenderer) {
+        super(pRenderer);
+    }
 
-	@Override
-	public void render(PoseStack ms, MultiBufferSource buffer, int light, T entity,
-			float pLimbSwing, float pLimbSwingAmount, float pPartialTick, float pAgeInTicks, float pNetHeadYaw,
-			float pHeadPitch) {
-		if (entity.getPose() == Pose.SLEEPING)
-			return;
+    @Override
+    public void render(PoseStack ms, MultiBufferSource buffer, int light, T entity,
+            float pLimbSwing, float pLimbSwingAmount, float pPartialTick, float pAgeInTicks, float pNetHeadYaw,
+            float pHeadPitch) {
+        if (entity.getPose() == Pose.SLEEPING)
+            return;
 
-		Item item = entity.getItemBySlot(EquipmentSlot.HEAD).getItem();
-		if (!(item instanceof BrokenIronSpaceSuitArmorItem))
-			return;
+        Item item = entity.getItemBySlot(EquipmentSlot.HEAD).getItem();
+        if (!(item instanceof BrokenIronSpaceSuitArmorItem))
+            return;
 
-		M entityModel = getParentModel();
-		if (!(entityModel instanceof HumanoidModel))
-			return;
-		
-		HumanoidModel<?> model = (HumanoidModel<?>) entityModel;
-		BlockState air = Blocks.AIR.defaultBlockState();
-		RenderType renderType = Sheets.translucentCullBlockSheet();
-		SuperByteBuffer helmet = CachedBufferer.partial(NorthstarPartialModels.BROKEN_IRON_SPACE_SUIT_HELMET, air);
-		
-		ms.pushPose();
-		
-		model.head.translateAndRotate(ms);
-		ms.translate(0.5, 1.45, -0.5);
-		ms.scale(-1, -1, 1);
-		
-		helmet.forEntityRender()
-		.light(light)
-		.renderInto(ms, buffer.getBuffer(renderType));
+        M entityModel = getParentModel();
+        if (!(entityModel instanceof HumanoidModel))
+            return;
 
-		ms.popPose();
-	}
+        HumanoidModel<?> model = (HumanoidModel<?>) entityModel;
+        BlockState air = Blocks.AIR.defaultBlockState();
+        RenderType renderType = Sheets.translucentCullBlockSheet();
+        SuperByteBuffer helmet = CachedBufferer.partial(NorthstarPartialModels.BROKEN_IRON_SPACE_SUIT_HELMET, air);
 
-	public static void registerOnAll(EntityRenderDispatcher renderManager) {
-		for (EntityRenderer<? extends Player> renderer : renderManager.getSkinMap().values())
-			registerOn(renderer);
-		for (EntityRenderer<?> renderer : renderManager.renderers.values())
-			registerOn(renderer);
-	}
+        ms.pushPose();
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static void registerOn(EntityRenderer<?> entityRenderer) {
-		if (!(entityRenderer instanceof LivingEntityRenderer))
+        model.head.translateAndRotate(ms);
+        ms.translate(0.5, 1.45, -0.5);
+        ms.scale(-1, -1, 1);
+
+        helmet.forEntityRender()
+        .light(light)
+        .renderInto(ms, buffer.getBuffer(renderType));
+
+        ms.popPose();
+    }
+
+    public static void registerOnAll(EntityRenderDispatcher renderManager) {
+        for (EntityRenderer<? extends Player> renderer : renderManager.getSkinMap().values())
+            registerOn(renderer);
+        for (EntityRenderer<?> renderer : renderManager.renderers.values())
+            registerOn(renderer);
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    public static void registerOn(EntityRenderer<?> entityRenderer) {
+    	if (!(entityRenderer instanceof LivingEntityRenderer))
 			return;
 		LivingEntityRenderer<?, ?> livingRenderer = (LivingEntityRenderer<?, ?>) entityRenderer;
 		if (!(livingRenderer.getModel() instanceof HumanoidModel))

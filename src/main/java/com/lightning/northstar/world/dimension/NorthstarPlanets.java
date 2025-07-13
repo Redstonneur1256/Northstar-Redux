@@ -13,8 +13,8 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 
 @EventBusSubscriber(modid = Northstar.MOD_ID, bus = Bus.FORGE)
-public class NorthstarPlanets {	 
-	
+public class NorthstarPlanets {     
+    
     private static final double EARTH_GRAV = 1;
     private static final double MOON_GRAV = 0.16;
     private static final double OUTER_MOON_GRAV = 0.06;
@@ -24,11 +24,11 @@ public class NorthstarPlanets {
     private static final double MERCURY_GRAV = 0.38;
     
 
-	private static final double GANYMEDE_GRAV = 0.14;
+    private static final double GANYMEDE_GRAV = 0.14;
     private static final double TITAN_GRAV = 0.14;
     private static final double EUROPA_GRAV = 0.13;
-	
-	// MERCURY COORDS
+    
+    // MERCURY COORDS
     public static double mercury_x = 0;
     public static double mercury_y = 0;
     public static float mercury_orbit_speed = (float) (Math.PI / 12000);
@@ -36,9 +36,9 @@ public class NorthstarPlanets {
     public static double mercury_orbit_radius_y = 100;
     public static double mercury_origin_x = 0;
     public static double mercury_origin_y = 0;
-	static int mercury_time;
-	
-	//VENUS COORDS
+    static int mercury_time;
+    
+    //VENUS COORDS
     public static double venus_x = 0;
     public static double venus_y = 0;
     public static float venus_orbit_speed = (float) (Math.PI / 32000);
@@ -46,9 +46,9 @@ public class NorthstarPlanets {
     public static double venus_orbit_radius_y = 150;
     public static double venus_origin_x = 0;
     public static double venus_origin_y = 0;
-	static int venus_time;
-	
-	//EARTH COORDS
+    static int venus_time;
+    
+    //EARTH COORDS
     public static double earth_x = 0;
     public static double earth_y = 0;
     public static float earth_orbit_speed = (float) (Math.PI / 32000);
@@ -56,10 +56,10 @@ public class NorthstarPlanets {
     public static double earth_orbit_radius_y = 200;
     public static double earth_origin_x = 0;
     public static double earth_origin_y = 0;
-	static int earth_time;
-	
-	// EARTH MOON COORDS
-	// "earth moon" because these are the coords for the moon when viewed from earth
+    static int earth_time;
+    
+    // EARTH MOON COORDS
+    // "earth moon" because these are the coords for the moon when viewed from earth
     public static double earth_moon_x = 0;
     public static double earth_moon_y = 0;
     public static float earth_moon_orbit_speed = (float) (Math.PI / 150000);
@@ -67,18 +67,18 @@ public class NorthstarPlanets {
     public static double earth_moon_orbit_radius_y = 40;
     public static double earth_moon_origin_x = 0;
     public static double earth_moon_origin_y = 0;
-	static int earth_moon_time;
-	
-	//MOON COORDS
-	//this is seperate because these are the coords for the moon when viewed from NOT earth
+    static int earth_moon_time;
+    
+    //MOON COORDS
+    //this is seperate because these are the coords for the moon when viewed from NOT earth
     public static double moon_x = 0;
     public static double moon_y = 0;
     public static float moon_orbit_speed = (float) (Math.PI / 10000);
     public static double moon_orbit_radius_x = 20;
     public static double moon_orbit_radius_y = 20;
-	static int moon_time;
-	
-	// MARS COORDS
+    static int moon_time;
+    
+    // MARS COORDS
     public static double mars_x = 0;
     public static double mars_y = 0;
     public static float mars_orbit_speed = (float) (Math.PI / 100000);
@@ -86,17 +86,17 @@ public class NorthstarPlanets {
     public static double mars_orbit_radius_y = 250;
     public static double mars_origin_x = 0;
     public static double mars_origin_y = 0;
-	static int mars_time;
-	
-	// PHOBOS & DEIMOS COORDS
+    static int mars_time;
+    
+    // PHOBOS & DEIMOS COORDS
     public static double pd_x = 0;
     public static double pd_y = 0;
     public static float pd_orbit_speed = (float) (Math.PI / 10000);
     public static double pd_orbit_radius_x = 20;
     public static double pd_orbit_radius_y = 20;
-	static int pd_time;
-	
-	// CERES COORDS
+    static int pd_time;
+    
+    // CERES COORDS
     public static double ceres_x = 0;
     public static double ceres_y = 0;
     public static float ceres_orbit_speed = (float) (Math.PI / 200000);
@@ -104,9 +104,9 @@ public class NorthstarPlanets {
     public static double ceres_orbit_radius_y = 260;
     public static double ceres_origin_x = 0;
     public static double ceres_origin_y = 0;
-	static int ceres_time;
-	
-	//JUPITER COORDS
+    static int ceres_time;
+    
+    //JUPITER COORDS
     public static double jupiter_x = 0;
     public static double jupiter_y = 0;
     public static float jupiter_orbit_speed = (float) (Math.PI / 32000);
@@ -114,9 +114,9 @@ public class NorthstarPlanets {
     public static double jupiter_orbit_radius_y = 270;
     public static double jupiter_origin_x = 0;
     public static double jupiter_origin_y = 0;
-	static int jupiter_time;
-	
-	//SATURN COORDS
+    static int jupiter_time;
+    
+    //SATURN COORDS
     public static double saturn_x = 0;
     public static double saturn_y = 0;
     public static float saturn_orbit_speed = (float) (Math.PI / 40000);
@@ -124,9 +124,9 @@ public class NorthstarPlanets {
     public static double saturn_orbit_radius_y = 300;
     public static double saturn_origin_x = 0;
     public static double saturn_origin_y = 0;
-	static int saturn_time;
-	
-	//URANUS COORDS
+    static int saturn_time;
+    
+    //URANUS COORDS
     public static double uranus_x = 0;
     public static double uranus_y = 0;
     public static float uranus_orbit_speed = (float) (Math.PI / 50000);
@@ -134,9 +134,9 @@ public class NorthstarPlanets {
     public static double uranus_orbit_radius_y = 375;
     public static double uranus_origin_x = 0;
     public static double uranus_origin_y = 0;
-	static int uranus_time;
-	
-	//NEPTUNE COORDS
+    static int uranus_time;
+    
+    //NEPTUNE COORDS
     public static double neptune_x = 0;
     public static double neptune_y = 0;
     public static float neptune_orbit_speed = (float) (Math.PI / 80000);
@@ -144,9 +144,9 @@ public class NorthstarPlanets {
     public static double neptune_orbit_radius_y = 450;
     public static double neptune_origin_x = 0;
     public static double neptune_origin_y = 0;
-	static int neptune_time;
-	
-	//PLUTO COORDS
+    static int neptune_time;
+    
+    //PLUTO COORDS
     public static double pluto_x = 0;
     public static double pluto_y = 0;
     public static float pluto_orbit_speed = (float) (Math.PI / 150000);
@@ -154,9 +154,9 @@ public class NorthstarPlanets {
     public static double pluto_orbit_radius_y = 515;
     public static double pluto_origin_x = 0;
     public static double pluto_origin_y = 0;
-	static int pluto_time;
-	
-	//ERIS COORDS
+    static int pluto_time;
+    
+    //ERIS COORDS
     public static double eris_x = 0;
     public static double eris_y = 0;
     public static float eris_orbit_speed = (float) (Math.PI / 16000);
@@ -164,13 +164,13 @@ public class NorthstarPlanets {
     public static double eris_orbit_radius_y = 600;
     public static double eris_origin_x = 0;
     public static double eris_origin_y = 0;
-	static int eris_time;
-	
-	static long time;
+    static int eris_time;
+    
+    static long time;
 
     @SubscribeEvent
     public static void onWorldTick(TickEvent.LevelTickEvent event){
-    	time = (long) (event.level.getGameTime() * 2);
+        time = (long) (event.level.getGameTime() * 2);
         //mercury!!!! yeah cool
         double mercury_radian = mercury_orbit_speed * time;
         mercury_x = (mercury_origin_x + (Math.cos(mercury_radian)* mercury_orbit_radius_x));
@@ -194,7 +194,7 @@ public class NorthstarPlanets {
         double moon_radian = moon_orbit_speed * time;
         moon_x = (earth_x + (Math.cos(moon_radian)* moon_orbit_radius_x));
         moon_y = (earth_y + (Math.sin(moon_radian)* moon_orbit_radius_y));
-    	//mars my beloved
+        //mars my beloved
         double mars_radian = mars_orbit_speed * time;
         mars_x = (mars_origin_x + (Math.cos(mars_radian)* mars_orbit_radius_x));
         mars_y = (mars_origin_y + (Math.sin(mars_radian)* mars_orbit_radius_y));
@@ -246,30 +246,30 @@ public class NorthstarPlanets {
     }
     
     public static double getPlanetX(String name) {
-    	switch (name) {
-		case "mercury": {return mercury_x;}
-		case "venus": {return venus_x;}
-		case "earth": {return earth_x;}
-		case "earth_moon": {return earth_moon_x;}
-		case "moon": {return moon_x;}
-		case "mars": {return mars_x;}
-		case "ceres": {return ceres_x;}
-		case "jupiter": {return jupiter_x;}
-		case "saturn": {return saturn_x;}
-		case "uranus": {return uranus_x;}
-		case "neptune": {return neptune_x;}
-		case "pluto": {return pluto_x;}
-		case "eris": {return eris_x;}
-		default:return 0;}
+        switch (name) {
+        case "mercury": {return mercury_x;}
+        case "venus": {return venus_x;}
+        case "earth": {return earth_x;}
+        case "earth_moon": {return earth_moon_x;}
+        case "moon": {return moon_x;}
+        case "mars": {return mars_x;}
+        case "ceres": {return ceres_x;}
+        case "jupiter": {return jupiter_x;}
+        case "saturn": {return saturn_x;}
+        case "uranus": {return uranus_x;}
+        case "neptune": {return neptune_x;}
+        case "pluto": {return pluto_x;}
+        case "eris": {return eris_x;}
+        default:return 0;}
     }
     public static double getPlanetY(String name) {
-    	switch (name) {
-		case "mercury": {return mercury_y;}
-		case "venus": {return venus_y;}
-		case "earth": {return earth_y;}
-		case "earth_moon": {return earth_moon_y;}
-		case "moon": {return moon_y;}
-		case "mars": {return mars_y;}
+        switch (name) {
+        case "mercury": {return mercury_y;}
+        case "venus": {return venus_y;}
+        case "earth": {return earth_y;}
+        case "earth_moon": {return earth_moon_y;}
+        case "moon": {return moon_y;}
+    	case "mars": {return mars_y;}
 		case "ceres": {return ceres_y;}
 		case "jupiter": {return jupiter_y;}
 		case "saturn": {return saturn_y;}

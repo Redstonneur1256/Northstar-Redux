@@ -37,58 +37,58 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 
 @EventBusSubscriber(modid = Northstar.MOD_ID, bus = Bus.FORGE)
 public class TemperatureStuff {
-	public static HashMap<HashMap<BlockPos, Integer>,ResourceKey<Level>> temperatureSources = new HashMap<HashMap<BlockPos, Integer>, ResourceKey<Level>>();
-	public static int maxSize = 24;
-	public static int loadBuffer = 0;
-	public static boolean debugMode = false;
-	
-	@SubscribeEvent
-	public static void onWorldTick(TickEvent.LevelTickEvent event){
-		if(!event.level.isClientSide)
-			return;
-    	long t = event.level.getGameTime();
-    	if(loadBuffer <= 70)
-    		loadBuffer++;
-    	
-    	if(InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_O)){
-				debugMode = true;
-		}else {
-			debugMode = false;
-		}
-    	if(t % 40 == 0 && event.level.isClientSide && debugMode) {
-    		try {
-	    		for(Entry<HashMap<BlockPos, Integer>, ResourceKey<Level>> blocks:	temperatureSources.entrySet()) {
-	    			if(blocks == null)
-	    				continue;
-	    			if(blocks.getValue() == event.level.dimension()) {
-	    				for(BlockPos pos : blocks.getKey().keySet()) {
-	    					if(pos == null)
-	    						continue;
-	        				event.level.addParticle(ParticleTypes.FLAME, pos.getX() + 0.5f, pos.getY() + 0.5f, pos.getZ() + 0.5f, 0,0,0);
-	    				}
-	    			}
-	    			
-	    		}
-    		}catch(Exception e) {
-    			
-    		}
-    	}
+    public static HashMap<HashMap<BlockPos, Integer>,ResourceKey<Level>> temperatureSources = new HashMap<HashMap<BlockPos, Integer>, ResourceKey<Level>>();
+    public static int maxSize = 24;
+    public static int loadBuffer = 0;
+    public static boolean debugMode = false;
+    
+    @SubscribeEvent
+    public static void onWorldTick(TickEvent.LevelTickEvent event){
+        if(!event.level.isClientSide)
+            return;
+        long t = event.level.getGameTime();
+        if(loadBuffer <= 70)
+            loadBuffer++;
+        
+        if(InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_O)){
+                debugMode = true;
+        }else {
+            debugMode = false;
+        }
+        if(t % 40 == 0 && event.level.isClientSide && debugMode) {
+            try {
+                for(Entry<HashMap<BlockPos, Integer>, ResourceKey<Level>> blocks:    temperatureSources.entrySet()) {
+                    if(blocks == null)
+                        continue;
+                    if(blocks.getValue() == event.level.dimension()) {
+                        for(BlockPos pos : blocks.getKey().keySet()) {
+                            if(pos == null)
+                                continue;
+                            event.level.addParticle(ParticleTypes.FLAME, pos.getX() + 0.5f, pos.getY() + 0.5f, pos.getZ() + 0.5f, 0,0,0);
+                        }
+                    }
+                    
+                }
+            }catch(Exception e) {
+                
+            }
+        }
     }
     
-	public static void markTemp(BlockPos pos, Level level, HashMap<BlockPos, Integer> map, int temp, int sizeX, int sizeY, int sizeZ, int offsetX, int offsetY, int offsetZ) {
-		if(level.getBlockState(pos).getBlock() != NorthstarTechBlocks.TEMPERATURE_REGULATOR.get()) {
-			map.clear();
-			return;
-		}
-		BlockPos temppos =  pos.immutable();
-		temppos = temppos.offset(offsetX, offsetY, offsetZ);
-		temppos.offset(-sizeX, -sizeY, -sizeZ);
-		for(int x = 0; x < sizeX; x++) {
-			for(int y = 0; y < sizeY; y++) {
-				for(int z = 0; z < sizeZ; z++) {
-					BlockPos newpos = new BlockPos(temppos.getX() + x - sizeX / 2, temppos.getY() + y - sizeY / 2, temppos.getZ() + z - sizeZ / 2);
-					if(level.isClientSide)
-						{return;}
+    public static void markTemp(BlockPos pos, Level level, HashMap<BlockPos, Integer> map, int temp, int sizeX, int sizeY, int sizeZ, int offsetX, int offsetY, int offsetZ) {
+        if(level.getBlockState(pos).getBlock() != NorthstarTechBlocks.TEMPERATURE_REGULATOR.get()) {
+            map.clear();
+            return;
+        }
+        BlockPos temppos =  pos.immutable();
+        temppos = temppos.offset(offsetX, offsetY, offsetZ);
+        temppos.offset(-sizeX, -sizeY, -sizeZ);
+        for(int x = 0; x < sizeX; x++) {
+            for(int y = 0; y < sizeY; y++) {
+                for(int z = 0; z < sizeZ; z++) {
+                    BlockPos newpos = new BlockPos(temppos.getX() + x - sizeX / 2, temppos.getY() + y - sizeY / 2, temppos.getZ() + z - sizeZ / 2);
+                    if(level.isClientSide)
+        				{return;}
 					map.put(newpos, temp);
 				}
 			}

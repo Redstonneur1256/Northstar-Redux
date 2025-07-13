@@ -31,26 +31,26 @@ import net.minecraftforge.fluids.FluidStack;
 @ParametersAreNonnullByDefault
 public class FreezingCategory extends CreateRecipeCategory<FreezingRecipe>  {
 
-	private final AnimatedIceBox iceBox = new AnimatedIceBox();
+    private final AnimatedIceBox iceBox = new AnimatedIceBox();
 
-	public FreezingCategory(Info<FreezingRecipe> info) {
-		super(info);
-	}
+    public FreezingCategory(Info<FreezingRecipe> info) {
+        super(info);
+    }
 
-	@Override
-	public void setRecipe(IRecipeLayoutBuilder builder, FreezingRecipe recipe, IFocusGroup focuses) {
-		List<Pair<Ingredient, MutableInt>> condensedIngredients = ItemHelper.condenseIngredients(recipe.getIngredients());
+    @Override
+    public void setRecipe(IRecipeLayoutBuilder builder, FreezingRecipe recipe, IFocusGroup focuses) {
+        List<Pair<Ingredient, MutableInt>> condensedIngredients = ItemHelper.condenseIngredients(recipe.getIngredients());
 
-		int size = condensedIngredients.size() + recipe.getFluidIngredients().size();
-		int xOffset = size < 3 ? (3 - size) * 19 / 2 : 0;
-		int i = 0;
+        int size = condensedIngredients.size() + recipe.getFluidIngredients().size();
+        int xOffset = size < 3 ? (3 - size) * 19 / 2 : 0;
+        int i = 0;
 
-		for (Pair<Ingredient, MutableInt> pair : condensedIngredients) {
-			List<ItemStack> stacks = new ArrayList<>();
-			for (ItemStack itemStack : pair.getFirst().getItems()) {
-				ItemStack copy = itemStack.copy();
-				copy.setCount(pair.getSecond().getValue());
-				stacks.add(copy);
+        for (Pair<Ingredient, MutableInt> pair : condensedIngredients) {
+            List<ItemStack> stacks = new ArrayList<>();
+            for (ItemStack itemStack : pair.getFirst().getItems()) {
+                ItemStack copy = itemStack.copy();
+                copy.setCount(pair.getSecond().getValue());
+    			stacks.add(copy);
 			}
 
 			builder

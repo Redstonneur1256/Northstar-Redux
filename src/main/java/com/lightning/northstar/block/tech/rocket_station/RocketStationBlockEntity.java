@@ -64,285 +64,285 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
 public class RocketStationBlockEntity extends SmartBlockEntity implements IDisplayAssemblyExceptions, IControlContraption, MenuProvider {
-	
-	boolean assembleNextTick;
-	public Player owner;
-	protected AssemblyException lastException;
-	public TrackTargetingBehaviour<GlobalStation> edgePoint;
-	protected ItemStackHandler inventory;
-	protected LazyOptional<IItemHandlerModifiable> itemCapability;
-	public String name = "Bing Bong's Big Bonanza";
-	
-	protected int failedCarriageIndex;
-	Direction assemblyDirection;
-	int assemblyLength;
-	int[] bogeyLocations;
-	AbstractBogeyBlock<?>[] bogeyTypes;
-	boolean[] upsideDownBogeys;
-	int bogeyCount;
-	
-	public float offset;
-	public int fuelCost;
-	public int fuelReturnCost;
-	public boolean running;
-	public boolean needsContraption;
-	public AbstractContraptionEntity movedContraption;
-	protected boolean forceMove;
-	protected ScrollOptionBehaviour<MovementMode> movementMode;
-	protected boolean waitingForSpeedChange;
-	protected double sequencedOffsetLimit;
-	
-	
-	int i = 0;
+    
+    boolean assembleNextTick;
+    public Player owner;
+    protected AssemblyException lastException;
+    public TrackTargetingBehaviour<GlobalStation> edgePoint;
+    protected ItemStackHandler inventory;
+    protected LazyOptional<IItemHandlerModifiable> itemCapability;
+    public String name = "Bing Bong's Big Bonanza";
+    
+    protected int failedCarriageIndex;
+    Direction assemblyDirection;
+    int assemblyLength;
+    int[] bogeyLocations;
+    AbstractBogeyBlock<?>[] bogeyTypes;
+    boolean[] upsideDownBogeys;
+    int bogeyCount;
+    
+    public float offset;
+    public int fuelCost;
+    public int fuelReturnCost;
+    public boolean running;
+    public boolean needsContraption;
+    public AbstractContraptionEntity movedContraption;
+    protected boolean forceMove;
+    protected ScrollOptionBehaviour<MovementMode> movementMode;
+    protected boolean waitingForSpeedChange;
+    protected double sequencedOffsetLimit;
+    
+    
+    int i = 0;
 
-	// Custom position sync
-	protected float clientOffsetDiff;
-	public ResourceKey<Level> target;
-	
-	
-	public final Container container = new SimpleContainer(1) {};
-	
-	
-	public static WorldAttached<Map<BlockPos, BoundingBox>> assemblyAreas = new WorldAttached<>(w -> new HashMap<>());
+    // Custom position sync
+    protected float clientOffsetDiff;
+    public ResourceKey<Level> target;
+    
+    
+    public final Container container = new SimpleContainer(1) {};
+    
+    
+    public static WorldAttached<Map<BlockPos, BoundingBox>> assemblyAreas = new WorldAttached<>(w -> new HashMap<>());
 
-	public RocketStationBlockEntity(BlockEntityType<?> typeIn, BlockPos pos, BlockState state) {
-		super(typeIn, pos, state);
-		inventory = new ItemStackHandler();
-		itemCapability = LazyOptional.of(() -> new CombinedInvWrapper(inventory));
-	}
-	
-	@Override
-	public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
-		registerAwardables(behaviours, AllAdvancements.CONTRAPTION_ACTORS);
-	}
-	
-	@Override
-	public void initialize() {
-		super.initialize();
-		if (!getBlockState().canSurvive(level, worldPosition))
-			level.destroyBlock(worldPosition, true);
-	}
+    public RocketStationBlockEntity(BlockEntityType<?> typeIn, BlockPos pos, BlockState state) {
+        super(typeIn, pos, state);
+        inventory = new ItemStackHandler();
+        itemCapability = LazyOptional.of(() -> new CombinedInvWrapper(inventory));
+    }
+    
+    @Override
+    public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
+        registerAwardables(behaviours, AllAdvancements.CONTRAPTION_ACTORS);
+    }
+    
+    @Override
+    public void initialize() {
+        super.initialize();
+        if (!getBlockState().canSurvive(level, worldPosition))
+            level.destroyBlock(worldPosition, true);
+    }
 
-	public void queueAssembly(Player player) {
-		owner = player;
-		assembleNextTick = true;
-	}
-	
-	
-	public void enterAssembly() {
-		assembleNextTick = true;
-	}
-	public void exitAssembly() {
-		assembleNextTick = false;
-	}
-	
-	@Override
-	public void tick() {
-		super.tick();
-		i++;
-		ItemStack item = container.getItem(0);
-		if (item.getItem() == NorthstarItems.STAR_MAP.get() || item.getItem() == NorthstarItems.RETURN_TICKET.get()) {
-			if(item.getTagElement("Planet") != null)
-			target = NorthstarPlanets.getPlanetDimension(NorthstarPlanets.targetGetter(item.getTagElement("Planet").toString()));
-		}
-		if(getBlockState().getValue(RocketStationBlock.ASSEMBLING)){
-			assembleNextTick = true;
-		}
-		fuelCost = fuelCalc();
-		fuelReturnCost = fuelReturnCalc();		
-		
-		if (assembleNextTick == true) {
-			level.setBlock(worldPosition, getBlockState().setValue(RocketStationBlock.ASSEMBLING, false), assemblyLength);
-			tryAssemble();
-			assembleNextTick = false;
-		}
-	}
-	
-	
-	
-	private void tryAssemble() {
-		BlockState blockState = getBlockState();
-		if (!(blockState.getBlock() instanceof RocketStationBlock))
-			{return;}
+    public void queueAssembly(Player player) {
+        owner = player;
+        assembleNextTick = true;
+    }
+    
+    
+    public void enterAssembly() {
+        assembleNextTick = true;
+    }
+    public void exitAssembly() {
+        assembleNextTick = false;
+    }
+    
+    @Override
+    public void tick() {
+        super.tick();
+        i++;
+        ItemStack item = container.getItem(0);
+        if (item.getItem() == NorthstarItems.STAR_MAP.get() || item.getItem() == NorthstarItems.RETURN_TICKET.get()) {
+            if(item.getTagElement("Planet") != null)
+            target = NorthstarPlanets.getPlanetDimension(NorthstarPlanets.targetGetter(item.getTagElement("Planet").toString()));
+        }
+        if(getBlockState().getValue(RocketStationBlock.ASSEMBLING)){
+            assembleNextTick = true;
+        }
+        fuelCost = fuelCalc();
+        fuelReturnCost = fuelReturnCalc();        
+        
+        if (assembleNextTick == true) {
+            level.setBlock(worldPosition, getBlockState().setValue(RocketStationBlock.ASSEMBLING, false), assemblyLength);
+            tryAssemble();
+            assembleNextTick = false;
+        }
+    }
+    
+    
+    
+    private void tryAssemble() {
+        BlockState blockState = getBlockState();
+        if (!(blockState.getBlock() instanceof RocketStationBlock))
+            {return;}
 
-		RocketContraption contraption = new RocketContraption();
+        RocketContraption contraption = new RocketContraption();
 
-		BlockEntity blockEntity = level.getBlockEntity(worldPosition);
-		if (!(blockEntity instanceof RocketStationBlockEntity))
-			{return; }
-		Direction movementDirection = Direction.UP;
-		
-		int engines = 0;
-		boolean hasStation = false;
-		boolean hasFuel = false;
-		int fuelAmount = 0;
-		int requiredJets = 0;
-		int heatShielding = 0;
-		double heatCost = 0;
-		double heatCostHome = 0;
-		try {
-			lastException = null;
-			contraption.owner = owner;
-			if (!contraption.assemble(level, worldPosition))
-				{return;} 
-			engines = contraption.hasJetEngine();
-			hasFuel = contraption.hasFuel();
-			fuelAmount = contraption.fuelAmount();
-			heatShielding = contraption.heatShielding();
-			hasStation |= contraption.hasRocketStation();
-			contraption.fuelCost = fuelCost;
-			contraption.fuelReturnCost = fuelReturnCost;
-			contraption.dest = target;
-			System.out.println(this.container);
-			heatCost = (TemperatureStuff.getHeatRating(target) * (contraption.blockCount)) + TemperatureStuff.getHeatConstant(target);
-			heatCostHome = (TemperatureStuff.getHeatRating(level.dimension()) * (contraption.blockCount)) + TemperatureStuff.getHeatConstant(level.dimension());
-			if(heatCostHome > heatCost) {
-				heatCost = heatCostHome;
-			}
-			requiredJets = engineCalc();
+        BlockEntity blockEntity = level.getBlockEntity(worldPosition);
+        if (!(blockEntity instanceof RocketStationBlockEntity))
+            {return; }
+        Direction movementDirection = Direction.UP;
+        
+        int engines = 0;
+        boolean hasStation = false;
+        boolean hasFuel = false;
+        int fuelAmount = 0;
+        int requiredJets = 0;
+        int heatShielding = 0;
+        double heatCost = 0;
+        double heatCostHome = 0;
+        try {
+            lastException = null;
+            contraption.owner = owner;
+            if (!contraption.assemble(level, worldPosition))
+                {return;} 
+            engines = contraption.hasJetEngine();
+            hasFuel = contraption.hasFuel();
+            fuelAmount = contraption.fuelAmount();
+            heatShielding = contraption.heatShielding();
+            hasStation |= contraption.hasRocketStation();
+            contraption.fuelCost = fuelCost;
+            contraption.fuelReturnCost = fuelReturnCost;
+            contraption.dest = target;
+            System.out.println(this.container);
+            heatCost = (TemperatureStuff.getHeatRating(target) * (contraption.blockCount)) + TemperatureStuff.getHeatConstant(target);
+            heatCostHome = (TemperatureStuff.getHeatRating(level.dimension()) * (contraption.blockCount)) + TemperatureStuff.getHeatConstant(level.dimension());
+            if(heatCostHome > heatCost) {
+                heatCost = heatCostHome;
+            }
+            requiredJets = engineCalc();
 
-			sendData();
-		} catch (AssemblyException e) {
-			owner.displayClientMessage(Component.translatable("northstar.gui.rocket_too_big").withStyle(ChatFormatting.RED), false);
-			owner.displayClientMessage(Component.translatable("northstar.gui.current_config_size").withStyle(ChatFormatting.RED), false);
-			owner.displayClientMessage(Component.literal(AllConfigs.server().kinetics.maxBlocksMoved.get().toString()).withStyle(ChatFormatting.RED), false);
-			lastException = e;
-			sendData();
-			return;
-		}
-		if (ContraptionCollider.isCollidingWithWorld(level, contraption, worldPosition.relative(movementDirection),
-			movementDirection))
-			{
+            sendData();
+        } catch (AssemblyException e) {
+            owner.displayClientMessage(Component.translatable("northstar.gui.rocket_too_big").withStyle(ChatFormatting.RED), false);
+            owner.displayClientMessage(Component.translatable("northstar.gui.current_config_size").withStyle(ChatFormatting.RED), false);
+            owner.displayClientMessage(Component.literal(AllConfigs.server().kinetics.maxBlocksMoved.get().toString()).withStyle(ChatFormatting.RED), false);
+            lastException = e;
+            sendData();
+            return;
+        }
+        if (ContraptionCollider.isCollidingWithWorld(level, contraption, worldPosition.relative(movementDirection),
+            movementDirection))
+            {
 
-			if(!this.level.getBlockState(worldPosition.above()).isAir())
-			{contraption.owner.displayClientMessage(Component.literal
-			("Rocket Stations require at least 1 block of space above them").withStyle(ChatFormatting.RED), false);}else {
-				contraption.owner.displayClientMessage(Component.literal
-						("Something's blocking your rocket! Make sure everything is glued together!").withStyle(ChatFormatting.RED), false);
-			}
-			return;}else {System.out.println("Obamna");}
-		
-		Set<BlockPos> oxyCheck = new HashSet<BlockPos>();
-		boolean oxygenSealed = true;
-		if(!oxyCheck.contains(this.getBlockPos().above()))
-			oxyCheck.add(this.getBlockPos().above());
-		if(oxyCheck.size() < OxygenStuff.maximumOxy) {		  
-			OxygenStuff.spreadOxy(this.level, oxyCheck, OxygenStuff.maximumOxy);
-//			System.out.println(oxyCheck.size());
-		}
-		if(oxyCheck.size() >= OxygenStuff.maximumOxy) {
-			oxygenSealed = false;
-		}
-		boolean interplanetaryFlag = NorthstarPlanets.isInterplanetary(level.dimension(), target);
-		if(interplanetaryFlag) {
-			if(contraption.hasInterplanetaryNavigation) {
-				interplanetaryFlag = false;
-			}
-		}
-		
-		if(interplanetaryFlag) {
-			contraption.owner.displayClientMessage(Component.literal
-			("Interplanetary travel requires a Interplanetary Navigator!").withStyle(ChatFormatting.RED), false);
-		}
-		
-		if (engines >= requiredJets && hasStation && hasFuel && fuelAmount > (fuelCost + contraption.weightCost) && heatShielding >= heatCost && oxygenSealed && !interplanetaryFlag && contraption.hasControls && contraption.dest != null && contraption.dest != this.level.dimension()) {
-		System.out.println(engines);
-		contraption.removeBlocksFromWorld(level, BlockPos.ZERO);
-		RocketContraptionEntity movedContraption =
-				RocketContraptionEntity.create(level, contraption);
-		BlockPos anchor = worldPosition;
-		movedContraption.setPos(anchor.getX(), anchor.getY(), anchor.getZ());
-		AllSoundEvents.CONTRAPTION_ASSEMBLE.playOnServer(level, worldPosition);
-		movedContraption.destination = target;
-		movedContraption.home = this.level.dimension();
-		RocketHandler.ROCKETS.add(movedContraption);
-		System.out.println(level);
-		level.addFreshEntity(movedContraption);}else
-		{
-			contraption.owner.displayClientMessage(Component.literal
-			("Full Fuel Cost: " + (contraption.weightCost + contraption.fuelCost)).withStyle(ChatFormatting.GOLD), false);
-			contraption.owner.displayClientMessage(Component.literal
-			("Current Fuel Supply: " + contraption.fuelAmount()).withStyle(ChatFormatting.GOLD), false);
-			contraption.owner.displayClientMessage(Component.literal
-			("Estimated Return Cost: " + (contraption.weightCost + fuelReturnCost)).withStyle(ChatFormatting.GOLD), false);
-			contraption.owner.displayClientMessage(Component.literal
-			("Required Heat Shielding: " + heatCost).withStyle(ChatFormatting.YELLOW), false);
-			contraption.owner.displayClientMessage(Component.literal
-			("Current Heat Shielding: " + contraption.heatShielding()).withStyle(ChatFormatting.YELLOW), false);
-			contraption.owner.displayClientMessage(Component.literal
-			("Required Engines: " + requiredJets).withStyle(ChatFormatting.BLUE), false);
-			contraption.owner.displayClientMessage(Component.literal
-			("Current Engine Count: " + contraption.hasJetEngine()).withStyle(ChatFormatting.BLUE), false);
-			contraption.owner.displayClientMessage(Component.literal
-			("Oxygen Size: " + oxyCheck.size()).withStyle(ChatFormatting.AQUA), false);
-			if(!oxygenSealed) {
-				contraption.owner.displayClientMessage(Component.literal
-				("Cockpit is not sealed, or too large!").withStyle(ChatFormatting.DARK_RED), false);
-			}
-			if(contraption.fuelAmount() < contraption.fuelCost) {
-				contraption.owner.displayClientMessage(Component.literal
-				("Insufficient fuel!").withStyle(ChatFormatting.DARK_RED), false);
-			}
-			if(contraption.heatShielding() < heatCost) {
-				contraption.owner.displayClientMessage(Component.literal
-				("Insufficient heat shielding!").withStyle(ChatFormatting.DARK_RED), false);
-			}
-			if(contraption.hasJetEngine() < requiredJets) {
-				contraption.owner.displayClientMessage(Component.literal
-				("Not enough Jet Engines!").withStyle(ChatFormatting.DARK_RED), false);
-			}
-			if(!contraption.hasControls) {
-				contraption.owner.displayClientMessage(Component.literal
-				("No controls present!").withStyle(ChatFormatting.DARK_RED), false);
-			}
-			if(container.getItem(0).isEmpty()) {
-				contraption.owner.displayClientMessage(Component.literal
-				("No star map or ticket present!").withStyle(ChatFormatting.DARK_RED), false);
-			}else if(contraption.dest == null || contraption.dest == this.level.dimension()) {
-				contraption.owner.displayClientMessage(Component.literal
-				("Invalid Target!").withStyle(ChatFormatting.DARK_RED), false);
-			}
-			contraption.owner.displayClientMessage(Component.literal
-			("Rocket failed to assemble!").withStyle(ChatFormatting.RED), false);
-//			System.out.println("No station or jet engine, Bruh!");
-//			System.out.println("Heat Cost: " + heatCost + "     Heat Shielding: " + heatShielding);
-//			System.out.println("Weight Cost: " + contraption.weightCost + "      Fuel Cost: " + fuelCost);
-			exception(new AssemblyException(Lang.translateDirect("train_assembly.no_controls")), -1);
-		}
-	}
-	
-	
-	@Nullable
-	public GlobalStation getStation() {
-		return edgePoint.getEdgePoint();
-	}
-	
-	public boolean isAssembling() {
-		BlockState state = getBlockState();
-		return state.hasProperty(StationBlock.ASSEMBLING) && state.getValue(StationBlock.ASSEMBLING);
-	}
-	public int fuelCalc() {
-		String home = NorthstarPlanets.getPlanetName(this.level.dimension());
-		String targ = NorthstarPlanets.getPlanetName(target);
-		
-		int home_x = (int) NorthstarPlanets.getPlanetX(home);
-		int home_y = (int) NorthstarPlanets.getPlanetY(home);
-		
-		int targ_x = (int) NorthstarPlanets.getPlanetX(targ);
-		int targ_y = (int) NorthstarPlanets.getPlanetY(targ);
-		
-		int dif = (int) (Math.pow(home_x - targ_x, 2) + Math.pow(home_y - targ_y, 2));
-		dif = Mth.roundToward(dif, 100) / 20;
-		int cost = dif + NorthstarPlanets.getPlanetAtmosphereCost(this.level.dimension()) + 1000;
-		
-		if (dif != 0) {
-	//		System.out.println(dif);
-		}
-		return cost * 8;
-	}
+            if(!this.level.getBlockState(worldPosition.above()).isAir())
+            {contraption.owner.displayClientMessage(Component.literal
+            ("Rocket Stations require at least 1 block of space above them").withStyle(ChatFormatting.RED), false);}else {
+                contraption.owner.displayClientMessage(Component.literal
+                        ("Something's blocking your rocket! Make sure everything is glued together!").withStyle(ChatFormatting.RED), false);
+            }
+            return;}else {System.out.println("Obamna");}
+        
+        Set<BlockPos> oxyCheck = new HashSet<BlockPos>();
+        boolean oxygenSealed = true;
+        if(!oxyCheck.contains(this.getBlockPos().above()))
+            oxyCheck.add(this.getBlockPos().above());
+        if(oxyCheck.size() < OxygenStuff.maximumOxy) {          
+            OxygenStuff.spreadOxy(this.level, oxyCheck, OxygenStuff.maximumOxy);
+//            System.out.println(oxyCheck.size());
+        }
+        if(oxyCheck.size() >= OxygenStuff.maximumOxy) {
+            oxygenSealed = false;
+        }
+        boolean interplanetaryFlag = NorthstarPlanets.isInterplanetary(level.dimension(), target);
+        if(interplanetaryFlag) {
+            if(contraption.hasInterplanetaryNavigation) {
+                interplanetaryFlag = false;
+            }
+        }
+        
+        if(interplanetaryFlag) {
+            contraption.owner.displayClientMessage(Component.literal
+            ("Interplanetary travel requires a Interplanetary Navigator!").withStyle(ChatFormatting.RED), false);
+        }
+        
+        if (engines >= requiredJets && hasStation && hasFuel && fuelAmount > (fuelCost + contraption.weightCost) && heatShielding >= heatCost && oxygenSealed && !interplanetaryFlag && contraption.hasControls && contraption.dest != null && contraption.dest != this.level.dimension()) {
+        System.out.println(engines);
+        contraption.removeBlocksFromWorld(level, BlockPos.ZERO);
+        RocketContraptionEntity movedContraption =
+                RocketContraptionEntity.create(level, contraption);
+        BlockPos anchor = worldPosition;
+        movedContraption.setPos(anchor.getX(), anchor.getY(), anchor.getZ());
+        AllSoundEvents.CONTRAPTION_ASSEMBLE.playOnServer(level, worldPosition);
+        movedContraption.destination = target;
+        movedContraption.home = this.level.dimension();
+        RocketHandler.ROCKETS.add(movedContraption);
+        System.out.println(level);
+        level.addFreshEntity(movedContraption);}else
+        {
+            contraption.owner.displayClientMessage(Component.literal
+            ("Full Fuel Cost: " + (contraption.weightCost + contraption.fuelCost)).withStyle(ChatFormatting.GOLD), false);
+            contraption.owner.displayClientMessage(Component.literal
+            ("Current Fuel Supply: " + contraption.fuelAmount()).withStyle(ChatFormatting.GOLD), false);
+            contraption.owner.displayClientMessage(Component.literal
+            ("Estimated Return Cost: " + (contraption.weightCost + fuelReturnCost)).withStyle(ChatFormatting.GOLD), false);
+            contraption.owner.displayClientMessage(Component.literal
+            ("Required Heat Shielding: " + heatCost).withStyle(ChatFormatting.YELLOW), false);
+            contraption.owner.displayClientMessage(Component.literal
+            ("Current Heat Shielding: " + contraption.heatShielding()).withStyle(ChatFormatting.YELLOW), false);
+            contraption.owner.displayClientMessage(Component.literal
+            ("Required Engines: " + requiredJets).withStyle(ChatFormatting.BLUE), false);
+            contraption.owner.displayClientMessage(Component.literal
+            ("Current Engine Count: " + contraption.hasJetEngine()).withStyle(ChatFormatting.BLUE), false);
+            contraption.owner.displayClientMessage(Component.literal
+            ("Oxygen Size: " + oxyCheck.size()).withStyle(ChatFormatting.AQUA), false);
+            if(!oxygenSealed) {
+                contraption.owner.displayClientMessage(Component.literal
+                ("Cockpit is not sealed, or too large!").withStyle(ChatFormatting.DARK_RED), false);
+            }
+            if(contraption.fuelAmount() < contraption.fuelCost) {
+                contraption.owner.displayClientMessage(Component.literal
+                ("Insufficient fuel!").withStyle(ChatFormatting.DARK_RED), false);
+            }
+            if(contraption.heatShielding() < heatCost) {
+                contraption.owner.displayClientMessage(Component.literal
+                ("Insufficient heat shielding!").withStyle(ChatFormatting.DARK_RED), false);
+            }
+            if(contraption.hasJetEngine() < requiredJets) {
+                contraption.owner.displayClientMessage(Component.literal
+                ("Not enough Jet Engines!").withStyle(ChatFormatting.DARK_RED), false);
+            }
+            if(!contraption.hasControls) {
+                contraption.owner.displayClientMessage(Component.literal
+                ("No controls present!").withStyle(ChatFormatting.DARK_RED), false);
+            }
+            if(container.getItem(0).isEmpty()) {
+                contraption.owner.displayClientMessage(Component.literal
+                ("No star map or ticket present!").withStyle(ChatFormatting.DARK_RED), false);
+            }else if(contraption.dest == null || contraption.dest == this.level.dimension()) {
+                contraption.owner.displayClientMessage(Component.literal
+                ("Invalid Target!").withStyle(ChatFormatting.DARK_RED), false);
+            }
+            contraption.owner.displayClientMessage(Component.literal
+            ("Rocket failed to assemble!").withStyle(ChatFormatting.RED), false);
+//            System.out.println("No station or jet engine, Bruh!");
+//            System.out.println("Heat Cost: " + heatCost + "     Heat Shielding: " + heatShielding);
+//            System.out.println("Weight Cost: " + contraption.weightCost + "      Fuel Cost: " + fuelCost);
+            exception(new AssemblyException(Lang.translateDirect("train_assembly.no_controls")), -1);
+        }
+    }
+    
+    
+    @Nullable
+    public GlobalStation getStation() {
+        return edgePoint.getEdgePoint();
+    }
+    
+    public boolean isAssembling() {
+        BlockState state = getBlockState();
+        return state.hasProperty(StationBlock.ASSEMBLING) && state.getValue(StationBlock.ASSEMBLING);
+    }
+    public int fuelCalc() {
+        String home = NorthstarPlanets.getPlanetName(this.level.dimension());
+        String targ = NorthstarPlanets.getPlanetName(target);
+        
+        int home_x = (int) NorthstarPlanets.getPlanetX(home);
+        int home_y = (int) NorthstarPlanets.getPlanetY(home);
+        
+        int targ_x = (int) NorthstarPlanets.getPlanetX(targ);
+        int targ_y = (int) NorthstarPlanets.getPlanetY(targ);
+        
+        int dif = (int) (Math.pow(home_x - targ_x, 2) + Math.pow(home_y - targ_y, 2));
+        dif = Mth.roundToward(dif, 100) / 20;
+        int cost = dif + NorthstarPlanets.getPlanetAtmosphereCost(this.level.dimension()) + 1000;
+        
+        if (dif != 0) {
+    //        System.out.println(dif);
+        }
+        return cost * 8;
+    }
 
-	public int fuelReturnCalc() {
-		String home = NorthstarPlanets.getPlanetName(this.level.dimension());
+    public int fuelReturnCalc() {
+    	String home = NorthstarPlanets.getPlanetName(this.level.dimension());
 		String targ = NorthstarPlanets.getPlanetName(target);
 		
 		int home_x = (int) NorthstarPlanets.getPlanetX(home);

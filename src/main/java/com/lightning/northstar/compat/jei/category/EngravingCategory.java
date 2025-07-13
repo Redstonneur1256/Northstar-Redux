@@ -19,15 +19,15 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 @ParametersAreNonnullByDefault
 public class EngravingCategory extends CreateRecipeCategory<EngravingRecipe>  {
 
-	private final AnimatedEngraver engraver = new AnimatedEngraver();
+    private final AnimatedEngraver engraver = new AnimatedEngraver();
 
-	public EngravingCategory(Info<EngravingRecipe> info) {
-		super(info);
-	}
+    public EngravingCategory(Info<EngravingRecipe> info) {
+        super(info);
+    }
 
-	@Override
-	public void setRecipe(IRecipeLayoutBuilder builder, EngravingRecipe recipe, IFocusGroup focuses) {
-		builder
+    @Override
+    public void setRecipe(IRecipeLayoutBuilder builder, EngravingRecipe recipe, IFocusGroup focuses) {
+    	builder
 				.addSlot(RecipeIngredientRole.INPUT, 27, 51)
 				.setBackground(getRenderedSlot(), -1, -1)
 				.addIngredients(recipe.getIngredients().get(0));

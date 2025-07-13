@@ -25,46 +25,46 @@ import net.minecraftforge.items.wrapper.RecipeWrapper;
 @ParametersAreNonnullByDefault
 public class EngravingRecipe extends ProcessingRecipe<RecipeWrapper> implements IAssemblyRecipe  {
 
-	public EngravingRecipe(ProcessingRecipeParams params) {
-		super(NorthstarRecipeTypes.ENGRAVING, params);
-	}
+    public EngravingRecipe(ProcessingRecipeParams params) {
+        super(NorthstarRecipeTypes.ENGRAVING, params);
+    }
 
-	@Override
-	public boolean matches(RecipeWrapper inv, Level worldIn) {
-		if (inv.isEmpty())
-			return false;
-		return ingredients.get(0)
-			.test(inv.getItem(0));
-	}
+    @Override
+    public boolean matches(RecipeWrapper inv, Level worldIn) {
+        if (inv.isEmpty())
+            return false;
+        return ingredients.get(0)
+            .test(inv.getItem(0));
+    }
 
-	@Override
-	@OnlyIn(Dist.CLIENT)
-	public Component getDescriptionForAssembly() {
-		return Lang.translateDirect("recipe.assembly.engraving");
-	}
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public Component getDescriptionForAssembly() {
+        return Lang.translateDirect("recipe.assembly.engraving");
+    }
 
-	@Override
-	public void addRequiredMachines(Set<ItemLike> list) {
-		list.add(NorthstarTechBlocks.CIRCUIT_ENGRAVER.get());
-	}
+    @Override
+    public void addRequiredMachines(Set<ItemLike> list) {
+        list.add(NorthstarTechBlocks.CIRCUIT_ENGRAVER.get());
+    }
 
-	@Override
-	public void addAssemblyIngredients(List<Ingredient> list) {}
+    @Override
+    public void addAssemblyIngredients(List<Ingredient> list) {}
 
-	@Override
-	public Supplier<Supplier<SequencedAssemblySubCategory>> getJEISubCategory() {
-		return () -> AssemblyEngraving::new;
-	}
+    @Override
+    public Supplier<Supplier<SequencedAssemblySubCategory>> getJEISubCategory() {
+        return () -> AssemblyEngraving::new;
+    }
 
 
-	@Override
-	protected int getMaxInputCount() {
-		return 1;
-	}
+    @Override
+    protected int getMaxInputCount() {
+        return 1;
+    }
 
-	@Override
-	protected int getMaxOutputCount() {
-		return 1;
-	}
+    @Override
+    protected int getMaxOutputCount() {
+        return 1;
+    }
 
 }

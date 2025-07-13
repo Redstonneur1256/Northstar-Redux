@@ -9,18 +9,18 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 
 public class SpaceDoorBlock extends SlidingDoorBlock implements IBE<SlidingDoorBlockEntity> {
 
-	public SpaceDoorBlock(Properties pProperties, boolean folds) {
-		super(pProperties, folds);
-	}
-	
-	@Override
-	public Class<SlidingDoorBlockEntity> getBlockEntityClass() {
-		return SlidingDoorBlockEntity.class;
-	}
+    public SpaceDoorBlock(Properties pProperties, boolean folds) {
+        super(pProperties, folds);
+    }
 
-	@Override
-	public BlockEntityType<? extends SlidingDoorBlockEntity> getBlockEntityType() {
-		return NorthstarBlockEntityTypes.SPACE_DOORS.get();
-	}
+    @Override
+    public Class<SlidingDoorBlockEntity> getBlockEntityClass() {
+        return SlidingDoorBlockEntity.class;
+    }
+
+    @Override
+    public BlockEntityType<? extends SlidingDoorBlockEntity> getBlockEntityType() {
+        return NorthstarBlockEntityTypes.SPACE_DOORS.get();
+    }
 
 }

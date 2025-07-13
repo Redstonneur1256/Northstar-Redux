@@ -32,130 +32,130 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 @Mixin(FogRenderer.class)
 public abstract class FogRendererMixin {
-	@Shadow
-	private static float fogRed;
-	@Shadow
-	private static float fogGreen;
-	@Shadow
-	private static float fogBlue;
-	private static float p = 1;
-	
-	
-	@SuppressWarnings("resource")
-	@Inject(method = "setupColor", at = @At("HEAD"), cancellable = true)
-	 private static void setupColor(Camera pActiveRenderInfo, float pPartialTicks, ClientLevel pLevel, int pRenderDistanceChunks, float pBossColorModifier, CallbackInfo info) {
-		ResourceKey<Level> player_dim = Minecraft.getInstance().level.dimension();
-		boolean isSubmerged = !Minecraft.getInstance().gameRenderer.getMainCamera().getBlockAtCamera().getFluidState().isEmpty();
-		if(!isSubmerged) {
-			if (player_dim == NorthstarDimensions.MARS_DIM_KEY)
-			{float playerEyeLevel = (float) Minecraft.getInstance().player.getEyePosition(3).y;
-			if (playerEyeLevel > 400) {info.cancel();
-	    	      Vector3f fogColor = net.minecraftforge.client.ForgeHooksClient.getFogColor(pActiveRenderInfo, pPartialTicks, pLevel, pRenderDistanceChunks, pBossColorModifier, fogRed, fogGreen, fogBlue);
-	    	      
-	              fogRed = (float) (fogColor.x() - ((playerEyeLevel - 400) / 300));
-	              fogGreen = (float) (fogColor.y() - ((playerEyeLevel - 400) / 300));
-	              fogBlue = (float) (fogColor.z() - ((playerEyeLevel - 400) / 300));
-	              if (fogRed<0) {fogRed=0;}
-	              if (fogGreen<0) {fogGreen=0;}
-	              if (fogBlue<0) {fogBlue=0;}
-	
-	    	      RenderSystem.clearColor(fogRed, fogGreen, fogBlue, 0.0F);}else {
-	    	  info.cancel();
-	  	      Vector3f fogColor = net.minecraftforge.client.ForgeHooksClient.getFogColor(pActiveRenderInfo, pPartialTicks, pLevel, pRenderDistanceChunks, pBossColorModifier, fogRed, fogGreen, fogBlue);
-	  	      
-	            fogRed = (float) fogColor.x();
-	            fogGreen = (float) fogColor.y();
-	            fogBlue = (float) fogColor.z();
-	            if (fogRed<0) {fogRed=0;}
-	            if (fogGreen<0) {fogGreen=0;}
-	            if (fogBlue<0) {fogBlue=0;}
-	
-	  	      RenderSystem.clearColor(fogRed, fogGreen, fogBlue, 0.0F);}}
-				
-	    	if (player_dim == Level.OVERWORLD)
-			{float playerEyeLevel = (float) Minecraft.getInstance().player.getEyePosition(3).y;
-	    		if (playerEyeLevel > 450) {info.cancel();
-			 	  ClientLevel level = Minecraft.getInstance().level;
-			 	  Vec3 toad = level.getSkyColor(Minecraft.getInstance().player.getEyePosition(3), pPartialTicks);
-	    	      Vector3f fogColor = net.minecraftforge.client.ForgeHooksClient.getFogColor(pActiveRenderInfo, pPartialTicks, pLevel, pRenderDistanceChunks, pBossColorModifier, fogRed, fogGreen, fogBlue);
-	    	      
-	              fogRed = (float) (toad.x() - ((playerEyeLevel - 500) / 250));
-	              fogGreen = (float) (toad.y() - ((playerEyeLevel - 500) / 250));
-	              fogBlue = (float) (toad.z() - ((playerEyeLevel - 500) / 250));
-	              if (fogRed<0) {fogRed=0;}
-	              if (fogGreen<0) {fogGreen=0;}
-	              if (fogBlue<0) {fogBlue=0;}
-	
-	    	      RenderSystem.clearColor(fogRed, fogGreen, fogBlue, 0.0F);}}
-			if (player_dim == NorthstarDimensions.VENUS_DIM_KEY)
-			{float playerEyeLevel = (float) Minecraft.getInstance().player.getEyePosition(3).y;
-			if (playerEyeLevel > 600) {info.cancel();
-			 	  ClientLevel level = Minecraft.getInstance().level;
-			 	  Vec3 toad = level.getSkyColor(Minecraft.getInstance().player.getEyePosition(3), pPartialTicks);
+    @Shadow
+    private static float fogRed;
+    @Shadow
+    private static float fogGreen;
+    @Shadow
+    private static float fogBlue;
+    private static float p = 1;
 
-			 	  float time = level.getTimeOfDay(pPartialTicks);
-			 	  float skydarken = Mth.cos(time * ((float)Math.PI * 2F)) * 2.0F + 0.5F;
-			 	  Vec3 skycolor = new Vec3(0.975F, 0.914F, 0.471F);
-			 	  skydarken = Mth.clamp(skydarken, 0.125F, 1.0F);
-	    	       
-	              fogRed = (float) (skycolor.x * skydarken - ((playerEyeLevel - 600) / 300));
-	              fogGreen = (float) (skycolor.y * skydarken  - ((playerEyeLevel - 600) / 300));
-	              fogBlue = (float) (skycolor.z * skydarken  - ((playerEyeLevel - 600) / 300));
-	              if (fogRed<0) {fogRed=0;}
-	              if (fogGreen<0) {fogGreen=0;}
-	              if (fogBlue<0) {fogBlue=0;}
-	
-	    	      RenderSystem.clearColor(fogRed, fogGreen, fogBlue, 0.0F);}else {
-	    	  info.cancel();
-		 	  ClientLevel level = Minecraft.getInstance().level;
-		 	  float time = level.getTimeOfDay(pPartialTicks);
-		 	  float skydarken = Mth.cos(time * ((float)Math.PI * 2F)) * 2.0F + 0.5F;
-		 	  Vec3 skycolor = new Vec3(0.975F, 0.914F, 0.471F);
-		 	  skydarken = Mth.clamp(skydarken, 0.125F, 1.0F);
-	  	      
-	            fogRed = (float) skycolor.x * skydarken;
-	            fogGreen = (float) skycolor.y * skydarken;
-	            fogBlue = (float) skycolor.z * skydarken;
-	            if (fogRed<0) {fogRed=0;}
-	            if (fogGreen<0) {fogGreen=0;}
-	            if (fogBlue<0) {fogBlue=0;}
-	  	    
-	            info.cancel();
-	  	      RenderSystem.clearColor(fogRed, fogGreen, fogBlue, 0.0F);}}
-		}
-	 }
-	@SuppressWarnings("resource")
-	@Inject(method = "setupFog", at = @At("HEAD"), cancellable = true)
-	private static void setupFog(Camera pCamera, FogRenderer.FogMode pFogMode, float pFarPlaneDistance, boolean p_234176_, float p_234177_, CallbackInfo info) {
-		float pPartialTicks = 3;
-	    FogType fogtype = pCamera.getFluidInCamera();
-	    Fluid fluidInCam = pCamera.getBlockAtCamera().getFluidState().getType();
-		ResourceKey<Level> player_dim = Minecraft.getInstance().level.dimension();
-    	if (player_dim == NorthstarDimensions.MARS_DIM_KEY)
-    	{float playerEyeLevel = (float) Minecraft.getInstance().player.getEyePosition(3).y;
-    	ClientLevel level = Minecraft.getInstance().level;
- 		float rain_det = Minecraft.getInstance().level.getRainLevel(pPartialTicks);
- 		if(p<2 && level.getRawBrightness(pCamera.getBlockPosition(), -7) >= 16)
- 		{p+=0.01;}
- 		else if(p>0 && !(level.getRawBrightness(pCamera.getBlockPosition(), -7) >= 16))
- 		{p-=0.01;}
- 		else if(p<0)
- 		{p=0;}
-	      if (!(rain_det <= 0.0F) && fogtype == FogType.NONE && playerEyeLevel < 500 && p != 0){
 
-	    	  
-	    	  float fog_dist;
-	    	  fog_dist = 48 / p;
-	    
-	    	  info.cancel();
-	 		 	 RenderSystem.setShaderFogStart(-8.0F);
-	 		     RenderSystem.setShaderFogEnd(fog_dist);
-	 		     RenderSystem.setShaderFogShape(FogShape.SPHERE);
-	 		     net.minecraftforge.client.ForgeHooksClient.onFogRender(FogMode.FOG_TERRAIN, FogType.WATER, pCamera, pPartialTicks, Minecraft.getInstance().options.getEffectiveRenderDistance(), -8, 96, FogShape.SPHERE);
-	      }
+    @SuppressWarnings("resource")
+    @Inject(method = "setupColor", at = @At("HEAD"), cancellable = true)
+     private static void setupColor(Camera pActiveRenderInfo, float pPartialTicks, ClientLevel pLevel, int pRenderDistanceChunks, float pBossColorModifier, CallbackInfo info) {
+        ResourceKey<Level> player_dim = Minecraft.getInstance().level.dimension();
+        boolean isSubmerged = !Minecraft.getInstance().gameRenderer.getMainCamera().getBlockAtCamera().getFluidState().isEmpty();
+        if(!isSubmerged) {
+            if (player_dim == NorthstarDimensions.MARS_DIM_KEY)
+            {float playerEyeLevel = (float) Minecraft.getInstance().player.getEyePosition(3).y;
+            if (playerEyeLevel > 400) {info.cancel();
+                  Vector3f fogColor = net.minecraftforge.client.ForgeHooksClient.getFogColor(pActiveRenderInfo, pPartialTicks, pLevel, pRenderDistanceChunks, pBossColorModifier, fogRed, fogGreen, fogBlue);
 
-    		Camera cam = Minecraft.getInstance().gameRenderer.getMainCamera();
-    		float f4 = 0.25F + 0.75F * (float)pFarPlaneDistance / 32.0F;
+                  fogRed = (float) (fogColor.x() - ((playerEyeLevel - 400) / 300));
+                  fogGreen = (float) (fogColor.y() - ((playerEyeLevel - 400) / 300));
+                  fogBlue = (float) (fogColor.z() - ((playerEyeLevel - 400) / 300));
+                  if (fogRed<0) {fogRed=0;}
+                  if (fogGreen<0) {fogGreen=0;}
+                  if (fogBlue<0) {fogBlue=0;}
+
+                  RenderSystem.clearColor(fogRed, fogGreen, fogBlue, 0.0F);}else {
+              info.cancel();
+                Vector3f fogColor = net.minecraftforge.client.ForgeHooksClient.getFogColor(pActiveRenderInfo, pPartialTicks, pLevel, pRenderDistanceChunks, pBossColorModifier, fogRed, fogGreen, fogBlue);
+
+                fogRed = (float) fogColor.x();
+                fogGreen = (float) fogColor.y();
+                fogBlue = (float) fogColor.z();
+                if (fogRed<0) {fogRed=0;}
+                if (fogGreen<0) {fogGreen=0;}
+                if (fogBlue<0) {fogBlue=0;}
+
+                RenderSystem.clearColor(fogRed, fogGreen, fogBlue, 0.0F);}}
+
+            if (player_dim == Level.OVERWORLD)
+            {float playerEyeLevel = (float) Minecraft.getInstance().player.getEyePosition(3).y;
+                if (playerEyeLevel > 450) {info.cancel();
+                   ClientLevel level = Minecraft.getInstance().level;
+                   Vec3 toad = level.getSkyColor(Minecraft.getInstance().player.getEyePosition(3), pPartialTicks);
+                  Vector3f fogColor = net.minecraftforge.client.ForgeHooksClient.getFogColor(pActiveRenderInfo, pPartialTicks, pLevel, pRenderDistanceChunks, pBossColorModifier, fogRed, fogGreen, fogBlue);
+
+                  fogRed = (float) (toad.x() - ((playerEyeLevel - 500) / 250));
+                  fogGreen = (float) (toad.y() - ((playerEyeLevel - 500) / 250));
+                  fogBlue = (float) (toad.z() - ((playerEyeLevel - 500) / 250));
+                  if (fogRed<0) {fogRed=0;}
+                  if (fogGreen<0) {fogGreen=0;}
+                  if (fogBlue<0) {fogBlue=0;}
+
+                  RenderSystem.clearColor(fogRed, fogGreen, fogBlue, 0.0F);}}
+            if (player_dim == NorthstarDimensions.VENUS_DIM_KEY)
+            {float playerEyeLevel = (float) Minecraft.getInstance().player.getEyePosition(3).y;
+            if (playerEyeLevel > 600) {info.cancel();
+                   ClientLevel level = Minecraft.getInstance().level;
+                   Vec3 toad = level.getSkyColor(Minecraft.getInstance().player.getEyePosition(3), pPartialTicks);
+
+                   float time = level.getTimeOfDay(pPartialTicks);
+                   float skydarken = Mth.cos(time * ((float)Math.PI * 2F)) * 2.0F + 0.5F;
+                   Vec3 skycolor = new Vec3(0.975F, 0.914F, 0.471F);
+                   skydarken = Mth.clamp(skydarken, 0.125F, 1.0F);
+
+                  fogRed = (float) (skycolor.x * skydarken - ((playerEyeLevel - 600) / 300));
+                  fogGreen = (float) (skycolor.y * skydarken  - ((playerEyeLevel - 600) / 300));
+                  fogBlue = (float) (skycolor.z * skydarken  - ((playerEyeLevel - 600) / 300));
+                  if (fogRed<0) {fogRed=0;}
+                  if (fogGreen<0) {fogGreen=0;}
+                  if (fogBlue<0) {fogBlue=0;}
+
+                  RenderSystem.clearColor(fogRed, fogGreen, fogBlue, 0.0F);}else {
+              info.cancel();
+               ClientLevel level = Minecraft.getInstance().level;
+               float time = level.getTimeOfDay(pPartialTicks);
+               float skydarken = Mth.cos(time * ((float)Math.PI * 2F)) * 2.0F + 0.5F;
+               Vec3 skycolor = new Vec3(0.975F, 0.914F, 0.471F);
+               skydarken = Mth.clamp(skydarken, 0.125F, 1.0F);
+
+                fogRed = (float) skycolor.x * skydarken;
+                fogGreen = (float) skycolor.y * skydarken;
+                fogBlue = (float) skycolor.z * skydarken;
+                if (fogRed<0) {fogRed=0;}
+                if (fogGreen<0) {fogGreen=0;}
+                if (fogBlue<0) {fogBlue=0;}
+
+                info.cancel();
+                RenderSystem.clearColor(fogRed, fogGreen, fogBlue, 0.0F);}}
+        }
+     }
+    @SuppressWarnings("resource")
+    @Inject(method = "setupFog", at = @At("HEAD"), cancellable = true)
+    private static void setupFog(Camera pCamera, FogRenderer.FogMode pFogMode, float pFarPlaneDistance, boolean p_234176_, float p_234177_, CallbackInfo info) {
+        float pPartialTicks = 3;
+        FogType fogtype = pCamera.getFluidInCamera();
+        Fluid fluidInCam = pCamera.getBlockAtCamera().getFluidState().getType();
+        ResourceKey<Level> player_dim = Minecraft.getInstance().level.dimension();
+        if (player_dim == NorthstarDimensions.MARS_DIM_KEY)
+        {float playerEyeLevel = (float) Minecraft.getInstance().player.getEyePosition(3).y;
+        ClientLevel level = Minecraft.getInstance().level;
+         float rain_det = Minecraft.getInstance().level.getRainLevel(pPartialTicks);
+         if(p<2 && level.getRawBrightness(pCamera.getBlockPosition(), -7) >= 16)
+         {p+=0.01;}
+         else if(p>0 && !(level.getRawBrightness(pCamera.getBlockPosition(), -7) >= 16))
+         {p-=0.01;}
+         else if(p<0)
+         {p=0;}
+          if (!(rain_det <= 0.0F) && fogtype == FogType.NONE && playerEyeLevel < 500 && p != 0){
+
+
+              float fog_dist;
+              fog_dist = 48 / p;
+
+              info.cancel();
+                   RenderSystem.setShaderFogStart(-8.0F);
+                  RenderSystem.setShaderFogEnd(fog_dist);
+                  RenderSystem.setShaderFogShape(FogShape.SPHERE);
+                  net.minecraftforge.client.ForgeHooksClient.onFogRender(FogMode.FOG_TERRAIN, FogType.WATER, pCamera, pPartialTicks, Minecraft.getInstance().options.getEffectiveRenderDistance(), -8, 96, FogShape.SPHERE);
+          }
+
+            Camera cam = Minecraft.getInstance().gameRenderer.getMainCamera();
+            float f4 = 0.25F + 0.75F * (float)pFarPlaneDistance / 32.0F;
             f4 = 1.0F - (float)Math.pow((double)f4, 0.25D);
             Vec3 vec3 = level.getSkyColor(cam.getPosition(), pPartialTicks);
             float f6 = (float)vec3.x;
@@ -196,24 +196,24 @@ public abstract class FogRendererMixin {
             
             Vec3 fogColor = Minecraft.getInstance().level.getSkyColor(Minecraft.getInstance().gameRenderer.getMainCamera().getPosition(), 3);
             Biome biome = level.getBiome(pCamera.getBlockPosition()).value();
-  	        if (!(rain_det <= 0.0F) &&  biome.getPrecipitation() == Biome.Precipitation.NONE)
-  	        {fogRed = (float) fogColor.x() * 1.35f;
+              if (!(rain_det <= 0.0F) &&  biome.getPrecipitation() == Biome.Precipitation.NONE)
+              {fogRed = (float) fogColor.x() * 1.35f;
             fogGreen = (float) fogColor.y() * 1.15f;
             fogBlue = (float) fogColor.z() * 1f;}
-  	        else
+              else
             {fogRed = (float) fogColor.x();
             fogGreen = (float) fogColor.y();
             fogBlue = (float) fogColor.z();}
-  	        
-		     net.minecraftforge.client.ForgeHooksClient.onFogRender(FogMode.FOG_TERRAIN, FogType.NONE, pCamera, pPartialTicks, Minecraft.getInstance().options.getEffectiveRenderDistance(), -8, 96, FogShape.CYLINDER);
+
+             net.minecraftforge.client.ForgeHooksClient.onFogRender(FogMode.FOG_TERRAIN, FogType.NONE, pCamera, pPartialTicks, Minecraft.getInstance().options.getEffectiveRenderDistance(), -8, 96, FogShape.CYLINDER);
 
             RenderSystem.clearColor(fogRed, fogGreen, fogBlue, 0.0F);}
-    	if (player_dim == Level.OVERWORLD)
-    	{float playerEyeLevel = (float) Minecraft.getInstance().player.getEyePosition(3).y;
-    	ClientLevel level = Minecraft.getInstance().level;
-    		if (playerEyeLevel > 450) {info.cancel();
-    		Camera cam = Minecraft.getInstance().gameRenderer.getMainCamera();
-    		float f4 = 0.25F + 0.75F * (float)pFarPlaneDistance / 32.0F;
+        if (player_dim == Level.OVERWORLD)
+        {float playerEyeLevel = (float) Minecraft.getInstance().player.getEyePosition(3).y;
+        ClientLevel level = Minecraft.getInstance().level;
+            if (playerEyeLevel > 450) {info.cancel();
+            Camera cam = Minecraft.getInstance().gameRenderer.getMainCamera();
+            float f4 = 0.25F + 0.75F * (float)pFarPlaneDistance / 32.0F;
             f4 = 1.0F - (float)Math.pow((double)f4, 0.25D);
             Vec3 vec3 = level.getSkyColor(cam.getPosition(), pPartialTicks);
             float f6 = (float)vec3.x;
@@ -257,24 +257,24 @@ public abstract class FogRendererMixin {
             fogGreen = (float) fogColor.y();
             fogBlue = (float) fogColor.z();
             
-		 	 RenderSystem.setShaderFogStart(-8.0F);
- 		     RenderSystem.setShaderFogShape(FogShape.CYLINDER);
- 		     net.minecraftforge.client.ForgeHooksClient.onFogRender(FogMode.FOG_TERRAIN, FogType.NONE, pCamera, pPartialTicks, Minecraft.getInstance().options.getEffectiveRenderDistance(), -8, 96, FogShape.CYLINDER);
+              RenderSystem.setShaderFogStart(-8.0F);
+              RenderSystem.setShaderFogShape(FogShape.CYLINDER);
+              net.minecraftforge.client.ForgeHooksClient.onFogRender(FogMode.FOG_TERRAIN, FogType.NONE, pCamera, pPartialTicks, Minecraft.getInstance().options.getEffectiveRenderDistance(), -8, 96, FogShape.CYLINDER);
             
             
 
             RenderSystem.clearColor(fogRed, fogGreen, fogBlue, 0.0F);}}
-    	if (player_dim == NorthstarDimensions.VENUS_DIM_KEY)
-    	{float playerEyeLevel = (float) Minecraft.getInstance().player.getEyePosition(3).y;
-    	ClientLevel level = Minecraft.getInstance().level;
- 		float rain_det = Minecraft.getInstance().level.getRainLevel(pPartialTicks);
- 		
+        if (player_dim == NorthstarDimensions.VENUS_DIM_KEY)
+        {float playerEyeLevel = (float) Minecraft.getInstance().player.getEyePosition(3).y;
+        ClientLevel level = Minecraft.getInstance().level;
+         float rain_det = Minecraft.getInstance().level.getRainLevel(pPartialTicks);
 
-    	
-    	
-    		if (playerEyeLevel > 600) {info.cancel();}
-    		Camera cam = Minecraft.getInstance().gameRenderer.getMainCamera();
-    		float f4 = 0.25F + 0.75F * (float)pFarPlaneDistance / 32.0F;
+
+
+
+            if (playerEyeLevel > 600) {info.cancel();}
+            Camera cam = Minecraft.getInstance().gameRenderer.getMainCamera();
+            float f4 = 0.25F + 0.75F * (float)pFarPlaneDistance / 32.0F;
             f4 = 1.0F - (float)Math.pow((double)f4, 0.25D);
             Vec3 vec3 = level.getSkyColor(cam.getPosition(), pPartialTicks);
             float f6 = (float)vec3.x;
@@ -328,21 +328,21 @@ public abstract class FogRendererMixin {
             {RenderSystem.setShaderFogEnd(pFarPlaneDistance * 1.2f);}
             info.cancel();}
             RenderSystem.clearColor(fogRed, fogGreen, fogBlue, 0.0F);}
-	}
-	
-	@SuppressWarnings("resource")
-	@Inject(method = "levelFogColor", at = @At("HEAD"), cancellable = true)
-	   private static void levelFogColor(CallbackInfo info) {
-		boolean isSubmerged = !Minecraft.getInstance().gameRenderer.getMainCamera().getBlockAtCamera().getFluidState().isEmpty();
-		if(!isSubmerged) {
-			ResourceKey<Level> player_dim = Minecraft.getInstance().level.dimension();
-			RenderSystem.setShaderFogColor(fogRed, fogGreen, fogBlue);
-	    	if (player_dim == NorthstarDimensions.MOON_DIM_KEY || player_dim == null || player_dim == NorthstarDimensions.MERCURY_DIM_KEY || player_dim == NorthstarDimensions.EARTH_ORBIT_DIM_KEY)
-	    	{RenderSystem.setShaderFogColor(0, 0, 0);info.cancel();}
-		}
-    	
-	}
+    }
+
+    @SuppressWarnings("resource")
+    @Inject(method = "levelFogColor", at = @At("HEAD"), cancellable = true)
+       private static void levelFogColor(CallbackInfo info) {
+        boolean isSubmerged = !Minecraft.getInstance().gameRenderer.getMainCamera().getBlockAtCamera().getFluidState().isEmpty();
+        if(!isSubmerged) {
+            ResourceKey<Level> player_dim = Minecraft.getInstance().level.dimension();
+            RenderSystem.setShaderFogColor(fogRed, fogGreen, fogBlue);
+            if (player_dim == NorthstarDimensions.MOON_DIM_KEY || player_dim == null || player_dim == NorthstarDimensions.MERCURY_DIM_KEY || player_dim == NorthstarDimensions.EARTH_ORBIT_DIM_KEY)
+            {RenderSystem.setShaderFogColor(0, 0, 0);info.cancel();}
+        }
+
+    }
 
 
-		
+
 }

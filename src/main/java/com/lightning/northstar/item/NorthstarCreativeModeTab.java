@@ -6,9 +6,9 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 
 public class NorthstarCreativeModeTab {
-		public static final CreativeModeTab NORTHSTAR_TAB = new CreativeModeTab("northstartab") {
-			
-			@Override
+        public static final CreativeModeTab NORTHSTAR_TAB = new CreativeModeTab("northstartab") {
+
+    		@Override
 			public ItemStack makeIcon() {
 				// TODO Auto-generated method stub
 				return new ItemStack(NorthstarItems.MARTIAN_STEEL.get());

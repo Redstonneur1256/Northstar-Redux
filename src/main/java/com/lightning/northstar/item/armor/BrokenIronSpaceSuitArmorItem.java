@@ -23,25 +23,25 @@ import software.bernie.geckolib3.item.GeoArmorItem;
 import software.bernie.geckolib3.util.GeckoLibUtil;
 
 public class BrokenIronSpaceSuitArmorItem extends GeoArmorItem implements IAnimatable{
-	private AnimationFactory factory = GeckoLibUtil.createFactory(this);
-	public static final EquipmentSlot SLOT = EquipmentSlot.CHEST;
-	
-	public BrokenIronSpaceSuitArmorItem(ArmorMaterial materialIn, EquipmentSlot slot, Properties builder) {
-		super(materialIn, slot, builder.tab(NorthstarCreativeModeTab.NORTHSTAR_TAB));
-	}
+    private AnimationFactory factory = GeckoLibUtil.createFactory(this);
+    public static final EquipmentSlot SLOT = EquipmentSlot.CHEST;
 
-	// Predicate runs every frame
+    public BrokenIronSpaceSuitArmorItem(ArmorMaterial materialIn, EquipmentSlot slot, Properties builder) {
+        super(materialIn, slot, builder.tab(NorthstarCreativeModeTab.NORTHSTAR_TAB));
+    }
+
+    // Predicate runs every frame
     private <P extends IAnimatable> PlayState predicate(AnimationEvent<P> event) {
         event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", EDefaultLoopTypes.LOOP));
         return PlayState.CONTINUE;
     }
 
-	// All you need to do here is add your animation controllers to the
-	// AnimationData
-	@Override
-	public void registerControllers(AnimationData data) {
-		data.addAnimationController(new AnimationController<BrokenIronSpaceSuitArmorItem>(this, "controller", 20, this::predicate));
-	}
+    // All you need to do here is add your animation controllers to the
+    // AnimationData
+    @Override
+    public void registerControllers(AnimationData data) {
+        data.addAnimationController(new AnimationController<BrokenIronSpaceSuitArmorItem>(this, "controller", 20, this::predicate));
+    }
 	@Override
 	public AnimationFactory getFactory() {
 		return this.factory;

@@ -8,15 +8,15 @@ import net.minecraft.world.level.block.Block;
 
 public class SeedItem extends ItemNameBlockItem {
 
-	public SeedItem(Block pBlock, Properties pProperties) {
-		super(pBlock, pProperties);
-	}
-	
-	@Override
-	public void fillItemCategory(CreativeModeTab pCategory, NonNullList<ItemStack> pItems) {
-		if (this.allowedIn(pCategory)) {
-			pItems.add(new ItemStack(this));
-		}
-	}
+    public SeedItem(Block pBlock, Properties pProperties) {
+        super(pBlock, pProperties);
+    }
+    
+    @Override
+    public void fillItemCategory(CreativeModeTab pCategory, NonNullList<ItemStack> pItems) {
+        if (this.allowedIn(pCategory)) {
+            pItems.add(new ItemStack(this));
+        }
+    }
 
 }

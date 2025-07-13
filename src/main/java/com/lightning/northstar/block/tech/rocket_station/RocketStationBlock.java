@@ -29,36 +29,36 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.network.NetworkHooks;
 
 public class RocketStationBlock extends HorizontalDirectionalBlock implements IBE<RocketStationBlockEntity>, IWrenchable {
-	public static final VoxelShape SHAPE = Shapes.or(Block.box(0.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D), Block.box(1.0D, 4.0D, 1.0D, 15.0D, 16.0D, 15.0D));
-	public static final BooleanProperty ASSEMBLING = BooleanProperty.create("assembling");
+    public static final VoxelShape SHAPE = Shapes.or(Block.box(0.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D), Block.box(1.0D, 4.0D, 1.0D, 15.0D, 16.0D, 15.0D));
+    public static final BooleanProperty ASSEMBLING = BooleanProperty.create("assembling");
 
-	public RocketStationBlock(Properties properties) {
-		super(properties);
-		registerDefaultState(defaultBlockState().setValue(FACING, Direction.NORTH).setValue(ASSEMBLING, false));
-	}
-	
-	@Override
-	public BlockState getStateForPlacement(BlockPlaceContext pContext) {
-		BlockState state = defaultBlockState();
-		Direction horizontalDirection = pContext.getHorizontalDirection();
+    public RocketStationBlock(Properties properties) {
+        super(properties);
+        registerDefaultState(defaultBlockState().setValue(FACING, Direction.NORTH).setValue(ASSEMBLING, false));
+    }
 
-		state = state.setValue(FACING, horizontalDirection.getOpposite());
-		return state;
-	}
-	
-	public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-		return SHAPE;
-	}
-	
-	@Override
-	public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand,
-		BlockHitResult pHit) { 	       	
-		if(pPlayer.getItemInHand(pHand).is(Items.COMPASS)) {
-			return InteractionResult.PASS;
-		}
-		if (!pLevel.isClientSide()) {
-			BlockEntity entity = pLevel.getBlockEntity(pPos);
-			if(entity instanceof RocketStationBlockEntity) {
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext pContext) {
+        BlockState state = defaultBlockState();
+        Direction horizontalDirection = pContext.getHorizontalDirection();
+
+        state = state.setValue(FACING, horizontalDirection.getOpposite());
+        return state;
+    }
+
+    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+        return SHAPE;
+    }
+
+    @Override
+    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand,
+        BlockHitResult pHit) {
+        if(pPlayer.getItemInHand(pHand).is(Items.COMPASS)) {
+            return InteractionResult.PASS;
+        }
+        if (!pLevel.isClientSide()) {
+            BlockEntity entity = pLevel.getBlockEntity(pPos);
+            if(entity instanceof RocketStationBlockEntity) {
                NetworkHooks.openScreen(((ServerPlayer)pPlayer), (RocketStationBlockEntity)entity, pPos);
                 
             } else {
@@ -68,50 +68,50 @@ public class RocketStationBlock extends HorizontalDirectionalBlock implements IB
 
         return InteractionResult.sidedSuccess(pLevel.isClientSide());
     }
-	
-	@Override
-	public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-		return IBE.super.newBlockEntity(pPos, pState);
-	}
-	
-	@Override
-	public void neighborChanged(BlockState state, Level world, BlockPos pos, Block p_220069_4_, BlockPos updatePos,
-		boolean p_220069_6_) {
-	}
 
-	
-	public static Couple<Integer> getSpeedRange() {
-		return Couple.create(1, 16);
-	}
-	
-	@Override
-	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-		if (!state.is(newState.getBlock())) {
-			BlockEntity be = worldIn.getBlockEntity(pos);
-			if (!(be instanceof RocketStationBlockEntity))
-				return;
-			RocketStationBlockEntity stationBE = (RocketStationBlockEntity) be;
-			Block.popResource(worldIn, pos, stationBE.container.getItem(0));
-		}
-		IBE.onRemove(state, worldIn, pos, newState);
-	}
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
+        return IBE.super.newBlockEntity(pPos, pState);
+    }
 
-	@Override
-	protected void createBlockStateDefinition(Builder<Block, BlockState> pBuilder) {
-		super.createBlockStateDefinition(pBuilder.add(FACING, ASSEMBLING));
-	}
+    @Override
+    public void neighborChanged(BlockState state, Level world, BlockPos pos, Block p_220069_4_, BlockPos updatePos,
+        boolean p_220069_6_) {
+    }
 
 
-	@Override
-	public Class<RocketStationBlockEntity> getBlockEntityClass() {
-		return RocketStationBlockEntity.class;
-	}
+    public static Couple<Integer> getSpeedRange() {
+        return Couple.create(1, 16);
+    }
+
+    @Override
+    public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+        if (!state.is(newState.getBlock())) {
+            BlockEntity be = worldIn.getBlockEntity(pos);
+            if (!(be instanceof RocketStationBlockEntity))
+                return;
+            RocketStationBlockEntity stationBE = (RocketStationBlockEntity) be;
+            Block.popResource(worldIn, pos, stationBE.container.getItem(0));
+        }
+        IBE.onRemove(state, worldIn, pos, newState);
+    }
+
+    @Override
+    protected void createBlockStateDefinition(Builder<Block, BlockState> pBuilder) {
+        super.createBlockStateDefinition(pBuilder.add(FACING, ASSEMBLING));
+    }
+
+
+    @Override
+    public Class<RocketStationBlockEntity> getBlockEntityClass() {
+        return RocketStationBlockEntity.class;
+    }
 
 
 
-	@Override
-	public BlockEntityType<? extends RocketStationBlockEntity> getBlockEntityType() {
-		return NorthstarBlockEntityTypes.ROCKET_STATION.get();
-	}
+    @Override
+    public BlockEntityType<? extends RocketStationBlockEntity> getBlockEntityType() {
+        return NorthstarBlockEntityTypes.ROCKET_STATION.get();
+    }
 
 }

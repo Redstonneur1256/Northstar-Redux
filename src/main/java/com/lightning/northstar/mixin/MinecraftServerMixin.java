@@ -64,45 +64,45 @@ import net.minecraft.world.level.storage.WorldData;
 
 @Mixin(MinecraftServer.class)
 public class MinecraftServerMixin{
-	   protected final LevelStorageSource.LevelStorageAccess storageSource;
-	   private final Map<ResourceKey<Level>, ServerLevel> levels = Maps.newLinkedHashMap();
-	   private PlayerList playerList;
-	   @Nullable
-	   private String motd;
-	   public final long[] tickTimes = new long[100];
-	   @Nullable
-	   private KeyPair keyPair;
-	   @Nullable
-	   private GameProfile singleplayerProfile;
-	   protected long nextTickTime = Util.getMillis();
+       protected final LevelStorageSource.LevelStorageAccess storageSource;
+       private final Map<ResourceKey<Level>, ServerLevel> levels = Maps.newLinkedHashMap();
+       private PlayerList playerList;
+       @Nullable
+       private String motd;
+       public final long[] tickTimes = new long[100];
+       @Nullable
+       private KeyPair keyPair;
+       @Nullable
+       private GameProfile singleplayerProfile;
+       protected long nextTickTime = Util.getMillis();
 
-	   private final ServerScoreboard scoreboard = new ServerScoreboard((MinecraftServer) (Object) this);
-	   @Nullable
-	   private CommandStorage commandStorage;
-	   private final CustomBossEvents customBossEvents = new CustomBossEvents();
-	   private final ServerFunctionManager functionManager;
-	   private final Executor executor;
-	   @Nullable
-	   private String serverId;
-	   @Shadow
-	   @Final
-	   protected final WorldData worldData;
-	   
-	   public MinecraftServerMixin() {
-		    this.storageSource = null;
-			this.functionManager = null;
-			this.worldData = null;
-		      if (!this.worldData.worldGenSettings().dimensions().containsKey(LevelStem.OVERWORLD)) {
-		         throw new IllegalStateException("Missing Overworld dimension data");
-		      } else {
-		         this.executor = Util.backgroundExecutor();
-		      }
-		   }
-	
+       private final ServerScoreboard scoreboard = new ServerScoreboard((MinecraftServer) (Object) this);
+       @Nullable
+       private CommandStorage commandStorage;
+       private final CustomBossEvents customBossEvents = new CustomBossEvents();
+       private final ServerFunctionManager functionManager;
+       private final Executor executor;
+       @Nullable
+       private String serverId;
+       @Shadow
+       @Final
+       protected final WorldData worldData;
 
-	   ///HELP!!!!!!!!!!
-	   /// IM STRUGGLING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	   //I JUST WANT DIFFERENT PLANETS TO HAVE DIFFERENT SEEDS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+       public MinecraftServerMixin() {
+            this.storageSource = null;
+            this.functionManager = null;
+            this.worldData = null;
+              if (!this.worldData.worldGenSettings().dimensions().containsKey(LevelStem.OVERWORLD)) {
+                 throw new IllegalStateException("Missing Overworld dimension data");
+              } else {
+                 this.executor = Util.backgroundExecutor();
+              }
+           }
+
+
+       ///HELP!!!!!!!!!!
+       /// IM STRUGGLING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+       //I JUST WANT DIFFERENT PLANETS TO HAVE DIFFERENT SEEDS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
    
 
     private void readScoreboard(DimensionDataStorage pDataStorage) {

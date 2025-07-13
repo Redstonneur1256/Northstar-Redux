@@ -14,33 +14,33 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 @EventBusSubscriber(Dist.CLIENT)
 public class ClientEvents {
 
-	@SubscribeEvent
-	public static void onTick(ClientTickEvent event) {
-		if (!isGameActive())
-			return;		
-		SpaceSuitFirstPersonRenderer.clientTick();
-	}
-	@SuppressWarnings("resource")
-	@SubscribeEvent
-	public static void onMount(EntityMountEvent event) {
-		if (event.getEntityMounting() != Minecraft.getInstance().player)
-			return;
+    @SubscribeEvent
+    public static void onTick(ClientTickEvent event) {
+        if (!isGameActive())
+            return;
+        SpaceSuitFirstPersonRenderer.clientTick();
+    }
+    @SuppressWarnings("resource")
+    @SubscribeEvent
+    public static void onMount(EntityMountEvent event) {
+        if (event.getEntityMounting() != Minecraft.getInstance().player)
+            return;
 
-		if (event.isDismounting()) {
-			CameraDistanceModifier.reset();
-			return;
-		}
+        if (event.isDismounting()) {
+            CameraDistanceModifier.reset();
+            return;
+        }
 
-		if (!event.isMounting() || !(event.getEntityBeingMounted() instanceof RocketContraptionEntity rocket)) {
-			return;
-		}
+        if (!event.isMounting() || !(event.getEntityBeingMounted() instanceof RocketContraptionEntity rocket)) {
+            return;
+        }
 
-		CameraDistanceModifier.zoomOut(6);
-	}
-	
+        CameraDistanceModifier.zoomOut(6);
+    }
 
-	@SuppressWarnings("resource")
-	protected static boolean isGameActive() {
-		return !(Minecraft.getInstance().level == null || Minecraft.getInstance().player == null);
-	}
+
+    @SuppressWarnings("resource")
+    protected static boolean isGameActive() {
+        return !(Minecraft.getInstance().level == null || Minecraft.getInstance().player == null);
+    }
 }

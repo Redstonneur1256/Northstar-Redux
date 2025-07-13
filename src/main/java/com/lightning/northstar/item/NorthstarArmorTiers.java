@@ -14,15 +14,15 @@ import net.minecraft.world.item.Items;
 
 
 public record NorthstarArmorTiers(String name, int durability, int[] protection, int enchantability, 
-	SoundEvent equipSound, float toughness, float knockbackResistance, Supplier<Ingredient> repairMaterial) implements ArmorMaterial{
-	
-	private static final int[] DURABILITY_PER_SLOT = new int[] {15,18,20,15};
-	
-	@Override
-	public int getDurabilityForSlot(EquipmentSlot slot) {
-		return DURABILITY_PER_SLOT[slot.getIndex()] * this.durability;
-	}
-	@Override
+    SoundEvent equipSound, float toughness, float knockbackResistance, Supplier<Ingredient> repairMaterial) implements ArmorMaterial{
+
+    private static final int[] DURABILITY_PER_SLOT = new int[] {15,18,20,15};
+
+    @Override
+    public int getDurabilityForSlot(EquipmentSlot slot) {
+        return DURABILITY_PER_SLOT[slot.getIndex()] * this.durability;
+    }
+    @Override
 	public int getDefenseForSlot(EquipmentSlot slot) {
 		return this.protection[slot.getIndex()];
 	}

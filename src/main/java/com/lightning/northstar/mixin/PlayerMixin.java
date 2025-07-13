@@ -18,7 +18,7 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 public class PlayerMixin {
 
     @Inject(method = "attack", at = @At("HEAD"), cancellable = true)
-	private void attack(Entity pTarget, CallbackInfo info) {
+    private void attack(Entity pTarget, CallbackInfo info) {
         float f = (float) ((Player)(Object)this).getAttributeValue(Attributes.ATTACK_DAMAGE);
         float f1;
         if (pTarget instanceof LivingEntity) {
@@ -26,21 +26,21 @@ public class PlayerMixin {
          } else {
             f1 = EnchantmentHelper.getDamageBonus(((Player)(Object)this).getMainHandItem(), MobType.UNDEFINED);
          }
-    	float f2 = ((Player)(Object)this).getAttackStrengthScale(0.5F);
+        float f2 = ((Player)(Object)this).getAttackStrengthScale(0.5F);
         f *= 0.2F + f2 * f2 * 0.8F;
         f1 *= f2;
 
 
         if (f > 0.0F || f1 > 0.0F) {
-        	int j = EnchantmentHelper.getEnchantmentLevel(NorthstarEnchantments.FROSTBITE.get(), (Player)(Object) this);
+            int j = EnchantmentHelper.getEnchantmentLevel(NorthstarEnchantments.FROSTBITE.get(), (Player)(Object) this);
             if (pTarget instanceof LivingEntity) {
                if (j > 0) {
-            	   //frezzing
+                   //frezzing
                   pTarget.setTicksFrozen((j * 80) + 150);
                }
             }           
-        	
+
         }
-	}
-	
+    }
+
 }

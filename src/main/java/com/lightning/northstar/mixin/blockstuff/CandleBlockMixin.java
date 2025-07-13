@@ -20,25 +20,25 @@ import net.minecraft.world.level.block.state.BlockState;
 
 @Mixin(CandleBlock.class)
 public class CandleBlockMixin {
-	
+    
     @Inject(method = "updateShape", at = @At("TAIL"), cancellable = true)
-	public void updateShape(BlockState pState, Direction pDirection, BlockState pNeighborState, 
-	LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pNeighborPos, CallbackInfoReturnable<BlockState> info) {
-    	try {
-	    	if(pState.is(BlockTags.CANDLES)) {
-	            System.out.println(OxygenStuff.hasOxygen(pCurrentPos,((Level)pLevel).dimension()));
-		    	if(!OxygenStuff.hasOxygen(pCurrentPos,((Level)pLevel).dimension()) && pState.getValue(CandleBlock.LIT)) {
-		    		if(!pState.canSurvive(pLevel, pCurrentPos)) {
-		    			info.setReturnValue(Blocks.AIR.defaultBlockState());
-		    			return;
-		    		}
-		    		pLevel.playSound(null, pCurrentPos, SoundEvents.CANDLE_EXTINGUISH, SoundSource.BLOCKS, 1, 0);
-		    		info.setReturnValue(Blocks.CANDLE.defaultBlockState().setValue(CandleBlock.CANDLES, pState.getValue(CandleBlock.CANDLES)).setValue(CandleBlock.WATERLOGGED, 				pState.getValue(CandleBlock.WATERLOGGED)).setValue(CandleBlock.LIT, false));
-		    	}
-	    	}
-		} catch (Exception e) {
-			//oops
-		}
+    public void updateShape(BlockState pState, Direction pDirection, BlockState pNeighborState, 
+    LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pNeighborPos, CallbackInfoReturnable<BlockState> info) {
+        try {
+            if(pState.is(BlockTags.CANDLES)) {
+                System.out.println(OxygenStuff.hasOxygen(pCurrentPos,((Level)pLevel).dimension()));
+                if(!OxygenStuff.hasOxygen(pCurrentPos,((Level)pLevel).dimension()) && pState.getValue(CandleBlock.LIT)) {
+                    if(!pState.canSurvive(pLevel, pCurrentPos)) {
+                        info.setReturnValue(Blocks.AIR.defaultBlockState());
+                        return;
+                    }
+                    pLevel.playSound(null, pCurrentPos, SoundEvents.CANDLE_EXTINGUISH, SoundSource.BLOCKS, 1, 0);
+                    info.setReturnValue(Blocks.CANDLE.defaultBlockState().setValue(CandleBlock.CANDLES, pState.getValue(CandleBlock.CANDLES)).setValue(CandleBlock.WATERLOGGED,                 pState.getValue(CandleBlock.WATERLOGGED)).setValue(CandleBlock.LIT, false));
+                }
+            }
+        } catch (Exception e) {
+            //oops
+        }
     }
 
 }

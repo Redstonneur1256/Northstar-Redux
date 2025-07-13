@@ -11,12 +11,12 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class RocketControlsBlockEntity extends SmartBlockEntity {
 
-	public RocketControlsBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-		super(type, pos, state);
-	}
+    public RocketControlsBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+        super(type, pos, state);
+    }
 
-	@Override
-	public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
-	}
+    @Override
+    public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
+    }
 
 }

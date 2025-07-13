@@ -6,14 +6,14 @@ import net.minecraft.world.item.Item;
 
 public class MarsPalmBlock extends MartianFlowerBlock {
 
-	public MarsPalmBlock(Properties pProperties) {
-		super(pProperties);
-	}
-	
-	@Override
-	public Item getSeedItem() {
-		return NorthstarItems.MARS_PALM_SEEDS.get();
-	}
-	
+    public MarsPalmBlock(Properties pProperties) {
+        super(pProperties);
+    }
+
+    @Override
+    public Item getSeedItem() {
+        return NorthstarItems.MARS_PALM_SEEDS.get();
+    }
+
 
 }

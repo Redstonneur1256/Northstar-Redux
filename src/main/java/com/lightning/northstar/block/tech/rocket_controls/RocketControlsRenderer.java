@@ -20,61 +20,61 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class RocketControlsRenderer extends SafeBlockEntityRenderer<RocketControlsBlockEntity>{
-	
-	public RocketControlsRenderer(BlockEntityRendererProvider.Context context) {}
+    
+    public RocketControlsRenderer(BlockEntityRendererProvider.Context context) {}
 
-	public static void render(MovementContext context, VirtualRenderWorld renderWorld, ContraptionMatrices matrices,
-			MultiBufferSource buffer, float equipAnimation, float firstLever, float secondLever) {
-			BlockState state = context.state;
-			Direction facing = state.getValue(RocketControlsBlock.FACING);
-			
-			float hAngle = 180 + AngleHelper.horizontalAngle(facing);
-			PoseStack ms = matrices.getModel();
-			double yOffset = Mth.lerp(equipAnimation * equipAnimation, -0.15f, 0.05f);
+    public static void render(MovementContext context, VirtualRenderWorld renderWorld, ContraptionMatrices matrices,
+            MultiBufferSource buffer, float equipAnimation, float firstLever, float secondLever) {
+            BlockState state = context.state;
+            Direction facing = state.getValue(RocketControlsBlock.FACING);
+            
+            float hAngle = 180 + AngleHelper.horizontalAngle(facing);
+            PoseStack ms = matrices.getModel();
+            double yOffset = Mth.lerp(equipAnimation * equipAnimation, -0.15f, 0.05f);
 
-				float vAngle = (float) Mth.clamp(firstLever * 70 - 25, -60, 60);
-				SuperByteBuffer lever = CachedBufferer.partial(NorthstarPartialModels.CONTROL_LEVER, state);
-				ms.pushPose();
-				TransformStack.cast(ms)
-					.centre()
-					.rotateY(hAngle)
-					.translate(0, 0, 4 / 16f)
-					.rotateX(vAngle - 60)
-					.translate(0, yOffset, 0)
-					.rotateX(60)
-					.unCentre()
-					.translate(0, -2 / 16f, -3 / 16f);
-				lever.transform(ms)
-					.light(matrices.getWorld(), ContraptionRenderDispatcher.getContraptionWorldLight(context, renderWorld))
-					.renderInto(matrices.getViewProjection(), buffer.getBuffer(RenderType.solid()));
-				ms.popPose();
+                float vAngle = (float) Mth.clamp(firstLever * 70 - 25, -60, 60);
+                SuperByteBuffer lever = CachedBufferer.partial(NorthstarPartialModels.CONTROL_LEVER, state);
+                ms.pushPose();
+                TransformStack.cast(ms)
+                    .centre()
+                    .rotateY(hAngle)
+                    .translate(0, 0, 4 / 16f)
+                    .rotateX(vAngle - 60)
+                    .translate(0, yOffset, 0)
+                    .rotateX(60)
+                    .unCentre()
+                    .translate(0, -2 / 16f, -3 / 16f);
+                lever.transform(ms)
+                    .light(matrices.getWorld(), ContraptionRenderDispatcher.getContraptionWorldLight(context, renderWorld))
+                    .renderInto(matrices.getViewProjection(), buffer.getBuffer(RenderType.solid()));
+                ms.popPose();
 
-		}
+        }
 
-	@Override
-	protected void renderSafe(RocketControlsBlockEntity be, float partialTicks, PoseStack ms,
-			MultiBufferSource bufferSource, int light, int overlay) {
-		BlockState state = be.getBlockState();
-		Direction facing = state.getValue(RocketControlsBlock.FACING);
-		
-		float hAngle = 180 + AngleHelper.horizontalAngle(facing);
-		double yOffset = Mth.lerp(1 * 1, -0.15f, 0.05f);
+    @Override
+    protected void renderSafe(RocketControlsBlockEntity be, float partialTicks, PoseStack ms,
+            MultiBufferSource bufferSource, int light, int overlay) {
+        BlockState state = be.getBlockState();
+        Direction facing = state.getValue(RocketControlsBlock.FACING);
+        
+        float hAngle = 180 + AngleHelper.horizontalAngle(facing);
+        double yOffset = Mth.lerp(1 * 1, -0.15f, 0.05f);
 
-			float vAngle = (float) Mth.clamp(1 * 70 - 25, -60, 60);
-			SuperByteBuffer lever = CachedBufferer.partial(NorthstarPartialModels.CONTROL_LEVER, state);
-			ms.pushPose();
-			TransformStack.cast(ms)
-				.centre()
-				.rotateY(hAngle)
-				.translate(0, 0, 4 / 16f)
-				.rotateX(vAngle - 60)
-				.translate(0, yOffset, 0)
-				.rotateX(60)
-				.unCentre()
-				.translate(0, -2 / 16f, -3 / 16f);
-			lever.transform(ms);
-			ms.popPose();
+            float vAngle = (float) Mth.clamp(1 * 70 - 25, -60, 60);
+            SuperByteBuffer lever = CachedBufferer.partial(NorthstarPartialModels.CONTROL_LEVER, state);
+            ms.pushPose();
+            TransformStack.cast(ms)
+                .centre()
+                .rotateY(hAngle)
+                .translate(0, 0, 4 / 16f)
+                .rotateX(vAngle - 60)
+                .translate(0, yOffset, 0)
+                .rotateX(60)
+                .unCentre()
+                .translate(0, -2 / 16f, -3 / 16f);
+            lever.transform(ms);
+            ms.popPose();
 
-	}
+    }
 
 }

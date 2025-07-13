@@ -18,26 +18,26 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 
 public class GlowstoneTorchItem extends BlockItem {
-	   protected final Block wallBlock;
+       protected final Block wallBlock;
 
-	   public GlowstoneTorchItem(GlowstoneTorchWallBlock pStandingBlock, Properties pProperties) {
-	      super(pStandingBlock, pProperties);
-	      this.wallBlock = NorthstarTechBlocks.GLOWSTONE_TORCH_WALL.get();
-	   }
+       public GlowstoneTorchItem(GlowstoneTorchWallBlock pStandingBlock, Properties pProperties) {
+          super(pStandingBlock, pProperties);
+          this.wallBlock = NorthstarTechBlocks.GLOWSTONE_TORCH_WALL.get();
+       }
 
-	   @Nullable
-	   protected BlockState getPlacementState(BlockPlaceContext pContext) {
-	      BlockState blockstate = this.wallBlock.getStateForPlacement(pContext);
-	      BlockState blockstate1 = null;
-	      LevelReader levelreader = pContext.getLevel();
-	      BlockPos blockpos = pContext.getClickedPos();
+       @Nullable
+       protected BlockState getPlacementState(BlockPlaceContext pContext) {
+          BlockState blockstate = this.wallBlock.getStateForPlacement(pContext);
+          BlockState blockstate1 = null;
+          LevelReader levelreader = pContext.getLevel();
+          BlockPos blockpos = pContext.getClickedPos();
 
-	      for(Direction direction : pContext.getNearestLookingDirections()) {
-	         if (direction != Direction.UP) {
-	            BlockState blockstate2 = direction == Direction.DOWN ? this.getBlock().getStateForPlacement(pContext) : blockstate;
-	            if (blockstate2 != null && blockstate2.canSurvive(levelreader, blockpos)) {
-	               blockstate1 = blockstate2;
-	               break;
+          for(Direction direction : pContext.getNearestLookingDirections()) {
+             if (direction != Direction.UP) {
+                BlockState blockstate2 = direction == Direction.DOWN ? this.getBlock().getStateForPlacement(pContext) : blockstate;
+                if (blockstate2 != null && blockstate2.canSurvive(levelreader, blockpos)) {
+                   blockstate1 = blockstate2;
+                   break;
 	            }
 	         }
 	      }

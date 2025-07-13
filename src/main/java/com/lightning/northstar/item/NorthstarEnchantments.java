@@ -10,14 +10,14 @@ import net.minecraft.world.item.enchantment.Enchantment.Rarity;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 
 public class NorthstarEnchantments {
-	
-	public static final RegistryEntry<FrostbiteEnchantment> FROSTBITE = REGISTRATE.object("frostbite")
-			.enchantment(EnchantmentCategory.WEAPON, FrostbiteEnchantment::new)
-			.addSlots(EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND)
-			.lang("Frostbite")
-			.rarity(Rarity.VERY_RARE)
-			.register();
 
-	public static void register() {}
+    public static final RegistryEntry<FrostbiteEnchantment> FROSTBITE = REGISTRATE.object("frostbite")
+            .enchantment(EnchantmentCategory.WEAPON, FrostbiteEnchantment::new)
+            .addSlots(EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND)
+            .lang("Frostbite")
+            .rarity(Rarity.VERY_RARE)
+            .register();
+
+    public static void register() {}
 
 }

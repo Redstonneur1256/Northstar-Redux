@@ -26,127 +26,127 @@ import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
 
 public class SpikeTrunkPlacer extends TrunkPlacer {
-	   public static final Codec<SpikeTrunkPlacer> CODEC = RecordCodecBuilder.create((p_226236_) -> {
-		      return trunkPlacerParts(p_226236_).and(p_226236_.group(IntProvider.POSITIVE_CODEC.fieldOf("extra_branch_steps").forGetter((p_226242_) -> {
-		         return p_226242_.extraBranchSteps;
-		      }), RegistryCodecs.homogeneousList(Registry.BLOCK_REGISTRY).fieldOf("can_grow_through").forGetter((p_226234_) -> {
-		         return p_226234_.canGrowThrough;
-		      }))).apply(p_226236_, SpikeTrunkPlacer::new);
-		   });
-		   private final IntProvider extraBranchSteps;
-		   private final HolderSet<Block> canGrowThrough;
-		   private BlockPos pos;
-		   private Direction trunkDir;
-		   
-		   public SpikeTrunkPlacer(int int1, int int2, int int3, IntProvider int4, HolderSet<Block> int7) {
-		      super(int1, int2, int3);
-		      this.extraBranchSteps = int4;
-		      this.canGrowThrough = int7;
-		   }
-		   protected TrunkPlacerType<?> type() {
-		      return TrunkPlacerType.DARK_OAK_TRUNK_PLACER;
-		   }
-		   public List<FoliagePlacer.FoliageAttachment> placeTrunk(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, int pFreeTreeHeight, BlockPos pPos, TreeConfiguration pConfig) {
-			      List<FoliagePlacer.FoliageAttachment> list = Lists.newArrayList();
-			      BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
-			      trunkDir = Direction.getRandom(pRandom);
-			      for(Direction dir = Direction.getRandom(pRandom); trunkDir == Direction.UP || trunkDir == Direction.DOWN;) {
-				   	dir = Direction.getRandom(pRandom);
-				  	trunkDir = dir;
-			      }
-//			      System.out.println(pFreeTreeHeight);
+       public static final Codec<SpikeTrunkPlacer> CODEC = RecordCodecBuilder.create((p_226236_) -> {
+              return trunkPlacerParts(p_226236_).and(p_226236_.group(IntProvider.POSITIVE_CODEC.fieldOf("extra_branch_steps").forGetter((p_226242_) -> {
+                 return p_226242_.extraBranchSteps;
+              }), RegistryCodecs.homogeneousList(Registry.BLOCK_REGISTRY).fieldOf("can_grow_through").forGetter((p_226234_) -> {
+                 return p_226234_.canGrowThrough;
+              }))).apply(p_226236_, SpikeTrunkPlacer::new);
+           });
+           private final IntProvider extraBranchSteps;
+           private final HolderSet<Block> canGrowThrough;
+           private BlockPos pos;
+           private Direction trunkDir;
 
-			      for(int i = 0; i < pFreeTreeHeight; ++i) {
-	
-		//	    	 System.out.println(curve_x);
-			    	 int Xpos = pPos.getX();
-			    	 int Zpos = pPos.getZ();
-			         int j = pPos.getY() + i;
-			         
-			         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos, j, Zpos), pConfig);
-			         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos, j - 1, Zpos), pConfig);			         
-			      }
-			      for(int x = -2; x < 3; x++) {
-			    	  for(int z = -2; z < 3; z++) {
-				    	  int y_rand;
-			    		  if(Math.abs(x) + Math.abs(z) < 2){
-			    			  y_rand = pRandom.nextInt(pFreeTreeHeight - 3);
-			    		  }else {
-			    			  y_rand = pRandom.nextInt(pFreeTreeHeight - 5);
-			    		  }
-			    		  
+           public SpikeTrunkPlacer(int int1, int int2, int int3, IntProvider int4, HolderSet<Block> int7) {
+              super(int1, int2, int3);
+              this.extraBranchSteps = int4;
+              this.canGrowThrough = int7;
+           }
+           protected TrunkPlacerType<?> type() {
+              return TrunkPlacerType.DARK_OAK_TRUNK_PLACER;
+           }
+           public List<FoliagePlacer.FoliageAttachment> placeTrunk(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, int pFreeTreeHeight, BlockPos pPos, TreeConfiguration pConfig) {
+                  List<FoliagePlacer.FoliageAttachment> list = Lists.newArrayList();
+                  BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+                  trunkDir = Direction.getRandom(pRandom);
+                  for(Direction dir = Direction.getRandom(pRandom); trunkDir == Direction.UP || trunkDir == Direction.DOWN;) {
+                       dir = Direction.getRandom(pRandom);
+                      trunkDir = dir;
+                  }
+//                  System.out.println(pFreeTreeHeight);
 
-				    	  if(Math.abs(x) + Math.abs(z) < 3) {
-				    		  this.placeColumn(pLevel, pBlockSetter, pRandom, pPos, x, z, y_rand, pConfig);
-				    	  }
-			    	  }
-			      }
-			      BlockPos.MutableBlockPos blockpos$mutableblockpos2 = new BlockPos.MutableBlockPos();
-			      for(int i = 1; i < (pFreeTreeHeight/2); ++i) {
-					 	 int Xpos = pPos.getX();
-					   	 int Zpos = pPos.getZ();
-					   	 
-					     int j = pPos.getY() + (pFreeTreeHeight - i);
-					        
-					     this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos, j, Zpos), pConfig);
-					     if (i == ((pFreeTreeHeight / 2) - 1)) {
-							    pos = new BlockPos(Xpos, j, Zpos);
-							      BiConsumer<BlockPos, BlockState> biconsumer = (a, b) -> {
-							    	  a = pos;
-							    	  b = Blocks.SHROOMLIGHT.defaultBlockState();
-							       };
-							    this.placeLight(pLevel, biconsumer, pRandom, pFreeTreeHeight, pPos, pConfig);
-					     }
-					     if (i == 1) {
-						     this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos, j, Zpos), pConfig);
-					     }
-			      }
+                  for(int i = 0; i < pFreeTreeHeight; ++i) {
+
+        //             System.out.println(curve_x);
+                     int Xpos = pPos.getX();
+                     int Zpos = pPos.getZ();
+                     int j = pPos.getY() + i;
+
+                     this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos, j, Zpos), pConfig);
+                     this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos, j - 1, Zpos), pConfig);
+                  }
+                  for(int x = -2; x < 3; x++) {
+                      for(int z = -2; z < 3; z++) {
+                          int y_rand;
+                          if(Math.abs(x) + Math.abs(z) < 2){
+                              y_rand = pRandom.nextInt(pFreeTreeHeight - 3);
+                          }else {
+                              y_rand = pRandom.nextInt(pFreeTreeHeight - 5);
+                          }
 
 
-//			      for(int i2 = 0; i2 < pFreeTreeHeight; ++i2) {
+                          if(Math.abs(x) + Math.abs(z) < 3) {
+                              this.placeColumn(pLevel, pBlockSetter, pRandom, pPos, x, z, y_rand, pConfig);
+                          }
+                      }
+                  }
+                  BlockPos.MutableBlockPos blockpos$mutableblockpos2 = new BlockPos.MutableBlockPos();
+                  for(int i = 1; i < (pFreeTreeHeight/2); ++i) {
+                          int Xpos = pPos.getX();
+                            int Zpos = pPos.getZ();
+
+                         int j = pPos.getY() + (pFreeTreeHeight - i);
+
+                         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos, j, Zpos), pConfig);
+                         if (i == ((pFreeTreeHeight / 2) - 1)) {
+                                pos = new BlockPos(Xpos, j, Zpos);
+                                  BiConsumer<BlockPos, BlockState> biconsumer = (a, b) -> {
+                                      a = pos;
+                                      b = Blocks.SHROOMLIGHT.defaultBlockState();
+                                   };
+                                this.placeLight(pLevel, biconsumer, pRandom, pFreeTreeHeight, pPos, pConfig);
+                         }
+                         if (i == 1) {
+                             this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos, j, Zpos), pConfig);
+                         }
+                  }
+
+
+//                  for(int i2 = 0; i2 < pFreeTreeHeight; ++i2) {
 //
-//			    	 int Xpos = pPos.getX() + spinX2;
-//			    	 int Zpos = pPos.getZ() + spinZ2;
-//			         int j = pPos.getY() + i2;
-//			         
-//			         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos, j, Zpos), pConfig);
-//			         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos, j - 1, Zpos), pConfig);
+//                     int Xpos = pPos.getX() + spinX2;
+//                     int Zpos = pPos.getZ() + spinZ2;
+//                     int j = pPos.getY() + i2;
 //
-//			         if (i2 == pFreeTreeHeight - 1) {
-//				         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos + 1, j, Zpos), pConfig);
-//				         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos - 1, j, Zpos), pConfig);
-//				         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos, j, Zpos + 1), pConfig);
-//				         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos, j, Zpos - 1), pConfig);
-//			            list.add(new FoliagePlacer.FoliageAttachment(blockpos$mutableblockpos2.set(Xpos, j + 1, Zpos), 0, false));
-//			         }
-//			      }
-			      return list;
-			   }
-		   public void placeColumn(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos origin, int Xoff, int Zoff, int height, TreeConfiguration pConfig) {
-			   BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
-			   blockpos$mutableblockpos.setX(origin.getX());
-			   blockpos$mutableblockpos.setZ(origin.getZ());
-			   for(int i = 0; i < height; i++) {
-				   this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(origin.getX() - Xoff, origin.getY() + i, origin.getZ() - Zoff), pConfig);
-			   }
-		   }
-		   
-		   public List<FoliagePlacer.FoliageAttachment> placeLight(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, int pFreeTreeHeight, BlockPos pPos, TreeConfiguration pConfig) {
-			      List<FoliagePlacer.FoliageAttachment> list = Lists.newArrayList();   
-			      BlockPos.MutableBlockPos blockpos$mutableblockpos3 = new BlockPos.MutableBlockPos();
-				  this.placeShroomLight(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos3.set(pPos.getX(), pPos.getY()+12, pPos.getZ()), pConfig);
-//				  System.out.println(this.placeShroomLight(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos3.set(pPos.getX(), pPos.getY()+12, pPos.getZ()), pConfig));
-//				  System.out.println("YOOOOOOOOOOOOOOOO, BIOLUMINESCENCE");
-//				  System.out.println(pPos.getX() + "X    " + (pPos.getY()+12) + "Y    " + pPos.getZ() + "Z" );
+//                     this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos, j, Zpos), pConfig);
+//                     this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos, j - 1, Zpos), pConfig);
+//
+//                     if (i2 == pFreeTreeHeight - 1) {
+//                         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos + 1, j, Zpos), pConfig);
+//                         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos - 1, j, Zpos), pConfig);
+//                         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos, j, Zpos + 1), pConfig);
+//                         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos, j, Zpos - 1), pConfig);
+//                        list.add(new FoliagePlacer.FoliageAttachment(blockpos$mutableblockpos2.set(Xpos, j + 1, Zpos), 0, false));
+//                     }
+//                  }
+                  return list;
+               }
+           public void placeColumn(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos origin, int Xoff, int Zoff, int height, TreeConfiguration pConfig) {
+               BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+               blockpos$mutableblockpos.setX(origin.getX());
+               blockpos$mutableblockpos.setZ(origin.getZ());
+               for(int i = 0; i < height; i++) {
+                   this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(origin.getX() - Xoff, origin.getY() + i, origin.getZ() - Zoff), pConfig);
+               }
+           }
 
-			      return list;
-		   }  
+           public List<FoliagePlacer.FoliageAttachment> placeLight(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, int pFreeTreeHeight, BlockPos pPos, TreeConfiguration pConfig) {
+                  List<FoliagePlacer.FoliageAttachment> list = Lists.newArrayList();
+                  BlockPos.MutableBlockPos blockpos$mutableblockpos3 = new BlockPos.MutableBlockPos();
+                  this.placeShroomLight(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos3.set(pPos.getX(), pPos.getY()+12, pPos.getZ()), pConfig);
+//                  System.out.println(this.placeShroomLight(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos3.set(pPos.getX(), pPos.getY()+12, pPos.getZ()), pConfig));
+//                  System.out.println("YOOOOOOOOOOOOOOOO, BIOLUMINESCENCE");
+//                  System.out.println(pPos.getX() + "X    " + (pPos.getY()+12) + "Y    " + pPos.getZ() + "Z" );
 
-		   @Override
-		   protected boolean placeLog(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos pPos, TreeConfiguration pConfig) {
-			      return this.placeLog(pLevel, pBlockSetter, pRandom, pPos, pConfig, Function.identity());
-		   }
-		   @Override
+                  return list;
+           }
+
+           @Override
+           protected boolean placeLog(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos pPos, TreeConfiguration pConfig) {
+                  return this.placeLog(pLevel, pBlockSetter, pRandom, pPos, pConfig, Function.identity());
+           }
+           @Override
 		   protected boolean placeLog(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos pPos, TreeConfiguration pConfig, Function<BlockState, BlockState> pPropertySetter) {
 			      if (this.validTreePos(pLevel, pPos)) {
 			         pBlockSetter.accept(pPos, pPropertySetter.apply(pConfig.trunkProvider.getState(pRandom, pPos)));

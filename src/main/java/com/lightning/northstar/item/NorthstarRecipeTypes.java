@@ -32,20 +32,20 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public enum NorthstarRecipeTypes implements IRecipeTypeInfo {
-	
-	ENGRAVING(EngravingRecipe::new),
-	ELECTROLYSIS(ElectrolysisRecipe::new),
-	FREEZING(FreezingRecipe::new);
-	
-	private final ResourceLocation id;
-	private final RegistryObject<RecipeSerializer<?>> serializerObject;
-	@Nullable
-	private final RegistryObject<RecipeType<?>> typeObject;
-	private final Supplier<RecipeType<?>> type;
-	
-	NorthstarRecipeTypes(Supplier<RecipeSerializer<?>> serializerSupplier, Supplier<RecipeType<?>> typeSupplier, boolean registerType) {
-		String name = Lang.asId(name());
-		id = Create.asResource(name);
+
+    ENGRAVING(EngravingRecipe::new),
+    ELECTROLYSIS(ElectrolysisRecipe::new),
+    FREEZING(FreezingRecipe::new);
+
+    private final ResourceLocation id;
+    private final RegistryObject<RecipeSerializer<?>> serializerObject;
+    @Nullable
+    private final RegistryObject<RecipeType<?>> typeObject;
+    private final Supplier<RecipeType<?>> type;
+
+    NorthstarRecipeTypes(Supplier<RecipeSerializer<?>> serializerSupplier, Supplier<RecipeType<?>> typeSupplier, boolean registerType) {
+        String name = Lang.asId(name());
+        id = Create.asResource(name);
 		serializerObject = Registers.SERIALIZER_REGISTER.register(name, serializerSupplier);
 		if (registerType) {
 			typeObject = Registers.TYPE_REGISTER.register(name, typeSupplier);

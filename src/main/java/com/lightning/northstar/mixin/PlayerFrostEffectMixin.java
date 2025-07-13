@@ -17,20 +17,20 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 
 @Mixin(Player.class)
 public class PlayerFrostEffectMixin {
-	
+    
     @Inject(method = "attack", at = @At("HEAD"), cancellable = true)
-	private void attack(Entity pTarget, CallbackInfo info) {
-    	int j = EnchantmentHelper.getEnchantmentLevel(NorthstarEnchantments.FROSTBITE.get(), (Player)(Object) this);
+    private void attack(Entity pTarget, CallbackInfo info) {
+        int j = EnchantmentHelper.getEnchantmentLevel(NorthstarEnchantments.FROSTBITE.get(), (Player)(Object) this);
         if (pTarget instanceof LivingEntity) {
             if (j > 0) {
-            	frost(pTarget);
+                frost(pTarget);
             }
         }
-	}
+    }
     
     @SuppressWarnings("resource")
-	public void frost(Entity pEntityHit) {
-    	if(((Object)this) instanceof LocalPlayer)
-    	{Minecraft.getInstance().particleEngine.createTrackingEmitter(pEntityHit, new SnowflakeParticleData());}
+    public void frost(Entity pEntityHit) {
+        if(((Object)this) instanceof LocalPlayer)
+        {Minecraft.getInstance().particleEngine.createTrackingEmitter(pEntityHit, new SnowflakeParticleData());}
     }
 }

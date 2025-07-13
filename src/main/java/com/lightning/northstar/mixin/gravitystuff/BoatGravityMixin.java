@@ -24,7 +24,7 @@ public class BoatGravityMixin {
     double PLANET_GRAV = 1;
     
    
-    	//help
+        //help
 
     @Inject(method = "tick", at = @At("TAIL"))
     public void northstar$travel(CallbackInfo ci) {
@@ -42,7 +42,7 @@ public class BoatGravityMixin {
         {PLANET_GRAV = ORBIT_GRAV;}else 
         {PLANET_GRAV = EARTH_GRAV;}
         if (!entity.isNoGravity() && !entity.isInWater() && !entity.isInLava()) {
-        	double newGrav = CONSTANT * PLANET_GRAV;
+            double newGrav = CONSTANT * PLANET_GRAV;
             entity.setDeltaMovement(velocity.x(), velocity.y() + CONSTANT - newGrav, velocity.z());
         }
     }

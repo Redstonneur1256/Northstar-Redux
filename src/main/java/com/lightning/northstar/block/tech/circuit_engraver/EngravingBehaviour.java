@@ -25,207 +25,207 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.phys.AABB;
 
 public class EngravingBehaviour extends BeltProcessingBehaviour {
-	
-	public static final int CYCLE = 5280;
-	public static final int ENTITY_SCAN = 10;
 
-	public static List<ItemStack> particleItems = new ArrayList<>();
+    public static final int CYCLE = 5280;
+    public static final int ENTITY_SCAN = 10;
 
-	public EngravingBehaviourSpecifics specifics;
-	public int prevRunningTicks;
-	public int runningTicks;
-	public boolean running;
-	public boolean finished;
-	public Mode mode;
+    public static List<ItemStack> particleItems = new ArrayList<>();
 
-	int entityScanCooldown;
-	
-	public interface EngravingBehaviourSpecifics {
-		public boolean tryProcessInBasin(boolean simulate);
+    public EngravingBehaviourSpecifics specifics;
+    public int prevRunningTicks;
+    public int runningTicks;
+    public boolean running;
+    public boolean finished;
+    public Mode mode;
 
-		public boolean tryProcessOnBelt(TransportedItemStack input, List<ItemStack> outputList, boolean simulate);
+    int entityScanCooldown;
 
-		public boolean tryProcessInWorld(ItemEntity itemEntity, boolean simulate);
+    public interface EngravingBehaviourSpecifics {
+        public boolean tryProcessInBasin(boolean simulate);
 
-		public boolean canProcessInBulk();
+        public boolean tryProcessOnBelt(TransportedItemStack input, List<ItemStack> outputList, boolean simulate);
 
-		public void onPressingCompleted();
+        public boolean tryProcessInWorld(ItemEntity itemEntity, boolean simulate);
 
-		public int getParticleAmount();
+        public boolean canProcessInBulk();
 
-		public float getKineticSpeed();
-	}
+        public void onPressingCompleted();
+
+        public int getParticleAmount();
+
+        public float getKineticSpeed();
+    }
 
 
-	public <T extends SmartBlockEntity & EngravingBehaviourSpecifics> EngravingBehaviour(T be) {
-		super(be);
-		this.specifics = (EngravingBehaviourSpecifics) be;
-		mode = Mode.WORLD;
-		entityScanCooldown = ENTITY_SCAN;
-		whenItemEnters((s, i) -> BeltEngravingCallback.onItemReceived(s, i, this));
-		whileItemHeld((s, i) -> BeltEngravingCallback.whenItemHeld(s, i, this));
-	}
-	
-	@Override
-	public void read(CompoundTag compound, boolean clientPacket) {
-		running = compound.getBoolean("Running");
-		mode = Mode.values()[compound.getInt("Mode")];
-		finished = compound.getBoolean("Finished");
-		prevRunningTicks = runningTicks = compound.getInt("Ticks");
-		super.read(compound, clientPacket);
+    public <T extends SmartBlockEntity & EngravingBehaviourSpecifics> EngravingBehaviour(T be) {
+        super(be);
+        this.specifics = (EngravingBehaviourSpecifics) be;
+        mode = Mode.WORLD;
+        entityScanCooldown = ENTITY_SCAN;
+        whenItemEnters((s, i) -> BeltEngravingCallback.onItemReceived(s, i, this));
+        whileItemHeld((s, i) -> BeltEngravingCallback.whenItemHeld(s, i, this));
+    }
 
-		if (clientPacket) {
-			NBTHelper.iterateCompoundList(compound.getList("ParticleItems", Tag.TAG_COMPOUND),
-				c -> particleItems.add(ItemStack.of(c)));
-		}
-	}
+    @Override
+    public void read(CompoundTag compound, boolean clientPacket) {
+        running = compound.getBoolean("Running");
+        mode = Mode.values()[compound.getInt("Mode")];
+        finished = compound.getBoolean("Finished");
+        prevRunningTicks = runningTicks = compound.getInt("Ticks");
+        super.read(compound, clientPacket);
 
-	@Override
-	public void write(CompoundTag compound, boolean clientPacket) {
-		compound.putBoolean("Running", running);
-		compound.putInt("Mode", mode.ordinal());
-		compound.putBoolean("Finished", finished);
-		compound.putInt("Ticks", runningTicks);
-		super.write(compound, clientPacket);
+        if (clientPacket) {
+            NBTHelper.iterateCompoundList(compound.getList("ParticleItems", Tag.TAG_COMPOUND),
+                c -> particleItems.add(ItemStack.of(c)));
+        }
+    }
 
-		if (clientPacket) {
-			compound.put("ParticleItems", NBTHelper.writeCompoundList(particleItems, ItemStack::serializeNBT));
-			particleItems.clear();
-		}
-	}
-	
-	public void start(Mode mode) {
-		this.mode = mode;
-		running = true;
-		prevRunningTicks = 0;
-		runningTicks = 0;
-		particleItems.clear();
-		blockEntity.sendData();
-	}
+    @Override
+    public void write(CompoundTag compound, boolean clientPacket) {
+        compound.putBoolean("Running", running);
+        compound.putInt("Mode", mode.ordinal());
+        compound.putBoolean("Finished", finished);
+        compound.putInt("Ticks", runningTicks);
+        super.write(compound, clientPacket);
 
-	public boolean inWorld() {
-		return mode == Mode.WORLD;
-	}
-	
-	@Override
-	public void tick() {
-		super.tick();
+        if (clientPacket) {
+            compound.put("ParticleItems", NBTHelper.writeCompoundList(particleItems, ItemStack::serializeNBT));
+            particleItems.clear();
+        }
+    }
 
-		Level level = getWorld();
-		BlockPos worldPosition = getPos();
+    public void start(Mode mode) {
+        this.mode = mode;
+        running = true;
+        prevRunningTicks = 0;
+        runningTicks = 0;
+        particleItems.clear();
+        blockEntity.sendData();
+    }
 
-		if (!running || level == null) {
-			if (level != null && !level.isClientSide) {
+    public boolean inWorld() {
+        return mode == Mode.WORLD;
+    }
 
-				if (specifics.getKineticSpeed() == 0)
-					return;
-				if (entityScanCooldown > 0)
-					entityScanCooldown--;
-				if (entityScanCooldown <= 0) {
-					entityScanCooldown = ENTITY_SCAN;
+    @Override
+    public void tick() {
+        super.tick();
 
-					if (BlockEntityBehaviour.get(level, worldPosition.below(2),
-						TransportedItemStackHandlerBehaviour.TYPE) != null)
-						return;
-					if (AllBlocks.BASIN.has(level.getBlockState(worldPosition.below(2))))
-						return;
+        Level level = getWorld();
+        BlockPos worldPosition = getPos();
 
-					for (ItemEntity itemEntity : level.getEntitiesOfClass(ItemEntity.class,
-						new AABB(worldPosition.below()).deflate(.125f))) {
-						if (!itemEntity.isAlive() || !itemEntity.isOnGround())
-							continue;
-						if (!specifics.tryProcessInWorld(itemEntity, true))
-							continue;
-						start(Mode.WORLD);
-						return;
-					}
-				}
+        if (!running || level == null) {
+            if (level != null && !level.isClientSide) {
 
-			}
-			return;
-		}
+                if (specifics.getKineticSpeed() == 0)
+                    return;
+                if (entityScanCooldown > 0)
+                    entityScanCooldown--;
+                if (entityScanCooldown <= 0) {
+                    entityScanCooldown = ENTITY_SCAN;
 
-		if (level.isClientSide && runningTicks == -CYCLE / 2) {
-			prevRunningTicks = CYCLE / 2;
-			return;
-		}
+                    if (BlockEntityBehaviour.get(level, worldPosition.below(2),
+                        TransportedItemStackHandlerBehaviour.TYPE) != null)
+                        return;
+                    if (AllBlocks.BASIN.has(level.getBlockState(worldPosition.below(2))))
+                        return;
 
-		if (runningTicks == CYCLE / 2 && specifics.getKineticSpeed() != 0) {
-			if (inWorld())
-				applyInWorld();
+                    for (ItemEntity itemEntity : level.getEntitiesOfClass(ItemEntity.class,
+                        new AABB(worldPosition.below()).deflate(.125f))) {
+                        if (!itemEntity.isAlive() || !itemEntity.isOnGround())
+                            continue;
+                        if (!specifics.tryProcessInWorld(itemEntity, true))
+                            continue;
+                        start(Mode.WORLD);
+                        return;
+                    }
+                }
 
-			if (level.getBlockState(worldPosition.below(2))
-				.getSoundType() == SoundType.WOOL)
-				level.playLocalSound(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(),
-						NorthstarSounds.LASER_BURN.get(), SoundSource.BLOCKS, 0.5f, 0.75f + (Math.abs(specifics.getKineticSpeed())), false);
-			else
-				level.playLocalSound(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(),
-						NorthstarSounds.LASER_BURN.get(), SoundSource.BLOCKS, 0.5f, 0.75f + (Math.abs(specifics.getKineticSpeed())), false);
+            }
+            return;
+        }
 
-			if (!level.isClientSide)
-				blockEntity.sendData();
-		}
+        if (level.isClientSide && runningTicks == -CYCLE / 2) {
+            prevRunningTicks = CYCLE / 2;
+            return;
+        }
 
-		if (!level.isClientSide && runningTicks > CYCLE) {
-			finished = true;
-			running = false;
-			particleItems.clear();
-			specifics.onPressingCompleted();
-			blockEntity.sendData();
-			return;
-		}
+        if (runningTicks == CYCLE / 2 && specifics.getKineticSpeed() != 0) {
+            if (inWorld())
+                applyInWorld();
 
-		prevRunningTicks = runningTicks;
-		runningTicks += getRunningTickSpeed();
-		if (prevRunningTicks < CYCLE / 2 && runningTicks >= CYCLE / 2) {
-			runningTicks = CYCLE / 2;
-			// Pause the ticks until a packet is received
-			if (level.isClientSide && !blockEntity.isVirtual())
-				runningTicks = -(CYCLE / 2);
-		}
-	}
-	
-	protected void applyInWorld() {
-		Level level = getWorld();
-		BlockPos worldPosition = getPos();
-		AABB bb = new AABB(worldPosition.below(1));
-		boolean bulk = specifics.canProcessInBulk();
+            if (level.getBlockState(worldPosition.below(2))
+                .getSoundType() == SoundType.WOOL)
+                level.playLocalSound(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(),
+                        NorthstarSounds.LASER_BURN.get(), SoundSource.BLOCKS, 0.5f, 0.75f + (Math.abs(specifics.getKineticSpeed())), false);
+            else
+                level.playLocalSound(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(),
+                        NorthstarSounds.LASER_BURN.get(), SoundSource.BLOCKS, 0.5f, 0.75f + (Math.abs(specifics.getKineticSpeed())), false);
 
-		particleItems.clear();
+            if (!level.isClientSide)
+                blockEntity.sendData();
+        }
 
-		if (level.isClientSide)
-			return;
+        if (!level.isClientSide && runningTicks > CYCLE) {
+            finished = true;
+            running = false;
+            particleItems.clear();
+            specifics.onPressingCompleted();
+            blockEntity.sendData();
+            return;
+        }
 
-		for (Entity entity : level.getEntities(null, bb)) {
-			if (!(entity instanceof ItemEntity itemEntity))
-				continue;
-			if (!entity.isAlive() || !entity.isOnGround())
-				continue;
+        prevRunningTicks = runningTicks;
+        runningTicks += getRunningTickSpeed();
+        if (prevRunningTicks < CYCLE / 2 && runningTicks >= CYCLE / 2) {
+            runningTicks = CYCLE / 2;
+            // Pause the ticks until a packet is received
+            if (level.isClientSide && !blockEntity.isVirtual())
+                runningTicks = -(CYCLE / 2);
+        }
+    }
 
-			entityScanCooldown = 0;
-			if (specifics.tryProcessInWorld(itemEntity, false))
-				blockEntity.sendData();
-			if (!bulk)
-				break;
-		}
-	}
-	
-	public int getRunningTickSpeed() {
-		float speed = specifics.getKineticSpeed();
-		if (speed == 0)
-			return 0;
-		return (int) Mth.lerp(Mth.clamp(Math.abs(speed) / 512f, 0, 1), 1, 60);
-	}
-	
-	public enum Mode {
-		WORLD(1), BELT(19f / 16f), BASIN(22f / 16f);
+    protected void applyInWorld() {
+        Level level = getWorld();
+        BlockPos worldPosition = getPos();
+        AABB bb = new AABB(worldPosition.below(1));
+        boolean bulk = specifics.canProcessInBulk();
 
-		public float headOffset;
+        particleItems.clear();
 
-		Mode(float headOffset) {
-			this.headOffset = headOffset;
-		}
-	}
+        if (level.isClientSide)
+            return;
+
+        for (Entity entity : level.getEntities(null, bb)) {
+            if (!(entity instanceof ItemEntity itemEntity))
+                continue;
+            if (!entity.isAlive() || !entity.isOnGround())
+                continue;
+
+            entityScanCooldown = 0;
+            if (specifics.tryProcessInWorld(itemEntity, false))
+                blockEntity.sendData();
+            if (!bulk)
+                break;
+        }
+    }
+
+    public int getRunningTickSpeed() {
+        float speed = specifics.getKineticSpeed();
+        if (speed == 0)
+            return 0;
+        return (int) Mth.lerp(Mth.clamp(Math.abs(speed) / 512f, 0, 1), 1, 60);
+    }
+
+    public enum Mode {
+        WORLD(1), BELT(19f / 16f), BASIN(22f / 16f);
+
+        public float headOffset;
+
+        Mode(float headOffset) {
+            this.headOffset = headOffset;
+        }
+    }
 
 
 }

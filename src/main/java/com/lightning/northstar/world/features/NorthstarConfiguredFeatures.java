@@ -49,101 +49,101 @@ public class NorthstarConfiguredFeatures {
     public static final DeferredRegister<ConfiguredFeature<?, ?>> CONFIGURED_FEATURES =
             DeferredRegister.create(Registry.CONFIGURED_FEATURE_REGISTRY, Northstar.MOD_ID);
     
-	@SuppressWarnings("deprecation")
-	public static final RegistryObject<ConfiguredFeature<?, ?>> COILER =
+    @SuppressWarnings("deprecation")
+    public static final RegistryObject<ConfiguredFeature<?, ?>> COILER =
             CONFIGURED_FEATURES.register("coiler", () ->
             new ConfiguredFeature<>(Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder
-            		(BlockStateProvider.simple(NorthstarBlocks.COILER_LOG.get()),
-            		new CoilerTrunkPlacer(6, 1, 9, UniformInt.of(1, 4), 0.5F, UniformInt.of(0, 1),
-            		Registry.BLOCK.getOrCreateTag(BlockTags.MANGROVE_LOGS_CAN_GROW_THROUGH), UniformInt.of(-1, 1)),
+                    (BlockStateProvider.simple(NorthstarBlocks.COILER_LOG.get()),
+                    new CoilerTrunkPlacer(6, 1, 9, UniformInt.of(1, 4), 0.5F, UniformInt.of(0, 1),
+                    Registry.BLOCK.getOrCreateTag(BlockTags.MANGROVE_LOGS_CAN_GROW_THROUGH), UniformInt.of(-1, 1)),
                     BlockStateProvider.simple(NorthstarBlocks.COILER_LEAVES.get()),
                     new CoilerFoliagePlacer(ConstantInt.of(4), ConstantInt.of(0)), Optional.of
-            		(new MangroveRootPlacer(UniformInt.of(2,4), BlockStateProvider.simple(NorthstarBlocks.COILER_LOG.get()), Optional.of(new AboveRootPlacement(BlockStateProvider.simple(Blocks.AIR), 0.5F)),
-            		new MangroveRootPlacement(Registry.BLOCK.getOrCreateTag(BlockTags.MANGROVE_ROOTS_CAN_GROW_THROUGH), HolderSet.direct(Block::builtInRegistryHolder, Blocks.MUD, Blocks.MUDDY_MANGROVE_ROOTS),
-            		BlockStateProvider.simple(NorthstarBlocks.COILER_LOG.get()), 8, 15, 0.2F))),
+                    (new MangroveRootPlacer(UniformInt.of(2,4), BlockStateProvider.simple(NorthstarBlocks.COILER_LOG.get()), Optional.of(new AboveRootPlacement(BlockStateProvider.simple(Blocks.AIR), 0.5F)),
+                    new MangroveRootPlacement(Registry.BLOCK.getOrCreateTag(BlockTags.MANGROVE_ROOTS_CAN_GROW_THROUGH), HolderSet.direct(Block::builtInRegistryHolder, Blocks.MUD, Blocks.MUDDY_MANGROVE_ROOTS),
+                    BlockStateProvider.simple(NorthstarBlocks.COILER_LOG.get()), 8, 15, 0.2F))),
                     new TwoLayersFeatureSize(3, 0, 2)).build()));
-	
-	@SuppressWarnings("deprecation")
-	public static final RegistryObject<ConfiguredFeature<?, ?>> WILTER =
+    
+    @SuppressWarnings("deprecation")
+    public static final RegistryObject<ConfiguredFeature<?, ?>> WILTER =
             CONFIGURED_FEATURES.register("wilter", () ->
             new ConfiguredFeature<>(Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder
-            		(BlockStateProvider.simple(NorthstarBlocks.WILTER_LOG.get()),
-            		new WilterTrunkPlacer(9, 1, 5, UniformInt.of(4, 4), 0.5F, UniformInt.of(0, 1),
-            		Registry.BLOCK.getOrCreateTag(BlockTags.MANGROVE_LOGS_CAN_GROW_THROUGH), UniformInt.of(-1, 1)),
+                    (BlockStateProvider.simple(NorthstarBlocks.WILTER_LOG.get()),
+                    new WilterTrunkPlacer(9, 1, 5, UniformInt.of(4, 4), 0.5F, UniformInt.of(0, 1),
+                    Registry.BLOCK.getOrCreateTag(BlockTags.MANGROVE_LOGS_CAN_GROW_THROUGH), UniformInt.of(-1, 1)),
                     BlockStateProvider.simple(NorthstarBlocks.WILTER_LEAVES.get()),
                     new AcaciaFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0)),
                     new TwoLayersFeatureSize(2, 0, 2)).build()));
-	
-	@SuppressWarnings("deprecation")
-	public static final RegistryObject<ConfiguredFeature<?, ?>> ARGYRE =
+    
+    @SuppressWarnings("deprecation")
+    public static final RegistryObject<ConfiguredFeature<?, ?>> ARGYRE =
             CONFIGURED_FEATURES.register("argyre", () ->
             new ConfiguredFeature<>(Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder
-            		(BlockStateProvider.simple(NorthstarBlocks.ARGYRE_LOG.get()),
-            		new ArgyreTrunkPlacer(32, 24, 20, UniformInt.of(4, 4), 0.5F, UniformInt.of(0, 1),
-            		Registry.BLOCK.getOrCreateTag(BlockTags.MANGROVE_LOGS_CAN_GROW_THROUGH), UniformInt.of(1, 1)),
+                    (BlockStateProvider.simple(NorthstarBlocks.ARGYRE_LOG.get()),
+                    new ArgyreTrunkPlacer(32, 24, 20, UniformInt.of(4, 4), 0.5F, UniformInt.of(0, 1),
+                    Registry.BLOCK.getOrCreateTag(BlockTags.MANGROVE_LOGS_CAN_GROW_THROUGH), UniformInt.of(1, 1)),
                     BlockStateProvider.simple(NorthstarBlocks.ARGYRE_LEAVES.get()),
                     new AcaciaFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0)),
-                    new TwoLayersFeatureSize(2, 0, 2)).build()));	
-	@SuppressWarnings("deprecation")
-	public static final RegistryObject<ConfiguredFeature<?, ?>> SPIKE_FUNGUS =
+                    new TwoLayersFeatureSize(2, 0, 2)).build()));    
+    @SuppressWarnings("deprecation")
+    public static final RegistryObject<ConfiguredFeature<?, ?>> SPIKE_FUNGUS =
             CONFIGURED_FEATURES.register("spike_fungus", () ->
             new ConfiguredFeature<>(Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder
-            		(BlockStateProvider.simple(NorthstarBlocks.SPIKE_FUNGUS_BLOCK.get()),
-            		new SpikeTrunkPlacer(8, 1, 4, UniformInt.of(4, 4), Registry.BLOCK.getOrCreateTag(BlockTags.MANGROVE_LOGS_CAN_GROW_THROUGH)),
+                    (BlockStateProvider.simple(NorthstarBlocks.SPIKE_FUNGUS_BLOCK.get()),
+                    new SpikeTrunkPlacer(8, 1, 4, UniformInt.of(4, 4), Registry.BLOCK.getOrCreateTag(BlockTags.MANGROVE_LOGS_CAN_GROW_THROUGH)),
                     BlockStateProvider.simple(NorthstarBlocks.WILTER_LEAVES.get()),
                     new AcaciaFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0)),
-                    new TwoLayersFeatureSize(2, 0, 2)).build()));	
-	@SuppressWarnings("deprecation")
-	public static final RegistryObject<ConfiguredFeature<?, ?>> BLOOM_FUNGUS =
+                    new TwoLayersFeatureSize(2, 0, 2)).build()));    
+    @SuppressWarnings("deprecation")
+    public static final RegistryObject<ConfiguredFeature<?, ?>> BLOOM_FUNGUS =
             CONFIGURED_FEATURES.register("bloom_fungus", () ->
             new ConfiguredFeature<>(Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder
-            		(BlockStateProvider.simple(NorthstarBlocks.BLOOM_FUNGUS_STEM_BLOCK.get()),
-            		new BloomTrunkPlacer(3, 1, 2, UniformInt.of(4, 4), Registry.BLOCK.getOrCreateTag(BlockTags.MANGROVE_LOGS_CAN_GROW_THROUGH), BlockStateProvider.simple(NorthstarBlocks.BLOOM_FUNGUS_BLOCK.get())),
+                    (BlockStateProvider.simple(NorthstarBlocks.BLOOM_FUNGUS_STEM_BLOCK.get()),
+                    new BloomTrunkPlacer(3, 1, 2, UniformInt.of(4, 4), Registry.BLOCK.getOrCreateTag(BlockTags.MANGROVE_LOGS_CAN_GROW_THROUGH), BlockStateProvider.simple(NorthstarBlocks.BLOOM_FUNGUS_BLOCK.get())),
                     BlockStateProvider.simple(NorthstarBlocks.WILTER_LEAVES.get()),
                     new AcaciaFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0)),
-                    new TwoLayersFeatureSize(2, 0, 2)).build()));	
-	@SuppressWarnings("deprecation")
-	public static final RegistryObject<ConfiguredFeature<?, ?>> ROOF_BLOOM_FUNGUS =
+                    new TwoLayersFeatureSize(2, 0, 2)).build()));    
+    @SuppressWarnings("deprecation")
+    public static final RegistryObject<ConfiguredFeature<?, ?>> ROOF_BLOOM_FUNGUS =
             CONFIGURED_FEATURES.register("roof_bloom_fungus", () ->
             new ConfiguredFeature<>(Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder
-            		(BlockStateProvider.simple(NorthstarBlocks.BLOOM_FUNGUS_STEM_BLOCK.get()),
-            		new RoofBloomTrunkPlacer(3, 1, 2, UniformInt.of(4, 4), Registry.BLOCK.getOrCreateTag(BlockTags.MANGROVE_LOGS_CAN_GROW_THROUGH), BlockStateProvider.simple(NorthstarBlocks.BLOOM_FUNGUS_BLOCK.get())),
+                    (BlockStateProvider.simple(NorthstarBlocks.BLOOM_FUNGUS_STEM_BLOCK.get()),
+                    new RoofBloomTrunkPlacer(3, 1, 2, UniformInt.of(4, 4), Registry.BLOCK.getOrCreateTag(BlockTags.MANGROVE_LOGS_CAN_GROW_THROUGH), BlockStateProvider.simple(NorthstarBlocks.BLOOM_FUNGUS_BLOCK.get())),
                     BlockStateProvider.simple(NorthstarBlocks.WILTER_LEAVES.get()),
                     new AcaciaFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0)),
-                    new TwoLayersFeatureSize(2, 0, 2)).build()));	
-	@SuppressWarnings("deprecation")
-	public static final RegistryObject<ConfiguredFeature<?, ?>> PLATE_FUNGUS =
+                    new TwoLayersFeatureSize(2, 0, 2)).build()));    
+    @SuppressWarnings("deprecation")
+    public static final RegistryObject<ConfiguredFeature<?, ?>> PLATE_FUNGUS =
             CONFIGURED_FEATURES.register("plate_fungus", () ->
             new ConfiguredFeature<>(Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder
-            		(BlockStateProvider.simple(NorthstarBlocks.PLATE_FUNGUS_STEM_BLOCK.get()),
-            		new PlateTrunkPlacer(3, 1, 2, UniformInt.of(4, 4), Registry.BLOCK.getOrCreateTag(BlockTags.MANGROVE_LOGS_CAN_GROW_THROUGH), BlockStateProvider.simple(NorthstarBlocks.PLATE_FUNGUS_CAP_BLOCK.get())),
+                    (BlockStateProvider.simple(NorthstarBlocks.PLATE_FUNGUS_STEM_BLOCK.get()),
+                    new PlateTrunkPlacer(3, 1, 2, UniformInt.of(4, 4), Registry.BLOCK.getOrCreateTag(BlockTags.MANGROVE_LOGS_CAN_GROW_THROUGH), BlockStateProvider.simple(NorthstarBlocks.PLATE_FUNGUS_CAP_BLOCK.get())),
                     BlockStateProvider.simple(NorthstarBlocks.WILTER_LEAVES.get()),
                     new AcaciaFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0)),
-                    new TwoLayersFeatureSize(2, 0, 2)).build()));	
-	@SuppressWarnings("deprecation")
-	public static final RegistryObject<ConfiguredFeature<?, ?>> ROOF_PLATE_FUNGUS =
+                    new TwoLayersFeatureSize(2, 0, 2)).build()));    
+    @SuppressWarnings("deprecation")
+    public static final RegistryObject<ConfiguredFeature<?, ?>> ROOF_PLATE_FUNGUS =
             CONFIGURED_FEATURES.register("roof_plate_fungus", () ->
             new ConfiguredFeature<>(Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder
-            		(BlockStateProvider.simple(NorthstarBlocks.PLATE_FUNGUS_STEM_BLOCK.get()),
-            		new RoofPlateTrunkPlacer(3, 1, 2, UniformInt.of(4, 4), Registry.BLOCK.getOrCreateTag(BlockTags.MANGROVE_LOGS_CAN_GROW_THROUGH), BlockStateProvider.simple(NorthstarBlocks.PLATE_FUNGUS_CAP_BLOCK.get())),
+                    (BlockStateProvider.simple(NorthstarBlocks.PLATE_FUNGUS_STEM_BLOCK.get()),
+                    new RoofPlateTrunkPlacer(3, 1, 2, UniformInt.of(4, 4), Registry.BLOCK.getOrCreateTag(BlockTags.MANGROVE_LOGS_CAN_GROW_THROUGH), BlockStateProvider.simple(NorthstarBlocks.PLATE_FUNGUS_CAP_BLOCK.get())),
                     BlockStateProvider.simple(NorthstarBlocks.WILTER_LEAVES.get()),
                     new AcaciaFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0)),
-                    new TwoLayersFeatureSize(2, 0, 2)).build()));	
-	@SuppressWarnings("deprecation")
-	public static final RegistryObject<ConfiguredFeature<?, ?>> TOWER_FUNGUS =
+                    new TwoLayersFeatureSize(2, 0, 2)).build()));    
+    @SuppressWarnings("deprecation")
+    public static final RegistryObject<ConfiguredFeature<?, ?>> TOWER_FUNGUS =
             CONFIGURED_FEATURES.register("tower_fungus", () ->
             new ConfiguredFeature<>(Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder
-            		(BlockStateProvider.simple(NorthstarBlocks.TOWER_FUNGUS_STEM_BLOCK.get()),
-            		new TowerTrunkPlacer(8, 1, 4, UniformInt.of(4, 4), Registry.BLOCK.getOrCreateTag(BlockTags.MANGROVE_LOGS_CAN_GROW_THROUGH), BlockStateProvider.simple(NorthstarBlocks.TOWER_FUNGUS_CAP_BLOCK.get())),
+                    (BlockStateProvider.simple(NorthstarBlocks.TOWER_FUNGUS_STEM_BLOCK.get()),
+                    new TowerTrunkPlacer(8, 1, 4, UniformInt.of(4, 4), Registry.BLOCK.getOrCreateTag(BlockTags.MANGROVE_LOGS_CAN_GROW_THROUGH), BlockStateProvider.simple(NorthstarBlocks.TOWER_FUNGUS_CAP_BLOCK.get())),
                     BlockStateProvider.simple(NorthstarBlocks.WILTER_LEAVES.get()),
                     new AcaciaFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0)),
-                    new TwoLayersFeatureSize(2, 0, 2)).build()));	
-	@SuppressWarnings("deprecation")
-	public static final RegistryObject<ConfiguredFeature<?, ?>> ROOF_TOWER_FUNGUS =
+                    new TwoLayersFeatureSize(2, 0, 2)).build()));    
+    @SuppressWarnings("deprecation")
+    public static final RegistryObject<ConfiguredFeature<?, ?>> ROOF_TOWER_FUNGUS =
             CONFIGURED_FEATURES.register("roof_tower_fungus", () ->
             new ConfiguredFeature<>(Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder
-            		(BlockStateProvider.simple(NorthstarBlocks.TOWER_FUNGUS_STEM_BLOCK.get()),
-            		new RoofTowerTrunkPlacer(8, 1, 4, UniformInt.of(4, 4), Registry.BLOCK.getOrCreateTag(BlockTags.MANGROVE_LOGS_CAN_GROW_THROUGH), BlockStateProvider.simple(NorthstarBlocks.TOWER_FUNGUS_CAP_BLOCK.get())),
+                    (BlockStateProvider.simple(NorthstarBlocks.TOWER_FUNGUS_STEM_BLOCK.get()),
+                	new RoofTowerTrunkPlacer(8, 1, 4, UniformInt.of(4, 4), Registry.BLOCK.getOrCreateTag(BlockTags.MANGROVE_LOGS_CAN_GROW_THROUGH), BlockStateProvider.simple(NorthstarBlocks.TOWER_FUNGUS_CAP_BLOCK.get())),
                     BlockStateProvider.simple(NorthstarBlocks.WILTER_LEAVES.get()),
                     new AcaciaFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0)),
                     new TwoLayersFeatureSize(2, 0, 2)).build()));	

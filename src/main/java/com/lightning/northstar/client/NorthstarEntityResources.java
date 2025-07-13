@@ -5,54 +5,54 @@ import com.lightning.northstar.Northstar;
 import net.minecraft.resources.ResourceLocation;
 
 public class NorthstarEntityResources {
-	
-	// armors
-	
-	public static final ResourceLocation IRONSPACESUITARMOR_MODEL = new ResourceLocation(Northstar.MOD_ID,
-			"geo/iron_space_suit.geo.json");
-	public static final ResourceLocation IRONSPACESUITARMOR_TEXTURE = new ResourceLocation(Northstar.MOD_ID,
-			"textures/armor/iron_space_suit_texture.png");
-	public static final ResourceLocation BROKEN_IRONSPACESUITARMOR_TEXTURE = new ResourceLocation(Northstar.MOD_ID,
-			"textures/armor/broken_iron_space_suit_texture.png");
-	public static final ResourceLocation IRONSPACESUITARMOR_ANIMATIONS = new ResourceLocation(Northstar.MOD_ID,
-			"animations/iron_space_suit.animation.json");
-	public static final ResourceLocation IRONSPACESUIT_ARMOR_ARM = new ResourceLocation(Northstar.MOD_ID,
-			"textures/armor/iron_space_suit_arm.png");
-	
-	public static final ResourceLocation BROKEN_IRONSPACESUIT_ARMOR_ARM = new ResourceLocation(Northstar.MOD_ID,
-			"textures/armor/broken_iron_space_suit_arm.png");
-	
-	public static final ResourceLocation MARTIANSTEELSPACESUITARMOR_MODEL = new ResourceLocation(Northstar.MOD_ID,
-			"geo/iron_space_suit.geo.json");
-	public static final ResourceLocation MARTIANSTEELSPACESUITARMOR_TEXTURE = new ResourceLocation(Northstar.MOD_ID,
-			"textures/armor/martian_steel_space_suit_texture.png");
-	public static final ResourceLocation MARTIANSTEELSPACESUITARMOR_ANIMATIONS = new ResourceLocation(Northstar.MOD_ID,
-			"animations/iron_space_suit.animation.json");
-	public static final ResourceLocation MARTIANSTEELSPACESUITARMOR_ARM = new ResourceLocation(Northstar.MOD_ID,
-			"textures/armor/martian_steel_space_suit_arm.png");
-	
-	// martian creatures
-	
-	public static final ResourceLocation WORM_MODEL = new ResourceLocation(Northstar.MOD_ID, "geo/mars_worm.geo.json");
-	public static final ResourceLocation WORM_TEXTURE = new ResourceLocation(Northstar.MOD_ID, "textures/entity/mars_worm.png");
-	public static final ResourceLocation WORM_ANIMATIONS = new ResourceLocation(Northstar.MOD_ID,
-			"animations/mars_worm.animation.json");
-	
-	public static final ResourceLocation TOAD_MODEL = new ResourceLocation(Northstar.MOD_ID, "geo/mars_toad.geo.json");
-	public static final ResourceLocation TOAD_TEXTURE = new ResourceLocation(Northstar.MOD_ID, "textures/entity/mars_toad.png");
-	public static final ResourceLocation TOAD_ANIMATIONS = new ResourceLocation(Northstar.MOD_ID,
-			"animations/mars_toad.animation.json");
-	
-	public static final ResourceLocation COBRA_MODEL = new ResourceLocation(Northstar.MOD_ID, "geo/mars_cobra.geo.json");
-	public static final ResourceLocation COBRA_TEXTURE = new ResourceLocation(Northstar.MOD_ID, "textures/entity/mars_cobra.png");
-	public static final ResourceLocation COBRA_ANIMATIONS = new ResourceLocation(Northstar.MOD_ID,
-			"animations/mars_cobra.animation.json");
-	
-	public static final ResourceLocation MOTH_MODEL = new ResourceLocation(Northstar.MOD_ID, "geo/mars_moth.geo.json");
-	public static final ResourceLocation MOTH_TEXTURE = new ResourceLocation(Northstar.MOD_ID, "textures/entity/mars_moth.png");
-	public static final ResourceLocation MOTH_ANIMATIONS = new ResourceLocation(Northstar.MOD_ID,
-			"animations/mars_moth.animation.json");
-	
+    
+    // armors
+    
+    public static final ResourceLocation IRONSPACESUITARMOR_MODEL = new ResourceLocation(Northstar.MOD_ID,
+            "geo/iron_space_suit.geo.json");
+    public static final ResourceLocation IRONSPACESUITARMOR_TEXTURE = new ResourceLocation(Northstar.MOD_ID,
+            "textures/armor/iron_space_suit_texture.png");
+    public static final ResourceLocation BROKEN_IRONSPACESUITARMOR_TEXTURE = new ResourceLocation(Northstar.MOD_ID,
+            "textures/armor/broken_iron_space_suit_texture.png");
+    public static final ResourceLocation IRONSPACESUITARMOR_ANIMATIONS = new ResourceLocation(Northstar.MOD_ID,
+            "animations/iron_space_suit.animation.json");
+    public static final ResourceLocation IRONSPACESUIT_ARMOR_ARM = new ResourceLocation(Northstar.MOD_ID,
+            "textures/armor/iron_space_suit_arm.png");
+    
+    public static final ResourceLocation BROKEN_IRONSPACESUIT_ARMOR_ARM = new ResourceLocation(Northstar.MOD_ID,
+            "textures/armor/broken_iron_space_suit_arm.png");
+    
+    public static final ResourceLocation MARTIANSTEELSPACESUITARMOR_MODEL = new ResourceLocation(Northstar.MOD_ID,
+            "geo/iron_space_suit.geo.json");
+    public static final ResourceLocation MARTIANSTEELSPACESUITARMOR_TEXTURE = new ResourceLocation(Northstar.MOD_ID,
+            "textures/armor/martian_steel_space_suit_texture.png");
+    public static final ResourceLocation MARTIANSTEELSPACESUITARMOR_ANIMATIONS = new ResourceLocation(Northstar.MOD_ID,
+            "animations/iron_space_suit.animation.json");
+    public static final ResourceLocation MARTIANSTEELSPACESUITARMOR_ARM = new ResourceLocation(Northstar.MOD_ID,
+            "textures/armor/martian_steel_space_suit_arm.png");
+    
+    // martian creatures
+    
+    public static final ResourceLocation WORM_MODEL = new ResourceLocation(Northstar.MOD_ID, "geo/mars_worm.geo.json");
+    public static final ResourceLocation WORM_TEXTURE = new ResourceLocation(Northstar.MOD_ID, "textures/entity/mars_worm.png");
+    public static final ResourceLocation WORM_ANIMATIONS = new ResourceLocation(Northstar.MOD_ID,
+            "animations/mars_worm.animation.json");
+    
+    public static final ResourceLocation TOAD_MODEL = new ResourceLocation(Northstar.MOD_ID, "geo/mars_toad.geo.json");
+    public static final ResourceLocation TOAD_TEXTURE = new ResourceLocation(Northstar.MOD_ID, "textures/entity/mars_toad.png");
+    public static final ResourceLocation TOAD_ANIMATIONS = new ResourceLocation(Northstar.MOD_ID,
+            "animations/mars_toad.animation.json");
+    
+    public static final ResourceLocation COBRA_MODEL = new ResourceLocation(Northstar.MOD_ID, "geo/mars_cobra.geo.json");
+    public static final ResourceLocation COBRA_TEXTURE = new ResourceLocation(Northstar.MOD_ID, "textures/entity/mars_cobra.png");
+    public static final ResourceLocation COBRA_ANIMATIONS = new ResourceLocation(Northstar.MOD_ID,
+            "animations/mars_cobra.animation.json");
+    
+    public static final ResourceLocation MOTH_MODEL = new ResourceLocation(Northstar.MOD_ID, "geo/mars_moth.geo.json");
+    public static final ResourceLocation MOTH_TEXTURE = new ResourceLocation(Northstar.MOD_ID, "textures/entity/mars_moth.png");
+    public static final ResourceLocation MOTH_ANIMATIONS = new ResourceLocation(Northstar.MOD_ID,
+            "animations/mars_moth.animation.json");
+    
 	// venusian creatures
 	
 	public static final ResourceLocation MIMIC_MODEL = new ResourceLocation(Northstar.MOD_ID, "geo/venus_mimic.geo.json");

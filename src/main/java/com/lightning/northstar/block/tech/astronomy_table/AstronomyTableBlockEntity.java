@@ -12,39 +12,39 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class AstronomyTableBlockEntity extends BlockEntity implements MenuProvider  {
-	
-	protected final ContainerData data;
 
-	public AstronomyTableBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
-		super(pType, pPos, pBlockState);
+    protected final ContainerData data;
+
+    public AstronomyTableBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
+        super(pType, pPos, pBlockState);
         this.data = new ContainerData() {
 
-			@Override
-			public int get(int pIndex) {
-				return 0;
-			}
+            @Override
+            public int get(int pIndex) {
+                return 0;
+            }
 
-			@Override
-			public void set(int pIndex, int pValue) {
-				return;
-			}
+            @Override
+            public void set(int pIndex, int pValue) {
+                return;
+            }
 
-			@Override
-			public int getCount() {
-				// TODO Auto-generated method stub
-				return 0;
-			}
-			;};
-	}
+            @Override
+            public int getCount() {
+                // TODO Auto-generated method stub
+                return 0;
+            }
+            ;};
+    }
 
-	@Override
-	public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
-		return new AstronomyTableMenu(pContainerId, pPlayerInventory,  this.data);
-	}
+    @Override
+    public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
+        return new AstronomyTableMenu(pContainerId, pPlayerInventory,  this.data);
+    }
 
-	@Override
-	public Component getDisplayName() {
-		return Component.literal("Astronomy Table");
-	}
+    @Override
+    public Component getDisplayName() {
+        return Component.literal("Astronomy Table");
+    }
 
 }

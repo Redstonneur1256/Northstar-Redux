@@ -33,21 +33,21 @@ import software.bernie.geckolib3.item.GeoArmorItem;
 import software.bernie.geckolib3.util.GeckoLibUtil;
 
 public class MartianSteelSpaceSuitArmorItem extends GeoArmorItem implements IAnimatable{
-	private AnimationFactory factory = GeckoLibUtil.createFactory(this);
-	public static final EquipmentSlot SLOT = EquipmentSlot.CHEST;
-	
-	public MartianSteelSpaceSuitArmorItem(ArmorMaterial materialIn, EquipmentSlot slot, Properties builder) {
-		super(materialIn, slot, builder.tab(NorthstarCreativeModeTab.NORTHSTAR_TAB));
-	}
+    private AnimationFactory factory = GeckoLibUtil.createFactory(this);
+    public static final EquipmentSlot SLOT = EquipmentSlot.CHEST;
 
-	// Predicate runs every frame
+    public MartianSteelSpaceSuitArmorItem(ArmorMaterial materialIn, EquipmentSlot slot, Properties builder) {
+        super(materialIn, slot, builder.tab(NorthstarCreativeModeTab.NORTHSTAR_TAB));
+    }
+
+    // Predicate runs every frame
     private <P extends IAnimatable> PlayState predicate(AnimationEvent<P> event) {
         event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", EDefaultLoopTypes.LOOP));
         return PlayState.CONTINUE;
     }
 
-	// All you need to do here is add your animation controllers to the
-	// AnimationData
+    // All you need to do here is add your animation controllers to the
+    // AnimationData
 	@Override
 	public void registerControllers(AnimationData data) {
 		data.addAnimationController(new AnimationController<MartianSteelSpaceSuitArmorItem>(this, "controller", 20, this::predicate));

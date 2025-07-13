@@ -29,12 +29,12 @@ import net.minecraftforge.items.ItemStackHandler;
 
 public class IceBoxRenderer extends SmartBlockEntityRenderer<IceBoxBlockEntity>  {
 
-	public IceBoxRenderer(Context context) {
-		super(context);
-	}
-	
-	@Override
-	protected void renderSafe(IceBoxBlockEntity iceBox, float partialTicks, PoseStack ms, MultiBufferSource buffer,
+    public IceBoxRenderer(Context context) {
+        super(context);
+    }
+    
+    @Override
+    protected void renderSafe(IceBoxBlockEntity iceBox, float partialTicks, PoseStack ms, MultiBufferSource buffer,
 		int light, int overlay) {
 		super.renderSafe(iceBox, partialTicks, ms, buffer, light, overlay);
 

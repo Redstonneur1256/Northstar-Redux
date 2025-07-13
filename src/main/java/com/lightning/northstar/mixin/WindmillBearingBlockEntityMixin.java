@@ -22,38 +22,38 @@ import net.minecraft.world.level.block.state.BlockState;
 @Mixin(value = WindmillBearingBlockEntity.class, remap = false)
 public abstract class WindmillBearingBlockEntityMixin extends MechanicalBearingBlockEntity {
 
-	public WindmillBearingBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-		super(type, pos, state);
-	}
-	@Shadow
-	protected float lastGeneratedSpeed;
-	@Shadow
-	protected ScrollOptionBehaviour<RotationDirection> movementDirection;
+    public WindmillBearingBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+        super(type, pos, state);
+    }
+    @Shadow
+    protected float lastGeneratedSpeed;
+    @Shadow
+    protected ScrollOptionBehaviour<RotationDirection> movementDirection;
 
     @Inject(method = "getGeneratedSpeed", at = @At("HEAD"), cancellable = true)
-	public void getGeneratedSpeed2(CallbackInfoReturnable<Float> info) {
-    	if(level != null) {
-	    	float finalwindValue = 0;
-	    	if (!running)
-	    		finalwindValue = 0;
-	    	else if (movedContraption == null)
-				finalwindValue = lastGeneratedSpeed;
-			else
-			{int sails = ((BearingContraption) movedContraption.getContraption()).getSailBlocks()
-				/ AllConfigs.server().kinetics.windmillSailsPerRPM.get();
-			finalwindValue = Mth.clamp(sails, 1, 16) * getAngleSpeedDirection2();}
-			
-			
-			info.setReturnValue(finalwindValue * NorthstarPlanets.getWindMultiplier(level));
-			info.cancel();
-    	}
-	}
+    public void getGeneratedSpeed2(CallbackInfoReturnable<Float> info) {
+        if(level != null) {
+            float finalwindValue = 0;
+            if (!running)
+                finalwindValue = 0;
+            else if (movedContraption == null)
+                finalwindValue = lastGeneratedSpeed;
+            else
+            {int sails = ((BearingContraption) movedContraption.getContraption()).getSailBlocks()
+                / AllConfigs.server().kinetics.windmillSailsPerRPM.get();
+            finalwindValue = Mth.clamp(sails, 1, 16) * getAngleSpeedDirection2();}
+            
+            
+            info.setReturnValue(finalwindValue * NorthstarPlanets.getWindMultiplier(level));
+            info.cancel();
+        }
+    }
     
     
     
-	protected float getAngleSpeedDirection2() {
-		RotationDirection rotationDirection = RotationDirection.values()[movementDirection.getValue()];
-		return (rotationDirection == RotationDirection.CLOCKWISE ? 1 : -1);
-	}
-	
+    protected float getAngleSpeedDirection2() {
+        RotationDirection rotationDirection = RotationDirection.values()[movementDirection.getValue()];
+        return (rotationDirection == RotationDirection.CLOCKWISE ? 1 : -1);
+    }
+    
 }

@@ -11,49 +11,49 @@ import com.simibubi.create.foundation.render.AllMaterialSpecs;
 import net.minecraft.core.Direction;
 
 public class OxygenConcentratorInstance extends SingleRotatingInstance<OxygenConcentratorBlockEntity> implements DynamicInstance{
-	
-	private final RotatingData fan;
-	private final OxygenConcentratorBlockEntity concentrator;
+    
+    private final RotatingData fan;
+    private final OxygenConcentratorBlockEntity concentrator;
 
-	public OxygenConcentratorInstance(MaterialManager materialManager, OxygenConcentratorBlockEntity blockEntity) {
-		super(materialManager, blockEntity);
-		this.concentrator = blockEntity;
-		fan = materialManager.defaultCutout()
-				.material(AllMaterialSpecs.ROTATING)
-				.getModel(NorthstarPartialModels.OXYGEN_CONCENTATOR_FAN, blockState)
-				.createInstance();	
-		fan.setRotationAxis(Direction.Axis.Y);
-	}
-	@Override
-	protected Instancer<RotatingData> getModel() {
-		return getRotatingMaterial().getModel(NorthstarPartialModels.HALF_SHAFT);
-	}
-	
+    public OxygenConcentratorInstance(MaterialManager materialManager, OxygenConcentratorBlockEntity blockEntity) {
+        super(materialManager, blockEntity);
+        this.concentrator = blockEntity;
+        fan = materialManager.defaultCutout()
+                .material(AllMaterialSpecs.ROTATING)
+                .getModel(NorthstarPartialModels.OXYGEN_CONCENTATOR_FAN, blockState)
+                .createInstance();    
+        fan.setRotationAxis(Direction.Axis.Y);
+    }
+    @Override
+    protected Instancer<RotatingData> getModel() {
+        return getRotatingMaterial().getModel(NorthstarPartialModels.HALF_SHAFT);
+    }
+    
 
-	@Override
-	public void beginFrame() {
-		transformModels();
-		transformFan();
-	}
-	private void transformModels() {
-	}
-	
-	private void transformFan() {
-		float speed = concentrator.getSpeed();
-		fan.setPosition(getInstancePosition())
-				.setRotationalSpeed(speed / 4);
-	}
-	@Override
-	public void updateLight() {
-		super.updateLight();
-		relight(pos, fan);
-	}
-	
-	@Override
-	public void remove() {
-		super.remove();
-		fan.delete();
-	}
+    @Override
+    public void beginFrame() {
+        transformModels();
+        transformFan();
+    }
+    private void transformModels() {
+    }
+    
+    private void transformFan() {
+        float speed = concentrator.getSpeed();
+        fan.setPosition(getInstancePosition())
+                .setRotationalSpeed(speed / 4);
+    }
+    @Override
+    public void updateLight() {
+        super.updateLight();
+        relight(pos, fan);
+    }
+    
+    @Override
+    public void remove() {
+        super.remove();
+        fan.delete();
+    }
 
 
 }

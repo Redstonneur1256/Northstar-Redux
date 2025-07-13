@@ -13,20 +13,20 @@ import net.minecraft.world.phys.Vec3;
 
 public class RocketStationBlockMovingInteraction extends MovingInteractionBehaviour{
 
-	@Override
-	public boolean handlePlayerInteraction(Player player, InteractionHand activeHand, BlockPos localPos,
-		AbstractContraptionEntity contraptionEntity) {
-		if (!(contraptionEntity.getContraption() instanceof RocketContraption)) {return false;}
-		if (!(contraptionEntity instanceof RocketContraptionEntity)) {return false;}
-		if (!contraptionEntity.level.isInWorldBounds(localPos)) {
-			return false;
-			
-		}
-		AllSoundEvents.CONTROLLER_CLICK.play(player.level, null,
-			new BlockPos(contraptionEntity.toGlobalVector(Vec3.atCenterOf(localPos), 1)), 1, 1.2f);
-		if(!contraptionEntity.level.isClientSide && contraptionEntity.level.isInWorldBounds(contraptionEntity.blockPosition()) && !((RocketContraptionEntity)contraptionEntity).landing)
-		contraptionEntity.disassemble();
+    @Override
+    public boolean handlePlayerInteraction(Player player, InteractionHand activeHand, BlockPos localPos,
+        AbstractContraptionEntity contraptionEntity) {
+        if (!(contraptionEntity.getContraption() instanceof RocketContraption)) {return false;}
+        if (!(contraptionEntity instanceof RocketContraptionEntity)) {return false;}
+        if (!contraptionEntity.level.isInWorldBounds(localPos)) {
+            return false;
+            
+        }
+        AllSoundEvents.CONTROLLER_CLICK.play(player.level, null,
+            new BlockPos(contraptionEntity.toGlobalVector(Vec3.atCenterOf(localPos), 1)), 1, 1.2f);
+        if(!contraptionEntity.level.isClientSide && contraptionEntity.level.isInWorldBounds(contraptionEntity.blockPosition()) && !((RocketContraptionEntity)contraptionEntity).landing)
+        contraptionEntity.disassemble();
 
-		return true;
-	}
+        return true;
+    }
 }

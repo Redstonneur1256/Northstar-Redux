@@ -20,23 +20,23 @@ import net.minecraft.world.level.material.Fluids;
 @Mixin(CampfireBlock.class)
 public class CampfireBlockMixin {
 
-	@Inject(method = "getStateForPlacement", at = @At("HEAD"), cancellable = true)
-	public void getStateForPlacement(BlockPlaceContext pContext, CallbackInfoReturnable<BlockState> info) {
-		try {
-			ItemStack item = pContext.getItemInHand();
-			BlockPos pos = pContext.getClickedPos();
-			Level level = pContext.getLevel();
-			boolean flag = level.getFluidState(pos).getType() == Fluids.WATER;
-			if(item.is(Items.CAMPFIRE)) {
-				if(!OxygenStuff.hasOxygen(pos, level.dimension())) {
-					info.cancel();
-					info.setReturnValue(Blocks.CAMPFIRE.defaultBlockState().setValue(CampfireBlock.WATERLOGGED, Boolean.valueOf(flag))
-							.setValue(CampfireBlock.LIT, false).setValue(CampfireBlock.FACING, pContext.getHorizontalDirection()));
-					
-				}
-			}
-		} catch (Exception e) {
-			//oops
-		}
-	}
+    @Inject(method = "getStateForPlacement", at = @At("HEAD"), cancellable = true)
+    public void getStateForPlacement(BlockPlaceContext pContext, CallbackInfoReturnable<BlockState> info) {
+        try {
+            ItemStack item = pContext.getItemInHand();
+            BlockPos pos = pContext.getClickedPos();
+            Level level = pContext.getLevel();
+            boolean flag = level.getFluidState(pos).getType() == Fluids.WATER;
+            if(item.is(Items.CAMPFIRE)) {
+                if(!OxygenStuff.hasOxygen(pos, level.dimension())) {
+                    info.cancel();
+                    info.setReturnValue(Blocks.CAMPFIRE.defaultBlockState().setValue(CampfireBlock.WATERLOGGED, Boolean.valueOf(flag))
+                            .setValue(CampfireBlock.LIT, false).setValue(CampfireBlock.FACING, pContext.getHorizontalDirection()));
+
+                }
+            }
+        } catch (Exception e) {
+            //oops
+        }
+    }
 }

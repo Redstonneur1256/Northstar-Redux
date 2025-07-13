@@ -28,37 +28,37 @@ import net.minecraft.world.phys.Vec3;
 
 @Mixin(ServerLevel.class)
 public class ServerLevelMixin {
-	
-	
+
+
     @Inject(method = "tickChunk", at = @At("HEAD"))
     public void tickChunk(LevelChunk pChunk, int pRandomTickSpeed, CallbackInfo info) {
-    	ServerLevel level = (ServerLevel)(Object) this;
-    	if(level != null) {
-	    	if(level.dimension() == NorthstarDimensions.MARS_DIM_KEY) {
-	 //   		level.setRainLevel(15);
-	    	}
-	    	if(level.dimension() == NorthstarDimensions.VENUS_DIM_KEY) {
-	  //  		level.setRainLevel(15);
-		        ChunkPos chunkpos = pChunk.getPos();
-		        boolean flag = level.isRaining();
-		        int i = chunkpos.getMinBlockX();
-		        int j = chunkpos.getMinBlockZ();
-		        ProfilerFiller profilerfiller = level.getProfiler();
-		        profilerfiller.push("thunder");
-		        if (flag && level.random.nextInt(15000) == 0) {
+        ServerLevel level = (ServerLevel)(Object) this;
+        if(level != null) {
+            if(level.dimension() == NorthstarDimensions.MARS_DIM_KEY) {
+     //           level.setRainLevel(15);
+            }
+            if(level.dimension() == NorthstarDimensions.VENUS_DIM_KEY) {
+      //          level.setRainLevel(15);
+                ChunkPos chunkpos = pChunk.getPos();
+                boolean flag = level.isRaining();
+                int i = chunkpos.getMinBlockX();
+                int j = chunkpos.getMinBlockZ();
+                ProfilerFiller profilerfiller = level.getProfiler();
+                profilerfiller.push("thunder");
+                if (flag && level.random.nextInt(15000) == 0) {
 
-			           // THUNDER TIME YEEHAW
-		           BlockPos blockpos = this.findLightningTargetAround(level.getBlockRandomPos(i, 0, j, 15));
-		           LightningBolt lightningbolt = EntityType.LIGHTNING_BOLT.create(level);
-		           lightningbolt.moveTo(Vec3.atBottomCenterOf(blockpos));
-		           level.addFreshEntity(lightningbolt);
-		        }
-	    	}
-    	}
-		   
+                       // THUNDER TIME YEEHAW
+                   BlockPos blockpos = this.findLightningTargetAround(level.getBlockRandomPos(i, 0, j, 15));
+                   LightningBolt lightningbolt = EntityType.LIGHTNING_BOLT.create(level);
+                   lightningbolt.moveTo(Vec3.atBottomCenterOf(blockpos));
+                   level.addFreshEntity(lightningbolt);
+                }
+            }
+        }
+
     }
     protected BlockPos findLightningTargetAround(BlockPos pPos) {
-    	ServerLevel level = (ServerLevel)(Object) this;
+        ServerLevel level = (ServerLevel)(Object) this;
         BlockPos blockpos = level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, pPos);
         Optional<BlockPos> optional = this.findLightningRod(blockpos);
         if (optional.isPresent()) {
@@ -80,8 +80,8 @@ public class ServerLevelMixin {
         }
      }
     @SuppressWarnings("resource")
-	private Optional<BlockPos> findLightningRod(BlockPos pPos) {
-    	ServerLevel level = (ServerLevel)(Object) this;
+    private Optional<BlockPos> findLightningRod(BlockPos pPos) {
+        ServerLevel level = (ServerLevel)(Object) this;
         Optional<BlockPos> optional = level.getPoiManager().findClosest((p_215059_) -> {
            return p_215059_.is(PoiTypes.LIGHTNING_ROD);
         }, (p_184055_) -> {
@@ -94,13 +94,13 @@ public class ServerLevelMixin {
     
     //yay :]
     @SuppressWarnings("resource")
-	@Inject(method = "getSeed", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "getSeed", at = @At("HEAD"), cancellable = true)
     public void getSeed(CallbackInfoReturnable<Long> info) {
-    	ServerLevel level = (ServerLevel) (Object) this;
-    	if(level != null) {
-	        long seed = level.getServer().getWorldData().worldGenSettings().seed();
-	        info.cancel();
-	        info.setReturnValue(seed + NorthstarPlanets.getSeedOffset(level.dimension()));
-    	}
+        ServerLevel level = (ServerLevel) (Object) this;
+        if(level != null) {
+            long seed = level.getServer().getWorldData().worldGenSettings().seed();
+            info.cancel();
+            info.setReturnValue(seed + NorthstarPlanets.getSeedOffset(level.dimension()));
+        }
     }
 }

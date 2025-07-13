@@ -36,37 +36,37 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class ExtinguishedLanternBlock extends Block implements SimpleWaterloggedBlock {
-	public static final BooleanProperty HANGING = BlockStateProperties.HANGING;
-	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-	protected static final VoxelShape AABB = Shapes.or(Block.box(5.0D, 0.0D, 5.0D, 11.0D, 7.0D, 11.0D), Block.box(6.0D, 7.0D, 6.0D, 10.0D, 9.0D, 10.0D));
-	protected static final VoxelShape HANGING_AABB = Shapes.or(Block.box(5.0D, 1.0D, 5.0D, 11.0D, 8.0D, 11.0D), Block.box(6.0D, 8.0D, 6.0D, 10.0D, 10.0D, 10.0D));
+    public static final BooleanProperty HANGING = BlockStateProperties.HANGING;
+    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    protected static final VoxelShape AABB = Shapes.or(Block.box(5.0D, 0.0D, 5.0D, 11.0D, 7.0D, 11.0D), Block.box(6.0D, 7.0D, 6.0D, 10.0D, 9.0D, 10.0D));
+    protected static final VoxelShape HANGING_AABB = Shapes.or(Block.box(5.0D, 1.0D, 5.0D, 11.0D, 8.0D, 11.0D), Block.box(6.0D, 8.0D, 6.0D, 10.0D, 10.0D, 10.0D));
 
-	public ExtinguishedLanternBlock(BlockBehaviour.Properties pProperties) {
-		super(pProperties);
-		this.registerDefaultState(this.stateDefinition.any().setValue(HANGING, Boolean.valueOf(false)).setValue(WATERLOGGED, Boolean.valueOf(false)));
-	}
+    public ExtinguishedLanternBlock(BlockBehaviour.Properties pProperties) {
+        super(pProperties);
+        this.registerDefaultState(this.stateDefinition.any().setValue(HANGING, Boolean.valueOf(false)).setValue(WATERLOGGED, Boolean.valueOf(false)));
+    }
 
-	@Nullable
-	public BlockState getStateForPlacement(BlockPlaceContext pContext) {
-		FluidState fluidstate = pContext.getLevel().getFluidState(pContext.getClickedPos());
-		for(Direction direction : pContext.getNearestLookingDirections()) {
-			if (direction.getAxis() == Direction.Axis.Y) {
-				BlockState blockstate = this.defaultBlockState().setValue(HANGING, Boolean.valueOf(direction == Direction.UP));
-				if (blockstate.canSurvive(pContext.getLevel(), pContext.getClickedPos())) {
-	               return blockstate.setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
-				}
-			}
-		}
-		return null;
-	}
+    @Nullable
+    public BlockState getStateForPlacement(BlockPlaceContext pContext) {
+        FluidState fluidstate = pContext.getLevel().getFluidState(pContext.getClickedPos());
+        for(Direction direction : pContext.getNearestLookingDirections()) {
+            if (direction.getAxis() == Direction.Axis.Y) {
+                BlockState blockstate = this.defaultBlockState().setValue(HANGING, Boolean.valueOf(direction == Direction.UP));
+                if (blockstate.canSurvive(pContext.getLevel(), pContext.getClickedPos())) {
+                   return blockstate.setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
+                }
+            }
+        }
+        return null;
+    }
 
-	public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-		return pState.getValue(HANGING) ? HANGING_AABB : AABB;
-	}
-		
-	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-		pBuilder.add(HANGING, WATERLOGGED);
-	}
+    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+        return pState.getValue(HANGING) ? HANGING_AABB : AABB;
+    }
+        
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
+        pBuilder.add(HANGING, WATERLOGGED);
+    }
 
 	public boolean canSurvive(BlockState pState, LevelReader pLevel, BlockPos pPos) {
 		Direction direction = getConnectedDirection(pState).getOpposite();

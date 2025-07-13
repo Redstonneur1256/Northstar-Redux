@@ -43,66 +43,66 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 
 @EventBusSubscriber(modid = Northstar.MOD_ID, bus = Bus.FORGE)
 public class OxygenStuff {
-	public static HashMap<BlockPos, Integer> oxygenBlocks = new HashMap<BlockPos, Integer>();
-	public static HashMap<Set<BlockPos>,ResourceKey<Level>> oxygenSources = new HashMap<Set<BlockPos>,ResourceKey<Level>>();
-	public static HashMap<Set<BlockPos>,ResourceKey<Level>> tickingQueue = new HashMap<Set<BlockPos>,ResourceKey<Level>>();
-	public static List<LivingEntity> oxygenatedEntities = new ArrayList<LivingEntity>();
-	public static int power = 2000;
-	public static int maximumOxy = 2000;
-	public static boolean debugMode = false;
+    public static HashMap<BlockPos, Integer> oxygenBlocks = new HashMap<BlockPos, Integer>();
+    public static HashMap<Set<BlockPos>,ResourceKey<Level>> oxygenSources = new HashMap<Set<BlockPos>,ResourceKey<Level>>();
+    public static HashMap<Set<BlockPos>,ResourceKey<Level>> tickingQueue = new HashMap<Set<BlockPos>,ResourceKey<Level>>();
+    public static List<LivingEntity> oxygenatedEntities = new ArrayList<LivingEntity>();
+    public static int power = 2000;
+    public static int maximumOxy = 2000;
+    public static boolean debugMode = false;
 
-	public static boolean hasOxygen(BlockPos pos, ResourceKey<Level> level) {
-		if(NorthstarPlanets.getPlanetOxy(level))
-			return true;
-		if(!oxygenSources.containsValue(level)) {return false;}
-    	for(Entry<Set<BlockPos>, ResourceKey<Level>> blocks:	oxygenSources.entrySet()) {
-    		if(blocks.getValue() == level) {
-    			if(blocks.getKey().contains(pos)) {
-    				return true;
-    			}
-    		}
-    	}
-    	return false;
-	}
-	@SubscribeEvent
+    public static boolean hasOxygen(BlockPos pos, ResourceKey<Level> level) {
+        if(NorthstarPlanets.getPlanetOxy(level))
+            return true;
+        if(!oxygenSources.containsValue(level)) {return false;}
+        for(Entry<Set<BlockPos>, ResourceKey<Level>> blocks:    oxygenSources.entrySet()) {
+            if(blocks.getValue() == level) {
+                if(blocks.getKey().contains(pos)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    @SubscribeEvent
     public static void onWorldTick(TickEvent.LevelTickEvent event){
-		if(!event.level.isClientSide)
-			return;
-    	long t = event.level.getGameTime();
-    	if(InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_O)){
-				debugMode = true;
-		}else {
-			debugMode = false;
-		}
-    	if(t % 40 == 0 && debugMode) {
-    		try {
-	    		for(Entry<Set<BlockPos>, ResourceKey<Level>> blocks:	oxygenSources.entrySet()) {
-	    			if(blocks.getValue() == event.level.dimension()) {
-	    				for(BlockPos pos : blocks.getKey()) {
-	    					event.level.addParticle(new GlowstoneParticleData(), pos.getX() + 0.5f, pos.getY() + 0.5f, pos.getZ() + 0.5f, 0,0,0);
-	    				}
-	    			}
-	    			
-	    		}
-    		}catch(Exception e) {
-    			//huh
-    		}
-    	}
-    	
-    }	
+        if(!event.level.isClientSide)
+            return;
+        long t = event.level.getGameTime();
+        if(InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_O)){
+                debugMode = true;
+        }else {
+            debugMode = false;
+        }
+        if(t % 40 == 0 && debugMode) {
+            try {
+                for(Entry<Set<BlockPos>, ResourceKey<Level>> blocks:    oxygenSources.entrySet()) {
+                    if(blocks.getValue() == event.level.dimension()) {
+                        for(BlockPos pos : blocks.getKey()) {
+                            event.level.addParticle(new GlowstoneParticleData(), pos.getX() + 0.5f, pos.getY() + 0.5f, pos.getZ() + 0.5f, 0,0,0);
+                        }
+                    }
+
+                }
+            }catch(Exception e) {
+                //huh
+            }
+        }
+
+    }
     public static Set<BlockPos> spreadOxy(Level level, Set<BlockPos> list, int maxSize) {
-    	List<BlockPos> newBlocks = new ArrayList<BlockPos>();
-    	newBlocks.addAll(list);
-		for(int i = 0; i < newBlocks.size() && i < maxSize;i++) {
-		    	BlockPos pos = newBlocks.get(i);
-		    	for(Direction direction : Direction.values()) {
-		    		BlockPos blockpos = pos.relative(direction);
-		    		if(list.contains(blockpos)) {
-		    			continue;
-		    		}
-		    		if(getIsAir(level.getBlockState(blockpos)) && list.size() < maxSize) 
-		    		{list.add(blockpos); newBlocks.add(blockpos);}
-		    	}
+        List<BlockPos> newBlocks = new ArrayList<BlockPos>();
+        newBlocks.addAll(list);
+        for(int i = 0; i < newBlocks.size() && i < maxSize;i++) {
+                BlockPos pos = newBlocks.get(i);
+                for(Direction direction : Direction.values()) {
+                    BlockPos blockpos = pos.relative(direction);
+                    if(list.contains(blockpos)) {
+                        continue;
+                    }
+                    if(getIsAir(level.getBlockState(blockpos)) && list.size() < maxSize)
+                    {list.add(blockpos); newBlocks.add(blockpos);}
+                }
 		}
 		return list;   
     }

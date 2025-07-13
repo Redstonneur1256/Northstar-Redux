@@ -31,20 +31,20 @@ import net.minecraftforge.fluids.FluidStack;
 @ParametersAreNonnullByDefault
 public class ElectrolysisCategory extends CreateRecipeCategory<ElectrolysisRecipe>  {
 
-	private final AnimatedElectrolysisMachine elecMac = new AnimatedElectrolysisMachine();
-	public static final List<ElectrolysisRecipe> RECIPES = new ArrayList<>();
-	
-	static {
-		RECIPES.add(ElectrolysisRecipe.create(FluidIngredient.fromFluid(Fluids.WATER, 10), new FluidStack(NorthstarFluids.OXYGEN.get().getSource(), 7), new FluidStack(NorthstarFluids.HYDROGEN.get().getSource(), 2), "water_electrolysis"));
-	}
+    private final AnimatedElectrolysisMachine elecMac = new AnimatedElectrolysisMachine();
+    public static final List<ElectrolysisRecipe> RECIPES = new ArrayList<>();
+    
+    static {
+        RECIPES.add(ElectrolysisRecipe.create(FluidIngredient.fromFluid(Fluids.WATER, 10), new FluidStack(NorthstarFluids.OXYGEN.get().getSource(), 7), new FluidStack(NorthstarFluids.HYDROGEN.get().getSource(), 2), "water_electrolysis"));
+    }
 
-	public ElectrolysisCategory(Info<ElectrolysisRecipe> info) {
-		super(info);
-	}
+    public ElectrolysisCategory(Info<ElectrolysisRecipe> info) {
+        super(info);
+    }
 
-	@Override
-	public void setRecipe(IRecipeLayoutBuilder builder, ElectrolysisRecipe recipe, IFocusGroup focuses) {
-		List<Pair<Ingredient, MutableInt>> condensedIngredients = ItemHelper.condenseIngredients(recipe.getIngredients());
+    @Override
+    public void setRecipe(IRecipeLayoutBuilder builder, ElectrolysisRecipe recipe, IFocusGroup focuses) {
+    	List<Pair<Ingredient, MutableInt>> condensedIngredients = ItemHelper.condenseIngredients(recipe.getIngredients());
 
 		int size = condensedIngredients.size() + recipe.getFluidIngredients().size();
 		int xOffset = size < 3 ? (3 - size) * 19 / 2 : 0;

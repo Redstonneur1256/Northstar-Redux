@@ -22,7 +22,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 
 public class JetEngineBlockEntity extends SmartBlockEntity implements IHaveGoggleInformation, IMultiBlockEntityContainer{
-	
+
 	private static final int MAX_SIZE = 5;
 
 	protected LazyOptional<IFluidHandler> fluidCapability;

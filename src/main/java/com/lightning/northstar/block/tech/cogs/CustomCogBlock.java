@@ -9,12 +9,12 @@ import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 public class CustomCogBlock extends CogWheelBlock {
 
-	protected CustomCogBlock(boolean large, Properties properties) {
-		super(large, properties);
-	}
-	
-	@Override
-	public BlockEntityType<? extends KineticBlockEntity> getBlockEntityType() {
+    protected CustomCogBlock(boolean large, Properties properties) {
+        super(large, properties);
+    }
+
+    @Override
+    public BlockEntityType<? extends KineticBlockEntity> getBlockEntityType() {
 		return NorthstarBlockEntityTypes.BRACKETED_KINETIC.get();
 	}
 	

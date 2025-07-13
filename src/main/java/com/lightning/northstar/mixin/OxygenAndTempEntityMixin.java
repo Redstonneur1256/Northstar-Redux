@@ -38,18 +38,18 @@ import net.minecraft.world.phys.Vec3;
 
 @Mixin(LivingEntity.class)
 public class OxygenAndTempEntityMixin {
-	int oxyHurtBuffer = 70;
-	int tempHurtBuffer = 70;
-	protected Object2DoubleMap<net.minecraftforge.fluids.FluidType> forgeFluidTypeHeight = new Object2DoubleArrayMap<>(net.minecraftforge.fluids.FluidType.SIZE.get());
+    int oxyHurtBuffer = 70;
+    int tempHurtBuffer = 70;
+    protected Object2DoubleMap<net.minecraftforge.fluids.FluidType> forgeFluidTypeHeight = new Object2DoubleArrayMap<>(net.minecraftforge.fluids.FluidType.SIZE.get());
 
     @Inject(method = "tick", at = @At("TAIL"))
     public void northstar$tick(CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
         if(entity instanceof ZombifiedPiglin)
-        	return;
+            return;
         
         if(entity.level.isClientSide)
-        	return;
+            return;
         ResourceKey<Level> dim = entity.level.dimension();
         boolean posHasAir = OxygenStuff.checkForAir(entity);
         if(entity.canBreatheUnderwater()) {posHasAir = true;}
@@ -59,7 +59,7 @@ public class OxygenAndTempEntityMixin {
         boolean hasHeatProtection = TemperatureStuff.hasHeatProtection(entity);
         boolean creativeCheck = false;
         if(entity instanceof ServerPlayer svp) {
-        	creativeCheck = svp.isCreative();
+            creativeCheck = svp.isCreative();
         }
         
         if(posHasAir)
@@ -80,43 +80,43 @@ public class OxygenAndTempEntityMixin {
         if (temp > 300 && !entity.isOnFire() && !entity.fireImmune() && !hasHeatProtection && tempHurtBuffer <= 0)
         {entity.setSecondsOnFire(5);}
         if(entity.level instanceof ServerLevel) {
-        	if(dim == NorthstarDimensions.EARTH_ORBIT_DIM_KEY && entity.getY() < -10) {
+            if(dim == NorthstarDimensions.EARTH_ORBIT_DIM_KEY && entity.getY() < -10) {
                 ServerLevel newLevel = entity.level.getServer().getLevel(Level.END);
 //                if(entity.level instanceof ServerLevel)
 //                entity = (LivingEntity) changeDimensionCustom(newLevel);
-        	}else if (entity instanceof Player plyer) {
-        		if (dim == NorthstarDimensions.MOON_DIM_KEY && !NorthstarAdvancements.ONE_SMALL_STEP.isAlreadyAwardedTo(plyer)) {
-        			if(plyer.level.getBlockState(plyer.blockPosition().below()).is(NorthstarBlockTags.MOON_BLOCKS.tag)) {
-        				NorthstarAdvancements.ONE_SMALL_STEP.awardTo(plyer);
-        			}
-            		
-            	} else if (dim == NorthstarDimensions.MARS_DIM_KEY && !NorthstarAdvancements.ONE_GIANT_LEAP.isAlreadyAwardedTo(plyer)) {
-        			if(plyer.level.getBlockState(plyer.blockPosition().below()).is(NorthstarBlockTags.MARS_BLOCKS.tag)) {
-        				NorthstarAdvancements.ONE_GIANT_LEAP.awardTo(plyer);
-        			}
-            	}
-        	}
+            }else if (entity instanceof Player plyer) {
+                if (dim == NorthstarDimensions.MOON_DIM_KEY && !NorthstarAdvancements.ONE_SMALL_STEP.isAlreadyAwardedTo(plyer)) {
+                    if(plyer.level.getBlockState(plyer.blockPosition().below()).is(NorthstarBlockTags.MOON_BLOCKS.tag)) {
+                        NorthstarAdvancements.ONE_SMALL_STEP.awardTo(plyer);
+                    }
+
+                } else if (dim == NorthstarDimensions.MARS_DIM_KEY && !NorthstarAdvancements.ONE_GIANT_LEAP.isAlreadyAwardedTo(plyer)) {
+                    if(plyer.level.getBlockState(plyer.blockPosition().below()).is(NorthstarBlockTags.MARS_BLOCKS.tag)) {
+                        NorthstarAdvancements.ONE_GIANT_LEAP.awardTo(plyer);
+                    }
+                }
+            }
         }
         if(getFluidAtPos(entity, entity.level) == NorthstarFluids.SULFURIC_ACID.get() || getFluidAtPos(entity, entity.level) == NorthstarFluids.SULFURIC_ACID.getSource().getSource()) {
-        	sulfurBurn(entity, entity.getRandom());
+            sulfurBurn(entity, entity.getRandom());
         }
 
         // Test code to figure out how changing dimensions works
 //        if(entity instanceof ServerPlayer && entity.getItemInHand(InteractionHand.MAIN_HAND).getItem() == Items.FLINT_AND_STEEL && !entity.level.isClientSide && entity.level.dimension() == Level.OVERWORLD) {
-//    		ResourceKey<Level> dest = NorthstarDimensions.MOON_DIM_KEY;
-//    		ServerLevel destLevel = entity.getLevel().getServer().getLevel(dest);
-//    		RocketHandler.changePlayerDimension(destLevel, (ServerPlayer) entity, new PortalForcer(destLevel));
+//            ResourceKey<Level> dest = NorthstarDimensions.MOON_DIM_KEY;
+//            ServerLevel destLevel = entity.getLevel().getServer().getLevel(dest);
+//            RocketHandler.changePlayerDimension(destLevel, (ServerPlayer) entity, new PortalForcer(destLevel));
 //        }
     }
-	@Nullable
-	public Entity changeDimensionCustom(ServerLevel pDestination) {
-		Entity entity = (Entity) (Object) this;
-		if (!net.minecraftforge.common.ForgeHooks.onTravelToDimension(entity, pDestination.dimension())) return null;
+    @Nullable
+    public Entity changeDimensionCustom(ServerLevel pDestination) {
+        Entity entity = (Entity) (Object) this;
+        if (!net.minecraftforge.common.ForgeHooks.onTravelToDimension(entity, pDestination.dimension())) return null;
         entity.level.getProfiler().push("changeDimension");
         entity.level.getProfiler().push("reposition");
         BlockPos blockpos = entity.blockPosition();
         PortalInfo portalinfo = new PortalInfo(new Vec3((double)blockpos.getX() + 0.5D, (double)blockpos.getY(), (double)blockpos.getZ() + 0.5D),
-        		entity.getDeltaMovement(), entity.getYRot(), entity.getXRot());
+                entity.getDeltaMovement(), entity.getYRot(), entity.getXRot());
         Entity transportedEntity = pDestination.getPortalForcer().placeEntity(entity, (ServerLevel) entity.level, pDestination, entity.getYRot(), spawnPortal -> { //Forge: Start vanilla logic
             entity.level.getProfiler().popPush("reloading");
             Entity newentity = entity.getType().create(pDestination);
@@ -137,24 +137,24 @@ public class OxygenAndTempEntityMixin {
         pDestination.resetEmptyTime();
         entity.level.getProfiler().pop();
         return transportedEntity;
-	}
-	
-	
-	public void sulfurBurn(Entity entity, RandomSource rando) {
+    }
+
+
+    public void sulfurBurn(Entity entity, RandomSource rando) {
         if (entity.hurt(DamageSource.LAVA, 6.0F)) {
-        	entity.playSound(SoundEvents.GENERIC_BURN, 0.4F, 2.0F + rando.nextFloat() * 0.4F);
+            entity.playSound(SoundEvents.GENERIC_BURN, 0.4F, 2.0F + rando.nextFloat() * 0.4F);
          }
-	}
-	public Fluid getFluidAtPos(Entity entity, Level level) {
-		float height = level.getBlockState(entity.blockPosition()).getFluidState().getType().getHeight(level.getFluidState(entity.blockPosition()), level, entity.blockPosition());
-		if(height + entity.blockPosition().getY() > entity.position().y)
-		{return level.getBlockState(entity.blockPosition()).getFluidState().getType();}
-		else{return null;}
-	}
+    }
+    public Fluid getFluidAtPos(Entity entity, Level level) {
+        float height = level.getBlockState(entity.blockPosition()).getFluidState().getType().getHeight(level.getFluidState(entity.blockPosition()), level, entity.blockPosition());
+        if(height + entity.blockPosition().getY() > entity.position().y)
+        {return level.getBlockState(entity.blockPosition()).getFluidState().getType();}
+        else{return null;}
+    }
    
     
     private static int checkTemp(LivingEntity entity) {
-    	return TemperatureStuff.getTempForEntity(entity);    	
+        return TemperatureStuff.getTempForEntity(entity);
     }
     
     

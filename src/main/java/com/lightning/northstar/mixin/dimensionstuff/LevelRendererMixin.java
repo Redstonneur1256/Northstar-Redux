@@ -60,225 +60,225 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 @Mixin(LevelRenderer.class)
 public class LevelRendererMixin {
-	private static final ResourceLocation EARTH_CLOSE = new ResourceLocation(Northstar.MOD_ID,"textures/environment/earth_close.png");
-	private static final ResourceLocation EARTH_FAR = new ResourceLocation(Northstar.MOD_ID,"textures/environment/earth_far.png");
-	private static final ResourceLocation MOON_CLOSE = new ResourceLocation(Northstar.MOD_ID,"textures/environment/moon_close.png");
-	private static final ResourceLocation MOON_FAR = new ResourceLocation(Northstar.MOD_ID,"textures/environment/moon_far.png");
-	private static final ResourceLocation VENUS_FAR = new ResourceLocation(Northstar.MOD_ID,"textures/environment/venus_far_sky.png");
-	private static final ResourceLocation VENUS_CLOSE = new ResourceLocation(Northstar.MOD_ID,"textures/environment/venus_close.png");
-	private static final ResourceLocation BARE_SUN = new ResourceLocation(Northstar.MOD_ID,"textures/environment/baresun.png");
-	private static final ResourceLocation BLURRED_SUN = new ResourceLocation(Northstar.MOD_ID,"textures/environment/sun_blurry.png");
-	private static final ResourceLocation MARS_CLOSE = new ResourceLocation(Northstar.MOD_ID,"textures/environment/mars_close.png");
-	//private static final ResourceLocation MARS_FAR = new ResourceLocation(Northstar.MOD_ID,"textures/environment/mars_far.png");
-	private static final ResourceLocation MARS_VERY_FAR = new ResourceLocation(Northstar.MOD_ID,"textures/environment/mars_very_far_sky.png");
-	private static final ResourceLocation MERCURY_CLOSE = new ResourceLocation(Northstar.MOD_ID,"textures/environment/mercury_close.png");
-	private static final ResourceLocation PHOBOS_DEIMOS = new ResourceLocation(Northstar.MOD_ID,"textures/environment/phobos_and_deimos.png");
-	private static final ResourceLocation NORTHERN_STAR = new ResourceLocation(Northstar.MOD_ID,"textures/environment/northernstar_sky.png");
-	private static final ResourceLocation MARS_DUST = new ResourceLocation(Northstar.MOD_ID,"textures/environment/mars_dust.png");
-	private static final ResourceLocation ACID_RAIN = new ResourceLocation(Northstar.MOD_ID,"textures/environment/acid_rain.png");
-	private static final ResourceLocation MOON_LOC = new ResourceLocation("textures/environment/moon_phases.png");
-	
-	
-	private static final ResourceLocation CLOUDS_LOCATION = new ResourceLocation("textures/environment/clouds.png");
-	
-	private static final ResourceLocation SNOW_LOCATION = new ResourceLocation("textures/environment/snow.png");
-	
-	
-	@Nullable
-	private VertexBuffer darkBuffer;
-	@Shadow
-	private VertexBuffer skyBuffer;
-	@Shadow
-	private VertexBuffer starBuffer;
-	private VertexBuffer starBuffer2;
-	private VertexBuffer starBuffer3;
-	
-	@Nullable
-	@Shadow
-	private VertexBuffer cloudBuffer;
-	@Nullable
-	private VertexBuffer cloudBuffer2;
-	private boolean generateClouds = true;
-	private int prevCloudX = Integer.MIN_VALUE;
-	private int prevCloudY = Integer.MIN_VALUE;
-	private int prevCloudZ = Integer.MIN_VALUE;
-	private Vec3 prevCloudColor = Vec3.ZERO;
-	@Nullable
-	private CloudStatus prevCloudsType;
-	
-	@Nullable
-	@Shadow
-	private ClientLevel level;
-	@Shadow
-	private Minecraft minecraft;
-	private float f_alpha = 1;
-	private int ticks;
-	private int rainSoundTime;
-	private double dust_bounce = 0.01;
+    private static final ResourceLocation EARTH_CLOSE = new ResourceLocation(Northstar.MOD_ID,"textures/environment/earth_close.png");
+    private static final ResourceLocation EARTH_FAR = new ResourceLocation(Northstar.MOD_ID,"textures/environment/earth_far.png");
+    private static final ResourceLocation MOON_CLOSE = new ResourceLocation(Northstar.MOD_ID,"textures/environment/moon_close.png");
+    private static final ResourceLocation MOON_FAR = new ResourceLocation(Northstar.MOD_ID,"textures/environment/moon_far.png");
+    private static final ResourceLocation VENUS_FAR = new ResourceLocation(Northstar.MOD_ID,"textures/environment/venus_far_sky.png");
+    private static final ResourceLocation VENUS_CLOSE = new ResourceLocation(Northstar.MOD_ID,"textures/environment/venus_close.png");
+    private static final ResourceLocation BARE_SUN = new ResourceLocation(Northstar.MOD_ID,"textures/environment/baresun.png");
+    private static final ResourceLocation BLURRED_SUN = new ResourceLocation(Northstar.MOD_ID,"textures/environment/sun_blurry.png");
+    private static final ResourceLocation MARS_CLOSE = new ResourceLocation(Northstar.MOD_ID,"textures/environment/mars_close.png");
+    //private static final ResourceLocation MARS_FAR = new ResourceLocation(Northstar.MOD_ID,"textures/environment/mars_far.png");
+    private static final ResourceLocation MARS_VERY_FAR = new ResourceLocation(Northstar.MOD_ID,"textures/environment/mars_very_far_sky.png");
+    private static final ResourceLocation MERCURY_CLOSE = new ResourceLocation(Northstar.MOD_ID,"textures/environment/mercury_close.png");
+    private static final ResourceLocation PHOBOS_DEIMOS = new ResourceLocation(Northstar.MOD_ID,"textures/environment/phobos_and_deimos.png");
+    private static final ResourceLocation NORTHERN_STAR = new ResourceLocation(Northstar.MOD_ID,"textures/environment/northernstar_sky.png");
+    private static final ResourceLocation MARS_DUST = new ResourceLocation(Northstar.MOD_ID,"textures/environment/mars_dust.png");
+    private static final ResourceLocation ACID_RAIN = new ResourceLocation(Northstar.MOD_ID,"textures/environment/acid_rain.png");
+    private static final ResourceLocation MOON_LOC = new ResourceLocation("textures/environment/moon_phases.png");
+
+
+    private static final ResourceLocation CLOUDS_LOCATION = new ResourceLocation("textures/environment/clouds.png");
+
+    private static final ResourceLocation SNOW_LOCATION = new ResourceLocation("textures/environment/snow.png");
+
+
+    @Nullable
+    private VertexBuffer darkBuffer;
+    @Shadow
+    private VertexBuffer skyBuffer;
+    @Shadow
+    private VertexBuffer starBuffer;
+    private VertexBuffer starBuffer2;
+    private VertexBuffer starBuffer3;
+
+    @Nullable
+    @Shadow
+    private VertexBuffer cloudBuffer;
+    @Nullable
+    private VertexBuffer cloudBuffer2;
+    private boolean generateClouds = true;
+    private int prevCloudX = Integer.MIN_VALUE;
+    private int prevCloudY = Integer.MIN_VALUE;
+    private int prevCloudZ = Integer.MIN_VALUE;
+    private Vec3 prevCloudColor = Vec3.ZERO;
+    @Nullable
+    private CloudStatus prevCloudsType;
+
+    @Nullable
+    @Shadow
+    private ClientLevel level;
+    @Shadow
+    private Minecraft minecraft;
+    private float f_alpha = 1;
+    private int ticks;
+    private int rainSoundTime;
+    private double dust_bounce = 0.01;
     float sc = 1;
     
     private static final Vector3f VENUS_DIFFUSE_1 = Util.make(new Vector3f(0.2F, -1.0F, -0.7F), Vector3f::normalize);
     private static final Vector3f VENUS_DIFFUSE_2 = Util.make(new Vector3f(-0.2F, -1.0F, 0.7F), Vector3f::normalize);
-	
-	
-	private final float[] rainSizeX = new float[1024];
-	private final float[] rainSizeZ = new float[1024];
-	
-//	@Inject(method = "renderLevel", at = @At("HEAD"), cancellable = true)
-//	public void renderLevel(PoseStack pPoseStack, float pPartialTick, long pFinishNanoTime, boolean pRenderBlockOutline, Camera pCamera, GameRenderer pGameRenderer, LightTexture pLightTexture, Matrix4f pProjectionMatrix, CallbackInfo info) {
-//		 if(this.level.dimension() == NorthstarDimensions.VENUS_DIM_KEY)
-//		 {RenderSystem.setupLevelDiffuseLighting(VENUS_DIFFUSE_1, VENUS_DIFFUSE_2, pPoseStack.last().pose());}
-//	}
-	
-	@SuppressWarnings("resource")
-	@Inject(method = "renderSnowAndRain", at = @At("HEAD"), cancellable = true)
-	private void renderWeather(LightTexture pLightTexture, float pPartialTick, double pCamX, double pCamY, double pCamZ, CallbackInfo info) {
-		if(this.minecraft != null) {
-	        float playerEyeLevel = (float) this.minecraft.player.getEyePosition().y;
-	        if (playerEyeLevel > 450) {
-	        	info.cancel();
-	        	return;
-	        }
-		}
-		ResourceKey<Level> player_dim = Minecraft.getInstance().level.dimension();		
-	 	if (player_dim == NorthstarDimensions.MARS_DIM_KEY) {info.cancel();
-//		Minecraft.getInstance().level.setRainLevel(15);
-	 		float rain_det = this.minecraft.level.getRainLevel(pPartialTick);
-	 	      if (!(rain_det <= 0.0F)){
-	 	         pLightTexture.turnOnLightLayer();
-	 	    	 RenderSystem.setShader(GameRenderer::getPositionColorShader);
-	 		 	 RenderSystem.disableTexture();
-	 		 	 RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-	 		 	 RenderSystem.depthMask(false);
-	 		 	 RenderSystem.enableBlend();
-	 		 	 RenderSystem.defaultBlendFunc();
-	 		 	 Camera pCamera = Minecraft.getInstance().gameRenderer.getMainCamera();
-	 		 	 GameRenderer gRenderer = Minecraft.getInstance().gameRenderer;
-				 Vec3 vec3 = pCamera.getPosition();
-	 		 	 double fog_x = vec3.x();
-	 		 	 double fog_y = vec3.y();
-	 		     FogRenderer.setupColor(pCamera, pPartialTick, this.minecraft.level, this.minecraft.options.getEffectiveRenderDistance(), gRenderer.getDarkenWorldAmount(pPartialTick));
-	 		     FogRenderer.levelFogColor();
-	 		 	 boolean flag2 = this.minecraft.level.effects().isFoggyAt(Mth.floor(fog_x), Mth.floor(fog_y)) || this.minecraft.gui.getBossOverlay().shouldCreateWorldFog();
-	 		 	 FogRenderer.setupFog(pCamera, FogRenderer.FogMode.FOG_TERRAIN, this.minecraft.options.getEffectiveRenderDistance() / 5, flag2, pPartialTick);
-	 		 	 
-	 		    
-	 			 FogRenderer.setupNoFog();
-	 			 RenderSystem.depthMask(true);
-	 			 RenderSystem.disableBlend();
-	 	    	 pLightTexture.turnOnLightLayer();
-	 	         Level level = this.minecraft.level;
-	 	         int i = Mth.floor(pCamX);
-	 	         int j = Mth.floor(pCamY);
-	 	         int k = Mth.floor(pCamZ);
-	 	         Tesselator tesselator = Tesselator.getInstance();
-	 	         BufferBuilder bufferbuilder = tesselator.getBuilder();
-	 	         RenderSystem.disableCull();
-	 	         RenderSystem.enableBlend();
-	 	         RenderSystem.defaultBlendFunc();
-	 	         RenderSystem.enableDepthTest();
-	 	         int l = 2;
-	 	         if (Minecraft.useFancyGraphics()) {
-	 	            l = 3;
-	 	         }
-	 	         
 
-	 	         RenderSystem.depthMask(Minecraft.useShaderTransparency());
-	 	         int i1 = -1;
-	 	         float f1 = (float)this.ticks + pPartialTick;
-	 	         RenderSystem.setShader(GameRenderer::getParticleShader);
-	 	         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-	 	         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
-	 	         
-	 	         for(int j1 = k - l; j1 <= k + l; ++j1) {
-	 	            for(int k1 = i - l; k1 <= i + l; ++k1) {
-	 	               int l1 = (j1 - k + 8) * 32 + k1 - i + 8;
-	 	               double d0 = (double)this.rainSizeX[l1] * 1.25D;
-	 	               double d1 = (double)this.rainSizeZ[l1] * 1.25D;
-	 	               blockpos$mutableblockpos.set((double)k1, pCamY, (double)j1);
-	 	               Biome biome = level.getBiome(blockpos$mutableblockpos).value();
-	 	               if (biome.getPrecipitation() == Biome.Precipitation.NONE) {
-	 	                  int i2 = level.getHeight(Heightmap.Types.MOTION_BLOCKING, k1, j1);
-	 	                  int j2 = j - l;
-	 	                  int k2 = j + l;
-	 	                  if (j2 < i2) {
-	 	                     j2 = i2;
-	 	                  }
 
-	 	                  if (k2 < i2) {
-	 	                     k2 = i2;
-	 	                  }
+    private final float[] rainSizeX = new float[1024];
+    private final float[] rainSizeZ = new float[1024];
 
-	 	                  int l2 = i2;
-	 	                  if (i2 < j) {
-	 	                     l2 = j;
-	 	                  }
-	 	                  if (j2 != k2) {
-	 	                     RandomSource randomsource = RandomSource.create((long)(k1 * k1 * 3121 + k1 * 45238971 ^ j1 * j1 * 418711 + j1 * 13761));
-	 	                     blockpos$mutableblockpos.set(k1, j2, j1);
-	 	                     if ((biome.warmEnoughToRain(blockpos$mutableblockpos))) {
-	 	                        if (i1 != 0) {
-	 	                           if (i1 >= 0) {
-	 	                              tesselator.end();
-	 	                           }
+//    @Inject(method = "renderLevel", at = @At("HEAD"), cancellable = true)
+//    public void renderLevel(PoseStack pPoseStack, float pPartialTick, long pFinishNanoTime, boolean pRenderBlockOutline, Camera pCamera, GameRenderer pGameRenderer, LightTexture pLightTexture, Matrix4f pProjectionMatrix, CallbackInfo info) {
+//         if(this.level.dimension() == NorthstarDimensions.VENUS_DIM_KEY)
+//         {RenderSystem.setupLevelDiffuseLighting(VENUS_DIFFUSE_1, VENUS_DIFFUSE_2, pPoseStack.last().pose());}
+//    }
 
-	 	                           i1 = 0;    
-	 	                           RenderSystem.setShaderTexture(0, MARS_DUST);
-	 	                           bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
-	 	                        }
+    @SuppressWarnings("resource")
+    @Inject(method = "renderSnowAndRain", at = @At("HEAD"), cancellable = true)
+    private void renderWeather(LightTexture pLightTexture, float pPartialTick, double pCamX, double pCamY, double pCamZ, CallbackInfo info) {
+        if(this.minecraft != null) {
+            float playerEyeLevel = (float) this.minecraft.player.getEyePosition().y;
+            if (playerEyeLevel > 450) {
+                info.cancel();
+                return;
+            }
+        }
+        ResourceKey<Level> player_dim = Minecraft.getInstance().level.dimension();
+         if (player_dim == NorthstarDimensions.MARS_DIM_KEY) {info.cancel();
+//        Minecraft.getInstance().level.setRainLevel(15);
+             float rain_det = this.minecraft.level.getRainLevel(pPartialTick);
+               if (!(rain_det <= 0.0F)){
+                  pLightTexture.turnOnLightLayer();
+                  RenderSystem.setShader(GameRenderer::getPositionColorShader);
+                   RenderSystem.disableTexture();
+                   RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+                   RenderSystem.depthMask(false);
+                   RenderSystem.enableBlend();
+                   RenderSystem.defaultBlendFunc();
+                   Camera pCamera = Minecraft.getInstance().gameRenderer.getMainCamera();
+                   GameRenderer gRenderer = Minecraft.getInstance().gameRenderer;
+                 Vec3 vec3 = pCamera.getPosition();
+                   double fog_x = vec3.x();
+                   double fog_y = vec3.y();
+                  FogRenderer.setupColor(pCamera, pPartialTick, this.minecraft.level, this.minecraft.options.getEffectiveRenderDistance(), gRenderer.getDarkenWorldAmount(pPartialTick));
+                  FogRenderer.levelFogColor();
+                   boolean flag2 = this.minecraft.level.effects().isFoggyAt(Mth.floor(fog_x), Mth.floor(fog_y)) || this.minecraft.gui.getBossOverlay().shouldCreateWorldFog();
+                   FogRenderer.setupFog(pCamera, FogRenderer.FogMode.FOG_TERRAIN, this.minecraft.options.getEffectiveRenderDistance() / 5, flag2, pPartialTick);
 
-	 	                        int i3 = this.ticks + k1 * k1 * 3121 + k1 * 45238971 + j1 * j1 * 418711 + j1 * 13761 & 31;
-	 	                        float f2 = -((float)i3 + pPartialTick) / 32.0F * (0.75F);
-	 	                        //double d2 = (double)k1 + 0.5D - pCamX;
-	 	                        //double d4 = (double)j1 + 0.5D - pCamZ;
-	 	                       // float f3 = (float)Math.sqrt(d2 * d2 + d4 * d4) / (float)l;
-	 	                       // float f4 = ((1.0F - f3 * f3) * 0.5F + 0.5F) * rain_det;
-	 	                        if (dust_bounce > 0)
-	 	                        {dust_bounce -= 0.01;}
-	 	                        else {dust_bounce += 0.01;}
-	 	                        blockpos$mutableblockpos.set(k1, l2, j1);
-	 	                        RenderSystem.setShaderColor(2.0F, 1.178F, 0.698f, 0.5f);
-	 	                        int j3 = 0;
-	 	                        bufferbuilder.vertex((double)k1 - pCamX - d0 + -10.5D, (double)k2 - pCamY, (double)j1 - pCamZ - d1 + 10.5D).uv(0.0F + f2, 0).color(1.0F, 1.0F, 1.0F, 0.2f).uv2(j3).endVertex();
-	 	                        bufferbuilder.vertex((double)k1 - pCamX + d0 + 10.5D, (double)k2 - pCamY, (double)j1 - pCamZ + d1 + -10.5D).uv(1.0F + f2, (float) (0 + dust_bounce / 2)).color(1.0F, 1.0F, 1.0F, 0.2f).uv2(j3).endVertex();
-	 	                        bufferbuilder.vertex((double)k1 - pCamX + d0 + 10.5D, (double)j2 - pCamY, (double)j1 - pCamZ + d1 + -10.5D).uv(1.0F + f2, (float) (1 + dust_bounce / 2)).color(1.0F, 1.0F, 1.0F, 0.2f).uv2(j3).endVertex();
-	 	                        bufferbuilder.vertex((double)k1 - pCamX - d0 + -10.5D, (double)j2 - pCamY, (double)j1 - pCamZ - d1 + 10.5D).uv(0.0F + f2, 1).color(1.0F, 1.0F, 1.0F, 0.2f).uv2(j3).endVertex();
-	 	                     } else {
-	 	                        if (i1 != 1) {
-	 	                           if (i1 >= 0) {
-	 	                              tesselator.end();
-	 	                           }
 
-	 	                           i1 = 1;
-	 	                           RenderSystem.setShaderTexture(0, SNOW_LOCATION);
-	 	                           bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
-	 	                        }
-	 	                        float f5 = -((float)(this.ticks & 511) + pPartialTick) / 512.0F;
-	 	                        float f6 = (float)(randomsource.nextDouble() + (double)f1 * 0.01D * (double)((float)randomsource.nextGaussian()));
-	 	                        float f7 = (float)(randomsource.nextDouble() + (double)(f1 * (float)randomsource.nextGaussian()) * 0.001D);
-	 	                        double d3 = (double)k1 + 0.5D - pCamX;
-	 	                        double d5 = (double)j1 + 0.5D - pCamZ;
-	 	                        float f8 = (float)Math.sqrt(d3 * d3 + d5 * d5) / (float)l;
-	 	                        float f9 = ((1.0F - f8 * f8) * 0.3F + 0.5F) * rain_det;
-	 	                        blockpos$mutableblockpos.set(k1, l2, j1);
-	 	                        int k3 = 4;
-	 	                        int l3 = k3 >> 16 & '\uffff';
-	 	                        int i4 = k3 & '\uffff';
-	 	                        int j4 = (l3 * 3 + 240) / 4;
-	 	                        int k4 = (i4 * 3 + 240) / 4;
-	 	                        bufferbuilder.vertex((double)k1 - pCamX - d0 + 0.5D, (double)k2 - pCamY, (double)j1 - pCamZ - d1 + 0.5D).uv(0.0F + f6, (float)j2 * 0.25F + f5 + f7).color(1.0F, 1.0F, 1.0F, f9).uv2(k4, j4).endVertex();
-	 	                        bufferbuilder.vertex((double)k1 - pCamX + d0 + 0.5D, (double)k2 - pCamY, (double)j1 - pCamZ + d1 + 0.5D).uv(1.0F + f6, (float)j2 * 0.25F + f5 + f7).color(1.0F, 1.0F, 1.0F, f9).uv2(k4, j4).endVertex();
-	 	                        bufferbuilder.vertex((double)k1 - pCamX + d0 + 0.5D, (double)j2 - pCamY, (double)j1 - pCamZ + d1 + 0.5D).uv(1.0F + f6, (float)k2 * 0.25F + f5 + f7).color(1.0F, 1.0F, 1.0F, f9).uv2(k4, j4).endVertex();
-	 	                        bufferbuilder.vertex((double)k1 - pCamX - d0 + 0.5D, (double)j2 - pCamY, (double)j1 - pCamZ - d1 + 0.5D).uv(0.0F + f6, (float)k2 * 0.25F + f5 + f7).color(1.0F, 1.0F, 1.0F, f9).uv2(k4, j4).endVertex();
-	 	                     }
-	 	                  }
-	 	               }
+                  FogRenderer.setupNoFog();
+                  RenderSystem.depthMask(true);
+                  RenderSystem.disableBlend();
+                  pLightTexture.turnOnLightLayer();
+                  Level level = this.minecraft.level;
+                  int i = Mth.floor(pCamX);
+                  int j = Mth.floor(pCamY);
+                  int k = Mth.floor(pCamZ);
+                  Tesselator tesselator = Tesselator.getInstance();
+                  BufferBuilder bufferbuilder = tesselator.getBuilder();
+                  RenderSystem.disableCull();
+                  RenderSystem.enableBlend();
+                  RenderSystem.defaultBlendFunc();
+                  RenderSystem.enableDepthTest();
+                  int l = 2;
+                  if (Minecraft.useFancyGraphics()) {
+                     l = 3;
+                  }
 
-	 	            }
-	 	         }
 
-	 	         if (i1 >= 0) {
-	 	            tesselator.end();
+                  RenderSystem.depthMask(Minecraft.useShaderTransparency());
+                  int i1 = -1;
+                  float f1 = (float)this.ticks + pPartialTick;
+                  RenderSystem.setShader(GameRenderer::getParticleShader);
+                  RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+                  BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+
+                  for(int j1 = k - l; j1 <= k + l; ++j1) {
+                     for(int k1 = i - l; k1 <= i + l; ++k1) {
+                        int l1 = (j1 - k + 8) * 32 + k1 - i + 8;
+                        double d0 = (double)this.rainSizeX[l1] * 1.25D;
+                        double d1 = (double)this.rainSizeZ[l1] * 1.25D;
+                        blockpos$mutableblockpos.set((double)k1, pCamY, (double)j1);
+                        Biome biome = level.getBiome(blockpos$mutableblockpos).value();
+                        if (biome.getPrecipitation() == Biome.Precipitation.NONE) {
+                           int i2 = level.getHeight(Heightmap.Types.MOTION_BLOCKING, k1, j1);
+                           int j2 = j - l;
+                           int k2 = j + l;
+                           if (j2 < i2) {
+                              j2 = i2;
+                           }
+
+                           if (k2 < i2) {
+                              k2 = i2;
+                           }
+
+                           int l2 = i2;
+                           if (i2 < j) {
+                              l2 = j;
+                           }
+                           if (j2 != k2) {
+                              RandomSource randomsource = RandomSource.create((long)(k1 * k1 * 3121 + k1 * 45238971 ^ j1 * j1 * 418711 + j1 * 13761));
+                              blockpos$mutableblockpos.set(k1, j2, j1);
+                              if ((biome.warmEnoughToRain(blockpos$mutableblockpos))) {
+                                 if (i1 != 0) {
+                                    if (i1 >= 0) {
+                                       tesselator.end();
+                                    }
+
+                                    i1 = 0;
+                                    RenderSystem.setShaderTexture(0, MARS_DUST);
+                                    bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
+                                 }
+
+                                 int i3 = this.ticks + k1 * k1 * 3121 + k1 * 45238971 + j1 * j1 * 418711 + j1 * 13761 & 31;
+                                 float f2 = -((float)i3 + pPartialTick) / 32.0F * (0.75F);
+                                 //double d2 = (double)k1 + 0.5D - pCamX;
+                                 //double d4 = (double)j1 + 0.5D - pCamZ;
+                                // float f3 = (float)Math.sqrt(d2 * d2 + d4 * d4) / (float)l;
+                                // float f4 = ((1.0F - f3 * f3) * 0.5F + 0.5F) * rain_det;
+                                 if (dust_bounce > 0)
+                                 {dust_bounce -= 0.01;}
+                                 else {dust_bounce += 0.01;}
+                                 blockpos$mutableblockpos.set(k1, l2, j1);
+                                 RenderSystem.setShaderColor(2.0F, 1.178F, 0.698f, 0.5f);
+                                 int j3 = 0;
+                                 bufferbuilder.vertex((double)k1 - pCamX - d0 + -10.5D, (double)k2 - pCamY, (double)j1 - pCamZ - d1 + 10.5D).uv(0.0F + f2, 0).color(1.0F, 1.0F, 1.0F, 0.2f).uv2(j3).endVertex();
+                                 bufferbuilder.vertex((double)k1 - pCamX + d0 + 10.5D, (double)k2 - pCamY, (double)j1 - pCamZ + d1 + -10.5D).uv(1.0F + f2, (float) (0 + dust_bounce / 2)).color(1.0F, 1.0F, 1.0F, 0.2f).uv2(j3).endVertex();
+                                 bufferbuilder.vertex((double)k1 - pCamX + d0 + 10.5D, (double)j2 - pCamY, (double)j1 - pCamZ + d1 + -10.5D).uv(1.0F + f2, (float) (1 + dust_bounce / 2)).color(1.0F, 1.0F, 1.0F, 0.2f).uv2(j3).endVertex();
+                                 bufferbuilder.vertex((double)k1 - pCamX - d0 + -10.5D, (double)j2 - pCamY, (double)j1 - pCamZ - d1 + 10.5D).uv(0.0F + f2, 1).color(1.0F, 1.0F, 1.0F, 0.2f).uv2(j3).endVertex();
+                              } else {
+                                 if (i1 != 1) {
+                                    if (i1 >= 0) {
+                                       tesselator.end();
+                                    }
+
+                                    i1 = 1;
+                                    RenderSystem.setShaderTexture(0, SNOW_LOCATION);
+                                    bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
+                                 }
+                                 float f5 = -((float)(this.ticks & 511) + pPartialTick) / 512.0F;
+                                 float f6 = (float)(randomsource.nextDouble() + (double)f1 * 0.01D * (double)((float)randomsource.nextGaussian()));
+                                 float f7 = (float)(randomsource.nextDouble() + (double)(f1 * (float)randomsource.nextGaussian()) * 0.001D);
+                                 double d3 = (double)k1 + 0.5D - pCamX;
+                                 double d5 = (double)j1 + 0.5D - pCamZ;
+                                 float f8 = (float)Math.sqrt(d3 * d3 + d5 * d5) / (float)l;
+                                 float f9 = ((1.0F - f8 * f8) * 0.3F + 0.5F) * rain_det;
+                                 blockpos$mutableblockpos.set(k1, l2, j1);
+                                 int k3 = 4;
+                                 int l3 = k3 >> 16 & '\uffff';
+                                 int i4 = k3 & '\uffff';
+                                 int j4 = (l3 * 3 + 240) / 4;
+                                 int k4 = (i4 * 3 + 240) / 4;
+                                 bufferbuilder.vertex((double)k1 - pCamX - d0 + 0.5D, (double)k2 - pCamY, (double)j1 - pCamZ - d1 + 0.5D).uv(0.0F + f6, (float)j2 * 0.25F + f5 + f7).color(1.0F, 1.0F, 1.0F, f9).uv2(k4, j4).endVertex();
+                                 bufferbuilder.vertex((double)k1 - pCamX + d0 + 0.5D, (double)k2 - pCamY, (double)j1 - pCamZ + d1 + 0.5D).uv(1.0F + f6, (float)j2 * 0.25F + f5 + f7).color(1.0F, 1.0F, 1.0F, f9).uv2(k4, j4).endVertex();
+                                 bufferbuilder.vertex((double)k1 - pCamX + d0 + 0.5D, (double)j2 - pCamY, (double)j1 - pCamZ + d1 + 0.5D).uv(1.0F + f6, (float)k2 * 0.25F + f5 + f7).color(1.0F, 1.0F, 1.0F, f9).uv2(k4, j4).endVertex();
+                                 bufferbuilder.vertex((double)k1 - pCamX - d0 + 0.5D, (double)j2 - pCamY, (double)j1 - pCamZ - d1 + 0.5D).uv(0.0F + f6, (float)k2 * 0.25F + f5 + f7).color(1.0F, 1.0F, 1.0F, f9).uv2(k4, j4).endVertex();
+                              }
+                           }
+                        }
+
+                     }
+                  }
+
+                  if (i1 >= 0) {
+     	            tesselator.end();
 	 	         }
 
 	 	         RenderSystem.enableCull();

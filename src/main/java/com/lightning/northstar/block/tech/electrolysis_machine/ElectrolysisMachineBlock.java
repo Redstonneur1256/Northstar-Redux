@@ -14,31 +14,31 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class ElectrolysisMachineBlock extends HorizontalKineticBlock implements IBE<ElectrolysisMachineBlockEntity> {
 
-	public ElectrolysisMachineBlock(Properties properties) {
-		super(properties);
-	}
-	@Override
-	public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-		return IBE.super.newBlockEntity(pPos, pState);
-	}
+    public ElectrolysisMachineBlock(Properties properties) {
+        super(properties);
+    }
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
+        return IBE.super.newBlockEntity(pPos, pState);
+    }
 
-	@Override
-	public Axis getRotationAxis(BlockState state) {
-		return Axis.Y;
-	}
-	
-	@Override
-	public boolean hasShaftTowards(LevelReader world, BlockPos pos, BlockState state, Direction face) {
-		return face == Direction.DOWN;
-	}
+    @Override
+    public Axis getRotationAxis(BlockState state) {
+        return Axis.Y;
+    }
 
-	@Override
-	public Class<ElectrolysisMachineBlockEntity> getBlockEntityClass() {
-		return ElectrolysisMachineBlockEntity.class;
-	}
+    @Override
+    public boolean hasShaftTowards(LevelReader world, BlockPos pos, BlockState state, Direction face) {
+        return face == Direction.DOWN;
+    }
 
-	@Override
-	public BlockEntityType<? extends ElectrolysisMachineBlockEntity> getBlockEntityType() {
-		return NorthstarBlockEntityTypes.ELECTROLYSIS_MACHINE.get();
-	}
+    @Override
+    public Class<ElectrolysisMachineBlockEntity> getBlockEntityClass() {
+        return ElectrolysisMachineBlockEntity.class;
+    }
+
+    @Override
+    public BlockEntityType<? extends ElectrolysisMachineBlockEntity> getBlockEntityType() {
+        return NorthstarBlockEntityTypes.ELECTROLYSIS_MACHINE.get();
+    }
 }

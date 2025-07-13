@@ -12,10 +12,10 @@ import net.minecraft.world.level.block.state.BlockState;
 
 @Mixin(LiquidBlock.class)
 public class LiquidBlockMixin {
-	
-	@Inject(method = "randomTick", at = @At("HEAD"), cancellable = true)
-	public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
-		pState.getFluidState().randomTick(pLevel, pPos, pRandom);
-	}
+
+    @Inject(method = "randomTick", at = @At("HEAD"), cancellable = true)
+    public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
+        pState.getFluidState().randomTick(pLevel, pPos, pRandom);
+    }
 
 }
