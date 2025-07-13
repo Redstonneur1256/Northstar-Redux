@@ -2,7 +2,7 @@
   "type": "northstar:engraving",
   "ingredients": [
     {
-      "item":"northstar:raw_glowstone_ore"
+      "item": "northstar:raw_glowstone_ore"
     }
   ],
   "results": [

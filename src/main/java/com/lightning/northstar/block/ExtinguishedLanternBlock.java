@@ -68,59 +68,59 @@ public class ExtinguishedLanternBlock extends Block implements SimpleWaterlogged
         pBuilder.add(HANGING, WATERLOGGED);
     }
 
-	public boolean canSurvive(BlockState pState, LevelReader pLevel, BlockPos pPos) {
-		Direction direction = getConnectedDirection(pState).getOpposite();
-		return Block.canSupportCenter(pLevel, pPos.relative(direction), direction.getOpposite());
-	}
+    public boolean canSurvive(BlockState pState, LevelReader pLevel, BlockPos pPos) {
+        Direction direction = getConnectedDirection(pState).getOpposite();
+        return Block.canSupportCenter(pLevel, pPos.relative(direction), direction.getOpposite());
+    }
 
-	protected static Direction getConnectedDirection(BlockState pState) {
-		return pState.getValue(HANGING) ? Direction.DOWN : Direction.UP;
-	}
-	
-	public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-		boolean fireflag = false;
-		if ((pPlayer.getItemInHand(pHand).getItem() == Items.FLINT_AND_STEEL || pPlayer.getItemInHand(pHand).getItem() == Items.FIRE_CHARGE) && OxygenStuff.hasOxygen(pPos, pLevel.dimension())) {
-			fireflag = true;}
-		if (pPlayer.getAbilities().mayBuild && fireflag) {
-			pLevel.setBlock(pPos, Blocks.LANTERN.defaultBlockState().setValue(LanternBlock.HANGING, pState.getValue(HANGING)).setValue(LanternBlock.WATERLOGGED, pState.getValue(WATERLOGGED)), 64);
-			pLevel.playSound(pPlayer, pPos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0F, pLevel.getRandom().nextFloat() * 0.4F + 0.8F);
-			return InteractionResult.sidedSuccess(pLevel.isClientSide);
-		} else {
-			return InteractionResult.PASS;
-		}
-	}
-	
+    protected static Direction getConnectedDirection(BlockState pState) {
+        return pState.getValue(HANGING) ? Direction.DOWN : Direction.UP;
+    }
 
-	/**
-	 * @deprecated call via {@link
-	 * net.minecraft.world.level.block.state.BlockBehaviour.BlockStateBase#getPistonPushReaction} whenever possible.
-	 * Implementing/overriding is fine.
-	 */
-	public PushReaction getPistonPushReaction(BlockState pState) {
-		return PushReaction.DESTROY;
-	}
+    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+        boolean fireflag = false;
+        if ((pPlayer.getItemInHand(pHand).getItem() == Items.FLINT_AND_STEEL || pPlayer.getItemInHand(pHand).getItem() == Items.FIRE_CHARGE) && OxygenStuff.hasOxygen(pPos, pLevel.dimension())) {
+            fireflag = true;}
+        if (pPlayer.getAbilities().mayBuild && fireflag) {
+            pLevel.setBlock(pPos, Blocks.LANTERN.defaultBlockState().setValue(LanternBlock.HANGING, pState.getValue(HANGING)).setValue(LanternBlock.WATERLOGGED, pState.getValue(WATERLOGGED)), 64);
+            pLevel.playSound(pPlayer, pPos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0F, pLevel.getRandom().nextFloat() * 0.4F + 0.8F);
+            return InteractionResult.sidedSuccess(pLevel.isClientSide);
+        } else {
+            return InteractionResult.PASS;
+        }
+    }
 
-	   /**
-	    * Update the provided state given the provided neighbor direction and neighbor state, returning a new state.
-	    * For example, fences make their connections to the passed in state if possible, and wet concrete powder immediately
-	    * returns its solidified counterpart.
-	    * Note that this method should ideally consider only the specific direction passed in.
-	    */
-	@SuppressWarnings("deprecation")
-	public BlockState updateShape(BlockState pState, Direction pDirection, BlockState pNeighborState, LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pNeighborPos) {
-		if (pState.getValue(WATERLOGGED)) {
-			pLevel.scheduleTick(pCurrentPos, Fluids.WATER, Fluids.WATER.getTickDelay(pLevel));
-		}
 
-		return getConnectedDirection(pState).getOpposite() == pDirection && !pState.canSurvive(pLevel, pCurrentPos) ? Blocks.AIR.defaultBlockState() : super.updateShape(pState, pDirection, pNeighborState, pLevel, pCurrentPos, pNeighborPos);
-	}
+    /**
+     * @deprecated call via {@link
+     * net.minecraft.world.level.block.state.BlockBehaviour.BlockStateBase#getPistonPushReaction} whenever possible.
+     * Implementing/overriding is fine.
+     */
+    public PushReaction getPistonPushReaction(BlockState pState) {
+        return PushReaction.DESTROY;
+    }
 
-	@SuppressWarnings("deprecation")
-	public FluidState getFluidState(BlockState pState) {
-		return pState.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(pState);
-	}
+       /**
+        * Update the provided state given the provided neighbor direction and neighbor state, returning a new state.
+        * For example, fences make their connections to the passed in state if possible, and wet concrete powder immediately
+        * returns its solidified counterpart.
+        * Note that this method should ideally consider only the specific direction passed in.
+        */
+    @SuppressWarnings("deprecation")
+    public BlockState updateShape(BlockState pState, Direction pDirection, BlockState pNeighborState, LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pNeighborPos) {
+        if (pState.getValue(WATERLOGGED)) {
+            pLevel.scheduleTick(pCurrentPos, Fluids.WATER, Fluids.WATER.getTickDelay(pLevel));
+        }
 
-	public boolean isPathfindable(BlockState pState, BlockGetter pLevel, BlockPos pPos, PathComputationType pType) {
-		return false;
-	}
+        return getConnectedDirection(pState).getOpposite() == pDirection && !pState.canSurvive(pLevel, pCurrentPos) ? Blocks.AIR.defaultBlockState() : super.updateShape(pState, pDirection, pNeighborState, pLevel, pCurrentPos, pNeighborPos);
+    }
+
+    @SuppressWarnings("deprecation")
+    public FluidState getFluidState(BlockState pState) {
+        return pState.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(pState);
+    }
+
+    public boolean isPathfindable(BlockState pState, BlockGetter pLevel, BlockPos pPos, PathComputationType pType) {
+        return false;
+    }
 }

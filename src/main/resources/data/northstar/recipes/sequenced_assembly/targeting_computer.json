@@ -11,7 +11,7 @@
     }
   ],
   "sequence": [
-{
+    {
       "type": "create:deploying",
       "ingredients": [
         {

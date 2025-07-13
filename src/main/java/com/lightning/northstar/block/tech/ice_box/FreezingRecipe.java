@@ -30,171 +30,171 @@ import net.minecraftforge.items.IItemHandler;
 
 @SuppressWarnings("removal")
 public class FreezingRecipe extends ProcessingRecipe<SmartInventory>  {
-	
-	//im gonna cry I just want this to work
-	public static boolean match(IceBoxBlockEntity iceBox, Recipe<?> recipe) {
-		FilteringBehaviour filter = iceBox.getFilter();
-		if (filter == null)
-			return false;
 
-		boolean filterTest = filter.test(recipe.getResultItem());
-		if (recipe instanceof FreezingRecipe) {
-			FreezingRecipe FreezingRecipe = (FreezingRecipe) recipe;
-			if (FreezingRecipe.getRollableResults()
-				.isEmpty()
-				&& !FreezingRecipe.getFluidResults()
-					.isEmpty())
-				filterTest = filter.test(FreezingRecipe.getFluidResults()
-					.get(0));
-		}
+    //im gonna cry I just want this to work
+    public static boolean match(IceBoxBlockEntity iceBox, Recipe<?> recipe) {
+        FilteringBehaviour filter = iceBox.getFilter();
+        if (filter == null)
+            return false;
 
-		if (!filterTest)
-			return false;
+        boolean filterTest = filter.test(recipe.getResultItem());
+        if (recipe instanceof FreezingRecipe) {
+            FreezingRecipe FreezingRecipe = (FreezingRecipe) recipe;
+            if (FreezingRecipe.getRollableResults()
+                .isEmpty()
+                && !FreezingRecipe.getFluidResults()
+                    .isEmpty())
+                filterTest = filter.test(FreezingRecipe.getFluidResults()
+                    .get(0));
+        }
 
-		return apply(iceBox, recipe, true);
-	}
+        if (!filterTest)
+            return false;
 
-	public static boolean apply(IceBoxBlockEntity iceBox, Recipe<?> recipe) {
-		return apply(iceBox, recipe, false);
-	}
+        return apply(iceBox, recipe, true);
+    }
 
-	private static boolean apply(IceBoxBlockEntity icebox, Recipe<?> recipe, boolean test) {
-		boolean isFreezingRecipe = recipe instanceof FreezingRecipe;
-		IItemHandler availableItems = icebox.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
-			.orElse(null);
-		IFluidHandler availableFluids = icebox.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
-			.orElse(null);
+    public static boolean apply(IceBoxBlockEntity iceBox, Recipe<?> recipe) {
+        return apply(iceBox, recipe, false);
+    }
 
-		if (availableItems == null || availableFluids == null)
-			return false;
+    private static boolean apply(IceBoxBlockEntity icebox, Recipe<?> recipe, boolean test) {
+        boolean isFreezingRecipe = recipe instanceof FreezingRecipe;
+        IItemHandler availableItems = icebox.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+            .orElse(null);
+        IFluidHandler availableFluids = icebox.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
+            .orElse(null);
 
-		List<ItemStack> recipeOutputItems = new ArrayList<>();
-		List<FluidStack> recipeOutputFluids = new ArrayList<>();
+        if (availableItems == null || availableFluids == null)
+            return false;
 
-		List<Ingredient> ingredients = new LinkedList<>(recipe.getIngredients());
-		List<FluidIngredient> fluidIngredients =
-			isFreezingRecipe ? ((FreezingRecipe) recipe).getFluidIngredients() : Collections.emptyList();
+        List<ItemStack> recipeOutputItems = new ArrayList<>();
+        List<FluidStack> recipeOutputFluids = new ArrayList<>();
 
-		for (boolean simulate : Iterate.trueAndFalse) {
+        List<Ingredient> ingredients = new LinkedList<>(recipe.getIngredients());
+        List<FluidIngredient> fluidIngredients =
+            isFreezingRecipe ? ((FreezingRecipe) recipe).getFluidIngredients() : Collections.emptyList();
 
-			if (!simulate && test)
-				return true;
+        for (boolean simulate : Iterate.trueAndFalse) {
 
-			int[] extractedItemsFromSlot = new int[availableItems.getSlots()];
-			int[] extractedFluidsFromTank = new int[availableFluids.getTanks()];
+            if (!simulate && test)
+                return true;
 
-			Ingredients: for (int i = 0; i < ingredients.size(); i++) {
-				Ingredient ingredient = ingredients.get(i);
+            int[] extractedItemsFromSlot = new int[availableItems.getSlots()];
+            int[] extractedFluidsFromTank = new int[availableFluids.getTanks()];
 
-				for (int slot = 0; slot < availableItems.getSlots(); slot++) {
-					if (simulate && availableItems.getStackInSlot(slot)
-						.getCount() <= extractedItemsFromSlot[slot])
-						continue;
-					ItemStack extracted = availableItems.extractItem(slot, 1, true);
-					if (!ingredient.test(extracted))
-						continue;
-					if (!simulate)
-						availableItems.extractItem(slot, 1, false);
-					extractedItemsFromSlot[slot]++;
-					continue Ingredients;
-				}
+            Ingredients: for (int i = 0; i < ingredients.size(); i++) {
+                Ingredient ingredient = ingredients.get(i);
 
-				// something wasn't found
-				return false;
-			}
+                for (int slot = 0; slot < availableItems.getSlots(); slot++) {
+                    if (simulate && availableItems.getStackInSlot(slot)
+                        .getCount() <= extractedItemsFromSlot[slot])
+                        continue;
+                    ItemStack extracted = availableItems.extractItem(slot, 1, true);
+                    if (!ingredient.test(extracted))
+                        continue;
+                    if (!simulate)
+                        availableItems.extractItem(slot, 1, false);
+                    extractedItemsFromSlot[slot]++;
+                    continue Ingredients;
+                }
 
-			boolean fluidsAffected = false;
-			FluidIngredients: for (int i = 0; i < fluidIngredients.size(); i++) {
-				FluidIngredient fluidIngredient = fluidIngredients.get(i);
-				int amountRequired = fluidIngredient.getRequiredAmount();
+                // something wasn't found
+                return false;
+            }
 
-				for (int tank = 0; tank < availableFluids.getTanks(); tank++) {
-					FluidStack fluidStack = availableFluids.getFluidInTank(tank);
-					if (simulate && fluidStack.getAmount() <= extractedFluidsFromTank[tank])
-						continue;
-					if (!fluidIngredient.test(fluidStack))
-						continue;
-					int drainedAmount = Math.min(amountRequired, fluidStack.getAmount());
-					if (!simulate) {
-						fluidStack.shrink(drainedAmount);
-						fluidsAffected = true;
-					}
-					amountRequired -= drainedAmount;
-					if (amountRequired != 0)
-						continue;
-					extractedFluidsFromTank[tank] += drainedAmount;
-					continue FluidIngredients;
-				}
+            boolean fluidsAffected = false;
+            FluidIngredients: for (int i = 0; i < fluidIngredients.size(); i++) {
+                FluidIngredient fluidIngredient = fluidIngredients.get(i);
+                int amountRequired = fluidIngredient.getRequiredAmount();
 
-				// something wasn't found
-				return false;
-			}
+                for (int tank = 0; tank < availableFluids.getTanks(); tank++) {
+                    FluidStack fluidStack = availableFluids.getFluidInTank(tank);
+                    if (simulate && fluidStack.getAmount() <= extractedFluidsFromTank[tank])
+                        continue;
+                    if (!fluidIngredient.test(fluidStack))
+                        continue;
+                    int drainedAmount = Math.min(amountRequired, fluidStack.getAmount());
+                    if (!simulate) {
+                        fluidStack.shrink(drainedAmount);
+                        fluidsAffected = true;
+                    }
+                    amountRequired -= drainedAmount;
+                    if (amountRequired != 0)
+                        continue;
+                    extractedFluidsFromTank[tank] += drainedAmount;
+                    continue FluidIngredients;
+                }
 
-			if (fluidsAffected) {
-				icebox.getBehaviour(SmartFluidTankBehaviour.INPUT)
-					.forEach(TankSegment::onFluidStackChanged);
-				icebox.getBehaviour(SmartFluidTankBehaviour.OUTPUT)
-					.forEach(TankSegment::onFluidStackChanged);
-			}
+                // something wasn't found
+                return false;
+            }
 
-			if (simulate) {
-				if (recipe instanceof FreezingRecipe FreezingRecipe) {
-					recipeOutputItems.addAll(FreezingRecipe.rollResults());
-					recipeOutputFluids.addAll(FreezingRecipe.getFluidResults());
-					recipeOutputItems.addAll(FreezingRecipe.getRemainingItems(icebox.getInputInventory()));
-				} else {
-					recipeOutputItems.add(recipe.getResultItem());
+            if (fluidsAffected) {
+                icebox.getBehaviour(SmartFluidTankBehaviour.INPUT)
+                    .forEach(TankSegment::onFluidStackChanged);
+                icebox.getBehaviour(SmartFluidTankBehaviour.OUTPUT)
+                    .forEach(TankSegment::onFluidStackChanged);
+            }
 
-					if (recipe instanceof CraftingRecipe craftingRecipe) {
-						recipeOutputItems.addAll(craftingRecipe.getRemainingItems(new DummyCraftingContainer(availableItems, extractedItemsFromSlot)));
-					}
-				}
-			}
+            if (simulate) {
+                if (recipe instanceof FreezingRecipe FreezingRecipe) {
+                    recipeOutputItems.addAll(FreezingRecipe.rollResults());
+                    recipeOutputFluids.addAll(FreezingRecipe.getFluidResults());
+                    recipeOutputItems.addAll(FreezingRecipe.getRemainingItems(icebox.getInputInventory()));
+                } else {
+                    recipeOutputItems.add(recipe.getResultItem());
 
-			if (!icebox.acceptOutputs(recipeOutputItems, recipeOutputFluids, simulate))
-				return false;
-		}
+                    if (recipe instanceof CraftingRecipe craftingRecipe) {
+                        recipeOutputItems.addAll(craftingRecipe.getRemainingItems(new DummyCraftingContainer(availableItems, extractedItemsFromSlot)));
+                    }
+                }
+            }
 
-		return true;
-	}
+            if (!icebox.acceptOutputs(recipeOutputItems, recipeOutputFluids, simulate))
+                return false;
+        }
 
-	protected FreezingRecipe(IRecipeTypeInfo type, ProcessingRecipeParams params) {
-		super(type, params);
-	}
+        return true;
+    }
 
-	public FreezingRecipe(ProcessingRecipeParams params) {
-		this(NorthstarRecipeTypes.FREEZING, params);
-	}
+    protected FreezingRecipe(IRecipeTypeInfo type, ProcessingRecipeParams params) {
+        super(type, params);
+    }
 
-	@Override
-	protected int getMaxInputCount() {
-		return 9;
-	}
+    public FreezingRecipe(ProcessingRecipeParams params) {
+        this(NorthstarRecipeTypes.FREEZING, params);
+    }
 
-	@Override
-	protected int getMaxOutputCount() {
-		return 4;
-	}
+    @Override
+    protected int getMaxInputCount() {
+        return 9;
+    }
 
-	@Override
-	protected int getMaxFluidInputCount() {
-		return 2;
-	}
+    @Override
+    protected int getMaxOutputCount() {
+        return 4;
+    }
 
-	@Override
-	protected int getMaxFluidOutputCount() {
-		return 2;
-	}
+    @Override
+    protected int getMaxFluidInputCount() {
+        return 2;
+    }
 
-	@Override
-	protected boolean canRequireHeat() {
-		return true;
-	}
+    @Override
+    protected int getMaxFluidOutputCount() {
+        return 2;
+    }
 
-	@Override
-	public boolean matches(SmartInventory pContainer, Level pLevel) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    protected boolean canRequireHeat() {
+        return true;
+    }
+
+    @Override
+    public boolean matches(SmartInventory pContainer, Level pLevel) {
+        // TODO Auto-generated method stub
+        return false;
+    }
 
 }

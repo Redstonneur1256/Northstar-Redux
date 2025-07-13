@@ -46,14 +46,14 @@ public class StoneColumnConfiguration implements FeatureConfiguration  {
 
        public StoneColumnConfiguration(int p_160956_, IntProvider p_160957_, FloatProvider p_160958_, float p_160959_, FloatProvider p_160960_, FloatProvider p_160961_, FloatProvider p_160962_, int p_160963_, float p_160964_, BlockStateProvider provider) {
               this.floorToCeilingSearchRange = p_160956_;
-		      this.columnRadius = p_160957_;
-		      this.heightScale = p_160958_;
-		      this.maxColumnRadiusToCaveHeightRatio = p_160959_;
-		      this.stalactiteBluntness = p_160960_;
-		      this.stalagmiteBluntness = p_160961_;
-		      this.windSpeed = p_160962_;
-		      this.minRadiusForWind = p_160963_;
-		      this.minBluntnessForWind = p_160964_;
-		      this.stone_provider = provider;
-		   }
+              this.columnRadius = p_160957_;
+              this.heightScale = p_160958_;
+              this.maxColumnRadiusToCaveHeightRatio = p_160959_;
+              this.stalactiteBluntness = p_160960_;
+              this.stalagmiteBluntness = p_160961_;
+              this.windSpeed = p_160962_;
+              this.minRadiusForWind = p_160963_;
+              this.minBluntnessForWind = p_160964_;
+              this.stone_provider = provider;
+           }
 }

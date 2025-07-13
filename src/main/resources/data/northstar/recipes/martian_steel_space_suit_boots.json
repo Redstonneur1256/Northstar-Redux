@@ -7,13 +7,13 @@
   ],
   "key": {
     "S": {
-	  "item": "northstar:martian_steel_sheet"	
+      "item": "northstar:martian_steel_sheet"
     },
     "W": {
       "tag": "minecraft:wool"
     },
     "P": {
-	  "item": "northstar:martian_steel_boots"	
+      "item": "northstar:martian_steel_boots"
     }
   },
   "result": {

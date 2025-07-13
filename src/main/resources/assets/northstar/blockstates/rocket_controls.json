@@ -2,7 +2,7 @@
   "variants": {
     "facing=east": {
       "model": "northstar:block/rocket_controls/block",
-            "y": 90
+      "y": 90
     },
     "facing=north": {
       "model": "northstar:block/rocket_controls/block"

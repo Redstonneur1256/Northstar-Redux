@@ -27,67 +27,67 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class JetEngineRenderer extends SafeBlockEntityRenderer<JetEngineBlockEntity>  {
     
-	public JetEngineRenderer(BlockEntityRendererProvider.Context context) {}
+    public JetEngineRenderer(BlockEntityRendererProvider.Context context) {}
 
-	@Override
-	protected void renderSafe(JetEngineBlockEntity be, float partialTicks, PoseStack ms, MultiBufferSource bufferSource,
-			int light, int overlay) {}
-	
-	public static void renderInContraption(MovementContext context, VirtualRenderWorld renderWorld,
-			ContraptionMatrices matrices, MultiBufferSource bufferSource, LerpedFloat headAngle, boolean conductor) {
-			BlockState state = context.state;
-			Boolean doJetTrail = state.getValue(JetEngineBlock.BOTTOM);
-			if (!doJetTrail)
-				return;
+    @Override
+    protected void renderSafe(JetEngineBlockEntity be, float partialTicks, PoseStack ms, MultiBufferSource bufferSource,
+            int light, int overlay) {}
 
-			Level level = context.world;
-			float horizontalAngle = AngleHelper.rad(headAngle.getValue(AnimationTickHolder.getPartialTicks(level)));
-			int hashCode = context.hashCode();
+    public static void renderInContraption(MovementContext context, VirtualRenderWorld renderWorld,
+            ContraptionMatrices matrices, MultiBufferSource bufferSource, LerpedFloat headAngle, boolean conductor) {
+            BlockState state = context.state;
+            Boolean doJetTrail = state.getValue(JetEngineBlock.BOTTOM);
+            if (!doJetTrail)
+                return;
 
-			renderShared(matrices.getViewProjection(), matrices.getModel(), bufferSource,
-				level, state, doJetTrail, 0, horizontalAngle, hashCode);
-		}
-	private static void renderShared(PoseStack ms, @Nullable PoseStack modelTransform, MultiBufferSource bufferSource,
-			Level level, BlockState blockState, Boolean doJetTrail, float animation, float horizontalAngle, int hashCode) {
-		ms.pushPose();
-		float time = AnimationTickHolder.getRenderTime(level);
-		VertexConsumer cutout = bufferSource.getBuffer(RenderType.cutoutMipped());
-		
-		SpriteShiftEntry spriteShift = AllSpriteShifts.SUPER_BURNER_FLAME;
+            Level level = context.world;
+            float horizontalAngle = AngleHelper.rad(headAngle.getValue(AnimationTickHolder.getPartialTicks(level)));
+            int hashCode = context.hashCode();
 
-			float spriteWidth = spriteShift.getTarget()
-				.getU1()
-				- spriteShift.getTarget()
-					.getU0();
+            renderShared(matrices.getViewProjection(), matrices.getModel(), bufferSource,
+                level, state, doJetTrail, 0, horizontalAngle, hashCode);
+        }
+    private static void renderShared(PoseStack ms, @Nullable PoseStack modelTransform, MultiBufferSource bufferSource,
+            Level level, BlockState blockState, Boolean doJetTrail, float animation, float horizontalAngle, int hashCode) {
+        ms.pushPose();
+        float time = AnimationTickHolder.getRenderTime(level);
+        VertexConsumer cutout = bufferSource.getBuffer(RenderType.cutoutMipped());
 
-			float spriteHeight = spriteShift.getTarget()
-				.getV1()
-				- spriteShift.getTarget()
-					.getV0();
-			
-			float speed = 1 / 32f + 1 / 64f;
-			
-			double vScroll = speed * time;
-			vScroll = vScroll - Math.floor(vScroll);
-			vScroll = vScroll * spriteHeight / 2;
-			
-			double uScroll = speed * time / 2;
-			uScroll = uScroll - Math.floor(uScroll);
-			uScroll = uScroll * spriteWidth / 2;
-		
-		SuperByteBuffer flameBuffer = CachedBufferer.partial(AllPartialModels.BLAZE_BURNER_FLAME, blockState);
-		if (modelTransform != null)
-			flameBuffer.transform(modelTransform);
-		flameBuffer.shiftUVScrolling(spriteShift, (float) uScroll, (float) vScroll);
-		draw(flameBuffer, horizontalAngle, ms, cutout);
-		
-		ms.popPose();		
-	}
-	
-	private static void draw(SuperByteBuffer buffer, float horizontalAngle, PoseStack ms, VertexConsumer vc) {
-		buffer.rotateCentered(Direction.UP, horizontalAngle)
-			.light(LightTexture.FULL_BRIGHT)
-			.renderInto(ms, vc);
-	}
+        SpriteShiftEntry spriteShift = AllSpriteShifts.SUPER_BURNER_FLAME;
+
+            float spriteWidth = spriteShift.getTarget()
+                .getU1()
+                - spriteShift.getTarget()
+                    .getU0();
+
+            float spriteHeight = spriteShift.getTarget()
+                .getV1()
+                - spriteShift.getTarget()
+                    .getV0();
+
+            float speed = 1 / 32f + 1 / 64f;
+
+            double vScroll = speed * time;
+            vScroll = vScroll - Math.floor(vScroll);
+            vScroll = vScroll * spriteHeight / 2;
+
+            double uScroll = speed * time / 2;
+            uScroll = uScroll - Math.floor(uScroll);
+            uScroll = uScroll * spriteWidth / 2;
+
+        SuperByteBuffer flameBuffer = CachedBufferer.partial(AllPartialModels.BLAZE_BURNER_FLAME, blockState);
+        if (modelTransform != null)
+            flameBuffer.transform(modelTransform);
+        flameBuffer.shiftUVScrolling(spriteShift, (float) uScroll, (float) vScroll);
+        draw(flameBuffer, horizontalAngle, ms, cutout);
+
+        ms.popPose();
+    }
+
+    private static void draw(SuperByteBuffer buffer, float horizontalAngle, PoseStack ms, VertexConsumer vc) {
+        buffer.rotateCentered(Direction.UP, horizontalAngle)
+            .light(LightTexture.FULL_BRIGHT)
+            .renderInto(ms, vc);
+    }
 
 }

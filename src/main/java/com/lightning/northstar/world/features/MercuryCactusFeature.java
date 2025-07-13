@@ -66,15 +66,15 @@ public class MercuryCactusFeature extends Feature<NoneFeatureConfiguration> {
         }
     }
     
-	protected BlockPos scan(Direction dir, BlockPos pos, WorldGenLevel level, int scanDist) {
-		BlockPos newblockpos = pos;
-		for(int i = 0; i < scanDist; i++) {
-			newblockpos = newblockpos.relative(Direction.UP);
-			if(level.getBlockState(newblockpos).isAir() && !level.getBlockState(newblockpos.above()).isAir()) {
-				return newblockpos;
-			}
-		}		
-		return pos;
-	}
-	
+    protected BlockPos scan(Direction dir, BlockPos pos, WorldGenLevel level, int scanDist) {
+        BlockPos newblockpos = pos;
+        for(int i = 0; i < scanDist; i++) {
+            newblockpos = newblockpos.relative(Direction.UP);
+            if(level.getBlockState(newblockpos).isAir() && !level.getBlockState(newblockpos.above()).isAir()) {
+                return newblockpos;
+            }
+        }
+        return pos;
+    }
+
 }

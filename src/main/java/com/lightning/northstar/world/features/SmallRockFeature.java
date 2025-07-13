@@ -14,60 +14,60 @@ import net.minecraft.world.level.levelgen.feature.configurations.BlockStateConfi
 
 public class SmallRockFeature extends Feature<BlockStateConfiguration> {
 
-	public SmallRockFeature(Codec<BlockStateConfiguration> pCodec) {
-		super(pCodec);
-	}
+    public SmallRockFeature(Codec<BlockStateConfiguration> pCodec) {
+        super(pCodec);
+    }
 
-	@Override
-	public boolean place(FeaturePlaceContext<BlockStateConfiguration> pContext) {
-		  BlockStateConfiguration config = pContext.config();
-	      BlockPos blockpos = pContext.origin();
-	      WorldGenLevel worldgenlevel = pContext.level();
-	      RandomSource randomsource = pContext.random();
-	      boolean flag = false;
-	      
-	      placeBlock(config, worldgenlevel, randomsource, blockpos);
-	      placeBlock(config, worldgenlevel, randomsource, blockpos.offset(0,1,0));
-	      placeBlock(config, worldgenlevel, randomsource, blockpos.offset(0,2,0));
-	      
-	      placeBlock(config, worldgenlevel, randomsource, blockpos.offset(1,0,0));
-	      placeBlock(config, worldgenlevel, randomsource, blockpos.offset(-1,0,0));
-	      placeBlock(config, worldgenlevel, randomsource, blockpos.offset(0,0,1));
-	      placeBlock(config, worldgenlevel, randomsource, blockpos.offset(0,0,-1));
-	      
-	      placeBlock(config, worldgenlevel, randomsource, blockpos.offset(1,1,0));
-	      placeBlock(config, worldgenlevel, randomsource, blockpos.offset(-1,1,0));
-	      placeBlock(config, worldgenlevel, randomsource, blockpos.offset(0,1,1));
-	      placeBlock(config, worldgenlevel, randomsource, blockpos.offset(0,1,-1));
-	      
-	      placeBlock(config, worldgenlevel, randomsource, blockpos.offset(1,1,0));
-	      placeBlock(config, worldgenlevel, randomsource, blockpos.offset(1,1,1));
-	      placeBlock(config, worldgenlevel, randomsource, blockpos.offset(1,1,-1));
-	      placeBlock(config, worldgenlevel, randomsource, blockpos.offset(-1,1,0));
-	      placeBlock(config, worldgenlevel, randomsource, blockpos.offset(-1,1,1));
-	      placeBlock(config, worldgenlevel, randomsource, blockpos.offset(-1,1,-1));
-	      placeBlock(config, worldgenlevel, randomsource, blockpos.offset(0,1,1));
-	      placeBlock(config, worldgenlevel, randomsource, blockpos.offset(0,1,-1));
-	      
-	      placeBlock(config, worldgenlevel, randomsource, blockpos.offset(1,2,0));
-	      placeBlock(config, worldgenlevel, randomsource, blockpos.offset(-1,2,0));
-	      placeBlock(config, worldgenlevel, randomsource, blockpos.offset(0,2,1));
-	      placeBlock(config, worldgenlevel, randomsource, blockpos.offset(0,2,-1));
-	      
-	      
-	      placeBlock(config, worldgenlevel, randomsource, blockpos);
+    @Override
+    public boolean place(FeaturePlaceContext<BlockStateConfiguration> pContext) {
+          BlockStateConfiguration config = pContext.config();
+          BlockPos blockpos = pContext.origin();
+          WorldGenLevel worldgenlevel = pContext.level();
+          RandomSource randomsource = pContext.random();
+          boolean flag = false;
 
-	      return flag;
-	}
+          placeBlock(config, worldgenlevel, randomsource, blockpos);
+          placeBlock(config, worldgenlevel, randomsource, blockpos.offset(0,1,0));
+          placeBlock(config, worldgenlevel, randomsource, blockpos.offset(0,2,0));
 
-	protected boolean placeBlock(BlockStateConfiguration pConfig, WorldGenLevel pLevel, RandomSource pRandom, BlockPos pPos) {
-	      boolean flag = false;
-	      BlockState blockstate = pConfig.state;
-	      pLevel.setBlock(pPos, blockstate, 2);
-	      this.markAboveForPostProcessing(pLevel, pPos);
-	      flag = true;
+          placeBlock(config, worldgenlevel, randomsource, blockpos.offset(1,0,0));
+          placeBlock(config, worldgenlevel, randomsource, blockpos.offset(-1,0,0));
+          placeBlock(config, worldgenlevel, randomsource, blockpos.offset(0,0,1));
+          placeBlock(config, worldgenlevel, randomsource, blockpos.offset(0,0,-1));
 
-	      return flag;
-	   }
+          placeBlock(config, worldgenlevel, randomsource, blockpos.offset(1,1,0));
+          placeBlock(config, worldgenlevel, randomsource, blockpos.offset(-1,1,0));
+          placeBlock(config, worldgenlevel, randomsource, blockpos.offset(0,1,1));
+          placeBlock(config, worldgenlevel, randomsource, blockpos.offset(0,1,-1));
+
+          placeBlock(config, worldgenlevel, randomsource, blockpos.offset(1,1,0));
+          placeBlock(config, worldgenlevel, randomsource, blockpos.offset(1,1,1));
+          placeBlock(config, worldgenlevel, randomsource, blockpos.offset(1,1,-1));
+          placeBlock(config, worldgenlevel, randomsource, blockpos.offset(-1,1,0));
+          placeBlock(config, worldgenlevel, randomsource, blockpos.offset(-1,1,1));
+          placeBlock(config, worldgenlevel, randomsource, blockpos.offset(-1,1,-1));
+          placeBlock(config, worldgenlevel, randomsource, blockpos.offset(0,1,1));
+          placeBlock(config, worldgenlevel, randomsource, blockpos.offset(0,1,-1));
+
+          placeBlock(config, worldgenlevel, randomsource, blockpos.offset(1,2,0));
+          placeBlock(config, worldgenlevel, randomsource, blockpos.offset(-1,2,0));
+          placeBlock(config, worldgenlevel, randomsource, blockpos.offset(0,2,1));
+          placeBlock(config, worldgenlevel, randomsource, blockpos.offset(0,2,-1));
+
+
+          placeBlock(config, worldgenlevel, randomsource, blockpos);
+
+          return flag;
+    }
+
+    protected boolean placeBlock(BlockStateConfiguration pConfig, WorldGenLevel pLevel, RandomSource pRandom, BlockPos pPos) {
+          boolean flag = false;
+          BlockState blockstate = pConfig.state;
+          pLevel.setBlock(pPos, blockstate, 2);
+          this.markAboveForPostProcessing(pLevel, pPos);
+          flag = true;
+
+          return flag;
+       }
 
 }

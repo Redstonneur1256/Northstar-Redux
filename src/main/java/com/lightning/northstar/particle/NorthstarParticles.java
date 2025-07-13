@@ -17,63 +17,63 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public enum NorthstarParticles {
-	
-	GLOWSTONE_PARTICLE(GlowstoneParticleData::new),
-	ROCKET_FLAME(RocketFlameParticleData::new),
-	ROCKET_FLAME_LANDING(RocketFlameLandingParticleData::new),
-	ROCKET_SMOKE(RocketSmokeParticleData::new),
-	ROCKET_SMOKE_LANDING(RocketSmokeLandingParticleData::new),
-	COLD_AIR(ColdAirParticleData::new),
-	OXY_FLOW(OxyFlowParticleData::new),
-	SNOWFLAKE(SnowflakeParticleData::new),
-	SNAIL_SLIME(SnailSlimeParticleData::new),
-	SULFUR_POOF(SulfurPoofParticleData::new),
-	DUST_CLOUD(DustCloudParticleData::new);
-	
-	private final ParticleEntry<?> entry;
 
-	<D extends ParticleOptions> NorthstarParticles(Supplier<? extends ICustomParticleData<D>> typeFactory) {
-		String name = name().toLowerCase(Locale.ROOT);
-		entry = new ParticleEntry<>(name, typeFactory);
-	}
+    GLOWSTONE_PARTICLE(GlowstoneParticleData::new),
+    ROCKET_FLAME(RocketFlameParticleData::new),
+    ROCKET_FLAME_LANDING(RocketFlameLandingParticleData::new),
+    ROCKET_SMOKE(RocketSmokeParticleData::new),
+    ROCKET_SMOKE_LANDING(RocketSmokeLandingParticleData::new),
+    COLD_AIR(ColdAirParticleData::new),
+    OXY_FLOW(OxyFlowParticleData::new),
+    SNOWFLAKE(SnowflakeParticleData::new),
+    SNAIL_SLIME(SnailSlimeParticleData::new),
+    SULFUR_POOF(SulfurPoofParticleData::new),
+    DUST_CLOUD(DustCloudParticleData::new);
 
-	public static void register(IEventBus modEventBus) {
-		ParticleEntry.REGISTER.register(modEventBus);
-	}
+    private final ParticleEntry<?> entry;
 
-	@OnlyIn(Dist.CLIENT)
-	public static void registerFactories(RegisterParticleProvidersEvent event) {
-		for (NorthstarParticles particle : values())
-			particle.entry.registerFactory(event);
-	}
+    <D extends ParticleOptions> NorthstarParticles(Supplier<? extends ICustomParticleData<D>> typeFactory) {
+        String name = name().toLowerCase(Locale.ROOT);
+        entry = new ParticleEntry<>(name, typeFactory);
+    }
 
-	public ParticleType<?> get() {
-		return entry.object.get();
-	}
+    public static void register(IEventBus modEventBus) {
+        ParticleEntry.REGISTER.register(modEventBus);
+    }
 
-	public String parameter() {
-		return entry.name;
-	}
+    @OnlyIn(Dist.CLIENT)
+    public static void registerFactories(RegisterParticleProvidersEvent event) {
+        for (NorthstarParticles particle : values())
+            particle.entry.registerFactory(event);
+    }
 
-	private static class ParticleEntry<D extends ParticleOptions> {
-		private static final DeferredRegister<ParticleType<?>> REGISTER = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, Northstar.MOD_ID);
+    public ParticleType<?> get() {
+        return entry.object.get();
+    }
 
-		private final String name;
-		private final Supplier<? extends ICustomParticleData<D>> typeFactory;
-		private final RegistryObject<ParticleType<D>> object;
+    public String parameter() {
+        return entry.name;
+    }
 
-		public ParticleEntry(String name, Supplier<? extends ICustomParticleData<D>> typeFactory) {
-			this.name = name;			
-			this.typeFactory = typeFactory;
-			object = REGISTER.register(name, () -> this.typeFactory.get().createType());
-		}
+    private static class ParticleEntry<D extends ParticleOptions> {
+        private static final DeferredRegister<ParticleType<?>> REGISTER = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, Northstar.MOD_ID);
 
-		@OnlyIn(Dist.CLIENT)
-		public void registerFactory(RegisterParticleProvidersEvent event) {
-			typeFactory.get()
-				.register(object.get(), event);
-		}
+        private final String name;
+        private final Supplier<? extends ICustomParticleData<D>> typeFactory;
+        private final RegistryObject<ParticleType<D>> object;
 
-	}
+        public ParticleEntry(String name, Supplier<? extends ICustomParticleData<D>> typeFactory) {
+            this.name = name;
+            this.typeFactory = typeFactory;
+            object = REGISTER.register(name, () -> this.typeFactory.get().createType());
+        }
+
+        @OnlyIn(Dist.CLIENT)
+        public void registerFactory(RegisterParticleProvidersEvent event) {
+            typeFactory.get()
+                .register(object.get(), event);
+        }
+
+    }
 
 }

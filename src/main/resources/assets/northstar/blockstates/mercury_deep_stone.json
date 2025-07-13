@@ -1,5 +1,7 @@
 {
-	"variants":{
-	"":{"model": "northstar:block/mercury_deep_stone"}
-	}
+  "variants": {
+    "": {
+      "model": "northstar:block/mercury_deep_stone"
+    }
+  }
 }

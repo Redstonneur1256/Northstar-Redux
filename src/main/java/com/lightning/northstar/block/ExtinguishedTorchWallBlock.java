@@ -64,39 +64,39 @@ public class ExtinguishedTorchWallBlock extends Block{
         BlockPos blockpos = pContext.getClickedPos();
         Direction[] adirection = pContext.getNearestLookingDirections();
 
-    	for(Direction direction : adirection) {
-			if (direction.getAxis().isHorizontal()) {
-				Direction direction1 = direction.getOpposite();
-				blockstate = blockstate.setValue(FACING, direction1);
-				if (blockstate.canSurvive(levelreader, blockpos)) {
-	            	return blockstate;
-	            }
-			}
-		}
-		
-		return null;
-	}
+        for(Direction direction : adirection) {
+            if (direction.getAxis().isHorizontal()) {
+                Direction direction1 = direction.getOpposite();
+                blockstate = blockstate.setValue(FACING, direction1);
+                if (blockstate.canSurvive(levelreader, blockpos)) {
+                    return blockstate;
+                }
+            }
+        }
 
-	public boolean canSurvive(BlockState pState, LevelReader pLevel, BlockPos pPos) {
-		Direction direction = pState.getValue(FACING);
-		BlockPos blockpos = pPos.relative(direction.getOpposite());
-		BlockState blockstate = pLevel.getBlockState(blockpos);
-		return blockstate.isFaceSturdy(pLevel, blockpos, direction);
-	}
-	public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-		boolean fireflag = false;
-		if ((pPlayer.getItemInHand(pHand).getItem() == Items.FLINT_AND_STEEL || pPlayer.getItemInHand(pHand).getItem() == Items.FIRE_CHARGE) && OxygenStuff.hasOxygen(pPos,pLevel.dimension())) {
-			fireflag = true;}
-		if (pPlayer.getAbilities().mayBuild && fireflag) {
-			pLevel.setBlock(pPos, Blocks.WALL_TORCH.defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, pState.getValue(FACING)), 64);
-			pLevel.playSound(pPlayer, pPos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0F, pLevel.getRandom().nextFloat() * 0.4F + 0.8F);
-			return InteractionResult.sidedSuccess(pLevel.isClientSide);
-		} else {
-			return InteractionResult.PASS;
-		}
-	}
-	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-		pBuilder.add(FACING);
-	}
-	
+        return null;
+    }
+
+    public boolean canSurvive(BlockState pState, LevelReader pLevel, BlockPos pPos) {
+        Direction direction = pState.getValue(FACING);
+        BlockPos blockpos = pPos.relative(direction.getOpposite());
+        BlockState blockstate = pLevel.getBlockState(blockpos);
+        return blockstate.isFaceSturdy(pLevel, blockpos, direction);
+    }
+    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+        boolean fireflag = false;
+        if ((pPlayer.getItemInHand(pHand).getItem() == Items.FLINT_AND_STEEL || pPlayer.getItemInHand(pHand).getItem() == Items.FIRE_CHARGE) && OxygenStuff.hasOxygen(pPos,pLevel.dimension())) {
+            fireflag = true;}
+        if (pPlayer.getAbilities().mayBuild && fireflag) {
+            pLevel.setBlock(pPos, Blocks.WALL_TORCH.defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, pState.getValue(FACING)), 64);
+            pLevel.playSound(pPlayer, pPos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0F, pLevel.getRandom().nextFloat() * 0.4F + 0.8F);
+            return InteractionResult.sidedSuccess(pLevel.isClientSide);
+        } else {
+            return InteractionResult.PASS;
+        }
+    }
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
+        pBuilder.add(FACING);
+    }
+
 }

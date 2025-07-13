@@ -41,17 +41,17 @@ public class TelescopeMenu extends AbstractContainerMenu {
          addDataSlots(data);
    }
 
-	@Override
-	public ItemStack quickMoveStack(Player pPlayer, int pIndex) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public ItemStack quickMoveStack(Player pPlayer, int pIndex) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public boolean stillValid(Player pPlayer) {
-		// TODO Auto-generated method stub
-		return true;
-	}
+    @Override
+    public boolean stillValid(Player pPlayer) {
+        // TODO Auto-generated method stub
+        return true;
+    }
 
 
 }

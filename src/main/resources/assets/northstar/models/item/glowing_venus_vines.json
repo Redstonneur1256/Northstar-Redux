@@ -1,6 +1,6 @@
 {
-	"parent": "item/generated",
-	"textures":{
-		"layer0": "northstar:block/glowing_venus_vine"
-	}
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "northstar:block/glowing_venus_vine"
+  }
 }

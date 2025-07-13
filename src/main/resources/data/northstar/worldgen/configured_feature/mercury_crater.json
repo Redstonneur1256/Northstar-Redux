@@ -2,16 +2,16 @@
   "type": "northstar:crater",
   "config": {
     "air_provider": {
-        "type": "minecraft:simple_state_provider",
-        "state": {
-          "Name": "minecraft:air"
-        }
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "minecraft:air"
+      }
     },
-        "block_provider": {
-        "type": "minecraft:simple_state_provider",
-        "state": {
-          "Name": "northstar:mercury_stone"
-        }
+    "block_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "northstar:mercury_stone"
+      }
     },
     "radius": {
       "type": "minecraft:uniform",
@@ -20,7 +20,7 @@
         "max_inclusive": 12
       }
     },
-     "depth": {
+    "depth": {
       "type": "minecraft:uniform",
       "value": {
         "min_inclusive": 2,
@@ -28,7 +28,7 @@
       }
     },
     "half_height": 2,
-	"can_delete": "#northstar:natural_mercury_blocks"
+    "can_delete": "#northstar:natural_mercury_blocks"
   }
 }
 

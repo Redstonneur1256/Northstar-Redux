@@ -1,5 +1,7 @@
 {
-	"variants":{
-	"":{"model": "northstar:block/polished_mars_stone"}
-	}
+  "variants": {
+    "": {
+      "model": "northstar:block/polished_mars_stone"
+    }
+  }
 }

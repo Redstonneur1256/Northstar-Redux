@@ -31,12 +31,13 @@
           "item": "northstar:dormant_martian_sapling_sequenced"
         },
         {
-      		"amount": 25,
-     		 "fluid": "create:potion",
-     		 "nbt": {
-      		  "Bottle": "REGULAR",
-      		  "Potion": "minecraft:healing"
-        }}
+          "amount": 25,
+          "fluid": "create:potion",
+          "nbt": {
+            "Bottle": "REGULAR",
+            "Potion": "minecraft:healing"
+          }
+        }
       ],
       "results": [
         {
@@ -51,11 +52,12 @@
           "item": "northstar:dormant_martian_sapling_sequenced"
         },
         {
-    	  "amount": 25,
-    	  "fluid": "create:potion",
-    	  "nbt": {
-     	   "Bottle": "REGULAR",
-      	  "Potion": "minecraft:strength"}
+          "amount": 25,
+          "fluid": "create:potion",
+          "nbt": {
+            "Bottle": "REGULAR",
+            "Potion": "minecraft:strength"
+          }
         }
       ],
       "results": [

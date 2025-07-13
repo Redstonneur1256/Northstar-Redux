@@ -45,146 +45,146 @@ import net.minecraftforge.items.ItemStackHandler;
 
 @SuppressWarnings("removal")
 public class IceBoxBlock extends Block implements IBE<IceBoxBlockEntity>, IWrenchable {
-	
-	public static final DirectionProperty FACING = BlockStateProperties.FACING_HOPPER;
 
-	public IceBoxBlock(Properties p_i48440_1_) {
-		super(p_i48440_1_);
-		registerDefaultState(defaultBlockState().setValue(FACING, Direction.DOWN));
-	}
+    public static final DirectionProperty FACING = BlockStateProperties.FACING_HOPPER;
 
-	@Override
-	protected void createBlockStateDefinition(Builder<Block, BlockState> p_206840_1_) {
-		super.createBlockStateDefinition(p_206840_1_.add(FACING));
-	}
+    public IceBoxBlock(Properties p_i48440_1_) {
+        super(p_i48440_1_);
+        registerDefaultState(defaultBlockState().setValue(FACING, Direction.DOWN));
+    }
 
-	@SuppressWarnings("resource")
-	@Override
-	public InteractionResult onWrenched(BlockState state, UseOnContext context) {
-		if (!context.getLevel().isClientSide)
-			withBlockEntityDo(context.getLevel(), context.getClickedPos(),
-				bte -> bte.onWrenched(context.getClickedFace()));
-		return InteractionResult.SUCCESS;
-	}
+    @Override
+    protected void createBlockStateDefinition(Builder<Block, BlockState> p_206840_1_) {
+        super.createBlockStateDefinition(p_206840_1_.add(FACING));
+    }
 
-	@SuppressWarnings("deprecation")
-	@Override
-	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn,
-		BlockHitResult hit) {
-		ItemStack heldItem = player.getItemInHand(handIn);
+    @SuppressWarnings("resource")
+    @Override
+    public InteractionResult onWrenched(BlockState state, UseOnContext context) {
+        if (!context.getLevel().isClientSide)
+            withBlockEntityDo(context.getLevel(), context.getClickedPos(),
+                bte -> bte.onWrenched(context.getClickedFace()));
+        return InteractionResult.SUCCESS;
+    }
 
-		return onBlockEntityUse(worldIn, pos, be -> {
-			if (!heldItem.isEmpty()) {
-				if (FluidHelper.tryEmptyItemIntoBE(worldIn, player, handIn, heldItem, be))
-					return InteractionResult.SUCCESS;
-				if (FluidHelper.tryFillItemFromBE(worldIn, player, handIn, heldItem, be))
-					return InteractionResult.SUCCESS;
+    @SuppressWarnings("deprecation")
+    @Override
+    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn,
+        BlockHitResult hit) {
+        ItemStack heldItem = player.getItemInHand(handIn);
 
-				if (GenericItemEmptying.canItemBeEmptied(worldIn, heldItem)
-					|| GenericItemFilling.canItemBeFilled(worldIn, heldItem))
-					return InteractionResult.SUCCESS;
-				if (heldItem.getItem()
-					.equals(Items.SPONGE)
-					&& !be.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
-						.map(iFluidHandler -> iFluidHandler.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.EXECUTE))
-						.orElse(FluidStack.EMPTY)
-						.isEmpty()) {
-					return InteractionResult.SUCCESS;
-				}
-				return InteractionResult.PASS;
-			}
+        return onBlockEntityUse(worldIn, pos, be -> {
+            if (!heldItem.isEmpty()) {
+                if (FluidHelper.tryEmptyItemIntoBE(worldIn, player, handIn, heldItem, be))
+                    return InteractionResult.SUCCESS;
+                if (FluidHelper.tryFillItemFromBE(worldIn, player, handIn, heldItem, be))
+                    return InteractionResult.SUCCESS;
 
-			IItemHandlerModifiable inv = be.itemCapability.orElse(new ItemStackHandler(1));
-			boolean success = false;
-			for (int slot = 0; slot < inv.getSlots(); slot++) {
-				ItemStack stackInSlot = inv.getStackInSlot(slot);
-				if (stackInSlot.isEmpty())
-					continue;
-				player.getInventory()
-					.placeItemBackInInventory(stackInSlot);
-				inv.setStackInSlot(slot, ItemStack.EMPTY);
-				success = true;
-			}
-			if (success)
-				worldIn.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, .2f,
-					1f + Create.RANDOM.nextFloat());
-			return InteractionResult.SUCCESS;
-		});
-	}
+                if (GenericItemEmptying.canItemBeEmptied(worldIn, heldItem)
+                    || GenericItemFilling.canItemBeFilled(worldIn, heldItem))
+                    return InteractionResult.SUCCESS;
+                if (heldItem.getItem()
+                    .equals(Items.SPONGE)
+                    && !be.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
+                        .map(iFluidHandler -> iFluidHandler.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.EXECUTE))
+                        .orElse(FluidStack.EMPTY)
+                        .isEmpty()) {
+                    return InteractionResult.SUCCESS;
+                }
+                return InteractionResult.PASS;
+            }
 
-	@Override
-	public void updateEntityAfterFallOn(BlockGetter worldIn, Entity entityIn) {
-		super.updateEntityAfterFallOn(worldIn, entityIn);
-		if (!NorthstarTechBlocks.ICE_BOX.has(worldIn.getBlockState(entityIn.blockPosition())))
-			return;
-		if (!(entityIn instanceof ItemEntity))
-			return;
-		if (!entityIn.isAlive())
-			return;
-		ItemEntity itemEntity = (ItemEntity) entityIn;
-		withBlockEntityDo(worldIn, entityIn.blockPosition(), be -> {
+            IItemHandlerModifiable inv = be.itemCapability.orElse(new ItemStackHandler(1));
+            boolean success = false;
+            for (int slot = 0; slot < inv.getSlots(); slot++) {
+                ItemStack stackInSlot = inv.getStackInSlot(slot);
+                if (stackInSlot.isEmpty())
+                    continue;
+                player.getInventory()
+                    .placeItemBackInInventory(stackInSlot);
+                inv.setStackInSlot(slot, ItemStack.EMPTY);
+                success = true;
+            }
+            if (success)
+                worldIn.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, .2f,
+                    1f + Create.RANDOM.nextFloat());
+            return InteractionResult.SUCCESS;
+        });
+    }
 
-			// Tossed items bypass the quarter-stack limit
-			be.inputInventory.withMaxStackSize(64);
-			ItemStack insertItem = ItemHandlerHelper.insertItem(be.inputInventory, itemEntity.getItem()
-				.copy(), false);
-			be.inputInventory.withMaxStackSize(64);
+    @Override
+    public void updateEntityAfterFallOn(BlockGetter worldIn, Entity entityIn) {
+        super.updateEntityAfterFallOn(worldIn, entityIn);
+        if (!NorthstarTechBlocks.ICE_BOX.has(worldIn.getBlockState(entityIn.blockPosition())))
+            return;
+        if (!(entityIn instanceof ItemEntity))
+            return;
+        if (!entityIn.isAlive())
+            return;
+        ItemEntity itemEntity = (ItemEntity) entityIn;
+        withBlockEntityDo(worldIn, entityIn.blockPosition(), be -> {
 
-			if (insertItem.isEmpty()) {
-				itemEntity.discard();
-				return;
-			}
+            // Tossed items bypass the quarter-stack limit
+            be.inputInventory.withMaxStackSize(64);
+            ItemStack insertItem = ItemHandlerHelper.insertItem(be.inputInventory, itemEntity.getItem()
+                .copy(), false);
+            be.inputInventory.withMaxStackSize(64);
 
-			itemEntity.setItem(insertItem);
-		});
-	}
+            if (insertItem.isEmpty()) {
+                itemEntity.discard();
+                return;
+            }
 
-	@Override
-	public VoxelShape getInteractionShape(BlockState p_199600_1_, BlockGetter p_199600_2_, BlockPos p_199600_3_) {
-		return AllShapes.BASIN_RAYTRACE_SHAPE;
-	}
+            itemEntity.setItem(insertItem);
+        });
+    }
 
-	@Override
-	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
-		return AllShapes.BASIN_BLOCK_SHAPE;
-	}
+    @Override
+    public VoxelShape getInteractionShape(BlockState p_199600_1_, BlockGetter p_199600_2_, BlockPos p_199600_3_) {
+        return AllShapes.BASIN_RAYTRACE_SHAPE;
+    }
 
-	@Override
-	public VoxelShape getCollisionShape(BlockState state, BlockGetter reader, BlockPos pos, CollisionContext ctx) {
-		if (ctx instanceof EntityCollisionContext && ((EntityCollisionContext) ctx).getEntity() instanceof ItemEntity)
-			return AllShapes.BASIN_COLLISION_SHAPE;
-		return getShape(state, reader, pos, ctx);
-	}
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+        return AllShapes.BASIN_BLOCK_SHAPE;
+    }
 
-	@Override
-	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-		IBE.onRemove(state, worldIn, pos, newState);
-	}
+    @Override
+    public VoxelShape getCollisionShape(BlockState state, BlockGetter reader, BlockPos pos, CollisionContext ctx) {
+        if (ctx instanceof EntityCollisionContext && ((EntityCollisionContext) ctx).getEntity() instanceof ItemEntity)
+            return AllShapes.BASIN_COLLISION_SHAPE;
+        return getShape(state, reader, pos, ctx);
+    }
 
-	@Override
-	public boolean hasAnalogOutputSignal(BlockState state) {
-		return true;
-	}
+    @Override
+    public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+        IBE.onRemove(state, worldIn, pos, newState);
+    }
 
-	@Override
-	public int getAnalogOutputSignal(BlockState blockState, Level worldIn, BlockPos pos) {
-		return getBlockEntityOptional(worldIn, pos).map(IceBoxBlockEntity::getInputInventory)
-			.map(ItemHelper::calcRedstoneFromInventory)
-			.orElse(0);
-	}
+    @Override
+    public boolean hasAnalogOutputSignal(BlockState state) {
+        return true;
+    }
 
-	@Override
-	public Class<IceBoxBlockEntity> getBlockEntityClass() {
-		return IceBoxBlockEntity.class;
-	}
+    @Override
+    public int getAnalogOutputSignal(BlockState blockState, Level worldIn, BlockPos pos) {
+        return getBlockEntityOptional(worldIn, pos).map(IceBoxBlockEntity::getInputInventory)
+            .map(ItemHelper::calcRedstoneFromInventory)
+            .orElse(0);
+    }
 
-	@Override
-	public BlockEntityType<? extends IceBoxBlockEntity> getBlockEntityType() {
-		return NorthstarBlockEntityTypes.ICE_BOX.get();
-	}
+    @Override
+    public Class<IceBoxBlockEntity> getBlockEntityClass() {
+        return IceBoxBlockEntity.class;
+    }
 
-	@Override
-	public boolean isPathfindable(BlockState state, BlockGetter reader, BlockPos pos, PathComputationType type) {
-		return false;
-	}
+    @Override
+    public BlockEntityType<? extends IceBoxBlockEntity> getBlockEntityType() {
+        return NorthstarBlockEntityTypes.ICE_BOX.get();
+    }
+
+    @Override
+    public boolean isPathfindable(BlockState state, BlockGetter reader, BlockPos pos, PathComputationType type) {
+        return false;
+    }
 }

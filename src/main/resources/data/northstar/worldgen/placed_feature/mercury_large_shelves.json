@@ -1,6 +1,6 @@
 {
   "feature": "northstar:mercury_large_shelves",
- "placement": [
+  "placement": [
     {
       "type": "minecraft:count",
       "count": 6

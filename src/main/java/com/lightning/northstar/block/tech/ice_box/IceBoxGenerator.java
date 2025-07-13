@@ -11,22 +11,22 @@ import net.minecraftforge.client.model.generators.ModelFile;
 
 public class IceBoxGenerator extends SpecialBlockStateGen {
 
-	@Override
-	protected int getXRotation(BlockState state) {
-		return 0;
-	}
+    @Override
+    protected int getXRotation(BlockState state) {
+        return 0;
+    }
 
-	@Override
-	protected int getYRotation(BlockState state) {
-		return horizontalAngle(state.getValue(IceBoxBlock.FACING));
-	}
+    @Override
+    protected int getYRotation(BlockState state) {
+        return horizontalAngle(state.getValue(IceBoxBlock.FACING));
+    }
 
-	@Override
-	public <T extends Block> ModelFile getModel(DataGenContext<Block, T> ctx, RegistrateBlockstateProvider prov,
-		BlockState state) {	
-		if (state.getValue(IceBoxBlock.FACING).getAxis().isVertical())
-			return AssetLookup.partialBaseModel(ctx, prov);
-		return AssetLookup.partialBaseModel(ctx, prov, "directional");
-	}
+    @Override
+    public <T extends Block> ModelFile getModel(DataGenContext<Block, T> ctx, RegistrateBlockstateProvider prov,
+        BlockState state) {
+        if (state.getValue(IceBoxBlock.FACING).getAxis().isVertical())
+            return AssetLookup.partialBaseModel(ctx, prov);
+        return AssetLookup.partialBaseModel(ctx, prov, "directional");
+    }
 
 }

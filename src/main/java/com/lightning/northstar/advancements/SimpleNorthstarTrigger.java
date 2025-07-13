@@ -14,32 +14,32 @@ import net.minecraft.server.level.ServerPlayer;
 
 public class SimpleNorthstarTrigger extends CriterionTriggerBase2ElectricBoogaloo<SimpleNorthstarTrigger.Instance> {
 
-	public SimpleNorthstarTrigger(String id) {
-		super(id);
-	}
+    public SimpleNorthstarTrigger(String id) {
+        super(id);
+    }
 
-	@Override
-	public Instance createInstance(JsonObject json, DeserializationContext context) {
-		return new Instance(getId());
-	}
+    @Override
+    public Instance createInstance(JsonObject json, DeserializationContext context) {
+        return new Instance(getId());
+    }
 
-	public void trigger(ServerPlayer player) {
-		super.trigger(player, null);
-	}
+    public void trigger(ServerPlayer player) {
+        super.trigger(player, null);
+    }
 
-	public Instance instance() {
-		return new Instance(getId());
-	}
+    public Instance instance() {
+        return new Instance(getId());
+    }
 
-	public static class Instance extends CriterionTriggerBase2ElectricBoogaloo.Instance {
+    public static class Instance extends CriterionTriggerBase2ElectricBoogaloo.Instance {
 
-		public Instance(ResourceLocation idIn) {
-			super(idIn, EntityPredicate.Composite.ANY);
-		}
+        public Instance(ResourceLocation idIn) {
+            super(idIn, EntityPredicate.Composite.ANY);
+        }
 
-		@Override
-		protected boolean test(@Nullable List<Supplier<Object>> suppliers) {
-			return true;
-		}
-	}
+        @Override
+        protected boolean test(@Nullable List<Supplier<Object>> suppliers) {
+            return true;
+        }
+    }
 }

@@ -145,21 +145,21 @@ public class VerticalSlabBlock extends DirectionalBlock implements SimpleWaterlo
          @Override 
          public BlockState rotate(BlockState blockState, net.minecraft.world.level.block.Rotation rotation) 
          {return blockState.setValue(TYPE, VerticalSlabTypes.fromDir(rotation.rotate(VerticalSlabTypes.toDir(blockState.getValue(TYPE))))); }
-		 @SuppressWarnings("deprecation")
-		@Override
-		 public BlockState mirror(BlockState blockState, net.minecraft.world.level.block.Mirror mirror) 
-		 { return blockState.rotate(mirror.getRotation(VerticalSlabTypes.toDir(blockState.getValue(TYPE)))); }
+         @SuppressWarnings("deprecation")
+        @Override
+         public BlockState mirror(BlockState blockState, net.minecraft.world.level.block.Mirror mirror) 
+         { return blockState.rotate(mirror.getRotation(VerticalSlabTypes.toDir(blockState.getValue(TYPE)))); }
 
-		 public boolean isPathfindable(BlockState pState, BlockGetter pLevel, BlockPos pPos, PathComputationType pType) {
-			      switch (pType) {
-			   case LAND:
-			            return false;
-			   case WATER:
-			            return pLevel.getFluidState(pPos).is(FluidTags.WATER);
-			   case AIR:
-			            return false;
-			   default:
-			      return false;
-		}
-	}
+         public boolean isPathfindable(BlockState pState, BlockGetter pLevel, BlockPos pPos, PathComputationType pType) {
+                  switch (pType) {
+               case LAND:
+                        return false;
+               case WATER:
+                        return pLevel.getFluidState(pPos).is(FluidTags.WATER);
+               case AIR:
+                        return false;
+               default:
+                  return false;
+        }
+    }
 }

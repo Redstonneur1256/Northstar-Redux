@@ -1,6 +1,6 @@
 {
   "feature": "northstar:bloom_fungus_roof",
- "placement": [
+  "placement": [
     {
       "type": "minecraft:count",
       "count": 32

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/handheld",
-	"textures":{
-		"layer0": "northstar:item/martian_axe"
-	}
+  "textures": {
+    "layer0": "northstar:item/martian_axe"
+  }
 }

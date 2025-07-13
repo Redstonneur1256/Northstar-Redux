@@ -46,6 +46,6 @@ public class VenusSporeSpreaderBlock extends BaseEntityBlock {
         return new VenusExhaustBlockEntity(pPos, pState);
     }
     public RenderShape getRenderShape(BlockState pState) {
-    	return RenderShape.MODEL;
-	}
+        return RenderShape.MODEL;
+    }
 }

@@ -147,30 +147,30 @@ public class SpikeTrunkPlacer extends TrunkPlacer {
                   return this.placeLog(pLevel, pBlockSetter, pRandom, pPos, pConfig, Function.identity());
            }
            @Override
-		   protected boolean placeLog(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos pPos, TreeConfiguration pConfig, Function<BlockState, BlockState> pPropertySetter) {
-			      if (this.validTreePos(pLevel, pPos)) {
-			         pBlockSetter.accept(pPos, pPropertySetter.apply(pConfig.trunkProvider.getState(pRandom, pPos)));
-			         return true;
-			      } else {
-			         return false;
-			      }
-			   }
-		   
-		   protected boolean placeShroomLight(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos pPos, TreeConfiguration pConfig) {
-			      return this.placeShroomLight2(pLevel, pBlockSetter, pRandom, pPos, pConfig, Function.identity());
-		   }
-		   protected boolean placeShroomLight2(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos pPos, TreeConfiguration pConfig, Function<BlockState, BlockState> pPropertySetter) {
-			      if (this.validTreePos(pLevel, pPos)) {
-			         pBlockSetter.accept(pPos, pPropertySetter.apply(pConfig.trunkProvider.getState(pRandom, pPos)));
-			         return true;
-			      } else {
-			         return false;
-			      }
-			   }
-		   @Override
-		   protected boolean validTreePos(LevelSimulatedReader pLevel, BlockPos pPos) {
-			   return pLevel.isStateAtPosition(pPos, (state) -> {
-				   return state.is(Blocks.AIR) || state.is(NorthstarBlocks.SPIKE_FUNGUS.get()) || state.is(NorthstarBlocks.VENUS_STONE.get()) || state.is(NorthstarBlocks.VENUS_DEEP_STONE.get());
-			   });
-		   }
-		}
+           protected boolean placeLog(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos pPos, TreeConfiguration pConfig, Function<BlockState, BlockState> pPropertySetter) {
+                  if (this.validTreePos(pLevel, pPos)) {
+                     pBlockSetter.accept(pPos, pPropertySetter.apply(pConfig.trunkProvider.getState(pRandom, pPos)));
+                     return true;
+                  } else {
+                     return false;
+                  }
+               }
+
+           protected boolean placeShroomLight(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos pPos, TreeConfiguration pConfig) {
+                  return this.placeShroomLight2(pLevel, pBlockSetter, pRandom, pPos, pConfig, Function.identity());
+           }
+           protected boolean placeShroomLight2(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos pPos, TreeConfiguration pConfig, Function<BlockState, BlockState> pPropertySetter) {
+                  if (this.validTreePos(pLevel, pPos)) {
+                     pBlockSetter.accept(pPos, pPropertySetter.apply(pConfig.trunkProvider.getState(pRandom, pPos)));
+                     return true;
+                  } else {
+                     return false;
+                  }
+               }
+           @Override
+           protected boolean validTreePos(LevelSimulatedReader pLevel, BlockPos pPos) {
+               return pLevel.isStateAtPosition(pPos, (state) -> {
+                   return state.is(Blocks.AIR) || state.is(NorthstarBlocks.SPIKE_FUNGUS.get()) || state.is(NorthstarBlocks.VENUS_STONE.get()) || state.is(NorthstarBlocks.VENUS_DEEP_STONE.get());
+               });
+           }
+        }

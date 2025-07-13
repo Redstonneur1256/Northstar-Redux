@@ -1,5 +1,7 @@
 {
-	"variants":{
-	"":{"model": "northstar:block/extinguished_torch"}
-	}
+  "variants": {
+    "": {
+      "model": "northstar:block/extinguished_torch"
+    }
+  }
 }

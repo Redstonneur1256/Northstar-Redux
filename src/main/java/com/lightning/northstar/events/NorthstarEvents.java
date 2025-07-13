@@ -15,18 +15,18 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 @EventBusSubscriber
 public class NorthstarEvents {
 
-	@SubscribeEvent
-	public static void onServerWorldTick(LevelTickEvent event) {
-		if (event.phase == Phase.START)
-			return;
-		if (event.side == LogicalSide.CLIENT)
-			return;
-		Level world = event.level;
-		RocketControlsServerHandler.tick(world);
-	}
-	@SubscribeEvent
-	public static void registerCommands(RegisterCommandsEvent event) {
-//		VenusWeather.register(event.getDispatcher());
-//		MarsWeather.register(event.getDispatcher());
-	}
+    @SubscribeEvent
+    public static void onServerWorldTick(LevelTickEvent event) {
+        if (event.phase == Phase.START)
+            return;
+        if (event.side == LogicalSide.CLIENT)
+            return;
+        Level world = event.level;
+        RocketControlsServerHandler.tick(world);
+    }
+    @SubscribeEvent
+    public static void registerCommands(RegisterCommandsEvent event) {
+//        VenusWeather.register(event.getDispatcher());
+//        MarsWeather.register(event.getDispatcher());
+    }
 }

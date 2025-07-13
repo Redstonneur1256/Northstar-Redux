@@ -97,22 +97,22 @@ public class Northstar
     public static final String MOD_ID = "northstar";
     // Directly reference a slf4j logger
     public static final Logger LOGGER = LogUtils.getLogger();
-	public static final CreateRegistrate REGISTRATE = CreateRegistrate.create(MOD_ID);
-	public static final NorthstarRegistrate REGISTRATE_CUSTOM = NorthstarRegistrate.create(MOD_ID);
-	
+    public static final CreateRegistrate REGISTRATE = CreateRegistrate.create(MOD_ID);
+    public static final NorthstarRegistrate REGISTRATE_CUSTOM = NorthstarRegistrate.create(MOD_ID);
 
-	static {
-		REGISTRATE.setTooltipModifierFactory(item -> {
-			return new ItemDescription.Modifier(item, new Palette(TooltipHelper.styleFromColor(0x9ba4ae), TooltipHelper.styleFromColor(0x80afd2)))
-				.andThen(TooltipModifier.mapNull(KineticStats.create(item)));
-		});
-	}
+
+    static {
+        REGISTRATE.setTooltipModifierFactory(item -> {
+            return new ItemDescription.Modifier(item, new Palette(TooltipHelper.styleFromColor(0x9ba4ae), TooltipHelper.styleFromColor(0x80afd2)))
+                .andThen(TooltipModifier.mapNull(KineticStats.create(item)));
+        });
+    }
 
     public Northstar()
     {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         
-		IEventBus forgeEventBus = MinecraftForge.EVENT_BUS;
+        IEventBus forgeEventBus = MinecraftForge.EVENT_BUS;
 
         REGISTRATE.registerEventListeners(modEventBus);
         NorthstarItems.register(modEventBus);
@@ -137,8 +137,8 @@ public class Northstar
 
         
         NorthstarTrunkPlacerTypes.register(modEventBus);
-		NorthstarPartialModels.init();
-		
+        NorthstarPartialModels.init();
+
         OxygenStuff.register();
         TemperatureStuff.register();
         
@@ -146,25 +146,25 @@ public class Northstar
         
         GeckoLib.initialize();
         // Register the commonSetup method for modloading
-		modEventBus.addListener(Northstar::init);
+        modEventBus.addListener(Northstar::init);
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::registerSpawnPlacements);
         
-		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> NorthstarClient.onCtorClient(modEventBus, forgeEventBus));
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> NorthstarClient.onCtorClient(modEventBus, forgeEventBus));
 
 
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
     }
-	public static void init(final FMLCommonSetupEvent event) {
-		NorthstarPackets.registerPackets();
+    public static void init(final FMLCommonSetupEvent event) {
+        NorthstarPackets.registerPackets();
 
-		event.enqueueWork(() -> {
-			NorthstarAdvancements.register();
-			NorthstarTriggers.register();
-		});
-	}
+        event.enqueueWork(() -> {
+            NorthstarAdvancements.register();
+            NorthstarTriggers.register();
+        });
+    }
     
     private void commonSetup(final FMLCommonSetupEvent event)
     {
@@ -173,42 +173,42 @@ public class Northstar
         LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
 
     }
-	
-	private void registerSpawnPlacements(SpawnPlacementRegisterEvent event) {
-		
-		
-		
+
+    private void registerSpawnPlacements(SpawnPlacementRegisterEvent event) {
+
+
+
         event.register(NorthstarEntityTypes.MARS_WORM.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-        		MarsWormEntity::wormSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
+                MarsWormEntity::wormSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
         event.register(NorthstarEntityTypes.MARS_TOAD.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-        		MarsToadEntity::toadSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
+                MarsToadEntity::toadSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
         event.register(NorthstarEntityTypes.MARS_COBRA.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-        		MarsCobraEntity::cobraSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
+                MarsCobraEntity::cobraSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
         event.register(NorthstarEntityTypes.MARS_MOTH.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-        		MarsMothEntity::mothSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
+                MarsMothEntity::mothSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
         
         event.register(NorthstarEntityTypes.VENUS_MIMIC.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-        		VenusMimicEntity::mimicSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
+                VenusMimicEntity::mimicSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
         event.register(NorthstarEntityTypes.VENUS_SCORPION.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-        		VenusScorpionEntity::scorpionSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
+                VenusScorpionEntity::scorpionSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
         event.register(NorthstarEntityTypes.VENUS_STONE_BULL.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-        		VenusStoneBullEntity::stoneBullSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
+                VenusStoneBullEntity::stoneBullSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
         event.register(NorthstarEntityTypes.VENUS_VULTURE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-        		VenusVultureEntity::vultureSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
+                VenusVultureEntity::vultureSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
         
         event.register(NorthstarEntityTypes.MOON_SNAIL.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-        		MoonSnailEntity::snailSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
+                MoonSnailEntity::snailSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
         event.register(NorthstarEntityTypes.MOON_LUNARGRADE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-        		MoonLunargradeEntity::lunargradeSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
+                MoonLunargradeEntity::lunargradeSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
         event.register(NorthstarEntityTypes.MOON_EEL.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-        		MoonEelEntity::eelSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
+                MoonEelEntity::eelSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
         
         event.register(NorthstarEntityTypes.MERCURY_RAPTOR.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-        		MercuryRaptorEntity::raptorSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
+                MercuryRaptorEntity::raptorSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
         event.register(NorthstarEntityTypes.MERCURY_ROACH.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-        		MercuryRoachEntity::roachSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
+                MercuryRoachEntity::roachSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
         event.register(NorthstarEntityTypes.MERCURY_TORTOISE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-        		MercuryTortoiseEntity::tortoiseSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
+                MercuryTortoiseEntity::tortoiseSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
@@ -225,67 +225,67 @@ public class Northstar
             MenuScreens.register(NorthstarMenuTypes.ASTRONOMY_TABLE_MENU.get(), AstronomyTableScreen::new);
             MenuScreens.register(NorthstarMenuTypes.ROCKET_STATION.get(), RocketStationScreen::new);
         }
-    	@SubscribeEvent
-    	public static void registerRenderers(final EntityRenderersEvent.AddLayers event) {
-    		{
-    			GeoArmorRenderer.registerArmorRenderer(BrokenIronSpaceSuitArmorItem.class, () -> new BrokenIronSpaceSuitModelRenderer());
-    			GeoArmorRenderer.registerArmorRenderer(IronSpaceSuitArmorItem.class, () -> new IronSpaceSuitModelRenderer());
-    			GeoArmorRenderer.registerArmorRenderer(MartianSteelSpaceSuitArmorItem.class, () -> new MartianSteelSpaceSuitModelRenderer());
-    		}
-    	}
-		@SubscribeEvent	
-		public static void addEntityRendererLayers(EntityRenderersEvent.AddLayers event) {
-			EntityRenderDispatcher dispatcher = Minecraft.getInstance()
-					.getEntityRenderDispatcher();
-				IronSpaceSuitLayerRenderer.registerOnAll(dispatcher);
-				BrokenIronSpaceSuitLayerRenderer.registerOnAll(dispatcher);
-				MartianSteelSpaceSuitLayerRenderer.registerOnAll(dispatcher);
-		}
-    	@SuppressWarnings("removal")
-    	@SubscribeEvent
-    	public static void registerRenderers(final FMLClientSetupEvent event) {
-    		ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.LUNAR_SAPPHIRE_CLUSTER.get(), RenderType.cutout());
-    		ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.ARGYRE_LEAVES.get(), RenderType.cutout());
-    		ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.COILER_VINES.get(), RenderType.cutout());
-    		ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.MARS_ROOTS.get(), RenderType.cutout());
-    		ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.POINTED_CRIMSITE.get(), RenderType.cutout());
-    		ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.ICICLE.get(), RenderType.cutout());
-    		ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.MERCURY_CACTUS.get(), RenderType.cutout());
-    		ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.FROST.get(), RenderType.translucent());
-    		ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.MARTIAN_TALL_GRASS.get(), RenderType.cutout());
-    		ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.MARTIAN_STRAWBERRY_BUSH.get(), RenderType.cutout());
-    		ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.MARS_TULIP.get(), RenderType.cutout());
-    		ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.MARS_PALM.get(), RenderType.cutout());
-    		ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.MARS_SPROUT.get(), RenderType.cutout());
-    		ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.MARS_SPROUT_BIG.get(), RenderType.cutout());
-    		ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.GLOWING_MARS_ROOTS.get(), RenderType.cutout());
-    		ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.SMALL_LUNAR_SAPPHIRE_BUD.get(), RenderType.cutout());
-    		ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.MEDIUM_LUNAR_SAPPHIRE_BUD.get(), RenderType.cutout());
-    		ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.LARGE_LUNAR_SAPPHIRE_BUD.get(), RenderType.cutout());
-    		ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.MARS_WORM_NEST.get(), RenderType.cutout());
-    		ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.MERCURY_SHELF_FUNGUS.get(), RenderType.cutout());
-    		ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.METHANE_ICE.get(), RenderType.translucent());
-    		ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.IRON_GRATE.get(), RenderType.cutout());
-    		ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.MARTIAN_STEEL_GRATE.get(), RenderType.cutout());
-    		ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.TUNGSTEN_GRATE.get(), RenderType.cutout());
-    		ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.VENT_BLOCK.get(), RenderType.cutout());
-    		ItemBlockRenderTypes.setRenderLayer(NorthstarFluids.SULFURIC_ACID.get().getSource(), RenderType.translucent());
-    		ItemBlockRenderTypes.setRenderLayer(NorthstarFluids.SULFURIC_ACID.get(), RenderType.translucent());
-    		
-    		ItemBlockRenderTypes.setRenderLayer(NorthstarFluids.LIQUID_HYDROGEN.get().getSource(), RenderType.translucent());
-    		ItemBlockRenderTypes.setRenderLayer(NorthstarFluids.LIQUID_HYDROGEN.get(), RenderType.translucent());
-    		
-    		ItemBlockRenderTypes.setRenderLayer(NorthstarFluids.LIQUID_OXYGEN.get().getSource(), RenderType.translucent());
-    		ItemBlockRenderTypes.setRenderLayer(NorthstarFluids.LIQUID_OXYGEN.get(), RenderType.translucent());
-    		
-    		ItemBlockRenderTypes.setRenderLayer(NorthstarFluids.METHANE.get().getSource(), RenderType.translucent());
-    		ItemBlockRenderTypes.setRenderLayer(NorthstarFluids.METHANE.get(), RenderType.translucent());
-    		
-    		
+        @SubscribeEvent
+        public static void registerRenderers(final EntityRenderersEvent.AddLayers event) {
+            {
+                GeoArmorRenderer.registerArmorRenderer(BrokenIronSpaceSuitArmorItem.class, () -> new BrokenIronSpaceSuitModelRenderer());
+                GeoArmorRenderer.registerArmorRenderer(IronSpaceSuitArmorItem.class, () -> new IronSpaceSuitModelRenderer());
+                GeoArmorRenderer.registerArmorRenderer(MartianSteelSpaceSuitArmorItem.class, () -> new MartianSteelSpaceSuitModelRenderer());
+            }
+        }
+        @SubscribeEvent
+        public static void addEntityRendererLayers(EntityRenderersEvent.AddLayers event) {
+            EntityRenderDispatcher dispatcher = Minecraft.getInstance()
+                    .getEntityRenderDispatcher();
+                IronSpaceSuitLayerRenderer.registerOnAll(dispatcher);
+                BrokenIronSpaceSuitLayerRenderer.registerOnAll(dispatcher);
+                MartianSteelSpaceSuitLayerRenderer.registerOnAll(dispatcher);
+        }
+        @SuppressWarnings("removal")
+        @SubscribeEvent
+        public static void registerRenderers(final FMLClientSetupEvent event) {
+            ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.LUNAR_SAPPHIRE_CLUSTER.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.ARGYRE_LEAVES.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.COILER_VINES.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.MARS_ROOTS.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.POINTED_CRIMSITE.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.ICICLE.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.MERCURY_CACTUS.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.FROST.get(), RenderType.translucent());
+            ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.MARTIAN_TALL_GRASS.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.MARTIAN_STRAWBERRY_BUSH.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.MARS_TULIP.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.MARS_PALM.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.MARS_SPROUT.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.MARS_SPROUT_BIG.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.GLOWING_MARS_ROOTS.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.SMALL_LUNAR_SAPPHIRE_BUD.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.MEDIUM_LUNAR_SAPPHIRE_BUD.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.LARGE_LUNAR_SAPPHIRE_BUD.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.MARS_WORM_NEST.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.MERCURY_SHELF_FUNGUS.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.METHANE_ICE.get(), RenderType.translucent());
+            ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.IRON_GRATE.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.MARTIAN_STEEL_GRATE.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.TUNGSTEN_GRATE.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(NorthstarBlocks.VENT_BLOCK.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(NorthstarFluids.SULFURIC_ACID.get().getSource(), RenderType.translucent());
+            ItemBlockRenderTypes.setRenderLayer(NorthstarFluids.SULFURIC_ACID.get(), RenderType.translucent());
 
-    	}
+            ItemBlockRenderTypes.setRenderLayer(NorthstarFluids.LIQUID_HYDROGEN.get().getSource(), RenderType.translucent());
+            ItemBlockRenderTypes.setRenderLayer(NorthstarFluids.LIQUID_HYDROGEN.get(), RenderType.translucent());
+
+            ItemBlockRenderTypes.setRenderLayer(NorthstarFluids.LIQUID_OXYGEN.get().getSource(), RenderType.translucent());
+            ItemBlockRenderTypes.setRenderLayer(NorthstarFluids.LIQUID_OXYGEN.get(), RenderType.translucent());
+
+            ItemBlockRenderTypes.setRenderLayer(NorthstarFluids.METHANE.get().getSource(), RenderType.translucent());
+            ItemBlockRenderTypes.setRenderLayer(NorthstarFluids.METHANE.get(), RenderType.translucent());
+
+
+
+        }
     }
-	public static ResourceLocation asResource(String path) {
-		return new ResourceLocation(Northstar.MOD_ID, path);
-	}
+    public static ResourceLocation asResource(String path) {
+        return new ResourceLocation(Northstar.MOD_ID, path);
+    }
 }

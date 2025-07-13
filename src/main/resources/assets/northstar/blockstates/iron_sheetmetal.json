@@ -1,5 +1,7 @@
 {
-	"variants":{
-	"":{"model": "northstar:block/iron_sheetmetal"}
-	}
+  "variants": {
+    "": {
+      "model": "northstar:block/iron_sheetmetal"
+    }
+  }
 }

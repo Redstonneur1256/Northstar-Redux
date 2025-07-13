@@ -8,11 +8,11 @@
     "can_place_on_ceiling": true,
     "can_place_on_wall": true,
     "can_be_placed_on": [
-		"northstar:mars_gravel",
-		"northstar:volcanic_ash",
-		"northstar:mars_stone",
-		"northstar:mars_deep_stone",
-		"minecraft:basalt"
+      "northstar:mars_gravel",
+      "northstar:volcanic_ash",
+      "northstar:mars_stone",
+      "northstar:mars_deep_stone",
+      "minecraft:basalt"
     ]
   }
 }

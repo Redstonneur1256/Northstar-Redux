@@ -1,5 +1,7 @@
 {
-	"variants":{
-	"":{"model": "northstar:block/mars_gravel"}
-	}
+  "variants": {
+    "": {
+      "model": "northstar:block/mars_gravel"
+    }
+  }
 }

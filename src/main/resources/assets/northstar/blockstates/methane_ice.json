@@ -1,5 +1,7 @@
 {
-	"variants":{
-	"":{"model": "northstar:block/methane_ice"}
-	}
+  "variants": {
+    "": {
+      "model": "northstar:block/methane_ice"
+    }
+  }
 }

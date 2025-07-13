@@ -1,5 +1,7 @@
 {
-	"variants":{
-	"":{"model": "northstar:block/mercury_redstone_ore"}
-	}
+  "variants": {
+    "": {
+      "model": "northstar:block/mercury_redstone_ore"
+    }
+  }
 }

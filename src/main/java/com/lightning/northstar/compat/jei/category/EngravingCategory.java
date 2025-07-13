@@ -27,28 +27,28 @@ public class EngravingCategory extends CreateRecipeCategory<EngravingRecipe>  {
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, EngravingRecipe recipe, IFocusGroup focuses) {
-    	builder
-				.addSlot(RecipeIngredientRole.INPUT, 27, 51)
-				.setBackground(getRenderedSlot(), -1, -1)
-				.addIngredients(recipe.getIngredients().get(0));
+        builder
+                .addSlot(RecipeIngredientRole.INPUT, 27, 51)
+                .setBackground(getRenderedSlot(), -1, -1)
+                .addIngredients(recipe.getIngredients().get(0));
 
-		List<ProcessingOutput> results = recipe.getRollableResults();
-		int i = 0;
-		for (ProcessingOutput output : results) {
-			builder.addSlot(RecipeIngredientRole.OUTPUT, 131 + 19 * i, 50)
-					.setBackground(getRenderedSlot(output), -1, -1)
-					.addItemStack(output.getStack())
-					.addTooltipCallback(addStochasticTooltip(output));
-			i++;
-		}
-	}
+        List<ProcessingOutput> results = recipe.getRollableResults();
+        int i = 0;
+        for (ProcessingOutput output : results) {
+            builder.addSlot(RecipeIngredientRole.OUTPUT, 131 + 19 * i, 50)
+                    .setBackground(getRenderedSlot(output), -1, -1)
+                    .addItemStack(output.getStack())
+                    .addTooltipCallback(addStochasticTooltip(output));
+            i++;
+        }
+    }
 
-	@Override
-	public void draw(EngravingRecipe recipe, IRecipeSlotsView iRecipeSlotsView, PoseStack matrixStack,  double mouseX, double mouseY) {
-		AllGuiTextures.JEI_SHADOW.render(matrixStack, 61, 41);
-		AllGuiTextures.JEI_LONG_ARROW.render(matrixStack, 52, 54);
+    @Override
+    public void draw(EngravingRecipe recipe, IRecipeSlotsView iRecipeSlotsView, PoseStack matrixStack,  double mouseX, double mouseY) {
+        AllGuiTextures.JEI_SHADOW.render(matrixStack, 61, 41);
+        AllGuiTextures.JEI_LONG_ARROW.render(matrixStack, 52, 54);
 
-		engraver.draw(matrixStack, getBackground().getWidth() / 2 - 17, 22);
-	}
+        engraver.draw(matrixStack, getBackground().getWidth() / 2 - 17, 22);
+    }
 
 }

@@ -14,21 +14,21 @@ import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
 public class VenusMimicRenderer extends GeoEntityRenderer<VenusMimicEntity> {
 
-	public VenusMimicRenderer(EntityRendererProvider.Context renderManager) {
-		super(renderManager, new VenusMimicModel());
-	}
+    public VenusMimicRenderer(EntityRendererProvider.Context renderManager) {
+        super(renderManager, new VenusMimicModel());
+    }
 
-	@Override
-	public RenderType getRenderType(VenusMimicEntity animatable, float partialTick, PoseStack poseStack,
-									MultiBufferSource bufferSource, VertexConsumer buffer, int packedLight,
-									ResourceLocation texture) {
-		return RenderType.entityCutout(getTextureLocation(animatable));
-	}
+    @Override
+    public RenderType getRenderType(VenusMimicEntity animatable, float partialTick, PoseStack poseStack,
+                                    MultiBufferSource bufferSource, VertexConsumer buffer, int packedLight,
+                                    ResourceLocation texture) {
+        return RenderType.entityCutout(getTextureLocation(animatable));
+    }
 
-	@Override
-	public void render(GeoModel model, VenusMimicEntity animatable, float partialTick, RenderType type,
-					   PoseStack poseStack, MultiBufferSource bufferSource, VertexConsumer buffer,
-					   int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		super.render(model, animatable, partialTick, type, poseStack, bufferSource, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-	}
+    @Override
+    public void render(GeoModel model, VenusMimicEntity animatable, float partialTick, RenderType type,
+                       PoseStack poseStack, MultiBufferSource bufferSource, VertexConsumer buffer,
+                       int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+        super.render(model, animatable, partialTick, type, poseStack, bufferSource, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+    }
 }

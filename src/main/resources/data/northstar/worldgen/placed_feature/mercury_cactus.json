@@ -1,6 +1,6 @@
 {
   "feature": "northstar:mercury_cactus",
- "placement": [
+  "placement": [
     {
       "type": "minecraft:count",
       "count": 1

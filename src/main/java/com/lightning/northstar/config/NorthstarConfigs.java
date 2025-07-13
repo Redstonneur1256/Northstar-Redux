@@ -6,5 +6,5 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 public class NorthstarConfigs {
 
 //ill do this later
-	
+
 }

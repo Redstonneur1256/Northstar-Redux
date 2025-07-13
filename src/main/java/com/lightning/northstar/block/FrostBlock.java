@@ -228,15 +228,15 @@ public class FrostBlock extends MultifaceBlock {
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-		pBuilder.add(UP, DOWN, NORTH, EAST, SOUTH, WEST);
-	}
-	
-	public static BooleanProperty getPropertyForFace(Direction pFace) {
-		return PROPERTY_BY_DIRECTION.get(pFace);
-	}
+        pBuilder.add(UP, DOWN, NORTH, EAST, SOUTH, WEST);
+    }
 
-	@Override
-	public MultifaceSpreader getSpreader() {
-	      return this.spreader;
-	}
+    public static BooleanProperty getPropertyForFace(Direction pFace) {
+        return PROPERTY_BY_DIRECTION.get(pFace);
+    }
+
+    @Override
+    public MultifaceSpreader getSpreader() {
+          return this.spreader;
+    }
 }

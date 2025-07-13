@@ -1,5 +1,7 @@
 {
-	"variants":{
-	"":{"model": "northstar:block/venus_deep_gold_ore"}
-	}
+  "variants": {
+    "": {
+      "model": "northstar:block/venus_deep_gold_ore"
+    }
+  }
 }

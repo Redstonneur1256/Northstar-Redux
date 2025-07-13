@@ -1,6 +1,6 @@
 {
-"parent":"block/cube_all",
-"textures":{
-	"all":"northstar:block/volcanic_rock"
-	}
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "northstar:block/volcanic_rock"
+  }
 }

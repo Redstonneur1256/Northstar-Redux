@@ -7,13 +7,13 @@
   ],
   "key": {
     "S": {
-	  "item": "northstar:martian_steel_sheet"	
+      "item": "northstar:martian_steel_sheet"
     },
     "W": {
       "item": "minecraft:tinted_glass"
     },
     "P": {
-	  "item": "northstar:martian_steel_helmet"	
+      "item": "northstar:martian_steel_helmet"
     }
   },
   "result": {

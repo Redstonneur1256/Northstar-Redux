@@ -1,5 +1,7 @@
 {
-	"variants":{
-	"":{"model": "northstar:block/laser_lense"}
-	}
+  "variants": {
+    "": {
+      "model": "northstar:block/laser_lense"
+    }
+  }
 }

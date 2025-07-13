@@ -1,6 +1,6 @@
 {
   "feature": "northstar:plate_fungus",
- "placement": [
+  "placement": [
     {
       "type": "minecraft:count",
       "count": 24

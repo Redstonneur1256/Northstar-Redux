@@ -1,5 +1,7 @@
 {
-	"variants":{
-	"":{"model": "northstar:block/argyre_sapling"}
-	}
+  "variants": {
+    "": {
+      "model": "northstar:block/argyre_sapling"
+    }
+  }
 }

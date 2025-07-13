@@ -7,8 +7,8 @@
     "minecraft:andesite",
     "minecraft:basalt",
     "create:crimsite",
- 	"minecraft:air",
- 	"northstar:mars_roots",
- 	"northstar:glowing_mars_roots"
+    "minecraft:air",
+    "northstar:mars_roots",
+    "northstar:glowing_mars_roots"
   ]
 }

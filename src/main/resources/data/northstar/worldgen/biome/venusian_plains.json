@@ -10,32 +10,32 @@
     "water_fog_color": 329011
   },
   "spawners": {
-	"monster": [
-	      {
-	        "type": "northstar:venus_scorpion",
-	        "weight": 30,
-	        "minCount": 1,
-	        "maxCount": 4
-	      },
-	      {
-	        "type": "northstar:venus_vulture",
-	        "weight": 30,
-	        "minCount": 1,
-	        "maxCount": 3
-	      },
-	      {
-	        "type": "northstar:venus_stone_bull",
-	        "weight": 30,
-	        "minCount": 2,
-	        "maxCount": 6
-	      },
-	      {
-	        "type": "northstar:venus_mimic",
-	        "weight": 40,
-	        "minCount": 1,
-	        "maxCount": 3
-	      }
-		]
+    "monster": [
+      {
+        "type": "northstar:venus_scorpion",
+        "weight": 30,
+        "minCount": 1,
+        "maxCount": 4
+      },
+      {
+        "type": "northstar:venus_vulture",
+        "weight": 30,
+        "minCount": 1,
+        "maxCount": 3
+      },
+      {
+        "type": "northstar:venus_stone_bull",
+        "weight": 30,
+        "minCount": 2,
+        "maxCount": 6
+      },
+      {
+        "type": "northstar:venus_mimic",
+        "weight": 40,
+        "minCount": 1,
+        "maxCount": 3
+      }
+    ]
   },
   "spawn_costs": {},
   "carvers": {

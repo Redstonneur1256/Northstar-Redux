@@ -143,98 +143,98 @@ public class BloomTrunkPlacer extends TrunkPlacer {
                this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX() + 1, origin.getY() + treeHeight, origin.getZ() + 1), pConfig);
                this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX() + 1, origin.getY() + treeHeight, origin.getZ() - 1), pConfig);
                this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX(), origin.getY() + treeHeight, origin.getZ() + 1), pConfig);
-        	   this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX(), origin.getY() + treeHeight, origin.getZ() - 1), pConfig);
-			   this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX() - 1, origin.getY() + treeHeight, origin.getZ() + 1), pConfig);
-			   this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX() - 1, origin.getY() + treeHeight, origin.getZ()), pConfig);
-			   this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX() - 1, origin.getY() + treeHeight, origin.getZ() - 1), pConfig);
-			   //second layer;
-			   this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX() + 1, origin.getY() + treeHeight + 1, origin.getZ() + 1), pConfig);
-			   this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX() + 1, origin.getY() + treeHeight + 1, origin.getZ() - 1), pConfig);
-			   this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX() - 1, origin.getY() + treeHeight + 1, origin.getZ() + 1), pConfig);
-			   this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX() - 1, origin.getY() + treeHeight + 1, origin.getZ() - 1), pConfig);
-			   //outer "pedals"
-			   this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX() + 2, origin.getY() + treeHeight, origin.getZ()), pConfig);
-			   this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX() + 2, origin.getY() + treeHeight + 1, origin.getZ()), pConfig);
-			   this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX() - 2, origin.getY() + treeHeight, origin.getZ()), pConfig);
-			   this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX() - 2, origin.getY() + treeHeight + 1, origin.getZ()), pConfig);
-			   this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX(), origin.getY() + treeHeight, origin.getZ() + 2), pConfig);
-			   this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX(), origin.getY() + treeHeight + 1, origin.getZ() + 2), pConfig);
-			   this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX(), origin.getY() + treeHeight, origin.getZ() - 2), pConfig);
-			   this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX(), origin.getY() + treeHeight + 1, origin.getZ() - 2), pConfig);
-			   //outer outer "pedals"
-			   this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX() + 3, origin.getY() + treeHeight, origin.getZ()), pConfig);
-			   this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX() + 3, origin.getY() + treeHeight - 1, origin.getZ()), pConfig);
-			   this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX() - 3, origin.getY() + treeHeight, origin.getZ()), pConfig);
-			   this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX() - 3, origin.getY() + treeHeight - 1, origin.getZ()), pConfig);
-			   this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX(), origin.getY() + treeHeight, origin.getZ() + 3), pConfig);
-			   this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX(), origin.getY() + treeHeight - 1, origin.getZ() + 3), pConfig);
-			   this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX(), origin.getY() + treeHeight, origin.getZ() - 3), pConfig);
-			   this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX(), origin.getY() + treeHeight - 1, origin.getZ() - 3), pConfig);
-			   //placing the shroomlight
-			   this.placeShroomLight(pLevel, pBlockSetter, pRandom, thing.set(origin.getX(), origin.getY() + treeHeight + 1, origin.getZ()), pConfig);
-			   this.placeShroomLight(pLevel, pBlockSetter, pRandom, thing.set(origin.getX(), origin.getY() + treeHeight + 2, origin.getZ()), pConfig);
-			   this.placeShroomLight(pLevel, pBlockSetter, pRandom, thing.set(origin.getX(), origin.getY() + treeHeight + 3, origin.getZ()), pConfig);
-		   }
-		   
-		   public List<FoliagePlacer.FoliageAttachment> placeLight(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, int pFreeTreeHeight, BlockPos pPos, TreeConfiguration pConfig) {
-			      List<FoliagePlacer.FoliageAttachment> list = Lists.newArrayList();   
-			      BlockPos.MutableBlockPos blockpos$mutableblockpos3 = new BlockPos.MutableBlockPos();
-				  this.placeShroomLight(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos3.set(pPos.getX(), pPos.getY()+12, pPos.getZ()), pConfig);
-//				  System.out.println(this.placeShroomLight(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos3.set(pPos.getX(), pPos.getY()+12, pPos.getZ()), pConfig));
-//				  System.out.println("YOOOOOOOOOOOOOOOO, BIOLUMINESCENCE");
-//				  System.out.println(pPos.getX() + "X    " + (pPos.getY()+12) + "Y    " + pPos.getZ() + "Z" );
+               this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX(), origin.getY() + treeHeight, origin.getZ() - 1), pConfig);
+               this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX() - 1, origin.getY() + treeHeight, origin.getZ() + 1), pConfig);
+               this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX() - 1, origin.getY() + treeHeight, origin.getZ()), pConfig);
+               this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX() - 1, origin.getY() + treeHeight, origin.getZ() - 1), pConfig);
+               //second layer;
+               this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX() + 1, origin.getY() + treeHeight + 1, origin.getZ() + 1), pConfig);
+               this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX() + 1, origin.getY() + treeHeight + 1, origin.getZ() - 1), pConfig);
+               this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX() - 1, origin.getY() + treeHeight + 1, origin.getZ() + 1), pConfig);
+               this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX() - 1, origin.getY() + treeHeight + 1, origin.getZ() - 1), pConfig);
+               //outer "pedals"
+               this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX() + 2, origin.getY() + treeHeight, origin.getZ()), pConfig);
+               this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX() + 2, origin.getY() + treeHeight + 1, origin.getZ()), pConfig);
+               this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX() - 2, origin.getY() + treeHeight, origin.getZ()), pConfig);
+               this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX() - 2, origin.getY() + treeHeight + 1, origin.getZ()), pConfig);
+               this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX(), origin.getY() + treeHeight, origin.getZ() + 2), pConfig);
+               this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX(), origin.getY() + treeHeight + 1, origin.getZ() + 2), pConfig);
+               this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX(), origin.getY() + treeHeight, origin.getZ() - 2), pConfig);
+               this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX(), origin.getY() + treeHeight + 1, origin.getZ() - 2), pConfig);
+               //outer outer "pedals"
+               this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX() + 3, origin.getY() + treeHeight, origin.getZ()), pConfig);
+               this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX() + 3, origin.getY() + treeHeight - 1, origin.getZ()), pConfig);
+               this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX() - 3, origin.getY() + treeHeight, origin.getZ()), pConfig);
+               this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX() - 3, origin.getY() + treeHeight - 1, origin.getZ()), pConfig);
+               this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX(), origin.getY() + treeHeight, origin.getZ() + 3), pConfig);
+               this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX(), origin.getY() + treeHeight - 1, origin.getZ() + 3), pConfig);
+               this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX(), origin.getY() + treeHeight, origin.getZ() - 3), pConfig);
+               this.placeCapBlock(pLevel, pBlockSetter, pRandom, thing.set(origin.getX(), origin.getY() + treeHeight - 1, origin.getZ() - 3), pConfig);
+               //placing the shroomlight
+               this.placeShroomLight(pLevel, pBlockSetter, pRandom, thing.set(origin.getX(), origin.getY() + treeHeight + 1, origin.getZ()), pConfig);
+               this.placeShroomLight(pLevel, pBlockSetter, pRandom, thing.set(origin.getX(), origin.getY() + treeHeight + 2, origin.getZ()), pConfig);
+               this.placeShroomLight(pLevel, pBlockSetter, pRandom, thing.set(origin.getX(), origin.getY() + treeHeight + 3, origin.getZ()), pConfig);
+           }
 
-			      return list;
-		   }  
+           public List<FoliagePlacer.FoliageAttachment> placeLight(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, int pFreeTreeHeight, BlockPos pPos, TreeConfiguration pConfig) {
+                  List<FoliagePlacer.FoliageAttachment> list = Lists.newArrayList();
+                  BlockPos.MutableBlockPos blockpos$mutableblockpos3 = new BlockPos.MutableBlockPos();
+                  this.placeShroomLight(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos3.set(pPos.getX(), pPos.getY()+12, pPos.getZ()), pConfig);
+//                  System.out.println(this.placeShroomLight(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos3.set(pPos.getX(), pPos.getY()+12, pPos.getZ()), pConfig));
+//                  System.out.println("YOOOOOOOOOOOOOOOO, BIOLUMINESCENCE");
+//                  System.out.println(pPos.getX() + "X    " + (pPos.getY()+12) + "Y    " + pPos.getZ() + "Z" );
 
-		   @Override
-		   protected boolean placeLog(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos pPos, TreeConfiguration pConfig) {
-			      return this.placeLog(pLevel, pBlockSetter, pRandom, pPos, pConfig, Function.identity());
-		   }
-		   @Override
-		   protected boolean placeLog(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos pPos, TreeConfiguration pConfig, Function<BlockState, BlockState> pPropertySetter) {
-			      if (this.validTreePos(pLevel, pPos)) {
-			         pBlockSetter.accept(pPos, pPropertySetter.apply(pConfig.trunkProvider.getState(pRandom, pPos)));
-			         return true;
-			      } else {
-			         return false;
-			      }
-			   }
-		   
-		   protected boolean placeShroomLight(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos pPos, TreeConfiguration pConfig) {
-			      return this.placeShroomLight2(pLevel, pBlockSetter, pRandom, pPos, pConfig, Function.identity());
-		   }
-		   protected boolean placeShroomLight2(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos pPos, TreeConfiguration pConfig, Function<BlockState, BlockState> pPropertySetter) {
-			      if (this.validTreePos(pLevel, pPos)) {
-			         pBlockSetter.accept(pPos, pPropertySetter.apply(Blocks.SHROOMLIGHT.defaultBlockState()));
-			         return true;
-			      } else {
-			         return false;
-			      }
-			   }
-		   protected boolean placeCapBlock(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos pPos, TreeConfiguration pConfig) {
-			      return this.placeCapBlock2(pLevel, pBlockSetter, pRandom, pPos, pConfig, Function.identity());
-		   }
-		   protected boolean placeCapBlock2(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos pPos, TreeConfiguration pConfig, Function<BlockState, BlockState> pPropertySetter) {
-			      if (this.validTreePos(pLevel, pPos)) {
-			         pBlockSetter.accept(pPos, pPropertySetter.apply(this.capProvider.getState(pRandom, pPos)));
-			         return true;
-			      } else {
-			         return false;
-			      }
-			   }
-		   
-		   protected boolean placeOptionalStemBlock(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos pPos, TreeConfiguration pConfig, Function<BlockState, BlockState> pPropertySetter) {
-			   if (this.validTreePos(pLevel, pPos)) {
-				   return true;
-			   } else {
-				   return false;
-			   }
-		   }
-		   @Override
-		   protected boolean validTreePos(LevelSimulatedReader pLevel, BlockPos pPos) {
-			   return pLevel.isStateAtPosition(pPos, (state) -> {
-				   return state.is(Blocks.AIR) || state.is(NorthstarBlocks.BLOOM_FUNGUS.get()) || state.is(NorthstarBlocks.VENUS_STONE.get()) || state.is(NorthstarBlocks.VENUS_DEEP_STONE.get());
-			   });
-		   }
-		}
+                  return list;
+           }
+
+           @Override
+           protected boolean placeLog(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos pPos, TreeConfiguration pConfig) {
+                  return this.placeLog(pLevel, pBlockSetter, pRandom, pPos, pConfig, Function.identity());
+           }
+           @Override
+           protected boolean placeLog(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos pPos, TreeConfiguration pConfig, Function<BlockState, BlockState> pPropertySetter) {
+                  if (this.validTreePos(pLevel, pPos)) {
+                     pBlockSetter.accept(pPos, pPropertySetter.apply(pConfig.trunkProvider.getState(pRandom, pPos)));
+                     return true;
+                  } else {
+                     return false;
+                  }
+               }
+
+           protected boolean placeShroomLight(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos pPos, TreeConfiguration pConfig) {
+                  return this.placeShroomLight2(pLevel, pBlockSetter, pRandom, pPos, pConfig, Function.identity());
+           }
+           protected boolean placeShroomLight2(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos pPos, TreeConfiguration pConfig, Function<BlockState, BlockState> pPropertySetter) {
+                  if (this.validTreePos(pLevel, pPos)) {
+                     pBlockSetter.accept(pPos, pPropertySetter.apply(Blocks.SHROOMLIGHT.defaultBlockState()));
+                     return true;
+                  } else {
+                     return false;
+                  }
+               }
+           protected boolean placeCapBlock(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos pPos, TreeConfiguration pConfig) {
+                  return this.placeCapBlock2(pLevel, pBlockSetter, pRandom, pPos, pConfig, Function.identity());
+           }
+           protected boolean placeCapBlock2(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos pPos, TreeConfiguration pConfig, Function<BlockState, BlockState> pPropertySetter) {
+                  if (this.validTreePos(pLevel, pPos)) {
+                     pBlockSetter.accept(pPos, pPropertySetter.apply(this.capProvider.getState(pRandom, pPos)));
+                     return true;
+                  } else {
+                     return false;
+                  }
+               }
+
+           protected boolean placeOptionalStemBlock(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos pPos, TreeConfiguration pConfig, Function<BlockState, BlockState> pPropertySetter) {
+               if (this.validTreePos(pLevel, pPos)) {
+                   return true;
+               } else {
+                   return false;
+               }
+           }
+           @Override
+           protected boolean validTreePos(LevelSimulatedReader pLevel, BlockPos pPos) {
+               return pLevel.isStateAtPosition(pPos, (state) -> {
+                   return state.is(Blocks.AIR) || state.is(NorthstarBlocks.BLOOM_FUNGUS.get()) || state.is(NorthstarBlocks.VENUS_STONE.get()) || state.is(NorthstarBlocks.VENUS_DEEP_STONE.get());
+               });
+           }
+        }

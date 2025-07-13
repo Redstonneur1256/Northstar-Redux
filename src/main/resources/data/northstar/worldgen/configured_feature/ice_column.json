@@ -1,6 +1,6 @@
 {
   "type": "northstar:stone_column",
- "config": {
+  "config": {
     "floor_to_ceiling_search_range": 36,
     "column_radius": {
       "type": "minecraft:uniform",
@@ -44,7 +44,7 @@
       "type": "minecraft:simple_state_provider",
       "state": {
         "Name": "minecraft:packed_ice"
+      }
     }
-   }
- }
+  }
 }

@@ -160,11 +160,11 @@ public class TowerTrunkPlacer extends TrunkPlacer {
                   } else {
                      return false;
                   }
-        	   }
-		   @Override
-		   protected boolean validTreePos(LevelSimulatedReader pLevel, BlockPos pPos) {
-			   return pLevel.isStateAtPosition(pPos, (state) -> {
-				   return state.is(Blocks.AIR) || state.is(NorthstarBlocks.TOWER_FUNGUS.get()) || state.is(NorthstarBlocks.VENUS_STONE.get()) || state.is(NorthstarBlocks.VENUS_DEEP_STONE.get());
-			   });
-		   }
-		}
+               }
+           @Override
+           protected boolean validTreePos(LevelSimulatedReader pLevel, BlockPos pPos) {
+               return pLevel.isStateAtPosition(pPos, (state) -> {
+                   return state.is(Blocks.AIR) || state.is(NorthstarBlocks.TOWER_FUNGUS.get()) || state.is(NorthstarBlocks.VENUS_STONE.get()) || state.is(NorthstarBlocks.VENUS_DEEP_STONE.get());
+               });
+           }
+        }

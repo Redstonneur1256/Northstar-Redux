@@ -34,12 +34,12 @@
       "height_rand_b": 4,
       "extra_branch_steps": 4,
       "can_grow_through": "#minecraft:mangrove_logs_can_grow_through",
-          "cap_provider": {
-    		  "type": "minecraft:simple_state_provider",
-    		  "state": {
-     	   "Name": "northstar:plate_fungus_cap_block"
- 	  	   }
-   		 }
+      "cap_provider": {
+        "type": "minecraft:simple_state_provider",
+        "state": {
+          "Name": "northstar:plate_fungus_cap_block"
+        }
+      }
     },
     "foliage_placer": {
       "type": "minecraft:blob_foliage_placer",

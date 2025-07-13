@@ -153,15 +153,15 @@ public class ArgyreTrunkPlacer extends TrunkPlacer {
                   }
                }
            @Override
-    	   protected boolean validTreePos(LevelSimulatedReader pLevel, BlockPos pPos) {
-			      return pLevel.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, pPos).getY() > pPos.getY() && pLevel.isStateAtPosition(pPos, block -> {
-			    	 return block.is(NorthstarBlockTags.ARGYRE_REPLACES.tag);
-			      });
-		   }
-		@Override
-		public List<FoliageAttachment> placeTrunk(LevelSimulatedReader pLevel,
-				BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, int pFreeTreeHeight, BlockPos pPos,
-				TreeConfiguration pConfig) {
-			return null;
-		}
-		}
+           protected boolean validTreePos(LevelSimulatedReader pLevel, BlockPos pPos) {
+                  return pLevel.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, pPos).getY() > pPos.getY() && pLevel.isStateAtPosition(pPos, block -> {
+                     return block.is(NorthstarBlockTags.ARGYRE_REPLACES.tag);
+                  });
+           }
+        @Override
+        public List<FoliageAttachment> placeTrunk(LevelSimulatedReader pLevel,
+                BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, int pFreeTreeHeight, BlockPos pPos,
+                TreeConfiguration pConfig) {
+            return null;
+        }
+        }

@@ -69,39 +69,39 @@ public class GlowstoneTorchWallBlock extends Block implements SimpleWaterloggedB
         for(Direction direction : adirection) {
             if (direction.getAxis().isHorizontal()) {
                 Direction direction1 = direction.getOpposite();
-            	blockstate = blockstate.setValue(FACING, direction1);
-				if (blockstate.canSurvive(levelreader, blockpos)) {
-					return blockstate.setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
-	            }
-			}
-		}
-		
-		return null;
-	}
-	
-	@SuppressWarnings("deprecation")
-	public FluidState getFluidState(BlockState pState) {
-		return pState.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(pState);
-	}
-	
+                blockstate = blockstate.setValue(FACING, direction1);
+                if (blockstate.canSurvive(levelreader, blockpos)) {
+                    return blockstate.setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
+                }
+            }
+        }
 
-	public boolean canSurvive(BlockState pState, LevelReader pLevel, BlockPos pPos) {
-		Direction direction = pState.getValue(FACING);
-		BlockPos blockpos = pPos.relative(direction.getOpposite());
-		BlockState blockstate = pLevel.getBlockState(blockpos);
-		return blockstate.isFaceSturdy(pLevel, blockpos, direction);
-	}
-	public void animateTick(BlockState pState, Level pLevel, BlockPos pPos, RandomSource pRandom) {
-		Direction direction = pState.getValue(FACING);
-		double d0 = (double)pPos.getX() + 0.5D;
-		double d1 = (double)pPos.getY() + 0.7D;
-		double d2 = (double)pPos.getZ() + 0.5D;
-		Direction direction1 = direction.getOpposite();
-		if (pRandom.nextInt(4) == 0)
-			pLevel.addParticle(new GlowstoneParticleData(), d0 + 0.27D * (double)direction1.getStepX(), d1 + 0.22D, d2 + 0.27D * (double)direction1.getStepZ(), 0.0D, 0.0D, 0.0D);
-	}
-	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-		pBuilder.add(FACING, WATERLOGGED);
-	}
-	
+        return null;
+    }
+
+    @SuppressWarnings("deprecation")
+    public FluidState getFluidState(BlockState pState) {
+        return pState.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(pState);
+    }
+
+
+    public boolean canSurvive(BlockState pState, LevelReader pLevel, BlockPos pPos) {
+        Direction direction = pState.getValue(FACING);
+        BlockPos blockpos = pPos.relative(direction.getOpposite());
+        BlockState blockstate = pLevel.getBlockState(blockpos);
+        return blockstate.isFaceSturdy(pLevel, blockpos, direction);
+    }
+    public void animateTick(BlockState pState, Level pLevel, BlockPos pPos, RandomSource pRandom) {
+        Direction direction = pState.getValue(FACING);
+        double d0 = (double)pPos.getX() + 0.5D;
+        double d1 = (double)pPos.getY() + 0.7D;
+        double d2 = (double)pPos.getZ() + 0.5D;
+        Direction direction1 = direction.getOpposite();
+        if (pRandom.nextInt(4) == 0)
+            pLevel.addParticle(new GlowstoneParticleData(), d0 + 0.27D * (double)direction1.getStepX(), d1 + 0.22D, d2 + 0.27D * (double)direction1.getStepZ(), 0.0D, 0.0D, 0.0D);
+    }
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
+        pBuilder.add(FACING, WATERLOGGED);
+    }
+
 }

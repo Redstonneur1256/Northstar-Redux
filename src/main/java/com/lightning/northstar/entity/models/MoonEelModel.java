@@ -7,18 +7,18 @@ import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib3.model.AnimatedTickingGeoModel;
 
 public class MoonEelModel extends AnimatedTickingGeoModel<MoonEelEntity> {
-	@Override
-	public ResourceLocation getAnimationResource(MoonEelEntity entity) {
-		return NorthstarEntityResources.EEL_ANIMATIONS;
-	}
+    @Override
+    public ResourceLocation getAnimationResource(MoonEelEntity entity) {
+        return NorthstarEntityResources.EEL_ANIMATIONS;
+    }
 
-	@Override
-	public ResourceLocation getModelResource(MoonEelEntity entity) {
-		return NorthstarEntityResources.EEL_MODEL;
-	}
+    @Override
+    public ResourceLocation getModelResource(MoonEelEntity entity) {
+        return NorthstarEntityResources.EEL_MODEL;
+    }
 
-	@Override
-	public ResourceLocation getTextureResource(MoonEelEntity entity) {
-		return NorthstarEntityResources.EEL_TEXTURE;
-	}
+    @Override
+    public ResourceLocation getTextureResource(MoonEelEntity entity) {
+        return NorthstarEntityResources.EEL_TEXTURE;
+    }
 }

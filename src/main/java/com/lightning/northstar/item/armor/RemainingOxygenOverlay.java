@@ -24,38 +24,38 @@ public class RemainingOxygenOverlay implements IGuiOverlay {
             return;
 
         LocalPlayer player = mc.player;
-		if (player == null)
-			return;
-		if (player.isCreative())
-			return;
+        if (player == null)
+            return;
+        if (player.isCreative())
+            return;
 
 
-		
-		poseStack.pushPose();
-		
-		ItemStack oxytank = OxygenStuff.getOxy(player);
-		
-		if(oxytank.isEmpty()) {
-			return;
-		}
-		
-		int timeLeft = oxytank.getOrCreateTag().getInt("Oxygen");
-		
-		poseStack.translate(width / 2 + 90, height - 53 + (oxytank.getItem()
-			.isFireResistant() ? 9 : 0), 0);
-		
-		Component text = Components.literal(net.minecraft.util.StringUtil.formatTickDuration(Math.max(0, timeLeft - 1) * 20));
-		GuiGameElement.of(oxytank)
-			.at(0, 0)
-			.render(poseStack);
-		int color = 0xFF_FFFFFF;
-		if (timeLeft < 60 && timeLeft % 2 == 0) {
-			color = Color.mixColors(0xFF_FF0000, color, Math.max(timeLeft / 60f, .25f));
-		}
-		mc.font.drawShadow(poseStack, text, 16, 5, color);
-	
-		poseStack.popPose();
-	}
+        
+        poseStack.pushPose();
+        
+        ItemStack oxytank = OxygenStuff.getOxy(player);
+        
+        if(oxytank.isEmpty()) {
+            return;
+        }
+        
+        int timeLeft = oxytank.getOrCreateTag().getInt("Oxygen");
+        
+        poseStack.translate(width / 2 + 90, height - 53 + (oxytank.getItem()
+            .isFireResistant() ? 9 : 0), 0);
+        
+        Component text = Components.literal(net.minecraft.util.StringUtil.formatTickDuration(Math.max(0, timeLeft - 1) * 20));
+        GuiGameElement.of(oxytank)
+            .at(0, 0)
+            .render(poseStack);
+        int color = 0xFF_FFFFFF;
+        if (timeLeft < 60 && timeLeft % 2 == 0) {
+            color = Color.mixColors(0xFF_FF0000, color, Math.max(timeLeft / 60f, .25f));
+        }
+        mc.font.drawShadow(poseStack, text, 16, 5, color);
+    
+        poseStack.popPose();
+    }
 }
 
 

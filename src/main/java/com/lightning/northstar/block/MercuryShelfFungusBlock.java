@@ -90,45 +90,45 @@ public class MercuryShelfFungusBlock extends Block implements SimpleWaterloggedB
         Direction[] adirection = pContext.getNearestLookingDirections();
               
         for(Direction direction : adirection) {
-    		if (direction.getAxis().isHorizontal()) {
-				Direction direction1 = direction.getOpposite();
-				blockstate = blockstate.setValue(FACING, direction1);
-				if (blockstate.canSurvive(levelreader, blockpos)) {
-					return blockstate.setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
-	            }
-			}
-		}
-		
-		return null;
-	}
-	
-	@SuppressWarnings("deprecation")
-	public FluidState getFluidState(BlockState pState) {
-		return pState.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(pState);
-	}
-	
+            if (direction.getAxis().isHorizontal()) {
+                Direction direction1 = direction.getOpposite();
+                blockstate = blockstate.setValue(FACING, direction1);
+                if (blockstate.canSurvive(levelreader, blockpos)) {
+                    return blockstate.setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
+                }
+            }
+        }
 
-	public boolean canSurvive(BlockState pState, LevelReader pLevel, BlockPos pPos) {
-		Direction direction = pState.getValue(FACING);
-		BlockPos blockpos = pPos.relative(direction.getOpposite());
-		BlockState blockstate = pLevel.getBlockState(blockpos);
-		return blockstate.isFaceSturdy(pLevel, blockpos, direction);
-	}
-	
-	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-		pBuilder.add(FACING, WATERLOGGED, SHELVES);
-	}
-	public BlockState getStateForGeneration(BlockState state, WorldGenLevel level, BlockPos blockpos1, Direction direction) {
-		BlockState blockstate = this.defaultBlockState();
-		for(Direction dir : Direction.Plane.HORIZONTAL) {
-			if(level.getBlockState(blockpos1.relative(dir)).isSolidRender(level, blockpos1.relative(dir))) {
-				blockstate = blockstate.setValue(FACING, dir);
-			}
-		}
-		if(blockstate != this.defaultBlockState())
-			return blockstate;
-		else
-			return null;
-	}
-	
+        return null;
+    }
+
+    @SuppressWarnings("deprecation")
+    public FluidState getFluidState(BlockState pState) {
+        return pState.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(pState);
+    }
+
+
+    public boolean canSurvive(BlockState pState, LevelReader pLevel, BlockPos pPos) {
+        Direction direction = pState.getValue(FACING);
+        BlockPos blockpos = pPos.relative(direction.getOpposite());
+        BlockState blockstate = pLevel.getBlockState(blockpos);
+        return blockstate.isFaceSturdy(pLevel, blockpos, direction);
+    }
+
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
+        pBuilder.add(FACING, WATERLOGGED, SHELVES);
+    }
+    public BlockState getStateForGeneration(BlockState state, WorldGenLevel level, BlockPos blockpos1, Direction direction) {
+        BlockState blockstate = this.defaultBlockState();
+        for(Direction dir : Direction.Plane.HORIZONTAL) {
+            if(level.getBlockState(blockpos1.relative(dir)).isSolidRender(level, blockpos1.relative(dir))) {
+                blockstate = blockstate.setValue(FACING, dir);
+            }
+        }
+        if(blockstate != this.defaultBlockState())
+            return blockstate;
+        else
+            return null;
+    }
+
 }

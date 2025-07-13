@@ -1,5 +1,7 @@
 {
-	"variants":{
-	"":{"model": "northstar:block/martian_grass"}
-	}
+  "variants": {
+    "": {
+      "model": "northstar:block/martian_grass"
+    }
+  }
 }

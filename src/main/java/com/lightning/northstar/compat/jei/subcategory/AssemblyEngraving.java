@@ -7,20 +7,20 @@ import com.simibubi.create.content.processing.sequenced.SequencedRecipe;
 
 public class AssemblyEngraving extends SequencedAssemblySubCategory {
 
-	AnimatedEngraver engraver;
+    AnimatedEngraver engraver;
 
-	public AssemblyEngraving() {
-		super(25);
-		engraver = new AnimatedEngraver();
-	}
+    public AssemblyEngraving() {
+        super(25);
+        engraver = new AnimatedEngraver();
+    }
 
-	@Override
-	public void draw(SequencedRecipe<?> recipe, PoseStack ms, double mouseX, double mouseY, int index) {
-		ms.pushPose();
-		ms.translate(-5.5, 46.3, 0);
-		ms.scale(.625f, .625f, .625f);
-		engraver.draw(ms, getWidth() / 2, 30);
-		ms.popPose();
-	}
+    @Override
+    public void draw(SequencedRecipe<?> recipe, PoseStack ms, double mouseX, double mouseY, int index) {
+        ms.pushPose();
+        ms.translate(-5.5, 46.3, 0);
+        ms.scale(.625f, .625f, .625f);
+        engraver.draw(ms, getWidth() / 2, 30);
+        ms.popPose();
+    }
 
 }

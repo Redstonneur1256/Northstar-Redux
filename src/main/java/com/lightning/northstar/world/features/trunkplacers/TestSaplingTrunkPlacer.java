@@ -122,141 +122,141 @@ public class TestSaplingTrunkPlacer extends TrunkPlacer {
                    }
                    if((pLevel.isStateAtPosition(mutable.relative(dir).below(), block -> {return block.getMaterial().isReplaceable();})
                    || pLevel.isStateAtPosition(mutable.relative(dir), block -> {return block.getMaterial().isReplaceable();})
-				   || pLevel.isStateAtPosition(mutable.relative(dir).above(), block -> {return block.getMaterial().isReplaceable();})) && moveFlag) {
-					   mutable.move(dir);
-				   }
-				   i++;
-			   }
-			   return list;
-		   }
-		   
-		   public List<FoliagePlacer.FoliageAttachment> placeSecondBranch(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, int pFreeTreeHeight, 
-				   BlockPos pPos, TreeConfiguration treeconfiguration,int dist, float bias, Direction dir, Direction offshootDir) {
-			   List<FoliagePlacer.FoliageAttachment> list = Lists.newArrayList();
-			   BlockPos.MutableBlockPos mutable = pPos.mutable();
+                   || pLevel.isStateAtPosition(mutable.relative(dir).above(), block -> {return block.getMaterial().isReplaceable();})) && moveFlag) {
+                       mutable.move(dir);
+                   }
+                   i++;
+               }
+               return list;
+           }
 
-			   int yPos = pPos.getY();
-			   for(int i = 0; i < pFreeTreeHeight;) {
-				   Direction newDir = dir;
-				   if(pRandom.nextFloat() > 0.7 && i > 3) {
-					   if(pRandom.nextFloat() > bias)
-					   {mutable.move(dir.getClockWise());}
-					   else
-					   {mutable.move(dir.getCounterClockWise());}
-				   }
-				   yPos = mutable.getY();
-				   int Xpos = mutable.getX();
-				   int Zpos = mutable.getZ();
-				   boolean moveFlag = false;
+           public List<FoliagePlacer.FoliageAttachment> placeSecondBranch(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, int pFreeTreeHeight,
+                   BlockPos pPos, TreeConfiguration treeconfiguration,int dist, float bias, Direction dir, Direction offshootDir) {
+               List<FoliagePlacer.FoliageAttachment> list = Lists.newArrayList();
+               BlockPos.MutableBlockPos mutable = pPos.mutable();
 
-				   if(i <= dist) {
-					   newDir = offshootDir;
-				   }
-				   if(pLevel.isStateAtPosition(mutable.below(), block -> {return block.isSolidRender((BlockGetter) pLevel, mutable.below());}) && pLevel.isStateAtPosition(mutable, block -> {return block.getMaterial().isReplaceable();})) {
-					   yPos = mutable.getY();
-					   moveFlag = true;
-					   this.placeLog(pLevel, pBlockSetter, pRandom, new BlockPos(mutable.set(Xpos, yPos, Zpos)), treeconfiguration, newDir);
-				   }else if(pLevel.isStateAtPosition(mutable.below(), block -> {return block.getMaterial().isReplaceable();})) {
-					   this.placeLog(pLevel, pBlockSetter, pRandom, new BlockPos(mutable.set(Xpos, yPos, Zpos)), treeconfiguration, Direction.DOWN);
-					   mutable.move(Direction.DOWN);
-				   }else if(pLevel.isStateAtPosition(mutable, block -> {return block.isSolidRender((BlockGetter) pLevel, mutable);}) && pLevel.isStateAtPosition(mutable.above(), block -> {return block.getMaterial().isReplaceable();})) {
-					   mutable.move(0, 1, 0);
-					   moveFlag = true;
-					   yPos = mutable.getY();
-					   this.placeLog(pLevel, pBlockSetter, pRandom, new BlockPos(mutable.set(Xpos, yPos, Zpos)), treeconfiguration, newDir);
-				   }else if(pLevel.isStateAtPosition(mutable.below().below(), block -> {return block.isSolidRender((BlockGetter) pLevel, mutable.below().below());}) && pLevel.isStateAtPosition(mutable.below(), block -> {return block.getMaterial().isReplaceable();})) {
-					   mutable.move(0, -1, 0);
-					   moveFlag = true;
-					   yPos = mutable.getY();
-					   this.placeLog(pLevel, pBlockSetter, pRandom, new BlockPos(mutable.set(Xpos, yPos, Zpos)), treeconfiguration, newDir);
-				   }else if(pLevel.isStateAtPosition(mutable.relative(dir), block -> {return block.isSolidRender((BlockGetter) pLevel, mutable.relative(dir));}) && pLevel.isStateAtPosition(mutable, block -> {return block.getMaterial().isReplaceable();})) {
-					   this.placeLog(pLevel, pBlockSetter, pRandom, new BlockPos(mutable.set(Xpos, yPos, Zpos)), treeconfiguration, Direction.UP);
-					   mutable.move(Direction.UP);
-				   }else {
-					   i += 999999999;
-				   }
-				   if(pLevel.isStateAtPosition(mutable.relative(dir).below(), block -> {return block.getMaterial().isReplaceable();}) 
-				   || pLevel.isStateAtPosition(mutable.relative(dir), block -> {return block.getMaterial().isReplaceable();})
-				   || pLevel.isStateAtPosition(mutable.relative(dir).above(), block -> {return block.getMaterial().isReplaceable();})) {				   
-					   if(i <= dist && moveFlag) 
-					   {mutable.move(offshootDir);}
-					   else if (moveFlag) {mutable.move(dir);}
-				   }
-				   i++;
-			   }
-			   return list;
-		   }
-		   
-		   public void placeOre(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, int pFreeTreeHeight, 
-				   BlockPos pPos, TreeConfiguration treeconfiguration) {
-			   
-			   for(int x = -1; x <= 1; x++) {
-				   for(int y = -1; y <= 1; y++) {
-					   for(int z = -1; z <= 1; z++) {
-						   pBlockSetter.accept(pPos.offset(x, y - 2, z), NorthstarBlocks.MERCURY_DEEP_TUNGSTEN_ORE.get().defaultBlockState());
-					   }   
-				   }   
-			   }
-		   }
-		   
-		   public void placeCap(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, int pFreeTreeHeight, 
-				   BlockPos pPos, TreeConfiguration treeconfiguration) {
-			   for(int x = -1; x <= 1; x++) {
-					   for(int z = -1; z <= 1; z++) {
-						   pBlockSetter.accept(pPos.offset(x, 1, z), Blocks.BLACKSTONE.defaultBlockState());
-					   }   
-			   }
+               int yPos = pPos.getY();
+               for(int i = 0; i < pFreeTreeHeight;) {
+                   Direction newDir = dir;
+                   if(pRandom.nextFloat() > 0.7 && i > 3) {
+                       if(pRandom.nextFloat() > bias)
+                       {mutable.move(dir.getClockWise());}
+                       else
+                       {mutable.move(dir.getCounterClockWise());}
+                   }
+                   yPos = mutable.getY();
+                   int Xpos = mutable.getX();
+                   int Zpos = mutable.getZ();
+                   boolean moveFlag = false;
 
-			   pBlockSetter.accept(pPos.offset(2, 2, -1), Blocks.BLACKSTONE.defaultBlockState());
-			   pBlockSetter.accept(pPos.offset(2, 2, 0), Blocks.BLACKSTONE.defaultBlockState());
-			   pBlockSetter.accept(pPos.offset(2, 2, 1), Blocks.BLACKSTONE.defaultBlockState());
+                   if(i <= dist) {
+                       newDir = offshootDir;
+                   }
+                   if(pLevel.isStateAtPosition(mutable.below(), block -> {return block.isSolidRender((BlockGetter) pLevel, mutable.below());}) && pLevel.isStateAtPosition(mutable, block -> {return block.getMaterial().isReplaceable();})) {
+                       yPos = mutable.getY();
+                       moveFlag = true;
+                       this.placeLog(pLevel, pBlockSetter, pRandom, new BlockPos(mutable.set(Xpos, yPos, Zpos)), treeconfiguration, newDir);
+                   }else if(pLevel.isStateAtPosition(mutable.below(), block -> {return block.getMaterial().isReplaceable();})) {
+                       this.placeLog(pLevel, pBlockSetter, pRandom, new BlockPos(mutable.set(Xpos, yPos, Zpos)), treeconfiguration, Direction.DOWN);
+                       mutable.move(Direction.DOWN);
+                   }else if(pLevel.isStateAtPosition(mutable, block -> {return block.isSolidRender((BlockGetter) pLevel, mutable);}) && pLevel.isStateAtPosition(mutable.above(), block -> {return block.getMaterial().isReplaceable();})) {
+                       mutable.move(0, 1, 0);
+                       moveFlag = true;
+                       yPos = mutable.getY();
+                       this.placeLog(pLevel, pBlockSetter, pRandom, new BlockPos(mutable.set(Xpos, yPos, Zpos)), treeconfiguration, newDir);
+                   }else if(pLevel.isStateAtPosition(mutable.below().below(), block -> {return block.isSolidRender((BlockGetter) pLevel, mutable.below().below());}) && pLevel.isStateAtPosition(mutable.below(), block -> {return block.getMaterial().isReplaceable();})) {
+                       mutable.move(0, -1, 0);
+                       moveFlag = true;
+                       yPos = mutable.getY();
+                       this.placeLog(pLevel, pBlockSetter, pRandom, new BlockPos(mutable.set(Xpos, yPos, Zpos)), treeconfiguration, newDir);
+                   }else if(pLevel.isStateAtPosition(mutable.relative(dir), block -> {return block.isSolidRender((BlockGetter) pLevel, mutable.relative(dir));}) && pLevel.isStateAtPosition(mutable, block -> {return block.getMaterial().isReplaceable();})) {
+                       this.placeLog(pLevel, pBlockSetter, pRandom, new BlockPos(mutable.set(Xpos, yPos, Zpos)), treeconfiguration, Direction.UP);
+                       mutable.move(Direction.UP);
+                   }else {
+                       i += 999999999;
+                   }
+                   if(pLevel.isStateAtPosition(mutable.relative(dir).below(), block -> {return block.getMaterial().isReplaceable();})
+                   || pLevel.isStateAtPosition(mutable.relative(dir), block -> {return block.getMaterial().isReplaceable();})
+                   || pLevel.isStateAtPosition(mutable.relative(dir).above(), block -> {return block.getMaterial().isReplaceable();})) {
+                       if(i <= dist && moveFlag)
+                       {mutable.move(offshootDir);}
+                       else if (moveFlag) {mutable.move(dir);}
+                   }
+                   i++;
+               }
+               return list;
+           }
 
-			   pBlockSetter.accept(pPos.offset(-1, 2, 2), Blocks.BLACKSTONE.defaultBlockState());
-			   pBlockSetter.accept(pPos.offset(0, 2, 2), Blocks.BLACKSTONE.defaultBlockState());
-			   pBlockSetter.accept(pPos.offset(1, 2, 2), Blocks.BLACKSTONE.defaultBlockState());
-			   
-			   pBlockSetter.accept(pPos.offset(-2, 2, -1), Blocks.BLACKSTONE.defaultBlockState());
-			   pBlockSetter.accept(pPos.offset(-2, 2, 0), Blocks.BLACKSTONE.defaultBlockState());
-			   pBlockSetter.accept(pPos.offset(-2, 2, 1), Blocks.BLACKSTONE.defaultBlockState());
-			   
-			   pBlockSetter.accept(pPos.offset(-1, 2, -2), Blocks.BLACKSTONE.defaultBlockState());
-			   pBlockSetter.accept(pPos.offset(0, 2, -2), Blocks.BLACKSTONE.defaultBlockState());
-			   pBlockSetter.accept(pPos.offset(1, 2, -2), Blocks.BLACKSTONE.defaultBlockState());
+           public void placeOre(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, int pFreeTreeHeight,
+                   BlockPos pPos, TreeConfiguration treeconfiguration) {
 
-			   pBlockSetter.accept(pPos.offset(0,2,0), Blocks.SHROOMLIGHT.defaultBlockState());
-			   pBlockSetter.accept(pPos.offset(0,3,0), Blocks.SHROOMLIGHT.defaultBlockState());
-			   pBlockSetter.accept(pPos.offset(0,4,0), Blocks.SHROOMLIGHT.defaultBlockState());
-		   }
-		   
-		   protected boolean placeLog(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos pPos, TreeConfiguration treeconfiguration, Direction dir) {
-			      return this.placeLog(pLevel, pBlockSetter, pRandom, pPos, treeconfiguration, Function.identity(), dir);
-		   }
-		   protected boolean placeLog(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos pPos, TreeConfiguration treeconfiguration, Function<Object, Object> function, Direction dir) {
-			      if (this.validTreePos(pLevel, pPos)) {
-			         pBlockSetter.accept(pPos, (BlockState) function.apply(treeconfiguration.trunkProvider.getState(pRandom, pPos).setValue(RotatedPillarBlock.AXIS, dir.getAxis())));
-			         return true;
-			      } else {
-			         return false;
-			      }
-			   }
-		   protected boolean placeBlackstone(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos pPos, TreeConfiguration treeconfiguration, Function<Object, Object> function, Direction dir) {
-			   if (this.validTreePos(pLevel, pPos)) {
-				   pBlockSetter.accept(pPos, Blocks.BLACKSTONE.defaultBlockState());
-				   return true;
-			   } else {
-				   return false;
-			   }
-		   }
-		   protected boolean placeShroomlight(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos pPos, TreeConfiguration treeconfiguration, Function<Object, Object> function, Direction dir) {
-			   if (this.validTreePos(pLevel, pPos)) {
-				   pBlockSetter.accept(pPos, Blocks.SHROOMLIGHT.defaultBlockState());
-				   return true;
-			   } else {
-				   return false;
-			   }
-		   }
-		   @Override
-		   protected boolean validTreePos(LevelSimulatedReader pLevel, BlockPos pPos) {
-			   return true;
-		   }
+               for(int x = -1; x <= 1; x++) {
+                   for(int y = -1; y <= 1; y++) {
+                       for(int z = -1; z <= 1; z++) {
+                           pBlockSetter.accept(pPos.offset(x, y - 2, z), NorthstarBlocks.MERCURY_DEEP_TUNGSTEN_ORE.get().defaultBlockState());
+                       }
+                   }
+               }
+           }
+
+           public void placeCap(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, int pFreeTreeHeight,
+                   BlockPos pPos, TreeConfiguration treeconfiguration) {
+               for(int x = -1; x <= 1; x++) {
+                       for(int z = -1; z <= 1; z++) {
+                           pBlockSetter.accept(pPos.offset(x, 1, z), Blocks.BLACKSTONE.defaultBlockState());
+                       }
+               }
+
+               pBlockSetter.accept(pPos.offset(2, 2, -1), Blocks.BLACKSTONE.defaultBlockState());
+               pBlockSetter.accept(pPos.offset(2, 2, 0), Blocks.BLACKSTONE.defaultBlockState());
+               pBlockSetter.accept(pPos.offset(2, 2, 1), Blocks.BLACKSTONE.defaultBlockState());
+
+               pBlockSetter.accept(pPos.offset(-1, 2, 2), Blocks.BLACKSTONE.defaultBlockState());
+               pBlockSetter.accept(pPos.offset(0, 2, 2), Blocks.BLACKSTONE.defaultBlockState());
+               pBlockSetter.accept(pPos.offset(1, 2, 2), Blocks.BLACKSTONE.defaultBlockState());
+
+               pBlockSetter.accept(pPos.offset(-2, 2, -1), Blocks.BLACKSTONE.defaultBlockState());
+               pBlockSetter.accept(pPos.offset(-2, 2, 0), Blocks.BLACKSTONE.defaultBlockState());
+               pBlockSetter.accept(pPos.offset(-2, 2, 1), Blocks.BLACKSTONE.defaultBlockState());
+
+               pBlockSetter.accept(pPos.offset(-1, 2, -2), Blocks.BLACKSTONE.defaultBlockState());
+               pBlockSetter.accept(pPos.offset(0, 2, -2), Blocks.BLACKSTONE.defaultBlockState());
+               pBlockSetter.accept(pPos.offset(1, 2, -2), Blocks.BLACKSTONE.defaultBlockState());
+
+               pBlockSetter.accept(pPos.offset(0,2,0), Blocks.SHROOMLIGHT.defaultBlockState());
+               pBlockSetter.accept(pPos.offset(0,3,0), Blocks.SHROOMLIGHT.defaultBlockState());
+               pBlockSetter.accept(pPos.offset(0,4,0), Blocks.SHROOMLIGHT.defaultBlockState());
+           }
+
+           protected boolean placeLog(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos pPos, TreeConfiguration treeconfiguration, Direction dir) {
+                  return this.placeLog(pLevel, pBlockSetter, pRandom, pPos, treeconfiguration, Function.identity(), dir);
+           }
+           protected boolean placeLog(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos pPos, TreeConfiguration treeconfiguration, Function<Object, Object> function, Direction dir) {
+                  if (this.validTreePos(pLevel, pPos)) {
+                     pBlockSetter.accept(pPos, (BlockState) function.apply(treeconfiguration.trunkProvider.getState(pRandom, pPos).setValue(RotatedPillarBlock.AXIS, dir.getAxis())));
+                     return true;
+                  } else {
+                     return false;
+                  }
+               }
+           protected boolean placeBlackstone(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos pPos, TreeConfiguration treeconfiguration, Function<Object, Object> function, Direction dir) {
+               if (this.validTreePos(pLevel, pPos)) {
+                   pBlockSetter.accept(pPos, Blocks.BLACKSTONE.defaultBlockState());
+                   return true;
+               } else {
+                   return false;
+               }
+           }
+           protected boolean placeShroomlight(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos pPos, TreeConfiguration treeconfiguration, Function<Object, Object> function, Direction dir) {
+               if (this.validTreePos(pLevel, pPos)) {
+                   pBlockSetter.accept(pPos, Blocks.SHROOMLIGHT.defaultBlockState());
+                   return true;
+               } else {
+                   return false;
+               }
+           }
+           @Override
+           protected boolean validTreePos(LevelSimulatedReader pLevel, BlockPos pPos) {
+               return true;
+           }
 }

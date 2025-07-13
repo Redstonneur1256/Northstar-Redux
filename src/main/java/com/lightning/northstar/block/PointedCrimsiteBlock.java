@@ -125,77 +125,77 @@ public class PointedCrimsiteBlock extends PointedDripstoneBlock implements Falla
 
     @Override
     public boolean canSurvive(BlockState pState, LevelReader pLevel, BlockPos pPos) {
-		return isValidPointedDripstonePlacement(pLevel, pPos, pState.getValue(TIP_DIRECTION));
-	}
-	@Override
-	public void animateTick(BlockState pState, Level pLevel, BlockPos pPos, RandomSource pRandom) {}
-	
-	private static boolean isPointedDripstoneWithDirection(BlockState pState, Direction pDir) {
-	return pState.is(NorthstarBlocks.POINTED_CRIMSITE.get()) && pState.getValue(TIP_DIRECTION) == pDir;
-	}
-	
-	public static void growPointedDripstone(LevelAccessor pLevel, BlockPos pPos, Direction pDirection, int pHeight, boolean pMergeTip, Block block) {
-	      if (pLevel.getBlockState(pPos.relative(pDirection.getOpposite())).isSolidRender(pLevel, pPos.relative(pDirection.getOpposite()))) {
-	         BlockPos.MutableBlockPos blockpos$mutableblockpos = pPos.mutable();
-	         buildBaseToTipColumn(pDirection, pHeight, pMergeTip, (p_190846_) -> {
-	            if (p_190846_.is(block)) {
-	               p_190846_ = p_190846_.setValue(WATERLOGGED, Boolean.valueOf(pLevel.isWaterAt(blockpos$mutableblockpos)));
-	            }
-	            if(!pLevel.getBlockState(blockpos$mutableblockpos).isSolidRender(pLevel, blockpos$mutableblockpos))
-	            {pLevel.setBlock(blockpos$mutableblockpos, p_190846_, 2);}
-	            blockpos$mutableblockpos.move(pDirection);
-	            if(!pLevel.getBlockState(blockpos$mutableblockpos).isAir()) {
-	            	return;
-	            }
-	         }, block);
-	      }
-	}
-	protected static void buildBaseToTipColumn(Direction pDirection, int pHeight, boolean pMergeTip, Consumer<BlockState> pBlockSetter, Block block) {
-	      if (pHeight >= 3) {
-	         pBlockSetter.accept(createPointedDripstone(pDirection, DripstoneThickness.BASE, block));
+        return isValidPointedDripstonePlacement(pLevel, pPos, pState.getValue(TIP_DIRECTION));
+    }
+    @Override
+    public void animateTick(BlockState pState, Level pLevel, BlockPos pPos, RandomSource pRandom) {}
+    
+    private static boolean isPointedDripstoneWithDirection(BlockState pState, Direction pDir) {
+    return pState.is(NorthstarBlocks.POINTED_CRIMSITE.get()) && pState.getValue(TIP_DIRECTION) == pDir;
+    }
+    
+    public static void growPointedDripstone(LevelAccessor pLevel, BlockPos pPos, Direction pDirection, int pHeight, boolean pMergeTip, Block block) {
+          if (pLevel.getBlockState(pPos.relative(pDirection.getOpposite())).isSolidRender(pLevel, pPos.relative(pDirection.getOpposite()))) {
+             BlockPos.MutableBlockPos blockpos$mutableblockpos = pPos.mutable();
+             buildBaseToTipColumn(pDirection, pHeight, pMergeTip, (p_190846_) -> {
+                if (p_190846_.is(block)) {
+                   p_190846_ = p_190846_.setValue(WATERLOGGED, Boolean.valueOf(pLevel.isWaterAt(blockpos$mutableblockpos)));
+                }
+                if(!pLevel.getBlockState(blockpos$mutableblockpos).isSolidRender(pLevel, blockpos$mutableblockpos))
+                {pLevel.setBlock(blockpos$mutableblockpos, p_190846_, 2);}
+                blockpos$mutableblockpos.move(pDirection);
+                if(!pLevel.getBlockState(blockpos$mutableblockpos).isAir()) {
+                    return;
+                }
+             }, block);
+          }
+    }
+    protected static void buildBaseToTipColumn(Direction pDirection, int pHeight, boolean pMergeTip, Consumer<BlockState> pBlockSetter, Block block) {
+          if (pHeight >= 3) {
+             pBlockSetter.accept(createPointedDripstone(pDirection, DripstoneThickness.BASE, block));
 
-	         for(int i = 0; i < pHeight - 3; ++i) {
-	            pBlockSetter.accept(createPointedDripstone(pDirection, DripstoneThickness.MIDDLE, block));
-	         }
-	      }
+             for(int i = 0; i < pHeight - 3; ++i) {
+                pBlockSetter.accept(createPointedDripstone(pDirection, DripstoneThickness.MIDDLE, block));
+             }
+          }
 
-	      if (pHeight >= 2) {
-	         pBlockSetter.accept(createPointedDripstone(pDirection, DripstoneThickness.FRUSTUM, block));
-	      }
+          if (pHeight >= 2) {
+             pBlockSetter.accept(createPointedDripstone(pDirection, DripstoneThickness.FRUSTUM, block));
+          }
 
-	      if (pHeight >= 1) {
-	    	  pBlockSetter.accept(createPointedDripstone(pDirection, pMergeTip ? DripstoneThickness.TIP_MERGE : DripstoneThickness.TIP, block));
-	      }
-	}
-	private static BlockState createPointedDripstone(Direction pDirection, DripstoneThickness pDripstoneThickness, Block block) {
-	      return block.defaultBlockState().setValue(TIP_DIRECTION, pDirection).setValue(THICKNESS, pDripstoneThickness);
-	   }
-	
-	@Override
-	public BlockState updateShape(BlockState pState, Direction pDirection, BlockState pNeighborState, LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pNeighborPos) {
-	      if (pState.getValue(WATERLOGGED)) {
-	         pLevel.scheduleTick(pCurrentPos, Fluids.WATER, Fluids.WATER.getTickDelay(pLevel));
-	      }
+          if (pHeight >= 1) {
+              pBlockSetter.accept(createPointedDripstone(pDirection, pMergeTip ? DripstoneThickness.TIP_MERGE : DripstoneThickness.TIP, block));
+          }
+    }
+    private static BlockState createPointedDripstone(Direction pDirection, DripstoneThickness pDripstoneThickness, Block block) {
+          return block.defaultBlockState().setValue(TIP_DIRECTION, pDirection).setValue(THICKNESS, pDripstoneThickness);
+       }
+    
+    @Override
+    public BlockState updateShape(BlockState pState, Direction pDirection, BlockState pNeighborState, LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pNeighborPos) {
+          if (pState.getValue(WATERLOGGED)) {
+             pLevel.scheduleTick(pCurrentPos, Fluids.WATER, Fluids.WATER.getTickDelay(pLevel));
+          }
 
-	      if (pDirection != Direction.UP && pDirection != Direction.DOWN) {
-	         return pState;
-	      } else {
-	         Direction direction = pState.getValue(TIP_DIRECTION);
-	         if (direction == Direction.DOWN && pLevel.getBlockTicks().hasScheduledTick(pCurrentPos, this)) {
-	            return pState;
-	         } else if (pDirection == direction.getOpposite() && !this.canSurvive(pState, pLevel, pCurrentPos)) {
-	            if (direction == Direction.DOWN) {
-	               pLevel.scheduleTick(pCurrentPos, this, 2);
-	            } else {
-	               pLevel.scheduleTick(pCurrentPos, this, 1);
-	            }
+          if (pDirection != Direction.UP && pDirection != Direction.DOWN) {
+             return pState;
+          } else {
+             Direction direction = pState.getValue(TIP_DIRECTION);
+             if (direction == Direction.DOWN && pLevel.getBlockTicks().hasScheduledTick(pCurrentPos, this)) {
+                return pState;
+             } else if (pDirection == direction.getOpposite() && !this.canSurvive(pState, pLevel, pCurrentPos)) {
+                if (direction == Direction.DOWN) {
+                   pLevel.scheduleTick(pCurrentPos, this, 2);
+                } else {
+                   pLevel.scheduleTick(pCurrentPos, this, 1);
+                }
 
-	            return pState;
-	         } else {
-	            boolean flag = pState.getValue(THICKNESS) == DripstoneThickness.TIP_MERGE;
-	            DripstoneThickness dripstonethickness = calculateDripstoneThickness(pLevel, pCurrentPos, direction, flag);
-	            return pState.setValue(THICKNESS, dripstonethickness);
-	         }
-	      }
-	   }
+                return pState;
+             } else {
+                boolean flag = pState.getValue(THICKNESS) == DripstoneThickness.TIP_MERGE;
+                DripstoneThickness dripstonethickness = calculateDripstoneThickness(pLevel, pCurrentPos, direction, flag);
+                return pState.setValue(THICKNESS, dripstonethickness);
+             }
+          }
+       }
 }

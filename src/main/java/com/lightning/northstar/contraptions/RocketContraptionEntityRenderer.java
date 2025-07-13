@@ -7,13 +7,13 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 
 public class RocketContraptionEntityRenderer extends ContraptionEntityRenderer<RocketContraptionEntity> {
 
-	public RocketContraptionEntityRenderer(EntityRendererProvider.Context context) {
-		super(context);
-	}
-	
-	@Override
-	public boolean shouldRender(RocketContraptionEntity entity, Frustum clippingHelper, double cameraX, double cameraY,
-		double cameraZ) {
-		return true;
-	}
+    public RocketContraptionEntityRenderer(EntityRendererProvider.Context context) {
+        super(context);
+    }
+
+    @Override
+    public boolean shouldRender(RocketContraptionEntity entity, Frustum clippingHelper, double cameraX, double cameraY,
+        double cameraZ) {
+        return true;
+    }
 }

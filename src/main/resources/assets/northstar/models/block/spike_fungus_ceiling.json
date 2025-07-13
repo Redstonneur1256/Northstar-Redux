@@ -3,5 +3,5 @@
   "textures": {
     "cross": "northstar:block/spike_fungus_ceiling"
   },
-  "render_type":"cutout"
+  "render_type": "cutout"
 }

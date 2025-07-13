@@ -24,20 +24,20 @@ public class FrostbiteEnchantment extends Enchantment {
     }
 
     @Override
-	public int getMaxLevel() {
-		return 3;
-	}
-	@Override
-	public boolean isTreasureOnly() {
-		return true;
-	}
-	
-	@Override
-	public boolean canApplyAtEnchantingTable(ItemStack stack) {
-		return (stack.getItem() instanceof SwordItem || stack.is(Items.STICK)) && !stack.getAllEnchantments().containsKey(Enchantments.FIRE_ASPECT);
-	}
-	@Override
-	public boolean checkCompatibility(Enchantment pEnch) {
-		return pEnch instanceof FireAspectEnchantment ? false : super.checkCompatibility(pEnch);
-	}
+    public int getMaxLevel() {
+        return 3;
+    }
+    @Override
+    public boolean isTreasureOnly() {
+        return true;
+    }
+
+    @Override
+    public boolean canApplyAtEnchantingTable(ItemStack stack) {
+        return (stack.getItem() instanceof SwordItem || stack.is(Items.STICK)) && !stack.getAllEnchantments().containsKey(Enchantments.FIRE_ASPECT);
+    }
+    @Override
+    public boolean checkCompatibility(Enchantment pEnch) {
+        return pEnch instanceof FireAspectEnchantment ? false : super.checkCompatibility(pEnch);
+    }
 }

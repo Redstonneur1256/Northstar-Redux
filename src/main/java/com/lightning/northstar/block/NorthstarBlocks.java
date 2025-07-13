@@ -764,39 +764,39 @@ public class NorthstarBlocks {
     
     public static final RegistryObject<MethaneIceBlock> METHANE_ICE = registerBlock("methane_ice",
             () -> new MethaneIceBlock(BlockBehaviour.Properties.of(Material.ICE, MaterialColor.COLOR_LIGHT_GREEN).sound(SoundType.GLASS).friction(0.989F)
-                	.randomTicks().strength(0.5F).noOcclusion().requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
+                    .randomTicks().strength(0.5F).noOcclusion().requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
 
     public static final RegistryObject<Block> ICICLE = registerBlock("icicle",
             () -> new IcicleBlock(BlockBehaviour.Properties.of(Material.ICE, MaterialColor.COLOR_LIGHT_BLUE).sound(SoundType.GLASS)
                     .strength(3.5f, 12f).noOcclusion().dynamicShape().offsetType(BlockBehaviour.OffsetType.XZ)), NorthstarCreativeModeTab.NORTHSTAR_BLOCKS);
-	static {
-		REGISTRATE.creativeModeTab(() -> NorthstarCreativeModeTab.NORTHSTAR_TECH);
-	}
+    static {
+        REGISTRATE.creativeModeTab(() -> NorthstarCreativeModeTab.NORTHSTAR_TECH);
+    }
 
-	@SuppressWarnings("removal")
-	public static final BlockEntry<TelescopeBlock> TELESCOPE = REGISTRATE.block("telescope", TelescopeBlock::new)
-			.initialProperties(SharedProperties::stone)
-			.properties(p -> p.color(MaterialColor.COLOR_BROWN).isViewBlocking(NorthstarBlocks::never).sound(SoundType.COPPER).strength(8f,8f))
-			.properties(BlockBehaviour.Properties::noOcclusion)
-			.transform(axeOrPickaxe())
-			.addLayer(() -> RenderType::cutoutMipped)
-			.transform(BlockStressDefaults.setCapacity(128.0))
-			.transform(BlockStressDefaults.setGeneratorSpeed(SolarPanelBlock::getSpeedRange))
-			.item()
-			.transform(customItemModel())
-			.register();
+    @SuppressWarnings("removal")
+    public static final BlockEntry<TelescopeBlock> TELESCOPE = REGISTRATE.block("telescope", TelescopeBlock::new)
+            .initialProperties(SharedProperties::stone)
+            .properties(p -> p.color(MaterialColor.COLOR_BROWN).isViewBlocking(NorthstarBlocks::never).sound(SoundType.COPPER).strength(8f,8f))
+            .properties(BlockBehaviour.Properties::noOcclusion)
+            .transform(axeOrPickaxe())
+            .addLayer(() -> RenderType::cutoutMipped)
+            .transform(BlockStressDefaults.setCapacity(128.0))
+            .transform(BlockStressDefaults.setGeneratorSpeed(SolarPanelBlock::getSpeedRange))
+            .item()
+            .transform(customItemModel())
+            .register();
     
     public static final RegistryObject<Block> INTERPLANETARY_NAVIGATOR = registerBlock("interplanetary_navigator", 
-    		() ->new InterplanetaryNavigatorBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY).sound(SoundType.METAL)
+            () ->new InterplanetaryNavigatorBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY).sound(SoundType.METAL)
                     .strength(8f, 8f).noOcclusion().isViewBlocking(NorthstarBlocks::never)), NorthstarCreativeModeTab.NORTHSTAR_TECH);  
     
     public static final RegistryObject<Block> OXYGEN_BUBBLE_GENERATOR = registerBlock("oxygen_bubble_generator", 
-    		() ->new OxygenBubbleGeneratorBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY).sound(SoundType.COPPER)
+            () ->new OxygenBubbleGeneratorBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY).sound(SoundType.COPPER)
                     .strength(8f, 8f).requiresCorrectToolForDrops()), NorthstarCreativeModeTab.NORTHSTAR_TECH);
     
     
-	
-	
+
+
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block, CreativeModeTab tab) {
         RegistryObject<T> toReturn = BLOCKS.register(name, block);
         registerBlockItem(name, toReturn, tab);
@@ -807,15 +807,15 @@ public class NorthstarBlocks {
            return p_50763_.getValue(BlockStateProperties.LIT) ? pLightValue : 0;
         };
      }
-	
+
     private static <T extends Block> RegistryObject<Item> registerBlockItem(String name, RegistryObject<T> block,
             CreativeModeTab tab) {
 return NorthstarItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties().tab(tab)));
 }
-	
-	public static void register(IEventBus eventBus)
-	{
-		BLOCKS.register(eventBus);
-		
-	}
+
+    public static void register(IEventBus eventBus)
+    {
+        BLOCKS.register(eventBus);
+
+    }
 }

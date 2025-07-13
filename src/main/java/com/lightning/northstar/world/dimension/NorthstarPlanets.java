@@ -269,197 +269,197 @@ public class NorthstarPlanets {
         case "earth": {return earth_y;}
         case "earth_moon": {return earth_moon_y;}
         case "moon": {return moon_y;}
-    	case "mars": {return mars_y;}
-		case "ceres": {return ceres_y;}
-		case "jupiter": {return jupiter_y;}
-		case "saturn": {return saturn_y;}
-		case "uranus": {return uranus_y;}
-		case "neptune": {return neptune_y;}
-		case "pluto": {return pluto_y;}
-		case "eris": {return eris_y;}
-		default:return 0;}
+        case "mars": {return mars_y;}
+        case "ceres": {return ceres_y;}
+        case "jupiter": {return jupiter_y;}
+        case "saturn": {return saturn_y;}
+        case "uranus": {return uranus_y;}
+        case "neptune": {return neptune_y;}
+        case "pluto": {return pluto_y;}
+        case "eris": {return eris_y;}
+        default:return 0;}
     }
     public static String getPlanetName(ResourceKey<Level> level) {
-		if (level == NorthstarDimensions.MARS_DIM_KEY) {return "mars";}
-		if (level == NorthstarDimensions.MOON_DIM_KEY) {return "moon";}
-		if (level == NorthstarDimensions.VENUS_DIM_KEY) {return "venus";}
-		if (level == NorthstarDimensions.MERCURY_DIM_KEY) {return "mercury";}
-		if (level == Level.OVERWORLD) {return "earth";}
-		return "earth";
+        if (level == NorthstarDimensions.MARS_DIM_KEY) {return "mars";}
+        if (level == NorthstarDimensions.MOON_DIM_KEY) {return "moon";}
+        if (level == NorthstarDimensions.VENUS_DIM_KEY) {return "venus";}
+        if (level == NorthstarDimensions.MERCURY_DIM_KEY) {return "mercury";}
+        if (level == Level.OVERWORLD) {return "earth";}
+        return "earth";
     }
     public static boolean planetHasSky(ResourceKey<Level> level) {
-		if (level == NorthstarDimensions.EARTH_ORBIT_DIM_KEY) {return true;}
-		if (level == NorthstarDimensions.MARS_DIM_KEY) {return true;}
-		if (level == NorthstarDimensions.MOON_DIM_KEY) {return true;}
-		if (level == NorthstarDimensions.VENUS_DIM_KEY) {return true;}
-		if (level == NorthstarDimensions.MERCURY_DIM_KEY) {return true;}
-		if (level == Level.OVERWORLD) {return true;}
-		return false;
+        if (level == NorthstarDimensions.EARTH_ORBIT_DIM_KEY) {return true;}
+        if (level == NorthstarDimensions.MARS_DIM_KEY) {return true;}
+        if (level == NorthstarDimensions.MOON_DIM_KEY) {return true;}
+        if (level == NorthstarDimensions.VENUS_DIM_KEY) {return true;}
+        if (level == NorthstarDimensions.MERCURY_DIM_KEY) {return true;}
+        if (level == Level.OVERWORLD) {return true;}
+        return false;
     }
     
     public static int getPlanetTemp(ResourceKey<Level> level) {
-		if (level == NorthstarDimensions.MARS_DIM_KEY) {return -100;}
-		if (level == NorthstarDimensions.MOON_DIM_KEY) {return -183;}
-		if (level == NorthstarDimensions.VENUS_DIM_KEY) {return 464;}
-		if (level == NorthstarDimensions.MERCURY_DIM_KEY) {return 400;}
-		if (level == Level.OVERWORLD) {return 15;}
-		if (level == Level.NETHER) {return 230;}
-		if (level == Level.END) {return 4;}
-		return 15;
+        if (level == NorthstarDimensions.MARS_DIM_KEY) {return -100;}
+        if (level == NorthstarDimensions.MOON_DIM_KEY) {return -183;}
+        if (level == NorthstarDimensions.VENUS_DIM_KEY) {return 464;}
+        if (level == NorthstarDimensions.MERCURY_DIM_KEY) {return 400;}
+        if (level == Level.OVERWORLD) {return 15;}
+        if (level == Level.NETHER) {return 230;}
+        if (level == Level.END) {return 4;}
+        return 15;
     }
     public static int getPlanetAtmosphereCost(ResourceKey<Level> level) {
-		if (level == NorthstarDimensions.MARS_DIM_KEY) {return 200;}
-		if (level == Level.OVERWORLD) {return 1600;}
-		if (level == NorthstarDimensions.MOON_DIM_KEY) {return 0;}
-		if (level == NorthstarDimensions.VENUS_DIM_KEY) {return 4000;}
-		if (level == NorthstarDimensions.MERCURY_DIM_KEY) {return 0;}
-		return 0;
+        if (level == NorthstarDimensions.MARS_DIM_KEY) {return 200;}
+        if (level == Level.OVERWORLD) {return 1600;}
+        if (level == NorthstarDimensions.MOON_DIM_KEY) {return 0;}
+        if (level == NorthstarDimensions.VENUS_DIM_KEY) {return 4000;}
+        if (level == NorthstarDimensions.MERCURY_DIM_KEY) {return 0;}
+        return 0;
     }
     public static int getComputingCost(ResourceKey<Level> level) {
-		if (level == NorthstarDimensions.MARS_DIM_KEY) {return 400;}
-		if (level == Level.OVERWORLD) {return 0;}
-		if (level == NorthstarDimensions.MOON_DIM_KEY) {return 50;}
-		if (level == NorthstarDimensions.VENUS_DIM_KEY) {return 200;}
-		if (level == NorthstarDimensions.MERCURY_DIM_KEY) {return 800;}
-		return 0;
+        if (level == NorthstarDimensions.MARS_DIM_KEY) {return 400;}
+        if (level == Level.OVERWORLD) {return 0;}
+        if (level == NorthstarDimensions.MOON_DIM_KEY) {return 50;}
+        if (level == NorthstarDimensions.VENUS_DIM_KEY) {return 200;}
+        if (level == NorthstarDimensions.MERCURY_DIM_KEY) {return 800;}
+        return 0;
     }
     @Nullable
     public static ResourceKey<Level> getPlanetDimension(String name) {
-    	switch (name) {
-		case "mercury": {return NorthstarDimensions.MERCURY_DIM_KEY;}
-		case "mars": {return NorthstarDimensions.MARS_DIM_KEY;}
-		case "venus": {return NorthstarDimensions.VENUS_DIM_KEY;}
-		case "earth": {return Level.OVERWORLD;}
-		case "earth_moon": {return NorthstarDimensions.MOON_DIM_KEY;}
-		case "moon": {return NorthstarDimensions.MOON_DIM_KEY;}
-		default:return null;}
+        switch (name) {
+        case "mercury": {return NorthstarDimensions.MERCURY_DIM_KEY;}
+        case "mars": {return NorthstarDimensions.MARS_DIM_KEY;}
+        case "venus": {return NorthstarDimensions.VENUS_DIM_KEY;}
+        case "earth": {return Level.OVERWORLD;}
+        case "earth_moon": {return NorthstarDimensions.MOON_DIM_KEY;}
+        case "moon": {return NorthstarDimensions.MOON_DIM_KEY;}
+        default:return null;}
     }
     public static boolean getPlanetOxy(ResourceKey<Level> level) {
-    	if(level == NorthstarDimensions.MARS_DIM_KEY) {return false;}
-    	if(level == NorthstarDimensions.MERCURY_DIM_KEY) {return false;}
-    	if(level == NorthstarDimensions.MOON_DIM_KEY) {return false;}
-    	if(level == NorthstarDimensions.VENUS_DIM_KEY) {return false;}
-    	return true;
+        if(level == NorthstarDimensions.MARS_DIM_KEY) {return false;}
+        if(level == NorthstarDimensions.MERCURY_DIM_KEY) {return false;}
+        if(level == NorthstarDimensions.MOON_DIM_KEY) {return false;}
+        if(level == NorthstarDimensions.VENUS_DIM_KEY) {return false;}
+        return true;
     }
     public static boolean hasNormalGrav(ResourceKey<Level> level) {
-    	if(level == NorthstarDimensions.MARS_DIM_KEY) {return false;}
-    	if(level == NorthstarDimensions.MERCURY_DIM_KEY) {return false;}
-    	if(level == NorthstarDimensions.MOON_DIM_KEY) {return false;}
-    	if(level == NorthstarDimensions.VENUS_DIM_KEY) {return false;}
-    	return true;
+        if(level == NorthstarDimensions.MARS_DIM_KEY) {return false;}
+        if(level == NorthstarDimensions.MERCURY_DIM_KEY) {return false;}
+        if(level == NorthstarDimensions.MOON_DIM_KEY) {return false;}
+        if(level == NorthstarDimensions.VENUS_DIM_KEY) {return false;}
+        return true;
     }
     
     public static boolean canSeeSkyAtDay(ResourceKey<Level> level) {
-    	if(level == NorthstarDimensions.EARTH_ORBIT_DIM_KEY) {return true;}
-    	if(level == NorthstarDimensions.MERCURY_DIM_KEY) {return true;}
-    	if(level == NorthstarDimensions.MOON_DIM_KEY) {return true;}
-    	return false;
+        if(level == NorthstarDimensions.EARTH_ORBIT_DIM_KEY) {return true;}
+        if(level == NorthstarDimensions.MERCURY_DIM_KEY) {return true;}
+        if(level == NorthstarDimensions.MOON_DIM_KEY) {return true;}
+        return false;
     }
     
     public static boolean hasWeather(ResourceKey<Level> level) {
-    	if(level == NorthstarDimensions.EARTH_ORBIT_DIM_KEY) {return false;}
-    	if(level == NorthstarDimensions.MERCURY_DIM_KEY) {return false;}
-    	if(level == NorthstarDimensions.MOON_DIM_KEY) {return false;}
-    	return true;
+        if(level == NorthstarDimensions.EARTH_ORBIT_DIM_KEY) {return false;}
+        if(level == NorthstarDimensions.MERCURY_DIM_KEY) {return false;}
+        if(level == NorthstarDimensions.MOON_DIM_KEY) {return false;}
+        return true;
     }
     
     public static double getGravMultiplier(ResourceKey<Level> level) {
-    	// I love spaghetti
-    	if(level == NorthstarDimensions.MOON_DIM_KEY) {return MOON_GRAV;}
-    	if(level == NorthstarDimensions.MARS_DIM_KEY) {return MARS_GRAV;}
-    	if(level == NorthstarDimensions.MERCURY_DIM_KEY) {return MERCURY_GRAV;}
-    	if(level == NorthstarDimensions.VENUS_DIM_KEY) {return VENUS_GRAV;}
-    	if(level == NorthstarDimensions.EARTH_ORBIT_DIM_KEY) {return OUTER_MOON_GRAV;}
-		return 1;
+        // I love spaghetti
+        if(level == NorthstarDimensions.MOON_DIM_KEY) {return MOON_GRAV;}
+        if(level == NorthstarDimensions.MARS_DIM_KEY) {return MARS_GRAV;}
+        if(level == NorthstarDimensions.MERCURY_DIM_KEY) {return MERCURY_GRAV;}
+        if(level == NorthstarDimensions.VENUS_DIM_KEY) {return VENUS_GRAV;}
+        if(level == NorthstarDimensions.EARTH_ORBIT_DIM_KEY) {return OUTER_MOON_GRAV;}
+        return 1;
     }
     
     public static double getEngineConstant(ResourceKey<Level> level) {
-    	// I love spaghetti
-    	if(level == NorthstarDimensions.MOON_DIM_KEY) {return 1;}
-    	if(level == NorthstarDimensions.MARS_DIM_KEY) {return 3;}
-    	if(level == NorthstarDimensions.MERCURY_DIM_KEY) {return 6;}
-    	if(level == NorthstarDimensions.VENUS_DIM_KEY) {return 9;}
-    	if(level == NorthstarDimensions.EARTH_ORBIT_DIM_KEY) {return 1;}
-		return 1;
+        // I love spaghetti
+        if(level == NorthstarDimensions.MOON_DIM_KEY) {return 1;}
+        if(level == NorthstarDimensions.MARS_DIM_KEY) {return 3;}
+        if(level == NorthstarDimensions.MERCURY_DIM_KEY) {return 6;}
+        if(level == NorthstarDimensions.VENUS_DIM_KEY) {return 9;}
+        if(level == NorthstarDimensions.EARTH_ORBIT_DIM_KEY) {return 1;}
+        return 1;
     }
     
     public static float getWindMultiplier(Level level) {
-    	// I love spaghetti
-    	ResourceKey<Level> dim = level.dimension();
-    	if(dim == NorthstarDimensions.MOON_DIM_KEY) {return 0;}
-    	if(dim == NorthstarDimensions.MARS_DIM_KEY) {
-    		if(level.isRaining())
-    			return 1;
-    		return 0;}
-    	if(dim == NorthstarDimensions.MERCURY_DIM_KEY) {return 0;}
-    	if(dim == NorthstarDimensions.VENUS_DIM_KEY) {
-    		if(level.isRaining())
-    			return 0.7f;
-    		return 0.5f;}
-    	if(dim == NorthstarDimensions.EARTH_ORBIT_DIM_KEY) {return 0;}
-		return 1;
+        // I love spaghetti
+        ResourceKey<Level> dim = level.dimension();
+        if(dim == NorthstarDimensions.MOON_DIM_KEY) {return 0;}
+        if(dim == NorthstarDimensions.MARS_DIM_KEY) {
+            if(level.isRaining())
+                return 1;
+            return 0;}
+        if(dim == NorthstarDimensions.MERCURY_DIM_KEY) {return 0;}
+        if(dim == NorthstarDimensions.VENUS_DIM_KEY) {
+            if(level.isRaining())
+                return 0.7f;
+            return 0.5f;}
+        if(dim == NorthstarDimensions.EARTH_ORBIT_DIM_KEY) {return 0;}
+        return 1;
     }
     
     public static boolean isCustomDimension(ResourceLocation resourceLocation) {
-    	if(resourceLocation == NorthstarDimensions.MARS_DIM_KEY.location()) {return true;}
-    	if(resourceLocation == NorthstarDimensions.MERCURY_DIM_KEY.location()) {return true;}
-    	if(resourceLocation == NorthstarDimensions.MOON_DIM_KEY.location()) {return true;}
-    	if(resourceLocation == NorthstarDimensions.VENUS_DIM_KEY.location()) {return true;}
-    	return false;
+        if(resourceLocation == NorthstarDimensions.MARS_DIM_KEY.location()) {return true;}
+        if(resourceLocation == NorthstarDimensions.MERCURY_DIM_KEY.location()) {return true;}
+        if(resourceLocation == NorthstarDimensions.MOON_DIM_KEY.location()) {return true;}
+        if(resourceLocation == NorthstarDimensions.VENUS_DIM_KEY.location()) {return true;}
+        return false;
     }
     public static long getSeedOffset(ResourceKey<Level> level) {
-    	if(level == NorthstarDimensions.MARS_DIM_KEY) {return 1;}
-    	if(level == NorthstarDimensions.MERCURY_DIM_KEY) {return 2;}
-    	if(level == NorthstarDimensions.MOON_DIM_KEY) {return 3;}
-    	if(level == NorthstarDimensions.VENUS_DIM_KEY) {return 4;}
-    	return 0;
+        if(level == NorthstarDimensions.MARS_DIM_KEY) {return 1;}
+        if(level == NorthstarDimensions.MERCURY_DIM_KEY) {return 2;}
+        if(level == NorthstarDimensions.MOON_DIM_KEY) {return 3;}
+        if(level == NorthstarDimensions.VENUS_DIM_KEY) {return 4;}
+        return 0;
     }
     
 
     public static double getSunMultiplier(ResourceKey<Level> level) {
-    	if(level == Level.OVERWORLD) {return 1;}
-    	
-    	if(level == NorthstarDimensions.MERCURY_DIM_KEY) {return 8;}
-    	if(level == NorthstarDimensions.VENUS_DIM_KEY) {return 0.6;}
-    	if(level == NorthstarDimensions.MOON_DIM_KEY) {return 1.5;}
-    	if(level == NorthstarDimensions.MARS_DIM_KEY) {return 1.2;}
-    	
-    	
-    	
-    	
-    	return 1;
+        if(level == Level.OVERWORLD) {return 1;}
+
+        if(level == NorthstarDimensions.MERCURY_DIM_KEY) {return 8;}
+        if(level == NorthstarDimensions.VENUS_DIM_KEY) {return 0.6;}
+        if(level == NorthstarDimensions.MOON_DIM_KEY) {return 1.5;}
+        if(level == NorthstarDimensions.MARS_DIM_KEY) {return 1.2;}
+
+
+
+
+        return 1;
     }
     
-	public static String targetGetter(String thing) {
-		String newthing = "";
-		for(int i = 0;i < thing.length(); i++) {
-			if(i > 6 && i < thing.length() - 2) {newthing += thing.charAt(i);}
-		}
-		return newthing;
-	}
-	
-	public static boolean isInOrbit(ResourceKey<Level> level) {
-    	if(level == NorthstarDimensions.EARTH_ORBIT_DIM_KEY) {return true;}
-    	return false;
-		
-	}
-	
-	public static boolean isInterplanetary(ResourceKey<Level> home, ResourceKey<Level> dest) {
-		boolean flag = true;
-		if((home == Level.OVERWORLD && dest == NorthstarDimensions.MOON_DIM_KEY) || (dest == Level.OVERWORLD && home == NorthstarDimensions.MOON_DIM_KEY) || (dest == home)) {
-			flag = false;
-		}
-    	return flag;
-	}
-	
-	
+    public static String targetGetter(String thing) {
+        String newthing = "";
+        for(int i = 0;i < thing.length(); i++) {
+            if(i > 6 && i < thing.length() - 2) {newthing += thing.charAt(i);}
+        }
+        return newthing;
+    }
+
+    public static boolean isInOrbit(ResourceKey<Level> level) {
+        if(level == NorthstarDimensions.EARTH_ORBIT_DIM_KEY) {return true;}
+        return false;
+
+    }
+
+    public static boolean isInterplanetary(ResourceKey<Level> home, ResourceKey<Level> dest) {
+        boolean flag = true;
+        if((home == Level.OVERWORLD && dest == NorthstarDimensions.MOON_DIM_KEY) || (dest == Level.OVERWORLD && home == NorthstarDimensions.MOON_DIM_KEY) || (dest == home)) {
+            flag = false;
+        }
+        return flag;
+    }
+
+
 
 
     
     
     
-	public static void register() {
-		System.out.println("Calculating Planets for " + Northstar.MOD_ID);
-	}
+    public static void register() {
+        System.out.println("Calculating Planets for " + Northstar.MOD_ID);
+    }
 
 }

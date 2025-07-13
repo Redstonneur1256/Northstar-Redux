@@ -19,75 +19,75 @@ import net.minecraftforge.network.NetworkEvent.Context;
 
 public class SpawnParticlePacket extends SimplePacketBase {
 
-	private int h, v;
-	private BlockPos pos;
-	private Direction facing;
+    private int h, v;
+    private BlockPos pos;
+    private Direction facing;
 
-	public SpawnParticlePacket(int h, int v, BlockPos pos, Direction facing) {
-		this.h = h;
-		this.v = v;
-		this.pos = pos;
-		this.facing = facing;
-	}
+    public SpawnParticlePacket(int h, int v, BlockPos pos, Direction facing) {
+        this.h = h;
+        this.v = v;
+        this.pos = pos;
+        this.facing = facing;
+    }
 
-	public SpawnParticlePacket(FriendlyByteBuf buffer) {
-		h = buffer.readInt();
-		v = buffer.readInt();
-		pos = buffer.readBlockPos();
-		facing = Direction.from3DDataValue(buffer.readVarInt());
-	}
+    public SpawnParticlePacket(FriendlyByteBuf buffer) {
+        h = buffer.readInt();
+        v = buffer.readInt();
+        pos = buffer.readBlockPos();
+        facing = Direction.from3DDataValue(buffer.readVarInt());
+    }
 
-	@Override
-	public void write(FriendlyByteBuf buffer) {
-		buffer.writeInt(h);
-		buffer.writeInt(v);
-		buffer.writeBlockPos(pos);
-		buffer.writeVarInt(facing.get3DDataValue());
-	}
+    @Override
+    public void write(FriendlyByteBuf buffer) {
+        buffer.writeInt(h);
+        buffer.writeInt(v);
+        buffer.writeBlockPos(pos);
+        buffer.writeVarInt(facing.get3DDataValue());
+    }
 
-	@Override
-	public boolean handle(Context context) {
-		context.enqueueWork(() -> {
-			ServerPlayer player = context.getSender();
-			if (player == null)
-				return;
-			Level world = player.level;
-			if (world == null || !world.isLoaded(pos))
-				return;
-			BlockEntity blockEntity = world.getBlockEntity(pos);
-			BlockState state = world.getBlockState(pos);
-			if (blockEntity instanceof EjectorBlockEntity)
-				((EjectorBlockEntity) blockEntity).setTarget(h, v);
-			if (AllBlocks.WEIGHTED_EJECTOR.has(state))
-				world.setBlockAndUpdate(pos, state.setValue(EjectorBlock.HORIZONTAL_FACING, facing));
-		});
-		return true;
-	}
+    @Override
+    public boolean handle(Context context) {
+        context.enqueueWork(() -> {
+            ServerPlayer player = context.getSender();
+            if (player == null)
+                return;
+            Level world = player.level;
+            if (world == null || !world.isLoaded(pos))
+                return;
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            BlockState state = world.getBlockState(pos);
+            if (blockEntity instanceof EjectorBlockEntity)
+                ((EjectorBlockEntity) blockEntity).setTarget(h, v);
+            if (AllBlocks.WEIGHTED_EJECTOR.has(state))
+                world.setBlockAndUpdate(pos, state.setValue(EjectorBlock.HORIZONTAL_FACING, facing));
+        });
+        return true;
+    }
 
-	public static class ClientBoundRequest extends SimplePacketBase {
+    public static class ClientBoundRequest extends SimplePacketBase {
 
-		BlockPos pos;
+        BlockPos pos;
 
-		public ClientBoundRequest(BlockPos pos) {
-			this.pos = pos;
-		}
+        public ClientBoundRequest(BlockPos pos) {
+            this.pos = pos;
+        }
 
-		public ClientBoundRequest(FriendlyByteBuf buffer) {
-			this.pos = buffer.readBlockPos();
-		}
+        public ClientBoundRequest(FriendlyByteBuf buffer) {
+            this.pos = buffer.readBlockPos();
+        }
 
-		@Override
-		public void write(FriendlyByteBuf buffer) {
-			buffer.writeBlockPos(pos);
-		}
+        @Override
+        public void write(FriendlyByteBuf buffer) {
+            buffer.writeBlockPos(pos);
+        }
 
-		@Override
-		public boolean handle(Context context) {
-			context.enqueueWork(
-				() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> EjectorTargetHandler.flushSettings(pos)));
-			return true;
-		}
+        @Override
+        public boolean handle(Context context) {
+            context.enqueueWork(
+                () -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> EjectorTargetHandler.flushSettings(pos)));
+            return true;
+        }
 
-	}
-	
+    }
+
 }

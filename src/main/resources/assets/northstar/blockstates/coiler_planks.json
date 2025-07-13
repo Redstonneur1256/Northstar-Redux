@@ -1,5 +1,7 @@
 {
-	"variants":{
-	"":{"model": "northstar:block/coiler_planks"}
-	}
+  "variants": {
+    "": {
+      "model": "northstar:block/coiler_planks"
+    }
+  }
 }

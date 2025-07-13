@@ -1,5 +1,7 @@
 {
-	"variants":{
-	"":{"model": "northstar:block/glowstone_torch"}
-	}
+  "variants": {
+    "": {
+      "model": "northstar:block/glowstone_torch"
+    }
+  }
 }

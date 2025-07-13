@@ -10,13 +10,13 @@
         "config": {
           "to_place": {
             "type": "minecraft:simple_state_provider",
-   	        "state": {
-   		    "Name": "northstar:bloom_fungus",
-    		    "Properties": {
-     		     "is_on_ceiling": "true"
-     		     }
-     		   }
-    	  }
+            "state": {
+              "Name": "northstar:bloom_fungus",
+              "Properties": {
+                "is_on_ceiling": "true"
+              }
+            }
+          }
         }
       },
       "placement": [

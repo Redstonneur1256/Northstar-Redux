@@ -18,7 +18,7 @@
           "predicate_type": "minecraft:tag_match",
           "tag": "northstar:mars_deep_stone_replacables"
         },
-        "state": { 
+        "state": {
           "Name": "northstar:mars_deep_copper_ore"
         }
       }

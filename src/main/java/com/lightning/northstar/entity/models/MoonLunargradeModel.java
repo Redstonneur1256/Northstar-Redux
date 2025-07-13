@@ -12,29 +12,29 @@ import software.bernie.geckolib3.model.AnimatedTickingGeoModel;
 import software.bernie.geckolib3.model.provider.data.EntityModelData;
 
 public class MoonLunargradeModel extends AnimatedTickingGeoModel<MoonLunargradeEntity> {
-	@Override
-	public ResourceLocation getAnimationResource(MoonLunargradeEntity entity) {
-		return NorthstarEntityResources.LUNARGRADE_ANIMATIONS;
-	}
+    @Override
+    public ResourceLocation getAnimationResource(MoonLunargradeEntity entity) {
+        return NorthstarEntityResources.LUNARGRADE_ANIMATIONS;
+    }
 
-	@Override
-	public ResourceLocation getModelResource(MoonLunargradeEntity entity) {
-		return NorthstarEntityResources.LUNARGRADE_MODEL;
-	}
+    @Override
+    public ResourceLocation getModelResource(MoonLunargradeEntity entity) {
+        return NorthstarEntityResources.LUNARGRADE_MODEL;
+    }
 
-	@Override
-	public ResourceLocation getTextureResource(MoonLunargradeEntity entity) {
-		return NorthstarEntityResources.LUNARGRADE_TEXTURE;
-	}
-	@Override
-	public void setCustomAnimations(MoonLunargradeEntity animatable, int instanceId, AnimationEvent animationEvent) {
-		super.setCustomAnimations(animatable, instanceId, animationEvent);
-		IBone head = this.getAnimationProcessor().getBone("neck");
+    @Override
+    public ResourceLocation getTextureResource(MoonLunargradeEntity entity) {
+        return NorthstarEntityResources.LUNARGRADE_TEXTURE;
+    }
+    @Override
+    public void setCustomAnimations(MoonLunargradeEntity animatable, int instanceId, AnimationEvent animationEvent) {
+        super.setCustomAnimations(animatable, instanceId, animationEvent);
+        IBone head = this.getAnimationProcessor().getBone("neck");
 
-		EntityModelData extraData = (EntityModelData) animationEvent.getExtraDataOfType(EntityModelData.class).get(0);
-		if (head != null) {
-			head.setRotationX(extraData.headPitch * Mth.DEG_TO_RAD);
-			head.setRotationY(extraData.netHeadYaw * Mth.DEG_TO_RAD);
-		}
-	}
+        EntityModelData extraData = (EntityModelData) animationEvent.getExtraDataOfType(EntityModelData.class).get(0);
+        if (head != null) {
+            head.setRotationX(extraData.headPitch * Mth.DEG_TO_RAD);
+            head.setRotationY(extraData.netHeadYaw * Mth.DEG_TO_RAD);
+        }
+    }
 }

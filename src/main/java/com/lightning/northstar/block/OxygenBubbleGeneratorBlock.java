@@ -36,66 +36,66 @@ public class OxygenBubbleGeneratorBlock extends BaseEntityBlock{
 
     protected OxygenBubbleGeneratorBlock(Properties pProperties) {
         super(pProperties);
-		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
-	}
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
+    }
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING);builder.add(POWERED);}
     
-	public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-	      return new OxygenBubbleGeneratorBlockEntity(pPos, pState);
+    public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
+          return new OxygenBubbleGeneratorBlockEntity(pPos, pState);
 }
-	@Nullable
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-		return createTickerHelper(type, NorthstarBlockEntityTypes.OXYGEN_BUBBLE_GENERATOR.get(),
-		OxygenBubbleGeneratorBlockEntity::tick);
-	}
-	
-
-	public void setPlacedBy(Level pLevel, BlockPos pPos, BlockState pState, @Nullable LivingEntity pPlacer, ItemStack pStack) {
-	      if (pStack.hasCustomHoverName()) {
-	         BlockEntity blockentity = pLevel.getBlockEntity(pPos);
-	         if (blockentity instanceof BeaconBlockEntity) {
-	            ((BeaconBlockEntity)blockentity).setCustomName(pStack.getHoverName());
-	         }
-	      }
+    @Nullable
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+        return createTickerHelper(type, NorthstarBlockEntityTypes.OXYGEN_BUBBLE_GENERATOR.get(),
+        OxygenBubbleGeneratorBlockEntity::tick);
     }
-	
+    
 
-	
-	
-	@Override
-	public BlockState getStateForPlacement(BlockPlaceContext context) {
-		return defaultBlockState().setValue(FACING, Direction.NORTH);
-	}
-	
-	
-	public void neighborChanged(BlockState pState, Level pLevel, BlockPos pPos, Block pBlock, BlockPos pFromPos, boolean pIsMoving) {
-	      if (!pLevel.isClientSide) {
-	         boolean flag = pState.getValue(POWERED);
-	         if (flag != pLevel.hasNeighborSignal(pPos)) {
-	            if (flag) {
-	               pLevel.scheduleTick(pPos, this, 4);
-	            } else {
-	               pLevel.setBlock(pPos, pState.cycle(POWERED), 2);
-	            }
-	         }
-	     }
+    public void setPlacedBy(Level pLevel, BlockPos pPos, BlockState pState, @Nullable LivingEntity pPlacer, ItemStack pStack) {
+          if (pStack.hasCustomHoverName()) {
+             BlockEntity blockentity = pLevel.getBlockEntity(pPos);
+             if (blockentity instanceof BeaconBlockEntity) {
+                ((BeaconBlockEntity)blockentity).setCustomName(pStack.getHoverName());
+             }
+          }
     }
-	
-	public void tick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
-		if (pState.getValue(POWERED) && !pLevel.hasNeighborSignal(pPos)) {
-			pLevel.setBlock(pPos, pState.cycle(POWERED), 2);
-		}
-	}
-	
-	
-	protected void blockUpdate(BlockState state, LevelAccessor worldIn, BlockPos pos) {
-		if (worldIn instanceof WrappedWorld)
-			return;
-	}
-	
-	
-	public boolean isPathfindable(BlockState pState, BlockGetter pLevel, BlockPos pPos, PathComputationType pType) {
-	     return false;
-	}
+    
+
+    
+    
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        return defaultBlockState().setValue(FACING, Direction.NORTH);
+    }
+    
+    
+    public void neighborChanged(BlockState pState, Level pLevel, BlockPos pPos, Block pBlock, BlockPos pFromPos, boolean pIsMoving) {
+          if (!pLevel.isClientSide) {
+             boolean flag = pState.getValue(POWERED);
+             if (flag != pLevel.hasNeighborSignal(pPos)) {
+                if (flag) {
+                   pLevel.scheduleTick(pPos, this, 4);
+                } else {
+                   pLevel.setBlock(pPos, pState.cycle(POWERED), 2);
+                }
+             }
+         }
+    }
+    
+    public void tick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
+        if (pState.getValue(POWERED) && !pLevel.hasNeighborSignal(pPos)) {
+            pLevel.setBlock(pPos, pState.cycle(POWERED), 2);
+        }
+    }
+    
+    
+    protected void blockUpdate(BlockState state, LevelAccessor worldIn, BlockPos pos) {
+        if (worldIn instanceof WrappedWorld)
+            return;
+    }
+    
+    
+    public boolean isPathfindable(BlockState pState, BlockGetter pLevel, BlockPos pPos, PathComputationType pType) {
+         return false;
+    }
 }

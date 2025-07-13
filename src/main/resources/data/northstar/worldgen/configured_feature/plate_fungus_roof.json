@@ -12,10 +12,10 @@
             "type": "minecraft:simple_state_provider",
             "state": {
               "Name": "northstar:plate_fungus",
-    		    "Properties": {
-     		     "is_on_ceiling": "true"
-     		     }
-     		   }
+              "Properties": {
+                "is_on_ceiling": "true"
+              }
+            }
           }
         }
       },

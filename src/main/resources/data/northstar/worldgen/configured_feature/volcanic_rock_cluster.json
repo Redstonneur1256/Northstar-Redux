@@ -50,7 +50,7 @@
         "deviation": 0.9
       }
     },
-            "thirdthingness": {
+    "thirdthingness": {
       "type": "minecraft:clamped_normal",
       "value": {
         "min": 0.1,
@@ -62,17 +62,17 @@
     "chance_of_dripstone_column_at_max_distance_from_center": 0.1,
     "max_distance_from_edge_affecting_chance_of_dripstone_column": 3,
     "max_distance_from_center_affecting_height_bias": 8,
-	"stone_provider": {
+    "stone_provider": {
       "type": "minecraft:simple_state_provider",
       "state": {
         "Name": "northstar:volcanic_rock"
-    }
-  },
-            "fluid_provider": {
+      }
+    },
+    "fluid_provider": {
       "Name": "minecraft:lava",
       "Properties": {
         "falling": "true"
       }
     }
-}
+  }
 }

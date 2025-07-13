@@ -91,105 +91,105 @@ public class ArgyreSaplingTrunkPlacer extends TrunkPlacer {
                          this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos - 1, j - 1, Zpos), treeconfiguration);
                          this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos, j - 1, Zpos - 1), treeconfiguration);
 
-    			         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos + 2, j - 1, Zpos), treeconfiguration);
-				         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos - 2, j - 1, Zpos), treeconfiguration);
-				         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos, j - 1, Zpos + 2), treeconfiguration);
-				         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos, j - 1, Zpos - 2), treeconfiguration);
-				         
-				         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos + 1, j - 1, Zpos + 1), treeconfiguration);
-				         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos - 1, j - 1, Zpos - 1), treeconfiguration);
-				         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos + 1, j - 1, Zpos - 1), treeconfiguration);
-				         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos - 1, j - 1, Zpos + 1), treeconfiguration);
-			         }
-			         
-			         
-			         
-//			         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos + 1, j, Zpos), treeconfiguration);
-//			         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos, j, Zpos + 1), treeconfiguration);
-//			         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos + 1, j, Zpos + 1), treeconfiguration);
-			         
+                         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos + 2, j - 1, Zpos), treeconfiguration);
+                         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos - 2, j - 1, Zpos), treeconfiguration);
+                         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos, j - 1, Zpos + 2), treeconfiguration);
+                         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos, j - 1, Zpos - 2), treeconfiguration);
+                         
+                         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos + 1, j - 1, Zpos + 1), treeconfiguration);
+                         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos - 1, j - 1, Zpos - 1), treeconfiguration);
+                         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos + 1, j - 1, Zpos - 1), treeconfiguration);
+                         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos - 1, j - 1, Zpos + 1), treeconfiguration);
+                     }
+                     
+                     
+                     
+//                     this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos + 1, j, Zpos), treeconfiguration);
+//                     this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos, j, Zpos + 1), treeconfiguration);
+//                     this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos + 1, j, Zpos + 1), treeconfiguration);
+                     
 
-//			         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos, j - 1, Zpos), treeconfiguration);
-			         
-//			         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos + 1, j - 1, Zpos), treeconfiguration);
-//			         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos, j - 1, Zpos + 1), treeconfiguration);
-//			         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos + 1, j - 1, Zpos + 1), treeconfiguration);
-			         
-//			         }
-//			         if (this.spinFactor == UniformInt.of(1,1)) {
-//			         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos - 1, j, Zpos), treeconfiguration);
-//			         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos, j, Zpos - 1), treeconfiguration);
-			         if (i == pFreeTreeHeight - 1) {
-			            list.add(new FoliagePlacer.FoliageAttachment(blockpos$mutableblockpos.set(Xpos, j + 4, Zpos), 0, false));
-				        this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos + 1, j, Zpos), treeconfiguration);
-				        this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos - 1, j, Zpos), treeconfiguration);
-				        this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos, j, Zpos + 1), treeconfiguration);
-				        this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos, j, Zpos - 1), treeconfiguration);
-			         }   
-			      }
-//			      }
-			      return list;
-			   }
-		   public List<FoliagePlacer.FoliageAttachment> placeBranch(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, int pFreeTreeHeight, 
-				   BlockPos pPos, TreeConfiguration treeconfiguration, int oldspinX, int oldspinZ) {
-			   List<FoliagePlacer.FoliageAttachment> list = Lists.newArrayList();
-			   BlockPos.MutableBlockPos blockpos$mutableblockpos2 = new BlockPos.MutableBlockPos();
-			      int spinX = 0;
-			      int spinZ = 0;
-			      int spinZAdd = -1;
-			      int spinXAdd = 1;
+//                     this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos, j - 1, Zpos), treeconfiguration);
+                     
+//                     this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos + 1, j - 1, Zpos), treeconfiguration);
+//                     this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos, j - 1, Zpos + 1), treeconfiguration);
+//                     this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos + 1, j - 1, Zpos + 1), treeconfiguration);
+                     
+//                     }
+//                     if (this.spinFactor == UniformInt.of(1,1)) {
+//                     this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos - 1, j, Zpos), treeconfiguration);
+//                     this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos, j, Zpos - 1), treeconfiguration);
+                     if (i == pFreeTreeHeight - 1) {
+                        list.add(new FoliagePlacer.FoliageAttachment(blockpos$mutableblockpos.set(Xpos, j + 4, Zpos), 0, false));
+                        this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos + 1, j, Zpos), treeconfiguration);
+                        this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos - 1, j, Zpos), treeconfiguration);
+                        this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos, j, Zpos + 1), treeconfiguration);
+                        this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos.set(Xpos, j, Zpos - 1), treeconfiguration);
+                     }   
+                  }
+//                  }
+                  return list;
+               }
+           public List<FoliagePlacer.FoliageAttachment> placeBranch(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, int pFreeTreeHeight, 
+                   BlockPos pPos, TreeConfiguration treeconfiguration, int oldspinX, int oldspinZ) {
+               List<FoliagePlacer.FoliageAttachment> list = Lists.newArrayList();
+               BlockPos.MutableBlockPos blockpos$mutableblockpos2 = new BlockPos.MutableBlockPos();
+                  int spinX = 0;
+                  int spinZ = 0;
+                  int spinZAdd = -1;
+                  int spinXAdd = 1;
 
-			      for(int i = 0; i < pFreeTreeHeight;) {	
-			    	 if (Math.random() > 0.2){i++;}
-			    	 if (Math.random() > 0.35){spinX += spinXAdd;}
-			    	 if (Math.random() > 0.35){spinZ += spinZAdd;}
-			    	 if (Math.random() < 0.35){spinX -= spinXAdd;}
-			    	 if (Math.random() < 0.35){spinZ -= spinZAdd;}
-			    	 int Xpos = pPos.getX() + spinX;
-			    	 int Zpos = pPos.getZ() + spinZ;
-			         int j = pPos.getY() + i;
-			         
-			         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos, j, Zpos), treeconfiguration);
-//			         if (this.spinFactor == UniformInt.of(1,1)) {
-			         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos - 1, j, Zpos), treeconfiguration);
-			         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos, j, Zpos - 1), treeconfiguration);
-			         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos + 1, j, Zpos), treeconfiguration);
-			         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos, j, Zpos + 1), treeconfiguration);
-			         
-//			         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos + 1, j, Zpos), treeconfiguration);
-//			         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos, j, Zpos + 1), treeconfiguration);
-//			         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos + 1, j, Zpos + 1), treeconfiguration);
-			         
-//			         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos, j - 1, Zpos), treeconfiguration);
-//			         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos + 1, j - 1, Zpos), treeconfiguration);
-//			         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos, j - 1, Zpos + 1), treeconfiguration);
-//			         this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos + 1, j - 1, Zpos + 1), treeconfiguration);
-			         if (i == pFreeTreeHeight - 1) {
-				            list.add(new FoliagePlacer.FoliageAttachment(blockpos$mutableblockpos2.set(Xpos, j + 4, Zpos), 0, false));
-					        this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos + 1, j, Zpos), treeconfiguration);
-					        this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos - 1, j, Zpos), treeconfiguration);
-					        this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos, j, Zpos + 1), treeconfiguration);
-					        this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos, j, Zpos - 1), treeconfiguration);
-			         }   
-//			         }
-			      }
-			      return list;
-		   }
-		   protected boolean placeLog(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos pPos, AlienTreeConfig treeconfiguration) {
-			      return this.placeLog(pLevel, pBlockSetter, pRandom, pPos, treeconfiguration, Function.identity());
-		   }
-		   protected boolean placeLog(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos pPos, AlienTreeConfig treeconfiguration, Function<Object, Object> function) {
-			      if (this.validTreePos(pLevel, pPos)) {
-			         pBlockSetter.accept(pPos, (BlockState) function.apply(treeconfiguration.trunkProvider.getState(pRandom, pPos)));
-			         return true;
-			      } else {
-			         return false;
-			      }
-			   }
-		   @Override
-		   protected boolean validTreePos(LevelSimulatedReader pLevel, BlockPos pPos) {
-			      return pLevel.isStateAtPosition(pPos, (p_226232_) -> {
-			          return p_226232_.getMaterial().isReplaceable();
-			       });
-		   }
+                  for(int i = 0; i < pFreeTreeHeight;) {    
+                     if (Math.random() > 0.2){i++;}
+                     if (Math.random() > 0.35){spinX += spinXAdd;}
+                     if (Math.random() > 0.35){spinZ += spinZAdd;}
+                     if (Math.random() < 0.35){spinX -= spinXAdd;}
+                     if (Math.random() < 0.35){spinZ -= spinZAdd;}
+                     int Xpos = pPos.getX() + spinX;
+                     int Zpos = pPos.getZ() + spinZ;
+                     int j = pPos.getY() + i;
+                     
+                     this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos, j, Zpos), treeconfiguration);
+//                     if (this.spinFactor == UniformInt.of(1,1)) {
+                     this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos - 1, j, Zpos), treeconfiguration);
+                     this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos, j, Zpos - 1), treeconfiguration);
+                     this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos + 1, j, Zpos), treeconfiguration);
+                     this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos, j, Zpos + 1), treeconfiguration);
+                     
+//                     this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos + 1, j, Zpos), treeconfiguration);
+//                     this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos, j, Zpos + 1), treeconfiguration);
+//                     this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos + 1, j, Zpos + 1), treeconfiguration);
+                     
+//                     this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos, j - 1, Zpos), treeconfiguration);
+//                     this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos + 1, j - 1, Zpos), treeconfiguration);
+//                     this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos, j - 1, Zpos + 1), treeconfiguration);
+//                     this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos + 1, j - 1, Zpos + 1), treeconfiguration);
+                     if (i == pFreeTreeHeight - 1) {
+                            list.add(new FoliagePlacer.FoliageAttachment(blockpos$mutableblockpos2.set(Xpos, j + 4, Zpos), 0, false));
+                            this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos + 1, j, Zpos), treeconfiguration);
+                            this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos - 1, j, Zpos), treeconfiguration);
+                            this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos, j, Zpos + 1), treeconfiguration);
+                            this.placeLog(pLevel, pBlockSetter, pRandom, blockpos$mutableblockpos2.set(Xpos, j, Zpos - 1), treeconfiguration);
+                     }   
+//                     }
+                  }
+                  return list;
+           }
+           protected boolean placeLog(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos pPos, AlienTreeConfig treeconfiguration) {
+                  return this.placeLog(pLevel, pBlockSetter, pRandom, pPos, treeconfiguration, Function.identity());
+           }
+           protected boolean placeLog(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos pPos, AlienTreeConfig treeconfiguration, Function<Object, Object> function) {
+                  if (this.validTreePos(pLevel, pPos)) {
+                     pBlockSetter.accept(pPos, (BlockState) function.apply(treeconfiguration.trunkProvider.getState(pRandom, pPos)));
+                     return true;
+                  } else {
+                     return false;
+                  }
+               }
+           @Override
+           protected boolean validTreePos(LevelSimulatedReader pLevel, BlockPos pPos) {
+                  return pLevel.isStateAtPosition(pPos, (p_226232_) -> {
+                      return p_226232_.getMaterial().isReplaceable();
+                   });
+           }
 }

@@ -143,64 +143,64 @@ public class NorthstarConfiguredFeatures {
             CONFIGURED_FEATURES.register("roof_tower_fungus", () ->
             new ConfiguredFeature<>(Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder
                     (BlockStateProvider.simple(NorthstarBlocks.TOWER_FUNGUS_STEM_BLOCK.get()),
-                	new RoofTowerTrunkPlacer(8, 1, 4, UniformInt.of(4, 4), Registry.BLOCK.getOrCreateTag(BlockTags.MANGROVE_LOGS_CAN_GROW_THROUGH), BlockStateProvider.simple(NorthstarBlocks.TOWER_FUNGUS_CAP_BLOCK.get())),
+                    new RoofTowerTrunkPlacer(8, 1, 4, UniformInt.of(4, 4), Registry.BLOCK.getOrCreateTag(BlockTags.MANGROVE_LOGS_CAN_GROW_THROUGH), BlockStateProvider.simple(NorthstarBlocks.TOWER_FUNGUS_CAP_BLOCK.get())),
                     BlockStateProvider.simple(NorthstarBlocks.WILTER_LEAVES.get()),
                     new AcaciaFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0)),
-                    new TwoLayersFeatureSize(2, 0, 2)).build()));	
-	
-	@SuppressWarnings({ "deprecation", "unchecked" })
-	public static final RegistryObject<ConfiguredFeature<?, ?>> ARGYRE_CEILING =
+                    new TwoLayersFeatureSize(2, 0, 2)).build()));
+
+    @SuppressWarnings({ "deprecation", "unchecked" })
+    public static final RegistryObject<ConfiguredFeature<?, ?>> ARGYRE_CEILING =
             CONFIGURED_FEATURES.register("argyre_ceiling", () ->
             new ConfiguredFeature<>((Feature<AlienTreeConfig>) NorthstarFeatures.NATURAL_ARGYRE.get(), new AlienTreeConfig.AlienTreeConfigBuilder
-            		(BlockStateProvider.simple(NorthstarBlocks.ARGYRE_LOG.get()),
-            		BlockStateProvider.simple(Blocks.GLOWSTONE), new ArgyreCeilingTrunkPlacer(32, 24, 20, UniformInt.of(4, 4), 0.5F, UniformInt.of(0, 1),
-            		Registry.BLOCK.getOrCreateTag(BlockTags.MANGROVE_LOGS_CAN_GROW_THROUGH), UniformInt.of(1, 1)),
+                    (BlockStateProvider.simple(NorthstarBlocks.ARGYRE_LOG.get()),
+                    BlockStateProvider.simple(Blocks.GLOWSTONE), new ArgyreCeilingTrunkPlacer(32, 24, 20, UniformInt.of(4, 4), 0.5F, UniformInt.of(0, 1),
+                    Registry.BLOCK.getOrCreateTag(BlockTags.MANGROVE_LOGS_CAN_GROW_THROUGH), UniformInt.of(1, 1)),
                     BlockStateProvider.simple(NorthstarBlocks.ARGYRE_LEAVES.get()),
                     new AcaciaFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0)),
                     new TwoLayersFeatureSize(2, 0, 2)).build()));
-	@SuppressWarnings("deprecation")
-	public static final RegistryObject<ConfiguredFeature<?, ?>> ARGYRE_SMALL =
+    @SuppressWarnings("deprecation")
+    public static final RegistryObject<ConfiguredFeature<?, ?>> ARGYRE_SMALL =
             CONFIGURED_FEATURES.register("argyre_small", () ->
             new ConfiguredFeature<>(Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder
-            		(BlockStateProvider.simple(NorthstarBlocks.ARGYRE_LOG.get()),
-            		new ArgyreSaplingTrunkPlacer(12, 1, 10, UniformInt.of(4, 4), 0.5F, UniformInt.of(0, 1),
-            		Registry.BLOCK.getOrCreateTag(BlockTags.MANGROVE_LOGS_CAN_GROW_THROUGH), UniformInt.of(1, 1)),
+                    (BlockStateProvider.simple(NorthstarBlocks.ARGYRE_LOG.get()),
+                    new ArgyreSaplingTrunkPlacer(12, 1, 10, UniformInt.of(4, 4), 0.5F, UniformInt.of(0, 1),
+                    Registry.BLOCK.getOrCreateTag(BlockTags.MANGROVE_LOGS_CAN_GROW_THROUGH), UniformInt.of(1, 1)),
                     BlockStateProvider.simple(NorthstarBlocks.ARGYRE_LEAVES.get()),
                     new CoilerFoliagePlacer(ConstantInt.of(4), ConstantInt.of(0)),
-                    new TwoLayersFeatureSize(3, 0, 2)).build()));	
-	@SuppressWarnings("deprecation")
-	public static final RegistryObject<ConfiguredFeature<?, ?>> CALORIAN_VINES =
+                    new TwoLayersFeatureSize(3, 0, 2)).build()));
+    @SuppressWarnings("deprecation")
+    public static final RegistryObject<ConfiguredFeature<?, ?>> CALORIAN_VINES =
             CONFIGURED_FEATURES.register("calorian_vines", () ->
             new ConfiguredFeature<>(Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder
-            		(BlockStateProvider.simple(NorthstarBlocks.CALORIAN_LOG.get()),
-            		new TestSaplingTrunkPlacer(90, 2, 12, UniformInt.of(4, 4), 0.5F, UniformInt.of(0, 1),
-            		Registry.BLOCK.getOrCreateTag(BlockTags.MANGROVE_LOGS_CAN_GROW_THROUGH), UniformInt.of(-1, 1)),
+                    (BlockStateProvider.simple(NorthstarBlocks.CALORIAN_LOG.get()),
+                    new TestSaplingTrunkPlacer(90, 2, 12, UniformInt.of(4, 4), 0.5F, UniformInt.of(0, 1),
+                    Registry.BLOCK.getOrCreateTag(BlockTags.MANGROVE_LOGS_CAN_GROW_THROUGH), UniformInt.of(-1, 1)),
                     BlockStateProvider.simple(NorthstarBlocks.WILTER_LEAVES.get()),
                     new AcaciaFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0)),
                     new TwoLayersFeatureSize(2, 0, 2)).build()));
-	
-	@SuppressWarnings("unchecked" )
-	public static final RegistryObject<ConfiguredFeature<?, ?>> MERCURY_CACTUS =
+
+    @SuppressWarnings("unchecked" )
+    public static final RegistryObject<ConfiguredFeature<?, ?>> MERCURY_CACTUS =
             CONFIGURED_FEATURES.register("mercury_cactus", () ->  
             new ConfiguredFeature<>((Feature<NoneFeatureConfiguration>)NorthstarFeatures.MERCURY_CACTUS.get(), new NoneFeatureConfiguration()));
             
-	@SuppressWarnings("unchecked")
-	public static final RegistryObject<ConfiguredFeature<?, ?>> CRIMSITE_COLUMN =
-			CONFIGURED_FEATURES.register("crimsite_column", () ->
+    @SuppressWarnings("unchecked")
+    public static final RegistryObject<ConfiguredFeature<?, ?>> CRIMSITE_COLUMN =
+            CONFIGURED_FEATURES.register("crimsite_column", () ->
             new ConfiguredFeature<>((Feature<StoneColumnConfiguration>)NorthstarFeatures.STONE_COLUMN.get(), 
             new StoneColumnConfiguration(36, UniformInt.of(3, 6), UniformFloat.of(0.4F, 2.0F), 0.45F, UniformFloat.of(0.3F, 0.9F),
             UniformFloat.of(0.4F, 1.0F), UniformFloat.of(0.0F, 0.3F), 4, 0.6F, BlockStateProvider.simple(AllPaletteStoneTypes.CRIMSITE.baseBlock.get().defaultBlockState()))));
-	@SuppressWarnings("unchecked")
-	public static final RegistryObject<ConfiguredFeature<?, ?>> GLOWSTONE_BRANCH =
-			CONFIGURED_FEATURES.register("glowstone_branch", () ->
+    @SuppressWarnings("unchecked")
+    public static final RegistryObject<ConfiguredFeature<?, ?>> GLOWSTONE_BRANCH =
+            CONFIGURED_FEATURES.register("glowstone_branch", () ->
             new ConfiguredFeature<>((Feature<GlowstoneBranchConfig>)NorthstarFeatures.GLOWSTONE_BRANCH.get(), 
             new GlowstoneBranchConfig(BlockStateProvider.simple(Blocks.GLOWSTONE.defaultBlockState()))));
-	@SuppressWarnings("unchecked")
-	public static final RegistryObject<ConfiguredFeature<?, ?>> GLOWSTONE_UPSIDE_DOWN_BRANCH =
-			CONFIGURED_FEATURES.register("glowstone_upside_down_branch", () ->
+    @SuppressWarnings("unchecked")
+    public static final RegistryObject<ConfiguredFeature<?, ?>> GLOWSTONE_UPSIDE_DOWN_BRANCH =
+            CONFIGURED_FEATURES.register("glowstone_upside_down_branch", () ->
             new ConfiguredFeature<>((Feature<GlowstoneBranchConfig>)NorthstarFeatures.GLOWSTONE_UPSIDE_DOWN_BRANCH.get(), 
             new GlowstoneBranchConfig(BlockStateProvider.simple(Blocks.GLOWSTONE.defaultBlockState()))));
-	
+
     public static void register(IEventBus eventBus) {
         CONFIGURED_FEATURES.register(eventBus);
 

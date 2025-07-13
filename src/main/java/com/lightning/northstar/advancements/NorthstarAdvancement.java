@@ -29,182 +29,182 @@ import net.minecraft.world.level.block.Block;
 
 public class NorthstarAdvancement {
 
-	static final ResourceLocation BACKGROUND = Create.asResource("textures/gui/advancements.png");
-	static final String LANG = "advancement." + Northstar.MOD_ID + ".";
-	static final String SECRET_SUFFIX = "\u00A77\n(Hidden Advancement)";
+    static final ResourceLocation BACKGROUND = Create.asResource("textures/gui/advancements.png");
+    static final String LANG = "advancement." + Northstar.MOD_ID + ".";
+    static final String SECRET_SUFFIX = "\u00A77\n(Hidden Advancement)";
 
-	private Advancement.Builder builder;
-	private SimpleNorthstarTrigger builtinTrigger;
-	private NorthstarAdvancement parent;
+    private Advancement.Builder builder;
+    private SimpleNorthstarTrigger builtinTrigger;
+    private NorthstarAdvancement parent;
 
-	Advancement datagenResult;
+    Advancement datagenResult;
 
-	private String id;
-	private String title;
-	private String description;
+    private String id;
+    private String title;
+    private String description;
 
-	public NorthstarAdvancement(String id, UnaryOperator<Builder> b) {
-		this.builder = Advancement.Builder.advancement();
-		this.id = id;
+    public NorthstarAdvancement(String id, UnaryOperator<Builder> b) {
+        this.builder = Advancement.Builder.advancement();
+        this.id = id;
 
-		Builder t = new Builder();
-		b.apply(t);
-		
-		if (!t.externalTrigger) {
+        Builder t = new Builder();
+        b.apply(t);
 
-			builtinTrigger = NorthstarTriggers.addSimple(id + "_builtin");
-			builder.addCriterion("0", builtinTrigger.instance());
-		}
+        if (!t.externalTrigger) {
 
-		builder.display(t.icon, Components.translatable(titleKey()),
-			Components.translatable(descriptionKey()).withStyle(s -> s.withColor(0xDBA213)),
-			id.equals("root") ? BACKGROUND : null, t.type.frame, t.type.toast, t.type.announce, t.type.hide);
+            builtinTrigger = NorthstarTriggers.addSimple(id + "_builtin");
+            builder.addCriterion("0", builtinTrigger.instance());
+        }
 
-		if (t.type == TaskType.SECRET)
-			description += SECRET_SUFFIX;
+        builder.display(t.icon, Components.translatable(titleKey()),
+            Components.translatable(descriptionKey()).withStyle(s -> s.withColor(0xDBA213)),
+            id.equals("root") ? BACKGROUND : null, t.type.frame, t.type.toast, t.type.announce, t.type.hide);
 
-		NorthstarAdvancements.ENTRIES.add(this);
-	}
+        if (t.type == TaskType.SECRET)
+            description += SECRET_SUFFIX;
 
-	private String titleKey() {
-		return LANG + id;
-	}
+        NorthstarAdvancements.ENTRIES.add(this);
+    }
 
-	private String descriptionKey() {
-		return titleKey() + ".desc";
-	}
+    private String titleKey() {
+        return LANG + id;
+    }
 
-	public boolean isAlreadyAwardedTo(Player player) {
-		if (!(player instanceof ServerPlayer sp))
-			return true;
-		Advancement advancement = sp.getServer()
-			.getAdvancements()
-			.getAdvancement(Northstar.asResource(id));
-		if (advancement == null)
-			return true;
-		return sp.getAdvancements()
-			.getOrStartProgress(advancement)
-			.isDone();
-	}
+    private String descriptionKey() {
+        return titleKey() + ".desc";
+    }
 
-	public void awardTo(Player player) {
-		if (!(player instanceof ServerPlayer sp))
-			return;
-		if (builtinTrigger == null)
-			throw new UnsupportedOperationException(
-				"Advancement " + id + " uses external Triggers, it cannot be awarded directly");
-		builtinTrigger.trigger(sp);
-	}
+    public boolean isAlreadyAwardedTo(Player player) {
+        if (!(player instanceof ServerPlayer sp))
+            return true;
+        Advancement advancement = sp.getServer()
+            .getAdvancements()
+            .getAdvancement(Northstar.asResource(id));
+        if (advancement == null)
+            return true;
+        return sp.getAdvancements()
+            .getOrStartProgress(advancement)
+            .isDone();
+    }
 
-	void save(Consumer<Advancement> t) {
-		if (parent != null)
-			builder.parent(parent.datagenResult);
-		datagenResult = builder.save(t, Northstar.asResource(id)
-			.toString());
-	}
+    public void awardTo(Player player) {
+        if (!(player instanceof ServerPlayer sp))
+            return;
+        if (builtinTrigger == null)
+            throw new UnsupportedOperationException(
+                "Advancement " + id + " uses external Triggers, it cannot be awarded directly");
+        builtinTrigger.trigger(sp);
+    }
 
-	void appendToLang(JsonObject object) {
-		object.addProperty(titleKey(), title);
-		object.addProperty(descriptionKey(), description);
-	}
+    void save(Consumer<Advancement> t) {
+        if (parent != null)
+            builder.parent(parent.datagenResult);
+        datagenResult = builder.save(t, Northstar.asResource(id)
+            .toString());
+    }
 
-	static enum TaskType {
+    void appendToLang(JsonObject object) {
+        object.addProperty(titleKey(), title);
+        object.addProperty(descriptionKey(), description);
+    }
 
-		SILENT(FrameType.TASK, false, false, false),
-		NORMAL(FrameType.TASK, true, false, false),
-		NOISY(FrameType.TASK, true, true, false),
-		EXPERT(FrameType.GOAL, true, true, false),
-		SECRET(FrameType.GOAL, true, true, true),
+    static enum TaskType {
 
-		;
+        SILENT(FrameType.TASK, false, false, false),
+        NORMAL(FrameType.TASK, true, false, false),
+        NOISY(FrameType.TASK, true, true, false),
+        EXPERT(FrameType.GOAL, true, true, false),
+        SECRET(FrameType.GOAL, true, true, true),
 
-		private FrameType frame;
-		private boolean toast;
-		private boolean announce;
-		private boolean hide;
+        ;
 
-		private TaskType(FrameType frame, boolean toast, boolean announce, boolean hide) {
-			this.frame = frame;
-			this.toast = toast;
-			this.announce = announce;
-			this.hide = hide;
-		}
-	}
+        private FrameType frame;
+        private boolean toast;
+        private boolean announce;
+        private boolean hide;
 
-	class Builder {
+        private TaskType(FrameType frame, boolean toast, boolean announce, boolean hide) {
+            this.frame = frame;
+            this.toast = toast;
+            this.announce = announce;
+            this.hide = hide;
+        }
+    }
 
-		private TaskType type = TaskType.NORMAL;
-		private boolean externalTrigger;
-		private int keyIndex;
-		private ItemStack icon;
+    class Builder {
 
-		Builder special(TaskType type) {
-			this.type = type;
-			return this;
-		}
+        private TaskType type = TaskType.NORMAL;
+        private boolean externalTrigger;
+        private int keyIndex;
+        private ItemStack icon;
 
-		Builder after(NorthstarAdvancement other) {
-			NorthstarAdvancement.this.parent = other;
-			return this;
-		}
+        Builder special(TaskType type) {
+            this.type = type;
+            return this;
+        }
 
-		Builder icon(ItemProviderEntry<?> item) {
-			return icon(item.asStack());
-		}
+        Builder after(NorthstarAdvancement other) {
+            NorthstarAdvancement.this.parent = other;
+            return this;
+        }
 
-		Builder icon(ItemLike item) {
-			return icon(new ItemStack(item));
-		}
+        Builder icon(ItemProviderEntry<?> item) {
+            return icon(item.asStack());
+        }
 
-		Builder icon(ItemStack stack) {
-			icon = stack;
-			return this;
-		}
+        Builder icon(ItemLike item) {
+            return icon(new ItemStack(item));
+        }
 
-		Builder title(String title) {
-			NorthstarAdvancement.this.title = title;
-			return this;
-		}
+        Builder icon(ItemStack stack) {
+            icon = stack;
+            return this;
+        }
 
-		Builder description(String description) {
-			NorthstarAdvancement.this.description = description;
-			return this;
-		}
+        Builder title(String title) {
+            NorthstarAdvancement.this.title = title;
+            return this;
+        }
 
-		Builder whenBlockPlaced(Block block) {
-			return externalTrigger(PlacedBlockTrigger.TriggerInstance.placedBlock(block));
-		}
+        Builder description(String description) {
+            NorthstarAdvancement.this.description = description;
+            return this;
+        }
 
-		Builder whenIconCollected() {
-			return externalTrigger(InventoryChangeTrigger.TriggerInstance.hasItems(icon.getItem()));
-		}
+        Builder whenBlockPlaced(Block block) {
+            return externalTrigger(PlacedBlockTrigger.TriggerInstance.placedBlock(block));
+        }
 
-		Builder whenItemCollected(ItemProviderEntry<?> item) {
-			return whenItemCollected(item.asStack()
-				.getItem());
-		}
+        Builder whenIconCollected() {
+            return externalTrigger(InventoryChangeTrigger.TriggerInstance.hasItems(icon.getItem()));
+        }
 
-		Builder whenItemCollected(ItemLike itemProvider) {
-			return externalTrigger(InventoryChangeTrigger.TriggerInstance.hasItems(itemProvider));
-		}
+        Builder whenItemCollected(ItemProviderEntry<?> item) {
+            return whenItemCollected(item.asStack()
+                .getItem());
+        }
 
-		Builder whenItemCollected(TagKey<Item> tag) {
-			return externalTrigger(InventoryChangeTrigger.TriggerInstance
-				.hasItems(new ItemPredicate(tag, null, MinMaxBounds.Ints.ANY, MinMaxBounds.Ints.ANY,
-					EnchantmentPredicate.NONE, EnchantmentPredicate.NONE, null, NbtPredicate.ANY)));
-		}
+        Builder whenItemCollected(ItemLike itemProvider) {
+            return externalTrigger(InventoryChangeTrigger.TriggerInstance.hasItems(itemProvider));
+        }
 
-		Builder awardedForFree() {
-			return externalTrigger(InventoryChangeTrigger.TriggerInstance.hasItems(new ItemLike[] {}));
-		}
+        Builder whenItemCollected(TagKey<Item> tag) {
+            return externalTrigger(InventoryChangeTrigger.TriggerInstance
+                .hasItems(new ItemPredicate(tag, null, MinMaxBounds.Ints.ANY, MinMaxBounds.Ints.ANY,
+                    EnchantmentPredicate.NONE, EnchantmentPredicate.NONE, null, NbtPredicate.ANY)));
+        }
 
-		Builder externalTrigger(CriterionTriggerInstance trigger) {
-			builder.addCriterion(String.valueOf(keyIndex), trigger);
-			externalTrigger = true;
-			keyIndex++;
-			return this;
-		}
+        Builder awardedForFree() {
+            return externalTrigger(InventoryChangeTrigger.TriggerInstance.hasItems(new ItemLike[] {}));
+        }
 
-	}
+        Builder externalTrigger(CriterionTriggerInstance trigger) {
+            builder.addCriterion(String.valueOf(keyIndex), trigger);
+            externalTrigger = true;
+            keyIndex++;
+            return this;
+        }
+
+    }
 
 }

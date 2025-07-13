@@ -9,20 +9,20 @@ public class AnimatedIceBox extends AnimatedKinetics {
     
 
     public AnimatedIceBox() {
-	}
+    }
 
-	@Override
-	public void draw(PoseStack matrixStack, int xOffset, int yOffset) {
-		matrixStack.pushPose();
-		matrixStack.translate(xOffset, yOffset + 22, 200);
-		matrixStack.mulPose(Vector3f.XP.rotationDegrees(-15.5f));
-		matrixStack.mulPose(Vector3f.YP.rotationDegrees(22.5f));
-		int scale = 24;
+    @Override
+    public void draw(PoseStack matrixStack, int xOffset, int yOffset) {
+        matrixStack.pushPose();
+        matrixStack.translate(xOffset, yOffset + 22, 200);
+        matrixStack.mulPose(Vector3f.XP.rotationDegrees(-15.5f));
+        matrixStack.mulPose(Vector3f.YP.rotationDegrees(22.5f));
+        int scale = 24;
 
-		blockElement(NorthstarTechBlocks.ICE_BOX.getDefaultState())
-				.scale(scale)
-				.render(matrixStack);
-		matrixStack.popPose();
-	}
+        blockElement(NorthstarTechBlocks.ICE_BOX.getDefaultState())
+                .scale(scale)
+                .render(matrixStack);
+        matrixStack.popPose();
+    }
 
 }

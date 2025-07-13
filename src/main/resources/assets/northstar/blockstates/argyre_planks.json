@@ -1,5 +1,7 @@
 {
-	"variants":{
-	"":{"model": "northstar:block/argyre_planks"}
-	}
+  "variants": {
+    "": {
+      "model": "northstar:block/argyre_planks"
+    }
+  }
 }

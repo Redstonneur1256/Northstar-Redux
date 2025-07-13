@@ -2,7 +2,7 @@
   "type": "minecraft:smelting",
   "group": "redstone",
   "ingredient": {
-    	"tag": "northstar:redstone_ores"
+    "tag": "northstar:redstone_ores"
   },
   "result": "minecraft:redstone",
   "experience": 0.7,

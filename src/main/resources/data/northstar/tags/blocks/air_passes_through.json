@@ -1,6 +1,6 @@
 {
   "values": [
- 	"minecraft:air",
+    "minecraft:air",
     "create:blaze_burner",
     "create:shaft",
     "create:cogwheel",

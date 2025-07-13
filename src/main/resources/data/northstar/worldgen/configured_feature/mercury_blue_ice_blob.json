@@ -5,14 +5,14 @@
     "discard_chance_on_air_exposure": 0,
     "targets": [
       {
-    "target": {
+        "target": {
           "predicate_type": "minecraft:tag_match",
           "tag": "northstar:base_stone_mercury"
         },
-    "state": {
-      "Name": "minecraft:packed_ice"
+        "state": {
+          "Name": "minecraft:packed_ice"
+        }
       }
-     }
     ]
   }
 }

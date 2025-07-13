@@ -1,5 +1,7 @@
 {
-	"variants":{
-	"":{"model": "northstar:block/martian_steel_large_plating"}
-	}
+  "variants": {
+    "": {
+      "model": "northstar:block/martian_steel_large_plating"
+    }
+  }
 }

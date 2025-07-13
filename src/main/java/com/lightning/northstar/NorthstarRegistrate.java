@@ -41,161 +41,161 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.registries.RegistryObject;
 
 public class NorthstarRegistrate extends AbstractRegistrate<NorthstarRegistrate> {
-	
-	@Nullable
-	protected Function<Item, TooltipModifier> currentTooltipModifierFactory;
 
-	protected NorthstarRegistrate(String modid) {
-		super(modid);
-	}
-	
-	public static NorthstarRegistrate create(String modid) {
-		return new NorthstarRegistrate(modid);
-	}
-	
-	@Override
-	public NorthstarRegistrate registerEventListeners(IEventBus bus) {
-		return super.registerEventListeners(bus);
-	}
-	
-	
-	public NorthstarRegistrate setTooltipModifierFactory(@Nullable Function<Item, TooltipModifier> factory) {
-		currentTooltipModifierFactory = factory;
-		return self();
-	}
+    @Nullable
+    protected Function<Item, TooltipModifier> currentTooltipModifierFactory;
 
-	@Nullable
-	public Function<Item, TooltipModifier> getTooltipModifierFactory() {
-		return currentTooltipModifierFactory;
-	}
-	
-	@Override
-	protected <R, T extends R> RegistryEntry<T> accept(String name, ResourceKey<? extends Registry<R>> type,
-		Builder<R, T, ?, ?> builder, NonNullSupplier<? extends T> creator,
-		NonNullFunction<RegistryObject<T>, ? extends RegistryEntry<T>> entryFactory) {
-		RegistryEntry<T> entry = super.accept(name, type, builder, creator, entryFactory);
-		if (type.equals(Registry.ITEM_REGISTRY)) {
-			if (currentTooltipModifierFactory != null) {
-				TooltipModifier.REGISTRY.registerDeferred(entry.getId(), currentTooltipModifierFactory);
-			}
-		}
-		return entry;
-	}
+    protected NorthstarRegistrate(String modid) {
+        super(modid);
+    }
 
-	
-	/* Fluids */
+    public static NorthstarRegistrate create(String modid) {
+        return new NorthstarRegistrate(modid);
+    }
 
-	public <T extends ForgeFlowingFluid> FluidBuilder<T, NorthstarRegistrate> virtualFluid(String name,
-		FluidBuilder.FluidTypeFactory typeFactory, NonNullFunction<ForgeFlowingFluid.Properties, T> factory) {
-		return entry(name,
-			c -> new VirtualFluidBuilder<>(self(), self(), name, c, Create.asResource("fluid/" + name + "_still"),
-				Create.asResource("fluid/" + name + "_flow"), typeFactory, factory));
-	}
+    @Override
+    public NorthstarRegistrate registerEventListeners(IEventBus bus) {
+        return super.registerEventListeners(bus);
+    }
 
-	public <T extends ForgeFlowingFluid> FluidBuilder<T, NorthstarRegistrate> virtualFluid(String name,
-		ResourceLocation still, ResourceLocation flow, FluidBuilder.FluidTypeFactory typeFactory,
-		NonNullFunction<ForgeFlowingFluid.Properties, T> factory) {
-		return entry(name, c -> new VirtualFluidBuilder<>(self(), self(), name, c, still, flow, typeFactory, factory));
-	}
 
-	public FluidBuilder<VirtualFluid, NorthstarRegistrate> virtualFluid(String name) {
-		return entry(name,
-			c -> new VirtualFluidBuilder<VirtualFluid, NorthstarRegistrate>(self(), self(), name, c,
-				Create.asResource("fluid/" + name + "_still"), Create.asResource("fluid/" + name + "_flow"),
-				CreateRegistrate::defaultFluidType, VirtualFluid::new));
-	}
+    public NorthstarRegistrate setTooltipModifierFactory(@Nullable Function<Item, TooltipModifier> factory) {
+        currentTooltipModifierFactory = factory;
+        return self();
+    }
 
-	public FluidBuilder<VirtualFluid, NorthstarRegistrate> virtualFluid(String name, ResourceLocation still,
-		ResourceLocation flow) {
-		return entry(name, c -> new VirtualFluidBuilder<>(self(), self(), name, c, still, flow,
-			CreateRegistrate::defaultFluidType, VirtualFluid::new));
-	}
+    @Nullable
+    public Function<Item, TooltipModifier> getTooltipModifierFactory() {
+        return currentTooltipModifierFactory;
+    }
 
-	public FluidBuilder<ForgeFlowingFluid.Flowing, NorthstarRegistrate> standardFluid(String name) {
-		return fluid(name, Create.asResource("fluid/" + name + "_still"), Create.asResource("fluid/" + name + "_flow"));
-	}
+    @Override
+    protected <R, T extends R> RegistryEntry<T> accept(String name, ResourceKey<? extends Registry<R>> type,
+        Builder<R, T, ?, ?> builder, NonNullSupplier<? extends T> creator,
+        NonNullFunction<RegistryObject<T>, ? extends RegistryEntry<T>> entryFactory) {
+        RegistryEntry<T> entry = super.accept(name, type, builder, creator, entryFactory);
+        if (type.equals(Registry.ITEM_REGISTRY)) {
+            if (currentTooltipModifierFactory != null) {
+                TooltipModifier.REGISTRY.registerDeferred(entry.getId(), currentTooltipModifierFactory);
+            }
+        }
+        return entry;
+    }
 
-	public FluidBuilder<ForgeFlowingFluid.Flowing, NorthstarRegistrate> standardFluid(String name,
-		FluidBuilder.FluidTypeFactory typeFactory) {
-		return fluid(name, Create.asResource("fluid/" + name + "_still"), Create.asResource("fluid/" + name + "_flow"),
-			typeFactory);
-	}
 
-	public static FluidType defaultFluidType(FluidType.Properties properties, ResourceLocation stillTexture,
-		ResourceLocation flowingTexture) {
-		return new FluidType(properties) {
-			@Override
-			public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer) {
-				consumer.accept(new IClientFluidTypeExtensions() {
-					@Override
-					public ResourceLocation getStillTexture() {
-						return stillTexture;
-					}
+    /* Fluids */
 
-					@Override
-					public ResourceLocation getFlowingTexture() {
-						return flowingTexture;
-					}
-				});
-			}
-		};
-	}
-	
-	
-	
-	
-	
-	
-	/* Util */
+    public <T extends ForgeFlowingFluid> FluidBuilder<T, NorthstarRegistrate> virtualFluid(String name,
+        FluidBuilder.FluidTypeFactory typeFactory, NonNullFunction<ForgeFlowingFluid.Properties, T> factory) {
+        return entry(name,
+            c -> new VirtualFluidBuilder<>(self(), self(), name, c, Create.asResource("fluid/" + name + "_still"),
+                Create.asResource("fluid/" + name + "_flow"), typeFactory, factory));
+    }
 
-	public static <T extends Block> NonNullConsumer<? super T> casingConnectivity(
-		BiConsumer<T, CasingConnectivity> consumer) {
-		return entry -> onClient(() -> () -> registerCasingConnectivity(entry, consumer));
-	}
+    public <T extends ForgeFlowingFluid> FluidBuilder<T, NorthstarRegistrate> virtualFluid(String name,
+        ResourceLocation still, ResourceLocation flow, FluidBuilder.FluidTypeFactory typeFactory,
+        NonNullFunction<ForgeFlowingFluid.Properties, T> factory) {
+        return entry(name, c -> new VirtualFluidBuilder<>(self(), self(), name, c, still, flow, typeFactory, factory));
+    }
 
-	public static <T extends Block> NonNullConsumer<? super T> blockModel(
-		Supplier<NonNullFunction<BakedModel, ? extends BakedModel>> func) {
-		return entry -> onClient(() -> () -> registerBlockModel(entry, func));
-	}
+    public FluidBuilder<VirtualFluid, NorthstarRegistrate> virtualFluid(String name) {
+        return entry(name,
+            c -> new VirtualFluidBuilder<VirtualFluid, NorthstarRegistrate>(self(), self(), name, c,
+                Create.asResource("fluid/" + name + "_still"), Create.asResource("fluid/" + name + "_flow"),
+                CreateRegistrate::defaultFluidType, VirtualFluid::new));
+    }
 
-	public static <T extends Item> NonNullConsumer<? super T> itemModel(
-		Supplier<NonNullFunction<BakedModel, ? extends BakedModel>> func) {
-		return entry -> onClient(() -> () -> registerItemModel(entry, func));
-	}
+    public FluidBuilder<VirtualFluid, NorthstarRegistrate> virtualFluid(String name, ResourceLocation still,
+        ResourceLocation flow) {
+        return entry(name, c -> new VirtualFluidBuilder<>(self(), self(), name, c, still, flow,
+            CreateRegistrate::defaultFluidType, VirtualFluid::new));
+    }
 
-	public static <T extends Block> NonNullConsumer<? super T> connectedTextures(
-		Supplier<ConnectedTextureBehaviour> behavior) {
-		return entry -> onClient(() -> () -> registerCTBehviour(entry, behavior));
-	}
+    public FluidBuilder<ForgeFlowingFluid.Flowing, NorthstarRegistrate> standardFluid(String name) {
+        return fluid(name, Create.asResource("fluid/" + name + "_still"), Create.asResource("fluid/" + name + "_flow"));
+    }
 
-	protected static void onClient(Supplier<Runnable> toRun) {
-		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, toRun);
-	}
+    public FluidBuilder<ForgeFlowingFluid.Flowing, NorthstarRegistrate> standardFluid(String name,
+        FluidBuilder.FluidTypeFactory typeFactory) {
+        return fluid(name, Create.asResource("fluid/" + name + "_still"), Create.asResource("fluid/" + name + "_flow"),
+            typeFactory);
+    }
 
-	@OnlyIn(Dist.CLIENT)
-	private static <T extends Block> void registerCasingConnectivity(T entry,
-		BiConsumer<T, CasingConnectivity> consumer) {
-		consumer.accept(entry, CreateClient.CASING_CONNECTIVITY);
-	}
+    public static FluidType defaultFluidType(FluidType.Properties properties, ResourceLocation stillTexture,
+        ResourceLocation flowingTexture) {
+        return new FluidType(properties) {
+            @Override
+            public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer) {
+                consumer.accept(new IClientFluidTypeExtensions() {
+                    @Override
+                    public ResourceLocation getStillTexture() {
+                        return stillTexture;
+                    }
 
-	@OnlyIn(Dist.CLIENT)
-	private static void registerBlockModel(Block entry,
-		Supplier<NonNullFunction<BakedModel, ? extends BakedModel>> func) {
-		CreateClient.MODEL_SWAPPER.getCustomBlockModels()
-			.register(RegisteredObjects.getKeyOrThrow(entry), func.get());
-	}
+                    @Override
+                    public ResourceLocation getFlowingTexture() {
+                        return flowingTexture;
+                    }
+                });
+            }
+        };
+    }
 
-	@OnlyIn(Dist.CLIENT)
-	private static void registerItemModel(Item entry,
-		Supplier<NonNullFunction<BakedModel, ? extends BakedModel>> func) {
-		CreateClient.MODEL_SWAPPER.getCustomItemModels()
-			.register(RegisteredObjects.getKeyOrThrow(entry), func.get());
-	}
 
-	@OnlyIn(Dist.CLIENT)
-	private static void registerCTBehviour(Block entry, Supplier<ConnectedTextureBehaviour> behaviorSupplier) {
-		ConnectedTextureBehaviour behavior = behaviorSupplier.get();
-		CreateClient.MODEL_SWAPPER.getCustomBlockModels()
-			.register(RegisteredObjects.getKeyOrThrow(entry), model -> new CTModel(model, behavior));
-	}
+
+
+
+
+    /* Util */
+
+    public static <T extends Block> NonNullConsumer<? super T> casingConnectivity(
+        BiConsumer<T, CasingConnectivity> consumer) {
+        return entry -> onClient(() -> () -> registerCasingConnectivity(entry, consumer));
+    }
+
+    public static <T extends Block> NonNullConsumer<? super T> blockModel(
+        Supplier<NonNullFunction<BakedModel, ? extends BakedModel>> func) {
+        return entry -> onClient(() -> () -> registerBlockModel(entry, func));
+    }
+
+    public static <T extends Item> NonNullConsumer<? super T> itemModel(
+        Supplier<NonNullFunction<BakedModel, ? extends BakedModel>> func) {
+        return entry -> onClient(() -> () -> registerItemModel(entry, func));
+    }
+
+    public static <T extends Block> NonNullConsumer<? super T> connectedTextures(
+        Supplier<ConnectedTextureBehaviour> behavior) {
+        return entry -> onClient(() -> () -> registerCTBehviour(entry, behavior));
+    }
+
+    protected static void onClient(Supplier<Runnable> toRun) {
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, toRun);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private static <T extends Block> void registerCasingConnectivity(T entry,
+        BiConsumer<T, CasingConnectivity> consumer) {
+        consumer.accept(entry, CreateClient.CASING_CONNECTIVITY);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private static void registerBlockModel(Block entry,
+        Supplier<NonNullFunction<BakedModel, ? extends BakedModel>> func) {
+        CreateClient.MODEL_SWAPPER.getCustomBlockModels()
+            .register(RegisteredObjects.getKeyOrThrow(entry), func.get());
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private static void registerItemModel(Item entry,
+        Supplier<NonNullFunction<BakedModel, ? extends BakedModel>> func) {
+        CreateClient.MODEL_SWAPPER.getCustomItemModels()
+            .register(RegisteredObjects.getKeyOrThrow(entry), func.get());
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private static void registerCTBehviour(Block entry, Supplier<ConnectedTextureBehaviour> behaviorSupplier) {
+        ConnectedTextureBehaviour behavior = behaviorSupplier.get();
+        CreateClient.MODEL_SWAPPER.getCustomBlockModels()
+            .register(RegisteredObjects.getKeyOrThrow(entry), model -> new CTModel(model, behavior));
+    }
 }

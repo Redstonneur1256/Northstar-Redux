@@ -68,27 +68,27 @@ public class PointedStoneClusterFeature extends Feature<PointedStoneClusterConfi
                 if (!(pRandom.nextFloat() > pConfig.chanceOfSpreadRadius2)) {
                     BlockPos blockpos1 = blockpos.relative(Direction.getRandom(pRandom));
                     placeDripstoneBlockIfPossible(pLevel, blockpos1, block, block2);
-    				if (!(pRandom.nextFloat() > pConfig.chanceOfSpreadRadius3)) {
-						BlockPos blockpos2 = blockpos1.relative(Direction.getRandom(pRandom));
-						placeDripstoneBlockIfPossible(pLevel, blockpos2, block, block2);
-					}
-				}
-			}
-		}
+                    if (!(pRandom.nextFloat() > pConfig.chanceOfSpreadRadius3)) {
+                        BlockPos blockpos2 = blockpos1.relative(Direction.getRandom(pRandom));
+                        placeDripstoneBlockIfPossible(pLevel, blockpos2, block, block2);
+                    }
+                }
+            }
+        }
 
-	}
-	
-	protected static boolean placeDripstoneBlockIfPossible(LevelAccessor pLevel, BlockPos pPos, Block block, Block block2) {
-		BlockState blockstate = pLevel.getBlockState(pPos);
-		if (blockstate.is(block2)) {
-			Direction direction = null;
-			if(!getTipDirection(pLevel, pPos, pLevel.getRandom()).isEmpty()) {
-				direction = getTipDirection(pLevel, pPos, pLevel.getRandom()).get();
-			}
-			PointedCrimsiteBlock.growPointedDripstone(pLevel, pPos, direction == null ? Direction.UP : direction , pLevel.getRandom().nextInt(1,8), true, block);
-			return true;
-		} else {
-			return false;
-		}
-	}
+    }
+    
+    protected static boolean placeDripstoneBlockIfPossible(LevelAccessor pLevel, BlockPos pPos, Block block, Block block2) {
+        BlockState blockstate = pLevel.getBlockState(pPos);
+        if (blockstate.is(block2)) {
+            Direction direction = null;
+            if(!getTipDirection(pLevel, pPos, pLevel.getRandom()).isEmpty()) {
+                direction = getTipDirection(pLevel, pPos, pLevel.getRandom()).get();
+            }
+            PointedCrimsiteBlock.growPointedDripstone(pLevel, pPos, direction == null ? Direction.UP : direction , pLevel.getRandom().nextInt(1,8), true, block);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

@@ -1,5 +1,7 @@
 {
-	"variants":{
-	"":{"model": "northstar:block/venus_quartz_ore"}
-	}
+  "variants": {
+    "": {
+      "model": "northstar:block/venus_quartz_ore"
+    }
+  }
 }

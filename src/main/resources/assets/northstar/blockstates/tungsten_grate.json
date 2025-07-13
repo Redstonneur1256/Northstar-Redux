@@ -1,5 +1,7 @@
 {
-	"variants":{
-	"":{"model": "northstar:block/tungsten_grate"}
-	}
+  "variants": {
+    "": {
+      "model": "northstar:block/tungsten_grate"
+    }
+  }
 }

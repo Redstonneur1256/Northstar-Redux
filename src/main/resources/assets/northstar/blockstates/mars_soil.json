@@ -1,5 +1,7 @@
 {
-	"variants":{
-	"":{"model": "northstar:block/mars_soil"}
-	}
+  "variants": {
+    "": {
+      "model": "northstar:block/mars_soil"
+    }
+  }
 }

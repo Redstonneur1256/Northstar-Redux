@@ -224,22 +224,22 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
              pMatrixStack.mulPose(Vector3f.ZP.rotationDegrees(90));
              pMatrixStack.mulPose(Vector3f.YP.rotationDegrees(270.0F));
           } else if (isEntityUpsideDown2(pEntityLiving)) {
-	         pMatrixStack.translate(0.0D, (double)(pEntityLiving.getBbHeight() + 0.1F), 0.0D);
-	         pMatrixStack.mulPose(Vector3f.ZP.rotationDegrees(180.0F));
-	      }
+             pMatrixStack.translate(0.0D, (double)(pEntityLiving.getBbHeight() + 0.1F), 0.0D);
+             pMatrixStack.mulPose(Vector3f.ZP.rotationDegrees(180.0F));
+          }
 
-	   }
-	
-	
-	private float getAttackAnim2(T pLivingBase, float pPartialTickTime) {
-		return pLivingBase.getAttackAnim(pPartialTickTime);
-	}
-	private float getBob2(T pLivingBase, float pPartialTick) {
-		return (float)pLivingBase.tickCount + pPartialTick;
-	}
+       }
 
-	@Override
-	public M getModel() {
-		return this.model;
-	}
+
+    private float getAttackAnim2(T pLivingBase, float pPartialTickTime) {
+        return pLivingBase.getAttackAnim(pPartialTickTime);
+    }
+    private float getBob2(T pLivingBase, float pPartialTick) {
+        return (float)pLivingBase.tickCount + pPartialTick;
+    }
+
+    @Override
+    public M getModel() {
+        return this.model;
+    }
 }

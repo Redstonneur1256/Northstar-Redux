@@ -1,5 +1,7 @@
 {
-	"variants":{
-	"":{"model": "northstar:block/chiseled_mercury_stone"}
-	}
+  "variants": {
+    "": {
+      "model": "northstar:block/chiseled_mercury_stone"
+    }
+  }
 }

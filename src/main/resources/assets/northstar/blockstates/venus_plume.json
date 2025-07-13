@@ -1,5 +1,7 @@
 {
-	"variants":{
-	"":{"model": "northstar:block/venus_plume"}
-	}
+  "variants": {
+    "": {
+      "model": "northstar:block/venus_plume"
+    }
+  }
 }

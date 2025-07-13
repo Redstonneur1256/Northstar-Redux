@@ -1,5 +1,7 @@
 {
-	"variants":{
-	"":{"model": "northstar:block/ice_box"}
-	}
+  "variants": {
+    "": {
+      "model": "northstar:block/ice_box"
+    }
+  }
 }

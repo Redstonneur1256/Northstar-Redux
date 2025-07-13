@@ -5,13 +5,13 @@
     "discard_chance_on_air_exposure": 0,
     "targets": [
       {
-    "target": {
+        "target": {
           "predicate_type": "minecraft:tag_match",
           "tag": "northstar:base_stone_venus"
         },
-    "state": {
-      "Name": "create:scoria"
-      	}
+        "state": {
+          "Name": "create:scoria"
+        }
       }
     ]
   }

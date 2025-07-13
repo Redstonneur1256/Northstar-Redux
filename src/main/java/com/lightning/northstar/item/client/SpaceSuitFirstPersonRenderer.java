@@ -33,39 +33,39 @@ public class SpaceSuitFirstPersonRenderer{
         Minecraft mc = Minecraft.getInstance();
         rendererActive =
             mc.player != null && IronSpaceSuitArmorItem.hasChestplateOn(mc.player) && mc.player.getInventory().getArmor(2).is(NorthstarTags.NorthstarItemTags.OXYGEN_SOURCES.tag) || mc.player.getInventory().getArmor(2).getItem() == NorthstarItems.BROKEN_IRON_SPACE_SUIT_CHESTPIECE.get();
-		if(mc.player != null && mc.player.getInventory().getArmor(2).getItem() == NorthstarItems.IRON_SPACE_SUIT_CHESTPIECE.get()) {
-			activeHand = NorthstarEntityResources.IRONSPACESUIT_ARMOR_ARM;
-		}
-		if(mc.player != null && mc.player.getInventory().getArmor(2).getItem() == NorthstarItems.MARTIAN_STEEL_SPACE_SUIT_CHESTPIECE.get()) {
-			activeHand = NorthstarEntityResources.MARTIANSTEELSPACESUITARMOR_ARM;
-		}
-		if(mc.player != null && mc.player.getInventory().getArmor(2).getItem() == NorthstarItems.BROKEN_IRON_SPACE_SUIT_CHESTPIECE.get()) {
-			activeHand = NorthstarEntityResources.BROKEN_IRONSPACESUIT_ARMOR_ARM;
-		}
-	}
+        if(mc.player != null && mc.player.getInventory().getArmor(2).getItem() == NorthstarItems.IRON_SPACE_SUIT_CHESTPIECE.get()) {
+            activeHand = NorthstarEntityResources.IRONSPACESUIT_ARMOR_ARM;
+        }
+        if(mc.player != null && mc.player.getInventory().getArmor(2).getItem() == NorthstarItems.MARTIAN_STEEL_SPACE_SUIT_CHESTPIECE.get()) {
+            activeHand = NorthstarEntityResources.MARTIANSTEELSPACESUITARMOR_ARM;
+        }
+        if(mc.player != null && mc.player.getInventory().getArmor(2).getItem() == NorthstarItems.BROKEN_IRON_SPACE_SUIT_CHESTPIECE.get()) {
+            activeHand = NorthstarEntityResources.BROKEN_IRONSPACESUIT_ARMOR_ARM;
+        }
+    }
     
-	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public static void onRenderPlayerHand(RenderArmEvent event) {
-		if (!rendererActive)
-			return;
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onRenderPlayerHand(RenderArmEvent event) {
+        if (!rendererActive)
+            return;
 
-		Minecraft mc = Minecraft.getInstance();
-		LocalPlayer player = mc.player;
-		MultiBufferSource buffer = event.getMultiBufferSource();
-		if (!(mc.getEntityRenderDispatcher()
-			.getRenderer(player) instanceof PlayerRenderer pr))
-			return;
+        Minecraft mc = Minecraft.getInstance();
+        LocalPlayer player = mc.player;
+        MultiBufferSource buffer = event.getMultiBufferSource();
+        if (!(mc.getEntityRenderDispatcher()
+            .getRenderer(player) instanceof PlayerRenderer pr))
+            return;
 
-		PlayerModel<AbstractClientPlayer> model = pr.getModel();
-		model.attackTime = 0.0F;
-		model.crouching = false;
-		model.swimAmount = 0.0F;
-		model.setupAnim(player, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
-		ModelPart armPart = event.getArm() == HumanoidArm.LEFT ? model.leftSleeve : model.rightSleeve;
-		armPart.xRot = 0.0F;
-		armPart.render(event.getPoseStack(), buffer.getBuffer(RenderType.entitySolid(activeHand)),
-			LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY);
-		event.setCanceled(true);
-	}
-	
+        PlayerModel<AbstractClientPlayer> model = pr.getModel();
+        model.attackTime = 0.0F;
+        model.crouching = false;
+        model.swimAmount = 0.0F;
+        model.setupAnim(player, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+        ModelPart armPart = event.getArm() == HumanoidArm.LEFT ? model.leftSleeve : model.rightSleeve;
+        armPart.xRot = 0.0F;
+        armPart.render(event.getPoseStack(), buffer.getBuffer(RenderType.entitySolid(activeHand)),
+            LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY);
+        event.setCanceled(true);
+    }
+    
 }

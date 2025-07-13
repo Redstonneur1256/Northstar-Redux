@@ -38,20 +38,20 @@ public class GlowstoneTorchItem extends BlockItem {
                 if (blockstate2 != null && blockstate2.canSurvive(levelreader, blockpos)) {
                    blockstate1 = blockstate2;
                    break;
-	            }
-	         }
-	      }
+                }
+             }
+          }
 
-	      return blockstate1 != null && levelreader.isUnobstructed(blockstate1, blockpos, CollisionContext.empty()) ? blockstate1 : null;
-	   }
+          return blockstate1 != null && levelreader.isUnobstructed(blockstate1, blockpos, CollisionContext.empty()) ? blockstate1 : null;
+       }
 
-	   public void registerBlocks(Map<Block, Item> pBlockToItemMap, Item pItem) {
-	      super.registerBlocks(pBlockToItemMap, pItem);
-	      pBlockToItemMap.put(this.wallBlock, pItem);
-	   }
+       public void registerBlocks(Map<Block, Item> pBlockToItemMap, Item pItem) {
+          super.registerBlocks(pBlockToItemMap, pItem);
+          pBlockToItemMap.put(this.wallBlock, pItem);
+       }
 
-	   public void removeFromBlockToItemMap(Map<Block, Item> blockToItemMap, Item itemIn) {
-	      super.removeFromBlockToItemMap(blockToItemMap, itemIn);
-	      blockToItemMap.remove(this.wallBlock);
-	   }
-	}
+       public void removeFromBlockToItemMap(Map<Block, Item> blockToItemMap, Item itemIn) {
+          super.removeFromBlockToItemMap(blockToItemMap, itemIn);
+          blockToItemMap.remove(this.wallBlock);
+       }
+    }

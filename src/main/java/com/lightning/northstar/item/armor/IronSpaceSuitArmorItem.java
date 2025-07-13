@@ -56,10 +56,10 @@ public class IronSpaceSuitArmorItem extends GeoArmorItem implements IAnimatable{
     }
     @Override
     public AnimationFactory getFactory() {
-		return this.factory;
-	}
-	
-	public static boolean hasChestplateOn(Player player) {
+        return this.factory;
+    }
+
+    public static boolean hasChestplateOn(Player player) {
         ItemStack chestplate = player.getInventory().getArmor(2);
         return !chestplate.isEmpty();
     }
@@ -75,51 +75,51 @@ public class IronSpaceSuitArmorItem extends GeoArmorItem implements IAnimatable{
         return chestplate.getMaterial() == material;
   }
   
-  	public static int getRemainingAir(ItemStack stack) {
-		CompoundTag orCreateTag = stack.getOrCreateTag();
-		return orCreateTag.getInt("Air");
-	}
-	
-	
-	@Nullable
-	public static IronSpaceSuitArmorItem getWornBy(Entity entity) {
-		if (!(entity instanceof LivingEntity livingEntity)) {
-			return null;
-		}
-		if (!(livingEntity.getItemBySlot(SLOT).getItem() instanceof IronSpaceSuitArmorItem item)) {
-			return null;
-		}
-		return item;
-	}
-	@Override
-	public boolean canBeDepleted() {
-		return true;
-	}
+      public static int getRemainingAir(ItemStack stack) {
+        CompoundTag orCreateTag = stack.getOrCreateTag();
+        return orCreateTag.getInt("Air");
+    }
 
-	@Override
-	public boolean isEnchantable(ItemStack p_77616_1_) {
-		return true;
-	}
 
-	@Override
-	public void fillItemCategory(CreativeModeTab tab, NonNullList<ItemStack> items) {
-		if (!allowedIn(tab))
-			return;
+    @Nullable
+    public static IronSpaceSuitArmorItem getWornBy(Entity entity) {
+        if (!(entity instanceof LivingEntity livingEntity)) {
+            return null;
+        }
+        if (!(livingEntity.getItemBySlot(SLOT).getItem() instanceof IronSpaceSuitArmorItem item)) {
+            return null;
+        }
+        return item;
+    }
+    @Override
+    public boolean canBeDepleted() {
+        return true;
+    }
 
-		ItemStack stack = new ItemStack(this);
-		CompoundTag nbt = new CompoundTag();
-		nbt.putInt("Oxygen", OxygenStuff.maximumOxy);
-		stack.setTag(nbt);
-		if(stack.is(NorthstarItemTags.OXYGEN_SOURCES.tag)) {
-			ListTag lore = new ListTag();
-			lore.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal( "Oxygen: " + OxygenStuff.maximumOxy + "mb").setStyle(Style.EMPTY.withColor(ChatFormatting.GRAY).withItalic(false))).toString())); 
-			stack.getOrCreateTagElement("display").put("Lore", lore);
-		}
-		items.add(stack);
-	}
-	
+    @Override
+    public boolean isEnchantable(ItemStack p_77616_1_) {
+        return true;
+    }
 
-	
-	
-	
+    @Override
+    public void fillItemCategory(CreativeModeTab tab, NonNullList<ItemStack> items) {
+        if (!allowedIn(tab))
+            return;
+
+        ItemStack stack = new ItemStack(this);
+        CompoundTag nbt = new CompoundTag();
+        nbt.putInt("Oxygen", OxygenStuff.maximumOxy);
+        stack.setTag(nbt);
+        if(stack.is(NorthstarItemTags.OXYGEN_SOURCES.tag)) {
+            ListTag lore = new ListTag();
+            lore.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal( "Oxygen: " + OxygenStuff.maximumOxy + "mb").setStyle(Style.EMPTY.withColor(ChatFormatting.GRAY).withItalic(false))).toString()));
+            stack.getOrCreateTagElement("display").put("Lore", lore);
+        }
+        items.add(stack);
+    }
+
+
+
+
+
 }

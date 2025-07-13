@@ -1,5 +1,7 @@
 {
-	"variants":{
-	"":{"model": "northstar:block/mars_deep_gold_ore"}
-	}
+  "variants": {
+    "": {
+      "model": "northstar:block/mars_deep_gold_ore"
+    }
+  }
 }

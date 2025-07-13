@@ -71,14 +71,14 @@ public class MartianSteelSpaceSuitLayerRenderer <T extends LivingEntity, M exten
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-	public static void registerOn(EntityRenderer<?> entityRenderer) {
-		if (!(entityRenderer instanceof LivingEntityRenderer))
-			return;
-		LivingEntityRenderer<?, ?> livingRenderer = (LivingEntityRenderer<?, ?>) entityRenderer;
-		if (!(livingRenderer.getModel() instanceof HumanoidModel))
-			return;
-		MartianSteelSpaceSuitLayerRenderer<?, ?> layer = new MartianSteelSpaceSuitLayerRenderer<>(livingRenderer);
-		livingRenderer.addLayer((MartianSteelSpaceSuitLayerRenderer) layer);
-	}
+    public static void registerOn(EntityRenderer<?> entityRenderer) {
+        if (!(entityRenderer instanceof LivingEntityRenderer))
+            return;
+        LivingEntityRenderer<?, ?> livingRenderer = (LivingEntityRenderer<?, ?>) entityRenderer;
+        if (!(livingRenderer.getModel() instanceof HumanoidModel))
+            return;
+        MartianSteelSpaceSuitLayerRenderer<?, ?> layer = new MartianSteelSpaceSuitLayerRenderer<>(livingRenderer);
+        livingRenderer.addLayer((MartianSteelSpaceSuitLayerRenderer) layer);
+    }
 
 }

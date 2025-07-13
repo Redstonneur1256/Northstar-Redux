@@ -157,15 +157,15 @@ public class RoofTowerTrunkPlacer extends TrunkPlacer {
            protected boolean placeCapBlock2(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos pPos, TreeConfiguration pConfig, Function<BlockState, BlockState> pPropertySetter) {
                   if (this.validTreePos(pLevel, pPos)) {
                      pBlockSetter.accept(pPos, pPropertySetter.apply(this.capProvider.getState(pRandom, pPos)));
-    		         return true;
-			      } else {
-			         return false;
-			      }
-			   }
-		   @Override
-		   protected boolean validTreePos(LevelSimulatedReader pLevel, BlockPos pPos) {
-			   return pLevel.isStateAtPosition(pPos, (state) -> {
-				   return state.is(Blocks.AIR) || state.is(NorthstarBlocks.TOWER_FUNGUS.get()) || state.is(NorthstarBlocks.VENUS_STONE.get()) || state.is(NorthstarBlocks.VENUS_DEEP_STONE.get());
-			   });
-		   }
-		}
+                     return true;
+                  } else {
+                     return false;
+                  }
+               }
+           @Override
+           protected boolean validTreePos(LevelSimulatedReader pLevel, BlockPos pPos) {
+               return pLevel.isStateAtPosition(pPos, (state) -> {
+                   return state.is(Blocks.AIR) || state.is(NorthstarBlocks.TOWER_FUNGUS.get()) || state.is(NorthstarBlocks.VENUS_STONE.get()) || state.is(NorthstarBlocks.VENUS_DEEP_STONE.get());
+               });
+           }
+        }

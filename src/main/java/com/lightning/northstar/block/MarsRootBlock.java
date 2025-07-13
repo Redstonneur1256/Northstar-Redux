@@ -210,35 +210,35 @@ public class MarsRootBlock extends MultifaceBlock {
         for(BooleanProperty booleanproperty : PROPERTY_BY_DIRECTION.values()) {
             if (pState.getValue(booleanproperty)) {
                 ++i;
-    		}
-		}
-		return i;
-	}	   
-	
-	private static boolean canSupportAtFace(BlockGetter pLevel, BlockPos pPos, Direction pDirection) {
-		BlockPos blockpos = pPos.relative(pDirection);
-		if (isAcceptableNeighbour(pLevel, blockpos, pDirection)) {
-			return true;
-		} else if (pDirection.getAxis() == Direction.Axis.Y) {
-			return false;
-		} else {
-			BooleanProperty booleanproperty = PROPERTY_BY_DIRECTION.get(pDirection);
-			BlockState blockstate = pLevel.getBlockState(pPos.above());
-			return (blockstate.is(NorthstarBlocks.MARS_ROOTS.get()) || blockstate.is(NorthstarBlocks.GLOWING_MARS_ROOTS.get())) && blockstate.getValue(booleanproperty);
-		}
-		
-	}
-	
-	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-		pBuilder.add(UP, DOWN, NORTH, EAST, SOUTH, WEST);
-	}
-	
-	public static BooleanProperty getPropertyForFace(Direction pFace) {
-		return PROPERTY_BY_DIRECTION.get(pFace);
-	}
+            }
+        }
+        return i;
+    }
 
-	@Override
-	public MultifaceSpreader getSpreader() {
-	      return this.spreader;
-	}
+    private static boolean canSupportAtFace(BlockGetter pLevel, BlockPos pPos, Direction pDirection) {
+        BlockPos blockpos = pPos.relative(pDirection);
+        if (isAcceptableNeighbour(pLevel, blockpos, pDirection)) {
+            return true;
+        } else if (pDirection.getAxis() == Direction.Axis.Y) {
+            return false;
+        } else {
+            BooleanProperty booleanproperty = PROPERTY_BY_DIRECTION.get(pDirection);
+            BlockState blockstate = pLevel.getBlockState(pPos.above());
+            return (blockstate.is(NorthstarBlocks.MARS_ROOTS.get()) || blockstate.is(NorthstarBlocks.GLOWING_MARS_ROOTS.get())) && blockstate.getValue(booleanproperty);
+        }
+
+    }
+
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
+        pBuilder.add(UP, DOWN, NORTH, EAST, SOUTH, WEST);
+    }
+
+    public static BooleanProperty getPropertyForFace(Direction pFace) {
+        return PROPERTY_BY_DIRECTION.get(pFace);
+    }
+
+    @Override
+    public MultifaceSpreader getSpreader() {
+          return this.spreader;
+    }
 }

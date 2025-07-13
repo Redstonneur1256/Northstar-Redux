@@ -47,210 +47,210 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 import software.bernie.geckolib3.util.GeckoLibUtil;
 
 public class VenusScorpionEntity extends Monster implements IAnimatable, IAnimationTickable, RangedAttackMob {
-	AnimationFactory factory = GeckoLibUtil.createFactory(this);
-	private static final UUID SPEED_MODIFIER_ATTACKING_UUID = UUID.fromString("49455A49-7EC5-45BA-B886-3B90B23A1718");
-	private static final AttributeModifier SPEED_MODIFIER_ATTACKING = new AttributeModifier(SPEED_MODIFIER_ATTACKING_UUID, "Attacking speed boost", 0.05D, AttributeModifier.Operation.ADDITION);
-	private int spitAnim = 0;
-	
-	public VenusScorpionEntity(EntityType<? extends VenusScorpionEntity> pEntityType, Level pLevel) {
-		super(pEntityType, pLevel);
-	}
-	
-	public static AttributeSupplier.Builder createAttributes() {
-		return Monster.createMonsterAttributes().add(Attributes.FOLLOW_RANGE, 16.0D).add(Attributes.MAX_HEALTH, 30.0D).add(Attributes.ATTACK_DAMAGE, 5).add(Attributes.MOVEMENT_SPEED, 0.2f);
-	}
-	
-	private <P extends IAnimatable> PlayState predicate(AnimationEvent<P> event) {
-		if (!(event.getLimbSwingAmount() > -0.15F && event.getLimbSwingAmount() < 0.15F) ) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("walk", EDefaultLoopTypes.LOOP));
-		} else if (spitAnim > 0) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("spit", EDefaultLoopTypes.LOOP));
-		} else {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", EDefaultLoopTypes.LOOP));
-		}
-		return PlayState.CONTINUE;
-	}
-	
-	@Override
-	public void registerControllers(AnimationData data) {
-		data.addAnimationController(new AnimationController<VenusScorpionEntity>(this, "controller", 2, this::predicate));
-		
-	}
-	
-	public static boolean scorpionSpawnRules(EntityType<VenusScorpionEntity> moth, LevelAccessor level, MobSpawnType spawntype, BlockPos pos, RandomSource rando) {
-		BlockState state = level.getBlockState(pos.below());
-		return state.is(NorthstarBlockTags.NATURAL_VENUS_BLOCKS.tag);
-	}
-	
-	//this handles client side stuff, and creates parity between server and client
-	@Override
-	public void handleEntityEvent(byte pId) {
-		if (pId == 4) {
-			spitAnim = 10;
-		}
-			super.handleEntityEvent(pId);
-	}
-	
-	@Override
-	public void tick() {		
-		if(spitAnim > 0) {
-			spitAnim--;
-		}
-		
-	      super.tick();
-	}
-	protected void customServerAiStep() {
-	      AttributeInstance attributeinstance = this.getAttribute(Attributes.MOVEMENT_SPEED);
-	      if (this.getTarget() != null) {
-	         if (!attributeinstance.hasModifier(SPEED_MODIFIER_ATTACKING)) {
-	            attributeinstance.addTransientModifier(SPEED_MODIFIER_ATTACKING);
-	         }
+    AnimationFactory factory = GeckoLibUtil.createFactory(this);
+    private static final UUID SPEED_MODIFIER_ATTACKING_UUID = UUID.fromString("49455A49-7EC5-45BA-B886-3B90B23A1718");
+    private static final AttributeModifier SPEED_MODIFIER_ATTACKING = new AttributeModifier(SPEED_MODIFIER_ATTACKING_UUID, "Attacking speed boost", 0.05D, AttributeModifier.Operation.ADDITION);
+    private int spitAnim = 0;
 
-	      } else if (attributeinstance.hasModifier(SPEED_MODIFIER_ATTACKING)) {
-	         attributeinstance.removeModifier(SPEED_MODIFIER_ATTACKING);
-	      }
+    public VenusScorpionEntity(EntityType<? extends VenusScorpionEntity> pEntityType, Level pLevel) {
+        super(pEntityType, pLevel);
+    }
 
-	      super.customServerAiStep();
-	}
+    public static AttributeSupplier.Builder createAttributes() {
+        return Monster.createMonsterAttributes().add(Attributes.FOLLOW_RANGE, 16.0D).add(Attributes.MAX_HEALTH, 30.0D).add(Attributes.ATTACK_DAMAGE, 5).add(Attributes.MOVEMENT_SPEED, 0.2f);
+    }
 
-	@Override
-	protected SoundEvent getAmbientSound() {
-		super.getAmbientSound();
-		return NorthstarSounds.VENUS_SCORPION_IDLE.get();
-	}
-	@Override
-	protected SoundEvent getHurtSound(DamageSource pDamageSource) {
-		return NorthstarSounds.VENUS_SCORPION_HURT.get();
-	}
-	@Override
-	protected SoundEvent getDeathSound() {
-		return NorthstarSounds.VENUS_SCORPION_DEATH.get();
-	}
-	
-	@Override
-	protected void registerGoals() {
-		this.goalSelector.addGoal(8, new LookAtPlayerGoal(this, Player.class, 8.0F));
-		this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
-		this.goalSelector.addGoal(3, new AvoidEntityGoal<>(this, Player.class, 3.0F, 1.0D, 1.0D));
-		this.goalSelector.addGoal(4, new VenusScorpionEntity.ShootAcidGoal(this));
-		this.goalSelector.addGoal(9, new VenusScorpionEntity.StareAtTargetGoal(this));
-		this.goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 1.0D));
-		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
-		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, ZombifiedPiglin.class, true));
-		super.registerGoals();
-	}
-	@Override
-	public boolean doHurtTarget(Entity pEntity) {
-		this.level.broadcastEntityEvent(this, (byte)4);
-		this.playSound(SoundEvents.RAVAGER_ATTACK, 1.0F, 1.0F);
-		return super.doHurtTarget(pEntity);
-	}
+    private <P extends IAnimatable> PlayState predicate(AnimationEvent<P> event) {
+        if (!(event.getLimbSwingAmount() > -0.15F && event.getLimbSwingAmount() < 0.15F) ) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("walk", EDefaultLoopTypes.LOOP));
+        } else if (spitAnim > 0) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("spit", EDefaultLoopTypes.LOOP));
+        } else {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", EDefaultLoopTypes.LOOP));
+        }
+        return PlayState.CONTINUE;
+    }
+
+    @Override
+    public void registerControllers(AnimationData data) {
+        data.addAnimationController(new AnimationController<VenusScorpionEntity>(this, "controller", 2, this::predicate));
+
+    }
+
+    public static boolean scorpionSpawnRules(EntityType<VenusScorpionEntity> moth, LevelAccessor level, MobSpawnType spawntype, BlockPos pos, RandomSource rando) {
+        BlockState state = level.getBlockState(pos.below());
+        return state.is(NorthstarBlockTags.NATURAL_VENUS_BLOCKS.tag);
+    }
+
+    //this handles client side stuff, and creates parity between server and client
+    @Override
+    public void handleEntityEvent(byte pId) {
+        if (pId == 4) {
+            spitAnim = 10;
+        }
+            super.handleEntityEvent(pId);
+    }
+
+    @Override
+    public void tick() {
+        if(spitAnim > 0) {
+            spitAnim--;
+        }
+
+          super.tick();
+    }
+    protected void customServerAiStep() {
+          AttributeInstance attributeinstance = this.getAttribute(Attributes.MOVEMENT_SPEED);
+          if (this.getTarget() != null) {
+             if (!attributeinstance.hasModifier(SPEED_MODIFIER_ATTACKING)) {
+                attributeinstance.addTransientModifier(SPEED_MODIFIER_ATTACKING);
+             }
+
+          } else if (attributeinstance.hasModifier(SPEED_MODIFIER_ATTACKING)) {
+             attributeinstance.removeModifier(SPEED_MODIFIER_ATTACKING);
+          }
+
+          super.customServerAiStep();
+    }
+
+    @Override
+    protected SoundEvent getAmbientSound() {
+        super.getAmbientSound();
+        return NorthstarSounds.VENUS_SCORPION_IDLE.get();
+    }
+    @Override
+    protected SoundEvent getHurtSound(DamageSource pDamageSource) {
+        return NorthstarSounds.VENUS_SCORPION_HURT.get();
+    }
+    @Override
+    protected SoundEvent getDeathSound() {
+        return NorthstarSounds.VENUS_SCORPION_DEATH.get();
+    }
+
+    @Override
+    protected void registerGoals() {
+        this.goalSelector.addGoal(8, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(3, new AvoidEntityGoal<>(this, Player.class, 3.0F, 1.0D, 1.0D));
+        this.goalSelector.addGoal(4, new VenusScorpionEntity.ShootAcidGoal(this));
+        this.goalSelector.addGoal(9, new VenusScorpionEntity.StareAtTargetGoal(this));
+        this.goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, ZombifiedPiglin.class, true));
+        super.registerGoals();
+    }
+    @Override
+    public boolean doHurtTarget(Entity pEntity) {
+        this.level.broadcastEntityEvent(this, (byte)4);
+        this.playSound(SoundEvents.RAVAGER_ATTACK, 1.0F, 1.0F);
+        return super.doHurtTarget(pEntity);
+    }
 
 
-	@Override
-	public AnimationFactory getFactory() {
-		return factory;
-	}
+    @Override
+    public AnimationFactory getFactory() {
+        return factory;
+    }
 
-	@Override
-	public int tickTimer() {
-		return tickCount;
-	}
+    @Override
+    public int tickTimer() {
+        return tickCount;
+    }
 
-	@Override
-	public void performRangedAttack(LivingEntity pTarget, float pVelocity) {
-		
-	}
-	static class StareAtTargetGoal extends Goal {
-	      private final VenusScorpionEntity shooter;
+    @Override
+    public void performRangedAttack(LivingEntity pTarget, float pVelocity) {
 
-	      public StareAtTargetGoal(VenusScorpionEntity pShooter) {
-	         this.shooter = pShooter;
-	         this.setFlags(EnumSet.of(Goal.Flag.LOOK));
-	      }
-	      public boolean canUse() {
-	         return true;
-	      }
+    }
+    static class StareAtTargetGoal extends Goal {
+          private final VenusScorpionEntity shooter;
 
-	      public boolean requiresUpdateEveryTick() {
-	         return true;
-	      }
-	      public void tick() {
-	         if (this.shooter.getTarget() == null) {
-	            Vec3 vec3 = this.shooter.getDeltaMovement();
-	            this.shooter.setYRot(-((float)Mth.atan2(vec3.x, vec3.z)) * (180F / (float)Math.PI));
-	            this.shooter.yBodyRot = this.shooter.getYRot();
-	         } else {
-	            LivingEntity livingentity = this.shooter.getTarget();
-	            if (livingentity.distanceToSqr(this.shooter) < 4096.0D) {
-	               double d1 = livingentity.getX() - this.shooter.getX();
-	               double d2 = livingentity.getZ() - this.shooter.getZ();
-	               this.shooter.setYRot(-((float)Mth.atan2(d1, d2)) * (180F / (float)Math.PI));
-	               this.shooter.yBodyRot = this.shooter.getYRot();
-	            }
-	         }
+          public StareAtTargetGoal(VenusScorpionEntity pShooter) {
+             this.shooter = pShooter;
+             this.setFlags(EnumSet.of(Goal.Flag.LOOK));
+          }
+          public boolean canUse() {
+             return true;
+          }
 
-	      }
-	   }
-	
-	static class ShootAcidGoal extends Goal {
-		private final VenusScorpionEntity shooter;
-		public int chargeTime;
+          public boolean requiresUpdateEveryTick() {
+             return true;
+          }
+          public void tick() {
+             if (this.shooter.getTarget() == null) {
+                Vec3 vec3 = this.shooter.getDeltaMovement();
+                this.shooter.setYRot(-((float)Mth.atan2(vec3.x, vec3.z)) * (180F / (float)Math.PI));
+                this.shooter.yBodyRot = this.shooter.getYRot();
+             } else {
+                LivingEntity livingentity = this.shooter.getTarget();
+                if (livingentity.distanceToSqr(this.shooter) < 4096.0D) {
+                   double d1 = livingentity.getX() - this.shooter.getX();
+                   double d2 = livingentity.getZ() - this.shooter.getZ();
+                   this.shooter.setYRot(-((float)Mth.atan2(d1, d2)) * (180F / (float)Math.PI));
+                   this.shooter.yBodyRot = this.shooter.getYRot();
+                }
+             }
 
-		public ShootAcidGoal(VenusScorpionEntity shooter) {
-			this.shooter = shooter;
-		}
+          }
+       }
 
-		/**
-		 * Returns whether execution should begin. You can also read and cache any state necessary for execution in this
-		 * method as well.
-		 */
-		public boolean canUse() {
-			return this.shooter.getTarget() != null;
-		}
-		
-		/**
-		 * Execute a one shot task or start executing a continuous task
-		 */
-		public void start() {
-			this.chargeTime = 0;
-		}
+    static class ShootAcidGoal extends Goal {
+        private final VenusScorpionEntity shooter;
+        public int chargeTime;
 
-		/**
-		 * Reset the task's internal state. Called when this task is interrupted by another one
-		 */
-		public void stop() {
-		}
+        public ShootAcidGoal(VenusScorpionEntity shooter) {
+            this.shooter = shooter;
+        }
 
-		public boolean requiresUpdateEveryTick() {
-			return true;
-		}
-		
-		public void tick() {
-			LivingEntity livingentity = this.shooter.getTarget();
-			if (livingentity != null && !shooter.getNavigation().isInProgress()) {
-				if (livingentity.distanceToSqr(this.shooter) < 4096.0D && this.shooter.hasLineOfSight(livingentity)) {
-					Level level = this.shooter.level;
-					++this.chargeTime;
-					if (this.chargeTime == 20) {
-						Vec3 vec3 = this.shooter.getViewVector(1.0F);
-						VenusScorpionSpit acidspit = new VenusScorpionSpit(level, this.shooter);
-						double newX = shooter.getTarget().getX() - shooter.getX();
-						double newY = shooter.getTarget().getY(0.3333333333333333D) - acidspit.getY();
-						double newZ = shooter.getTarget().getZ() - shooter.getZ();
-						double newThing = Math.sqrt(newX * newX + newZ * newZ) * (double)0.2F;
-						shooter.spitAnim = 10;
-						level.broadcastEntityEvent(shooter, (byte) 4);
-						acidspit.shoot(newX, newY + newThing, newZ, 1.5F, 10.0F);
-						acidspit.setPos(this.shooter.getX() + vec3.x, this.shooter.getY(0.5D), acidspit.getZ() + vec3.z);
-						level.addFreshEntity(acidspit);
-						this.chargeTime = -40;
-					}
-				} else if (this.chargeTime > 0) {
-					--this.chargeTime;
-				}
-			}
-		}
-	}
+        /**
+         * Returns whether execution should begin. You can also read and cache any state necessary for execution in this
+         * method as well.
+         */
+        public boolean canUse() {
+            return this.shooter.getTarget() != null;
+        }
+
+        /**
+         * Execute a one shot task or start executing a continuous task
+         */
+        public void start() {
+            this.chargeTime = 0;
+        }
+
+        /**
+         * Reset the task's internal state. Called when this task is interrupted by another one
+         */
+        public void stop() {
+        }
+
+        public boolean requiresUpdateEveryTick() {
+            return true;
+        }
+
+        public void tick() {
+            LivingEntity livingentity = this.shooter.getTarget();
+            if (livingentity != null && !shooter.getNavigation().isInProgress()) {
+                if (livingentity.distanceToSqr(this.shooter) < 4096.0D && this.shooter.hasLineOfSight(livingentity)) {
+                    Level level = this.shooter.level;
+                    ++this.chargeTime;
+                    if (this.chargeTime == 20) {
+                        Vec3 vec3 = this.shooter.getViewVector(1.0F);
+                        VenusScorpionSpit acidspit = new VenusScorpionSpit(level, this.shooter);
+                        double newX = shooter.getTarget().getX() - shooter.getX();
+                        double newY = shooter.getTarget().getY(0.3333333333333333D) - acidspit.getY();
+                        double newZ = shooter.getTarget().getZ() - shooter.getZ();
+                        double newThing = Math.sqrt(newX * newX + newZ * newZ) * (double)0.2F;
+                        shooter.spitAnim = 10;
+                        level.broadcastEntityEvent(shooter, (byte) 4);
+                        acidspit.shoot(newX, newY + newThing, newZ, 1.5F, 10.0F);
+                        acidspit.setPos(this.shooter.getX() + vec3.x, this.shooter.getY(0.5D), acidspit.getZ() + vec3.z);
+                        level.addFreshEntity(acidspit);
+                        this.chargeTime = -40;
+                    }
+                } else if (this.chargeTime > 0) {
+                    --this.chargeTime;
+                }
+            }
+        }
+    }
 
 }

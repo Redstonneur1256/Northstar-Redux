@@ -42,12 +42,12 @@ public class BrokenIronSpaceSuitArmorItem extends GeoArmorItem implements IAnima
     public void registerControllers(AnimationData data) {
         data.addAnimationController(new AnimationController<BrokenIronSpaceSuitArmorItem>(this, "controller", 20, this::predicate));
     }
-	@Override
-	public AnimationFactory getFactory() {
-		return this.factory;
-	}
-	
-	public static boolean hasChestplateOn(Player player) {
+    @Override
+    public AnimationFactory getFactory() {
+        return this.factory;
+    }
+
+    public static boolean hasChestplateOn(Player player) {
         ItemStack chestplate = player.getInventory().getArmor(2);
         return !chestplate.isEmpty();
     }
@@ -62,13 +62,13 @@ public class BrokenIronSpaceSuitArmorItem extends GeoArmorItem implements IAnima
         ArmorItem chestplate = ((ArmorItem)player.getInventory().getArmor(2).getItem());
         return chestplate.getMaterial() == material;
     }
-	@Override
-	public boolean canBeDepleted() {
-		return true;
-	}
+    @Override
+    public boolean canBeDepleted() {
+        return true;
+    }
 
-	@Override
-	public boolean isEnchantable(ItemStack p_77616_1_) {
-		return true;
-	}
+    @Override
+    public boolean isEnchantable(ItemStack p_77616_1_) {
+        return true;
+    }
 }

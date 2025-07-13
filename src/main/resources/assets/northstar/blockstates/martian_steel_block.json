@@ -1,5 +1,7 @@
 {
-	"variants":{
-	"":{"model": "northstar:block/martian_steel_block"}
-	}
+  "variants": {
+    "": {
+      "model": "northstar:block/martian_steel_block"
+    }
+  }
 }

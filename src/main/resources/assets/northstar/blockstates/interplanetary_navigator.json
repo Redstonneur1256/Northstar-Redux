@@ -2,7 +2,7 @@
   "variants": {
     "facing=east,half=lower,waterlogged=false": {
       "model": "northstar:block/interplanetary_navigator/interplanetary_navigator_bottom",
-            "y": 90
+      "y": 90
     },
     "facing=north,half=lower,waterlogged=false": {
       "model": "northstar:block/interplanetary_navigator/interplanetary_navigator_bottom"
@@ -17,7 +17,7 @@
     },
     "facing=east,half=upper,waterlogged=false": {
       "model": "northstar:block/interplanetary_navigator/interplanetary_navigator_top",
-            "y": 90
+      "y": 90
     },
     "facing=north,half=upper,waterlogged=false": {
       "model": "northstar:block/interplanetary_navigator/interplanetary_navigator_top"
@@ -32,7 +32,7 @@
     },
     "facing=east,half=lower,waterlogged=true": {
       "model": "northstar:block/interplanetary_navigator/interplanetary_navigator_bottom",
-            "y": 90
+      "y": 90
     },
     "facing=north,half=lower,waterlogged=true": {
       "model": "northstar:block/interplanetary_navigator/interplanetary_navigator_bottom"
@@ -47,7 +47,7 @@
     },
     "facing=east,half=upper,waterlogged=true": {
       "model": "northstar:block/interplanetary_navigator/interplanetary_navigator_top",
-            "y": 90
+      "y": 90
     },
     "facing=north,half=upper,waterlogged=true": {
       "model": "northstar:block/interplanetary_navigator/interplanetary_navigator_top"

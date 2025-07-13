@@ -58,17 +58,17 @@ public class MarsRootsConfig implements FeatureConfiguration {
 
        public MarsRootsConfig(Holder<PlacedFeature> p_204824_, int p_204825_, int p_204826_, TagKey<Block> p_204827_, BlockStateProvider p_204828_, int p_204829_, int p_204830_, int p_204831_, int p_204832_, BlockStateProvider p_204833_, int p_204834_, int p_204835_, BlockPredicate p_204836_) {
           this.treeFeature = p_204824_;
-	      this.requiredVerticalSpaceForTree = p_204825_;
-	      this.rootRadius = p_204826_;
-	      this.rootReplaceable = p_204827_;
-	      this.rootStateProvider = p_204828_;
-	      this.rootPlacementAttempts = p_204829_;
-	      this.rootColumnMaxHeight = p_204830_;
-	      this.hangingRootRadius = p_204831_;
-	      this.hangingRootsVerticalSpan = p_204832_;
-	      this.hangingRootStateProvider = p_204833_;
-	      this.hangingRootPlacementAttempts = p_204834_;
-	      this.allowedVerticalWaterForTree = p_204835_;
-	      this.allowedTreePosition = p_204836_;
-	   }
+          this.requiredVerticalSpaceForTree = p_204825_;
+          this.rootRadius = p_204826_;
+          this.rootReplaceable = p_204827_;
+          this.rootStateProvider = p_204828_;
+          this.rootPlacementAttempts = p_204829_;
+          this.rootColumnMaxHeight = p_204830_;
+          this.hangingRootRadius = p_204831_;
+          this.hangingRootsVerticalSpan = p_204832_;
+          this.hangingRootStateProvider = p_204833_;
+          this.hangingRootPlacementAttempts = p_204834_;
+          this.allowedVerticalWaterForTree = p_204835_;
+          this.allowedTreePosition = p_204836_;
+       }
 }

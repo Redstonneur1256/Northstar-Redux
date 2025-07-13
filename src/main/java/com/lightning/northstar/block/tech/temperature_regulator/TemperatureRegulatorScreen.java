@@ -233,38 +233,38 @@ public class TemperatureRegulatorScreen extends AbstractSimiScreen {
                 envFill = state == 1;
                 envLabel.x = x + 200  - font.width(envLabel.text) / 2;});
         envInput.setState(blockEntity.envFill ? 1 : 0);
-    	envInput.onChanged();
-		offsetlabels.add(envLabel);
-		offsetinputs.add(envInput);
+        envInput.onChanged();
+        offsetlabels.add(envLabel);
+        offsetinputs.add(envInput);
 
-		
-		for(Label labels2 : offsetlabels) {addRenderableWidget(labels2);}
-		for(ScrollInput inputs2 : offsetinputs) {addRenderableWidget(inputs2);}
-		
-		
-		
-		
+
+        for(Label labels2 : offsetlabels) {addRenderableWidget(labels2);}
+        for(ScrollInput inputs2 : offsetinputs) {addRenderableWidget(inputs2);}
+
+
+
+
     }
     
-	@Override
-	public void removed() {
-		TemperatureRegulatorEditPacket packet = getConfigurationPacket();
-		NorthstarPackets.getChannel().sendToServer(packet);
-	}
-	
-	protected TemperatureRegulatorEditPacket getConfigurationPacket() {
-		return new TemperatureRegulatorEditPacket(this.blockEntity.getBlockPos(), offsetX, offsetY, offsetZ, sizeX, sizeY, sizeZ, temp, envFill);
-	}
+    @Override
+    public void removed() {
+        TemperatureRegulatorEditPacket packet = getConfigurationPacket();
+        NorthstarPackets.getChannel().sendToServer(packet);
+    }
 
-	@Override
-	protected void renderWindow(PoseStack ms, int mouseX, int mouseY, float partialTicks) {
-    	RenderSystem.setShader(GameRenderer::getPositionTexShader);
-    	RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-    	RenderSystem.setShaderTexture(0, this.TEMPERATURE_REGULATOR);
-    	int i = (this.width - this.imageWidth) / 2;
-    	int j = (this.height - this.imageHeight) / 2;
-    	this.blit(ms, i, j, 0, 0, this.imageWidth, this.imageHeight);
-	}
+    protected TemperatureRegulatorEditPacket getConfigurationPacket() {
+        return new TemperatureRegulatorEditPacket(this.blockEntity.getBlockPos(), offsetX, offsetY, offsetZ, sizeX, sizeY, sizeZ, temp, envFill);
+    }
+
+    @Override
+    protected void renderWindow(PoseStack ms, int mouseX, int mouseY, float partialTicks) {
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderTexture(0, this.TEMPERATURE_REGULATOR);
+        int i = (this.width - this.imageWidth) / 2;
+        int j = (this.height - this.imageHeight) / 2;
+        this.blit(ms, i, j, 0, 0, this.imageWidth, this.imageHeight);
+    }
     
     
     

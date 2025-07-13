@@ -53,17 +53,17 @@ public class NorthstarItems {
     public static final RegistryObject<Item> MARTIAN_STEEL = ITEMS.register("martian_steel", () -> new Item(new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)));
     public static final RegistryObject<Item> MARTIAN_STEEL_SHEET = ITEMS.register("martian_steel_sheet", () -> new Item(new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)));
     public static final RegistryObject<Item> TUNGSTEN_INGOT = ITEMS.register("tungsten_ingot", () -> new Item(new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)));
-	public static final RegistryObject<Item> TUNGSTEN_SHEET = ITEMS.register("tungsten_sheet", () -> new Item(new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)));
-	
-	public static final RegistryObject<StandingAndWallBlockItem> EXTINGUISHED_TORCH = ITEMS.register("extinguished_torch", () -> new StandingAndWallBlockItem(NorthstarTechBlocks.EXTINGUISHED_TORCH.get(), NorthstarTechBlocks.EXTINGUISHED_TORCH_WALL.get(), new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)));
-	public static final RegistryObject<StandingAndWallBlockItem> GLOWSTONE_TORCH = ITEMS.register("glowstone_torch", () -> new StandingAndWallBlockItem(NorthstarTechBlocks.GLOWSTONE_TORCH.get(), NorthstarTechBlocks.GLOWSTONE_TORCH_WALL.get(), new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)));
+    public static final RegistryObject<Item> TUNGSTEN_SHEET = ITEMS.register("tungsten_sheet", () -> new Item(new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)));
 
-	public static final RegistryObject<Item> DORMANT_MARTIAN_SAPLING = ITEMS.register("dormant_martian_sapling", () -> new Item(new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)));
-	public static final ItemEntry<SequencedAssemblyItem> DORMANT_MARTIAN_SAPLING_SEQUENCED = sequencedIngredient("dormant_martian_sapling_sequenced");
-	
-	public static final RegistryObject<Item> DORMANT_MARTIAN_SEED = ITEMS.register("dormant_martian_seed", () -> new Item(new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)));
-	public static final ItemEntry<SequencedAssemblyItem> DORMANT_MARTIAN_SEED_SEQUENCED = sequencedIngredient("dormant_martian_seed_sequenced");
-	
+    public static final RegistryObject<StandingAndWallBlockItem> EXTINGUISHED_TORCH = ITEMS.register("extinguished_torch", () -> new StandingAndWallBlockItem(NorthstarTechBlocks.EXTINGUISHED_TORCH.get(), NorthstarTechBlocks.EXTINGUISHED_TORCH_WALL.get(), new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)));
+    public static final RegistryObject<StandingAndWallBlockItem> GLOWSTONE_TORCH = ITEMS.register("glowstone_torch", () -> new StandingAndWallBlockItem(NorthstarTechBlocks.GLOWSTONE_TORCH.get(), NorthstarTechBlocks.GLOWSTONE_TORCH_WALL.get(), new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)));
+
+    public static final RegistryObject<Item> DORMANT_MARTIAN_SAPLING = ITEMS.register("dormant_martian_sapling", () -> new Item(new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)));
+    public static final ItemEntry<SequencedAssemblyItem> DORMANT_MARTIAN_SAPLING_SEQUENCED = sequencedIngredient("dormant_martian_sapling_sequenced");
+
+    public static final RegistryObject<Item> DORMANT_MARTIAN_SEED = ITEMS.register("dormant_martian_seed", () -> new Item(new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)));
+    public static final ItemEntry<SequencedAssemblyItem> DORMANT_MARTIAN_SEED_SEQUENCED = sequencedIngredient("dormant_martian_seed_sequenced");
+
     public static final RegistryObject<Item> MARTIAN_SWORD = ITEMS.register("martian_sword",() -> new SwordItem(NorthstarToolTiers.MARTIAN_STEEL, 3, -2.4f,new Item.Properties().stacksTo(1).tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)));
     public static final RegistryObject<Item> MARTIAN_PICKAXE = ITEMS.register("martian_pickaxe",() -> new PickaxeItem(NorthstarToolTiers.MARTIAN_STEEL, 1, -2.8f,new Item.Properties().stacksTo(1).tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)));
     public static final RegistryObject<Item> MARTIAN_SHOVEL = ITEMS.register("martian_shovel",() -> new ShovelItem(NorthstarToolTiers.MARTIAN_STEEL, 1.5f, -3.0f,new Item.Properties().stacksTo(1).tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)));
@@ -135,64 +135,64 @@ public class NorthstarItems {
     public static final RegistryObject<MartianFlowerItem> MARS_SPROUT_FLOWER = ITEMS.register("mars_sprout_flower",() -> new MartianFlowerItem(NorthstarBlocks.MARS_SPROUT.get(), new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)));
     
     //ice cream  :]
-	@SuppressWarnings("deprecation")
-	public static final RegistryObject<Item> VANILLA_ICE_CREAM = ITEMS.register("vanilla_ice_cream", () -> new Item(new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)
-			.food((new FoodProperties.Builder()).nutrition(6).saturationMod(0.7F).build())));
-	@SuppressWarnings("deprecation")
-	public static final RegistryObject<Item> CHOCOLATE_ICE_CREAM = ITEMS.register("chocolate_ice_cream", () -> new Item(new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)
-			.food((new FoodProperties.Builder()).nutrition(7).saturationMod(0.8F).effect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 280, 0, false, false, true), 1.0F).build())));
-	@SuppressWarnings("deprecation")
-	public static final RegistryObject<Item> STRAWBERRY_ICE_CREAM = ITEMS.register("strawberry_ice_cream", () -> new Item(new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)
-			.food((new FoodProperties.Builder()).nutrition(7).saturationMod(0.7F).effect(new MobEffectInstance(MobEffects.REGENERATION, 280, 0, false, false, true), 1.0F).build())));
+    @SuppressWarnings("deprecation")
+    public static final RegistryObject<Item> VANILLA_ICE_CREAM = ITEMS.register("vanilla_ice_cream", () -> new Item(new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)
+            .food((new FoodProperties.Builder()).nutrition(6).saturationMod(0.7F).build())));
+    @SuppressWarnings("deprecation")
+    public static final RegistryObject<Item> CHOCOLATE_ICE_CREAM = ITEMS.register("chocolate_ice_cream", () -> new Item(new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)
+            .food((new FoodProperties.Builder()).nutrition(7).saturationMod(0.8F).effect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 280, 0, false, false, true), 1.0F).build())));
+    @SuppressWarnings("deprecation")
+    public static final RegistryObject<Item> STRAWBERRY_ICE_CREAM = ITEMS.register("strawberry_ice_cream", () -> new Item(new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)
+            .food((new FoodProperties.Builder()).nutrition(7).saturationMod(0.7F).effect(new MobEffectInstance(MobEffects.REGENERATION, 280, 0, false, false, true), 1.0F).build())));
 
-	public static final RegistryObject<Item> FLATTENED_DOUGH = ITEMS.register("flattened_dough", () -> new Item(new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)));
-	
-	public static final RegistryObject<Item> RAW_ICE_CREAM_CONE = ITEMS.register("raw_ice_cream_cone", () -> new Item(new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)));
-	public static final RegistryObject<Item> ICE_CREAM_CONE = ITEMS.register("ice_cream_cone", () -> new Item(new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB).food(Foods.MELON_SLICE)));
+    public static final RegistryObject<Item> FLATTENED_DOUGH = ITEMS.register("flattened_dough", () -> new Item(new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)));
 
-	
-	public static final RegistryObject<Item> MARTIAN_STRAWBERRY = ITEMS.register("martian_strawberry", () -> new SeedItem(NorthstarBlocks.MARTIAN_STRAWBERRY_BUSH.get(), new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB).food(Foods.APPLE)));
-	
-	
-	public static final RegistryObject<Item> ASTRONOMICAL_READING = ITEMS.register("astronomical_reading", () -> new Item(new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)));
-	public static final ItemEntry<StarMapItem> STAR_MAP = REGISTRATE.item("star_map", StarMapItem::new)
-			.properties(p -> p.stacksTo(1))
-			.register();
-	public static final RegistryObject<Item> RETURN_TICKET = ITEMS.register("return_ticket", () -> new Item(new Item.Properties().stacksTo(1)));
+    public static final RegistryObject<Item> RAW_ICE_CREAM_CONE = ITEMS.register("raw_ice_cream_cone", () -> new Item(new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)));
+    public static final RegistryObject<Item> ICE_CREAM_CONE = ITEMS.register("ice_cream_cone", () -> new Item(new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB).food(Foods.MELON_SLICE)));
 
-	public static final RegistryObject<Item> LUNAR_SAPPHIRE_SHARD = ITEMS.register("lunar_sapphire_shard", () -> new Item(new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)));
-	
-	public static final RegistryObject<Item> POLISHED_LUNAR_SAPPHIRE = ITEMS.register("polished_lunar_sapphire", () -> new Item(new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)));
-	public static final RegistryObject<Item> POLISHED_DIAMOND = ITEMS.register("polished_diamond", () -> new Item(new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)));
-	public static final RegistryObject<Item> POLISHED_AMETHYST = ITEMS.register("polished_amethyst", () -> new Item(new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)));
-	
-	public static final RegistryObject<Item> TARGETING_COMPUTER = ITEMS.register("targeting_computer", () -> new Item(new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB).stacksTo(1)));
-	public static final ItemEntry<SequencedAssemblyItem> UNFINISHED_TARGETING_COMPUTER = sequencedIngredient("unfinished_targeting_computer");
-	
-	public static final RegistryObject<Item> CIRCUIT = ITEMS.register("circuit", () -> new Item(new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)));
-	public static final ItemEntry<SequencedAssemblyItem> UNFINISHED_CIRCUIT = sequencedIngredient("unfinished_circuit");
-	
-	public static final RegistryObject<Item> ADVANCED_CIRCUIT = ITEMS.register("advanced_circuit", () -> new Item(new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)));
-	public static final ItemEntry<SequencedAssemblyItem> UNFINISHED_ADVANCED_CIRCUIT = sequencedIngredient("unfinished_advanced_circuit");
-	
-	public static final ItemEntry<SandPaperItem> MOON_SAND_PAPER = REGISTRATE.item("moon_sand_paper", SandPaperItem::new)
-			.tag(AllTags.AllItemTags.SANDPAPER.tag)
-			.properties(p -> p.defaultDurability(512))
-			.register();
+
+    public static final RegistryObject<Item> MARTIAN_STRAWBERRY = ITEMS.register("martian_strawberry", () -> new SeedItem(NorthstarBlocks.MARTIAN_STRAWBERRY_BUSH.get(), new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB).food(Foods.APPLE)));
+
+
+    public static final RegistryObject<Item> ASTRONOMICAL_READING = ITEMS.register("astronomical_reading", () -> new Item(new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)));
+    public static final ItemEntry<StarMapItem> STAR_MAP = REGISTRATE.item("star_map", StarMapItem::new)
+            .properties(p -> p.stacksTo(1))
+            .register();
+    public static final RegistryObject<Item> RETURN_TICKET = ITEMS.register("return_ticket", () -> new Item(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> LUNAR_SAPPHIRE_SHARD = ITEMS.register("lunar_sapphire_shard", () -> new Item(new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)));
+
+    public static final RegistryObject<Item> POLISHED_LUNAR_SAPPHIRE = ITEMS.register("polished_lunar_sapphire", () -> new Item(new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)));
+    public static final RegistryObject<Item> POLISHED_DIAMOND = ITEMS.register("polished_diamond", () -> new Item(new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)));
+    public static final RegistryObject<Item> POLISHED_AMETHYST = ITEMS.register("polished_amethyst", () -> new Item(new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)));
+
+    public static final RegistryObject<Item> TARGETING_COMPUTER = ITEMS.register("targeting_computer", () -> new Item(new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB).stacksTo(1)));
+    public static final ItemEntry<SequencedAssemblyItem> UNFINISHED_TARGETING_COMPUTER = sequencedIngredient("unfinished_targeting_computer");
+
+    public static final RegistryObject<Item> CIRCUIT = ITEMS.register("circuit", () -> new Item(new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)));
+    public static final ItemEntry<SequencedAssemblyItem> UNFINISHED_CIRCUIT = sequencedIngredient("unfinished_circuit");
+
+    public static final RegistryObject<Item> ADVANCED_CIRCUIT = ITEMS.register("advanced_circuit", () -> new Item(new Item.Properties().tab(NorthstarCreativeModeTab.NORTHSTAR_TAB)));
+    public static final ItemEntry<SequencedAssemblyItem> UNFINISHED_ADVANCED_CIRCUIT = sequencedIngredient("unfinished_advanced_circuit");
+
+    public static final ItemEntry<SandPaperItem> MOON_SAND_PAPER = REGISTRATE.item("moon_sand_paper", SandPaperItem::new)
+            .tag(AllTags.AllItemTags.SANDPAPER.tag)
+            .properties(p -> p.defaultDurability(512))
+            .register();
     
-	public static void register(IEventBus eventBus)
-	{ITEMS.register(eventBus);}
+    public static void register(IEventBus eventBus)
+    {ITEMS.register(eventBus);}
     public ItemStack asStack(int count) {
         return new ItemStack(get(), count);
     }
     
-	private static ItemEntry<SequencedAssemblyItem> sequencedIngredient(String name) {
-		return REGISTRATE.item(name, SequencedAssemblyItem::new)
-			.register();
-	}
-	public Holder<Item> get() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	public static void register() {}
+    private static ItemEntry<SequencedAssemblyItem> sequencedIngredient(String name) {
+        return REGISTRATE.item(name, SequencedAssemblyItem::new)
+            .register();
+    }
+    public Holder<Item> get() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public static void register() {}
 }

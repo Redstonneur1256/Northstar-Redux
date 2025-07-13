@@ -3,5 +3,5 @@
   "textures": {
     "cross": "northstar:block/plate_fungus"
   },
-  "render_type":"cutout"
+  "render_type": "cutout"
 }

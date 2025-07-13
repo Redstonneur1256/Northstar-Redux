@@ -1,5 +1,7 @@
 {
-	"variants":{
-	"":{"model": "northstar:block/wilter_sapling"}
-	}
+  "variants": {
+    "": {
+      "model": "northstar:block/wilter_sapling"
+    }
+  }
 }

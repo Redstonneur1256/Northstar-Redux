@@ -342,139 +342,139 @@ public class RocketStationBlockEntity extends SmartBlockEntity implements IDispl
     }
 
     public int fuelReturnCalc() {
-    	String home = NorthstarPlanets.getPlanetName(this.level.dimension());
-		String targ = NorthstarPlanets.getPlanetName(target);
-		
-		int home_x = (int) NorthstarPlanets.getPlanetX(home);
-		int home_y = (int) NorthstarPlanets.getPlanetY(home);
-		
-		int targ_x = (int) NorthstarPlanets.getPlanetX(targ);
-		int targ_y = (int) NorthstarPlanets.getPlanetY(targ);
-		
-		int dif = (int) (Math.pow(home_x - targ_x, 2) + Math.pow(home_y - targ_y, 2));
-		dif = Mth.roundToward(dif, 100) / 20;
-		int cost = dif + NorthstarPlanets.getPlanetAtmosphereCost(target) + 1000;
-		
-		if (dif != 0) {
-	//		System.out.println(dif);
-		}
-		return cost * 8;
-	}
-	
-	public int engineCalc() {
-		int homeAtmos = NorthstarPlanets.getPlanetAtmosphereCost(level.dimension()) / 100;
-		int targetAtmos = NorthstarPlanets.getPlanetAtmosphereCost(target) / 100;
-		
-		double grav = NorthstarPlanets.getGravMultiplier(target);
-		double homeGrav = NorthstarPlanets.getGravMultiplier(level.dimension());
-		if(grav < homeGrav) {
-			grav = homeGrav;
-		}
-		double constant = NorthstarPlanets.getEngineConstant(target);
-		double homeConstant = NorthstarPlanets.getEngineConstant(level.dimension());
-		if(constant < homeConstant) {
-			constant = homeConstant;
-		}
-		
-		return (int) (Mth.clamp(((targetAtmos + homeAtmos) * grav), 6, 64)  + constant);
-	}
-	
-	// this is extremely buggy for some reason, this NEEDS to be fixed before release
-	//not sure what's making it so buggy but it saves really inconsistently despite sharing the code of the oxygen filler which works fine
-	@Override
-	protected void write(CompoundTag compound, boolean clientPacket) {
-		super.write(compound, clientPacket);
-		compound.put("item", container.getItem(0).serializeNBT());
-	}
-	@Override
-	public void writeSafe(CompoundTag compound) {
-		super.writeSafe(compound);
-		compound.put("item", container.getItem(0).serializeNBT());
-	}
-	@Override
-	protected void read(CompoundTag compound, boolean clientPacket) {
-		super.read(compound, clientPacket);
-	    if (compound.contains("item", 10)) {
-		container.setItem(0, ItemStack.of(compound.getCompound("item")));}
-	}
-	
-	private void exception(AssemblyException exception, int carriage) {
-		failedCarriageIndex = carriage;
-		lastException = exception;
-		sendData();
-	}
-	
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
-		return super.getCapability(cap, side);
-	}
-	
-	
-	@SuppressWarnings("unused")
-	private boolean shouldAssemble() {
-		BlockState blockState = getBlockState();
-		if (!(blockState.getBlock() instanceof RocketStationBlock))
-			return false;
-		return true;
-	}
-	@Override
-	public AssemblyException getLastAssemblyException() {
-		return lastException;
-	}
-	
-	public Direction getAssemblyDirection() {
-		if (assemblyDirection != null)
-			return assemblyDirection;
-		if (!edgePoint.hasValidTrack())
-			return null;
-		BlockPos targetPosition = edgePoint.getGlobalPosition();
-		BlockState trackState = edgePoint.getTrackBlockState();
-		ITrackBlock track = edgePoint.getTrack();
-		AxisDirection axisDirection = edgePoint.getTargetDirection();
-		Vec3 axis = track.getTrackAxes(level, targetPosition, trackState)
-			.get(0)
-			.normalize()
-			.scale(axisDirection.getStep());
-		return assemblyDirection = Direction.getNearest(axis.x, axis.y, axis.z);
-	}
+        String home = NorthstarPlanets.getPlanetName(this.level.dimension());
+        String targ = NorthstarPlanets.getPlanetName(target);
 
-	@Override
-	public boolean isValid() {
-		return !isRemoved();
-	}
+        int home_x = (int) NorthstarPlanets.getPlanetX(home);
+        int home_y = (int) NorthstarPlanets.getPlanetY(home);
 
-	@Override
-	public void attach(ControlledContraptionEntity contraption) {
-		this.movedContraption = contraption;
-		if (!level.isClientSide) {
-			this.running = true;
-			sendData();
-		}
-	}
+        int targ_x = (int) NorthstarPlanets.getPlanetX(targ);
+        int targ_y = (int) NorthstarPlanets.getPlanetY(targ);
 
-	@Override
-	public boolean isAttachedTo(AbstractContraptionEntity contraption) {
-		return movedContraption == contraption;
-	}
+        int dif = (int) (Math.pow(home_x - targ_x, 2) + Math.pow(home_y - targ_y, 2));
+        dif = Mth.roundToward(dif, 100) / 20;
+        int cost = dif + NorthstarPlanets.getPlanetAtmosphereCost(target) + 1000;
 
-	@Override
-	public BlockPos getBlockPosition() {
-		return worldPosition;
-	}
-	@Override
-	public void onStall() {
-		if (!level.isClientSide) {
-			forceMove = true;
-			sendData();
-		}
-	}
-	@Override
-	public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
-		return new RocketStationMenu(pContainerId, pPlayerInventory, this);
-	}
-	@Override
-	public Component getDisplayName() {
-		return Component.literal("Rocket Station");
-	}
+        if (dif != 0) {
+    //        System.out.println(dif);
+        }
+        return cost * 8;
+    }
+
+    public int engineCalc() {
+        int homeAtmos = NorthstarPlanets.getPlanetAtmosphereCost(level.dimension()) / 100;
+        int targetAtmos = NorthstarPlanets.getPlanetAtmosphereCost(target) / 100;
+
+        double grav = NorthstarPlanets.getGravMultiplier(target);
+        double homeGrav = NorthstarPlanets.getGravMultiplier(level.dimension());
+        if(grav < homeGrav) {
+            grav = homeGrav;
+        }
+        double constant = NorthstarPlanets.getEngineConstant(target);
+        double homeConstant = NorthstarPlanets.getEngineConstant(level.dimension());
+        if(constant < homeConstant) {
+            constant = homeConstant;
+        }
+
+        return (int) (Mth.clamp(((targetAtmos + homeAtmos) * grav), 6, 64)  + constant);
+    }
+
+    // this is extremely buggy for some reason, this NEEDS to be fixed before release
+    //not sure what's making it so buggy but it saves really inconsistently despite sharing the code of the oxygen filler which works fine
+    @Override
+    protected void write(CompoundTag compound, boolean clientPacket) {
+        super.write(compound, clientPacket);
+        compound.put("item", container.getItem(0).serializeNBT());
+    }
+    @Override
+    public void writeSafe(CompoundTag compound) {
+        super.writeSafe(compound);
+        compound.put("item", container.getItem(0).serializeNBT());
+    }
+    @Override
+    protected void read(CompoundTag compound, boolean clientPacket) {
+        super.read(compound, clientPacket);
+        if (compound.contains("item", 10)) {
+        container.setItem(0, ItemStack.of(compound.getCompound("item")));}
+    }
+
+    private void exception(AssemblyException exception, int carriage) {
+        failedCarriageIndex = carriage;
+        lastException = exception;
+        sendData();
+    }
+
+    @Override
+    public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
+        return super.getCapability(cap, side);
+    }
+
+
+    @SuppressWarnings("unused")
+    private boolean shouldAssemble() {
+        BlockState blockState = getBlockState();
+        if (!(blockState.getBlock() instanceof RocketStationBlock))
+            return false;
+        return true;
+    }
+    @Override
+    public AssemblyException getLastAssemblyException() {
+        return lastException;
+    }
+
+    public Direction getAssemblyDirection() {
+        if (assemblyDirection != null)
+            return assemblyDirection;
+        if (!edgePoint.hasValidTrack())
+            return null;
+        BlockPos targetPosition = edgePoint.getGlobalPosition();
+        BlockState trackState = edgePoint.getTrackBlockState();
+        ITrackBlock track = edgePoint.getTrack();
+        AxisDirection axisDirection = edgePoint.getTargetDirection();
+        Vec3 axis = track.getTrackAxes(level, targetPosition, trackState)
+            .get(0)
+            .normalize()
+            .scale(axisDirection.getStep());
+        return assemblyDirection = Direction.getNearest(axis.x, axis.y, axis.z);
+    }
+
+    @Override
+    public boolean isValid() {
+        return !isRemoved();
+    }
+
+    @Override
+    public void attach(ControlledContraptionEntity contraption) {
+        this.movedContraption = contraption;
+        if (!level.isClientSide) {
+            this.running = true;
+            sendData();
+        }
+    }
+
+    @Override
+    public boolean isAttachedTo(AbstractContraptionEntity contraption) {
+        return movedContraption == contraption;
+    }
+
+    @Override
+    public BlockPos getBlockPosition() {
+        return worldPosition;
+    }
+    @Override
+    public void onStall() {
+        if (!level.isClientSide) {
+            forceMove = true;
+            sendData();
+        }
+    }
+    @Override
+    public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
+        return new RocketStationMenu(pContainerId, pPlayerInventory, this);
+    }
+    @Override
+    public Component getDisplayName() {
+        return Component.literal("Rocket Station");
+    }
 
 }

@@ -1,7 +1,7 @@
 {
   "type": "minecraft:smelting",
   "ingredient": {
-    	"tag": "northstar:zinc_ores"
+    "tag": "northstar:zinc_ores"
   },
   "result": "create:zinc_ingot",
   "experience": 0.7,

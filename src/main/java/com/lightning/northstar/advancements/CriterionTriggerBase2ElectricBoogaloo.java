@@ -25,66 +25,66 @@ import net.minecraft.server.level.ServerPlayer;
 @MethodsReturnNonnullByDefault
 public abstract class CriterionTriggerBase2ElectricBoogaloo<T extends CriterionTriggerBase2ElectricBoogaloo.Instance> implements CriterionTrigger<T> {
 
-	public CriterionTriggerBase2ElectricBoogaloo(String id) {
-		this.id = Northstar.asResource(id);
-	}
+    public CriterionTriggerBase2ElectricBoogaloo(String id) {
+        this.id = Northstar.asResource(id);
+    }
 
-	private final ResourceLocation id;
-	protected final Map<PlayerAdvancements, Set<Listener<T>>> listeners = Maps.newHashMap();
+    private final ResourceLocation id;
+    protected final Map<PlayerAdvancements, Set<Listener<T>>> listeners = Maps.newHashMap();
 
-	@Override
-	public void addPlayerListener(PlayerAdvancements playerAdvancementsIn, Listener<T> listener) {
-		Set<Listener<T>> playerListeners = this.listeners.computeIfAbsent(playerAdvancementsIn, k -> new HashSet<>());
+    @Override
+    public void addPlayerListener(PlayerAdvancements playerAdvancementsIn, Listener<T> listener) {
+        Set<Listener<T>> playerListeners = this.listeners.computeIfAbsent(playerAdvancementsIn, k -> new HashSet<>());
 
-		playerListeners.add(listener);
-	}
+        playerListeners.add(listener);
+    }
 
-	@Override
-	public void removePlayerListener(PlayerAdvancements playerAdvancementsIn, Listener<T> listener) {
-		Set<Listener<T>> playerListeners = this.listeners.get(playerAdvancementsIn);
-		if (playerListeners != null) {
-			playerListeners.remove(listener);
-			if (playerListeners.isEmpty()) {
-				this.listeners.remove(playerAdvancementsIn);
-			}
-		}
-	}
+    @Override
+    public void removePlayerListener(PlayerAdvancements playerAdvancementsIn, Listener<T> listener) {
+        Set<Listener<T>> playerListeners = this.listeners.get(playerAdvancementsIn);
+        if (playerListeners != null) {
+            playerListeners.remove(listener);
+            if (playerListeners.isEmpty()) {
+                this.listeners.remove(playerAdvancementsIn);
+            }
+        }
+    }
 
-	@Override
-	public void removePlayerListeners(PlayerAdvancements playerAdvancementsIn) {
-		this.listeners.remove(playerAdvancementsIn);
-	}
+    @Override
+    public void removePlayerListeners(PlayerAdvancements playerAdvancementsIn) {
+        this.listeners.remove(playerAdvancementsIn);
+    }
 
-	@Override
-	public ResourceLocation getId() {
-		return id;
-	}
+    @Override
+    public ResourceLocation getId() {
+        return id;
+    }
 
-	protected void trigger(ServerPlayer player, @Nullable List<Supplier<Object>> suppliers) {
-		PlayerAdvancements playerAdvancements = player.getAdvancements();
-		Set<Listener<T>> playerListeners = this.listeners.get(playerAdvancements);
-		if (playerListeners != null) {
-			List<Listener<T>> list = new LinkedList<>();
+    protected void trigger(ServerPlayer player, @Nullable List<Supplier<Object>> suppliers) {
+        PlayerAdvancements playerAdvancements = player.getAdvancements();
+        Set<Listener<T>> playerListeners = this.listeners.get(playerAdvancements);
+        if (playerListeners != null) {
+            List<Listener<T>> list = new LinkedList<>();
 
-			for (Listener<T> listener : playerListeners) {
-				if (listener.getTriggerInstance()
-					.test(suppliers)) {
-					list.add(listener);
-				}
-			}
+            for (Listener<T> listener : playerListeners) {
+                if (listener.getTriggerInstance()
+                    .test(suppliers)) {
+                    list.add(listener);
+                }
+            }
 
-			list.forEach(listener -> listener.run(playerAdvancements));
+            list.forEach(listener -> listener.run(playerAdvancements));
 
-		}
-	}
+        }
+    }
 
-	public abstract static class Instance extends AbstractCriterionTriggerInstance {
+    public abstract static class Instance extends AbstractCriterionTriggerInstance {
 
-		public Instance(ResourceLocation idIn, EntityPredicate.Composite p_i231464_2_) {
-			super(idIn, p_i231464_2_);
-		}
+        public Instance(ResourceLocation idIn, EntityPredicate.Composite p_i231464_2_) {
+            super(idIn, p_i231464_2_);
+        }
 
-		protected abstract boolean test(@Nullable List<Supplier<Object>> suppliers);
-	}
+        protected abstract boolean test(@Nullable List<Supplier<Object>> suppliers);
+    }
 
 }

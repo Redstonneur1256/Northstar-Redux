@@ -1,5 +1,7 @@
 {
-	"variants":{
-	"":{"model": "northstar:block/vent_block"}
-	}
+  "variants": {
+    "": {
+      "model": "northstar:block/vent_block"
+    }
+  }
 }

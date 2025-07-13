@@ -74,25 +74,25 @@ public class MultifaceGrowthCustomFeature extends Feature<MultifaceGrowthConfigu
 //                        BlockState blockstate1 = NorthstarBlocks.MARS_ROOTS.get().defaultBlockState();
 
                         if (blockstate1 == null) {
-							continue;
-						}
-						dirs.add(direction);
-//						blockstate1.randomTick(level.getLevel(), blockpos1, rando);
-	    		         
-					}
-				}
-				BlockState blockstate = config.placeBlock.defaultBlockState();
-				for(Direction direction2 : dirs) {
-					blockstate = blockstate.setValue(MultifaceBlock.getFaceProperty(direction2), true);
-				}
-				if(level.getBlockState(blockpos1).isAir())
-				{level.setBlock(blockpos1, blockstate, 8);}
-				level.getChunk(blockpos1).markPosForPostprocessing(blockpos1);
-	      			
-			}
-		}
+                            continue;
+                        }
+                        dirs.add(direction);
+//                        blockstate1.randomTick(level.getLevel(), blockpos1, rando);
+
+                    }
+                }
+                BlockState blockstate = config.placeBlock.defaultBlockState();
+                for(Direction direction2 : dirs) {
+                    blockstate = blockstate.setValue(MultifaceBlock.getFaceProperty(direction2), true);
+                }
+                if(level.getBlockState(blockpos1).isAir())
+                {level.setBlock(blockpos1, blockstate, 8);}
+                level.getChunk(blockpos1).markPosForPostprocessing(blockpos1);
+
+            }
+        }
 
 
-		return true;
-	}
+        return true;
+    }
 }

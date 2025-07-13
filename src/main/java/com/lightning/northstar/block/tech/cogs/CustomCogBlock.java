@@ -15,14 +15,14 @@ public class CustomCogBlock extends CogWheelBlock {
 
     @Override
     public BlockEntityType<? extends KineticBlockEntity> getBlockEntityType() {
-		return NorthstarBlockEntityTypes.BRACKETED_KINETIC.get();
-	}
-	
-	public static CustomCogBlock small(Properties properties) {
-		return new CustomCogBlock(false, properties);
-	}
-	
-	public static CustomCogBlock large(Properties properties) {
-		return new CustomCogBlock(true, properties);
-	}
+        return NorthstarBlockEntityTypes.BRACKETED_KINETIC.get();
+    }
+
+    public static CustomCogBlock small(Properties properties) {
+        return new CustomCogBlock(false, properties);
+    }
+
+    public static CustomCogBlock large(Properties properties) {
+        return new CustomCogBlock(true, properties);
+    }
 }

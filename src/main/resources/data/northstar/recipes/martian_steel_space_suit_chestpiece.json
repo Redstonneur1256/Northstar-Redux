@@ -7,7 +7,7 @@
   ],
   "key": {
     "S": {
-	  "item": "northstar:martian_steel_sheet"	
+      "item": "northstar:martian_steel_sheet"
     },
     "W": {
       "tag": "minecraft:wool"
@@ -16,7 +16,7 @@
       "item": "create:copper_backtank"
     },
     "P": {
-	  "item": "northstar:martian_steel_chestplate"	
+      "item": "northstar:martian_steel_chestplate"
     }
   },
   "result": {

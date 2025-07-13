@@ -1,5 +1,7 @@
 {
-	"variants":{
-	"":{"model": "northstar:block/volcanic_ash"}
-	}
+  "variants": {
+    "": {
+      "model": "northstar:block/volcanic_ash"
+    }
+  }
 }

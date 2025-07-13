@@ -36,87 +36,87 @@ import net.minecraftforge.network.NetworkHooks;
 
 public class TelescopeBlock extends BaseEntityBlock implements IBE<TelescopeBlockEntity>{
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
-	   protected static final VoxelShape SHAPE = Block.box(4.0D, 0.0D, 4.0D, 12.0D, 24.0D, 12.0D);
+       protected static final VoxelShape SHAPE = Block.box(4.0D, 0.0D, 4.0D, 12.0D, 24.0D, 12.0D);
 
-	public TelescopeBlock(Properties properties) {
-		super(properties);
-	    this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
-	}
-	
+    public TelescopeBlock(Properties properties) {
+        super(properties);
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
+    }
+
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING);}
     
-	public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-		return SHAPE;}
-	
+    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+        return SHAPE;}
+
     @Override
     public RenderShape getRenderShape(BlockState p_49232_) {
         return RenderShape.MODEL;
     }
-	
-	public BlockState getStateForPlacement(BlockPlaceContext pContext) {
-		Direction player_looking = pContext.getNearestLookingDirection();
-		if (player_looking == Direction.UP || player_looking == Direction.DOWN) 
-		{return this.defaultBlockState().setValue(FACING, Direction.NORTH);}else 
-		{return this.defaultBlockState().setValue(FACING, pContext.getNearestLookingDirection());}
-	}
 
-	
-	 @SuppressWarnings("resource")
-	@Override
-	  public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos,Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-	        if (!pLevel.isClientSide()) {
-	            BlockEntity entity = pLevel.getBlockEntity(pPos);
-	            if(entity instanceof TelescopeBlockEntity && canSeeSky(pPos.above(), pLevel, pState.getValue(FACING)) && 
-	            		(pLevel.isNight() || NorthstarPlanets.canSeeSkyAtDay(pLevel.dimension())) && (!pLevel.isRaining() || !NorthstarPlanets.hasWeather(pLevel.dimension()) )
-	            		&& NorthstarPlanets.planetHasSky(pLevel.dimension())) {
-	                NetworkHooks.openScreen(((ServerPlayer)pPlayer), (TelescopeBlockEntity)entity, pPos);
+    public BlockState getStateForPlacement(BlockPlaceContext pContext) {
+        Direction player_looking = pContext.getNearestLookingDirection();
+        if (player_looking == Direction.UP || player_looking == Direction.DOWN)
+        {return this.defaultBlockState().setValue(FACING, Direction.NORTH);}else
+        {return this.defaultBlockState().setValue(FACING, pContext.getNearestLookingDirection());}
+    }
 
-	            } else {
-	            	pPlayer.displayClientMessage(
-	        				Lang.translateDirect("northstar.gui.telescope_fail"), true);
-	            }
-	        }
 
-	        return InteractionResult.sidedSuccess(pLevel.isClientSide());
-	    }
-	 
-		public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-			return new TelescopeBlockEntity(pPos, pState);
-		}
-		
-	private boolean canSeeSky(BlockPos pos, Level level, Direction dir) {
-		boolean flag = false;
-		int clearSpots = 0;
-		for(int x = 0; x <= 3; x++) {
-			Vector3f vec = dir.step();
-			vec.mul(x);
-			if(level.canSeeSky(pos.offset(new Vec3i(vec.x(), vec.y(), vec.z())))) {
-				clearSpots++;
-				if(clearSpots >= 2)
-				{flag = true;}
-			}
-		}
-		
-		
-		return flag;
-	}
-		
-	@Nullable
-	@Override
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-		return createTickerHelper(type, NorthstarBlockEntityTypes.TELESCOPE.get(),
-		TelescopeBlockEntity::tick);
-	}
+     @SuppressWarnings("resource")
+    @Override
+      public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos,Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+            if (!pLevel.isClientSide()) {
+                BlockEntity entity = pLevel.getBlockEntity(pPos);
+                if(entity instanceof TelescopeBlockEntity && canSeeSky(pPos.above(), pLevel, pState.getValue(FACING)) &&
+                        (pLevel.isNight() || NorthstarPlanets.canSeeSkyAtDay(pLevel.dimension())) && (!pLevel.isRaining() || !NorthstarPlanets.hasWeather(pLevel.dimension()) )
+                        && NorthstarPlanets.planetHasSky(pLevel.dimension())) {
+                    NetworkHooks.openScreen(((ServerPlayer)pPlayer), (TelescopeBlockEntity)entity, pPos);
 
-	@Override
-	public Class<TelescopeBlockEntity> getBlockEntityClass() {
-		return TelescopeBlockEntity.class;
-	}
+                } else {
+                    pPlayer.displayClientMessage(
+                            Lang.translateDirect("northstar.gui.telescope_fail"), true);
+                }
+            }
 
-	@Override
-	public BlockEntityType<? extends TelescopeBlockEntity> getBlockEntityType() {
-		return NorthstarBlockEntityTypes.TELESCOPE.get();
-	}
+            return InteractionResult.sidedSuccess(pLevel.isClientSide());
+        }
+
+        public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
+            return new TelescopeBlockEntity(pPos, pState);
+        }
+
+    private boolean canSeeSky(BlockPos pos, Level level, Direction dir) {
+        boolean flag = false;
+        int clearSpots = 0;
+        for(int x = 0; x <= 3; x++) {
+            Vector3f vec = dir.step();
+            vec.mul(x);
+            if(level.canSeeSky(pos.offset(new Vec3i(vec.x(), vec.y(), vec.z())))) {
+                clearSpots++;
+                if(clearSpots >= 2)
+                {flag = true;}
+            }
+        }
+
+
+        return flag;
+    }
+
+    @Nullable
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+        return createTickerHelper(type, NorthstarBlockEntityTypes.TELESCOPE.get(),
+        TelescopeBlockEntity::tick);
+    }
+
+    @Override
+    public Class<TelescopeBlockEntity> getBlockEntityClass() {
+        return TelescopeBlockEntity.class;
+    }
+
+    @Override
+    public BlockEntityType<? extends TelescopeBlockEntity> getBlockEntityType() {
+        return NorthstarBlockEntityTypes.TELESCOPE.get();
+    }
 
 }

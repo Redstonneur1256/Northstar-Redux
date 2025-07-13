@@ -5,13 +5,13 @@ import com.simibubi.create.content.kinetics.base.KineticBlockEntityInstance;
 
 public class SolarPanelInstance<T extends SolarPanelBlockEntity> extends KineticBlockEntityInstance<SolarPanelBlockEntity> {
 
-	public SolarPanelInstance(MaterialManager materialManager, SolarPanelBlockEntity blockEntity) {
-		super(materialManager, blockEntity);
-	}
+    public SolarPanelInstance(MaterialManager materialManager, SolarPanelBlockEntity blockEntity) {
+        super(materialManager, blockEntity);
+    }
 
-	@Override
-	protected void remove() {
-		
-	}
+    @Override
+    protected void remove() {
+
+    }
 
 }

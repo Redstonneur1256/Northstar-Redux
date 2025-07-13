@@ -1,5 +1,7 @@
 {
-	"variants":{
-	"":{"model": "northstar:block/monolithite"}
-	}
+  "variants": {
+    "": {
+      "model": "northstar:block/monolithite"
+    }
+  }
 }

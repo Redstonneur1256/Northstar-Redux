@@ -54,8 +54,8 @@ public class MercuryShelvesFeature extends Feature<NoneFeatureConfiguration> {
                         }
                     }
                 }
-    		}
-		}
-		return flag;
-	}
+            }
+        }
+        return flag;
+    }
 }

@@ -1,5 +1,7 @@
 {
-	"variants":{
-	"":{"model": "northstar:block/venus_diamond_ore"}
-	}
+  "variants": {
+    "": {
+      "model": "northstar:block/venus_diamond_ore"
+    }
+  }
 }

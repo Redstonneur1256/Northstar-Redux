@@ -1,5 +1,7 @@
 {
-	"variants":{
-	"":{"model": "northstar:block/mars_stone_bricks"}
-	}
+  "variants": {
+    "": {
+      "model": "northstar:block/mars_stone_bricks"
+    }
+  }
 }

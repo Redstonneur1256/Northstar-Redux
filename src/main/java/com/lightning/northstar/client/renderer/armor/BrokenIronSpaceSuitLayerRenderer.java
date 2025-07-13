@@ -72,13 +72,13 @@ public class BrokenIronSpaceSuitLayerRenderer <T extends LivingEntity, M extends
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public static void registerOn(EntityRenderer<?> entityRenderer) {
-    	if (!(entityRenderer instanceof LivingEntityRenderer))
-			return;
-		LivingEntityRenderer<?, ?> livingRenderer = (LivingEntityRenderer<?, ?>) entityRenderer;
-		if (!(livingRenderer.getModel() instanceof HumanoidModel))
-			return;
-		BrokenIronSpaceSuitLayerRenderer<?, ?> layer = new BrokenIronSpaceSuitLayerRenderer<>(livingRenderer);
-		livingRenderer.addLayer((BrokenIronSpaceSuitLayerRenderer) layer);
-	}
+        if (!(entityRenderer instanceof LivingEntityRenderer))
+            return;
+        LivingEntityRenderer<?, ?> livingRenderer = (LivingEntityRenderer<?, ?>) entityRenderer;
+        if (!(livingRenderer.getModel() instanceof HumanoidModel))
+            return;
+        BrokenIronSpaceSuitLayerRenderer<?, ?> layer = new BrokenIronSpaceSuitLayerRenderer<>(livingRenderer);
+        livingRenderer.addLayer((BrokenIronSpaceSuitLayerRenderer) layer);
+    }
 
 }

@@ -1,5 +1,7 @@
 {
-	"variants":{
-	"":{"model": "northstar:block/mars_copper_ore"}
-	}
+  "variants": {
+    "": {
+      "model": "northstar:block/mars_copper_ore"
+    }
+  }
 }

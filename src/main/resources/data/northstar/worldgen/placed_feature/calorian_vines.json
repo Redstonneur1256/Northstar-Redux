@@ -1,6 +1,6 @@
 {
   "feature": "northstar:calorian_vines",
- "placement": [
+  "placement": [
     {
       "type": "minecraft:rarity_filter",
       "chance": 8

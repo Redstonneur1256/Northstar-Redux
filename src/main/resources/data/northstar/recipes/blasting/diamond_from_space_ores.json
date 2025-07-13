@@ -2,7 +2,7 @@
   "type": "minecraft:blasting",
   "group": "diamond",
   "ingredient": {
-    	"tag": "northstar:diamond_ores"
+    "tag": "northstar:diamond_ores"
   },
   "result": "minecraft:diamond",
   "experience": 1,

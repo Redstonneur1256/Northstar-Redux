@@ -1,5 +1,7 @@
 {
-	"variants":{
-	"":{"model": "northstar:block/wilter_leaves"}
-	}
+  "variants": {
+    "": {
+      "model": "northstar:block/wilter_leaves"
+    }
+  }
 }
