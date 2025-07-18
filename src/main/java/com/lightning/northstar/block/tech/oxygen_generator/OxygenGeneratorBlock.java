@@ -1,11 +1,8 @@
 package com.lightning.northstar.block.tech.oxygen_generator;
 
-import java.util.HashSet;
-
-import com.lightning.northstar.block.entity.NorthstarBlockEntityTypes;
+import com.lightning.northstar.content.NorthstarBlockEntityTypes;
 import com.simibubi.create.content.kinetics.base.HorizontalKineticBlock;
 import com.simibubi.create.foundation.block.IBE;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
@@ -17,6 +14,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathComputationType;
+
+import java.util.HashSet;
 
 public class OxygenGeneratorBlock extends HorizontalKineticBlock implements IBE<OxygenGeneratorBlockEntity> {
 

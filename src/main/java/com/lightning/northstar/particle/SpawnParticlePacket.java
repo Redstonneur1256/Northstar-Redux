@@ -5,7 +5,6 @@ import com.simibubi.create.content.logistics.depot.EjectorBlock;
 import com.simibubi.create.content.logistics.depot.EjectorBlockEntity;
 import com.simibubi.create.content.logistics.depot.EjectorTargetHandler;
 import com.simibubi.create.foundation.networking.SimplePacketBase;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.FriendlyByteBuf;
@@ -51,7 +50,7 @@ public class SpawnParticlePacket extends SimplePacketBase {
             ServerPlayer player = context.getSender();
             if (player == null)
                 return;
-            Level world = player.level;
+            Level world = player.level();
             if (world == null || !world.isLoaded(pos))
                 return;
             BlockEntity blockEntity = world.getBlockEntity(pos);

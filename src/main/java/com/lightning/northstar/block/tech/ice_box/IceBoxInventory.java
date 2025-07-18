@@ -1,7 +1,6 @@
 package com.lightning.northstar.block.tech.ice_box;
 
 import com.simibubi.create.foundation.item.SmartInventory;
-
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.ItemHandlerHelper;
 

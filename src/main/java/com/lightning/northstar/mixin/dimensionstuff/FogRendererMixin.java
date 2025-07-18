@@ -1,21 +1,14 @@
 package com.lightning.northstar.mixin.dimensionstuff;
 
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
 import com.lightning.northstar.world.dimension.NorthstarDimensions;
 import com.mojang.blaze3d.shaders.FogShape;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.math.Vector3f;
-
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.client.renderer.FogRenderer.FogMode;
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.CubicSampler;
 import net.minecraft.util.Mth;
@@ -28,6 +21,12 @@ import net.minecraft.world.level.material.FogType;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.joml.Vector3f;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @OnlyIn(Dist.CLIENT)
 @Mixin(FogRenderer.class)
@@ -193,10 +192,10 @@ public abstract class FogRendererMixin {
             fogGreen += (f8 - fogGreen) * f4;
             fogBlue += (f10 - fogBlue) * f4;
 
-            
+
             Vec3 fogColor = Minecraft.getInstance().level.getSkyColor(Minecraft.getInstance().gameRenderer.getMainCamera().getPosition(), 3);
             Biome biome = level.getBiome(pCamera.getBlockPosition()).value();
-              if (!(rain_det <= 0.0F) &&  biome.getPrecipitation() == Biome.Precipitation.NONE)
+              if (!(rain_det <= 0.0F) &&  biome.getPrecipitationAt(BlockPos.containing(Minecraft.getInstance().gameRenderer.getMainCamera().getPosition())) == Biome.Precipitation.NONE)
               {fogRed = (float) fogColor.x() * 1.35f;
             fogGreen = (float) fogColor.y() * 1.15f;
             fogBlue = (float) fogColor.z() * 1f;}

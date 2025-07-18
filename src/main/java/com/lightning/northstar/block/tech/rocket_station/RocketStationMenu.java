@@ -1,11 +1,8 @@
 package com.lightning.northstar.block.tech.rocket_station;
 
-import javax.annotation.Nullable;
-
-import com.lightning.northstar.NorthstarMenuTypes;
-import com.lightning.northstar.item.NorthstarItems;
+import com.lightning.northstar.content.NorthstarItems;
+import com.lightning.northstar.content.NorthstarMenuTypes;
 import com.lightning.northstar.world.dimension.NorthstarPlanets;
-
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.Mth;
@@ -22,6 +19,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
+import javax.annotation.Nullable;
+
 public class RocketStationMenu extends AbstractContainerMenu  {
     public RocketStationBlockEntity blockEntity;
     public Container container;
@@ -36,7 +35,7 @@ public class RocketStationMenu extends AbstractContainerMenu  {
 
 
     public RocketStationMenu(int id, Inventory inv, FriendlyByteBuf thingo) {
-        this(NorthstarMenuTypes.ROCKET_STATION.get(), id, inv.player.level.getBlockEntity(thingo.readBlockPos()), inv, ContainerLevelAccess.NULL, new SimpleContainer(1));
+        this(NorthstarMenuTypes.ROCKET_STATION.get(), id, inv.player.level().getBlockEntity(thingo.readBlockPos()), inv, ContainerLevelAccess.NULL, new SimpleContainer(1));
     }
 
     public RocketStationMenu(int id, Inventory inv, RocketStationBlockEntity entity) {

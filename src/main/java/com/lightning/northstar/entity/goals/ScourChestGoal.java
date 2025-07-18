@@ -1,7 +1,6 @@
 package com.lightning.northstar.entity.goals;
 
 import com.lightning.northstar.entity.MercuryRoachEntity;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 import net.minecraft.util.Mth;
@@ -41,7 +40,7 @@ public class ScourChestGoal extends MoveToBlockGoal {
         */
        @Override
        public boolean canUse() {
-          if (!net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.disruptor.level, this.disruptor)) {
+          if (!net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.disruptor.level(), this.disruptor)) {
              return false;
           } else if (disruptor.stealTimer > 0) {
               return false;
@@ -58,7 +57,7 @@ public class ScourChestGoal extends MoveToBlockGoal {
        }
 
        private boolean tryFindBlock() {
-          return this.blockPos != null && this.isValidTarget(this.mob.level, this.blockPos) ? true : this.findNearestBlock();
+          return this.blockPos != null && this.isValidTarget(this.mob.level(), this.blockPos) ? true : this.findNearestBlock();
        }
 
        /**
@@ -91,7 +90,7 @@ public class ScourChestGoal extends MoveToBlockGoal {
        @Override
        public void tick() {
           super.tick();
-          Level level = this.disruptor.level;
+          Level level = this.disruptor.level();
           BlockState state = level.getBlockState(pos);
 
           if(searchTime > 0 && this.isReachedTarget()) {

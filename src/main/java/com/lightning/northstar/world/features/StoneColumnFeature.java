@@ -1,21 +1,14 @@
 package com.lightning.northstar.world.features;
 
-import java.util.Optional;
-
-import javax.annotation.Nullable;
-
 import com.lightning.northstar.world.features.configuration.StoneColumnConfiguration;
 import com.mojang.serialization.Codec;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.FloatProvider;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Column;
@@ -24,6 +17,9 @@ import net.minecraft.world.level.levelgen.feature.DripstoneUtils;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.phys.Vec3;
+
+import javax.annotation.Nullable;
+import java.util.Optional;
 
 public class StoneColumnFeature extends Feature<StoneColumnConfiguration> {
        public StoneColumnFeature(Codec<StoneColumnConfiguration> pCodec) {
@@ -219,7 +215,7 @@ public class StoneColumnFeature extends Feature<StoneColumnConfiguration> {
                  } else {
                     int i = this.originY - pPos.getY();
                     Vec3 vec3 = this.windSpeed.scale((double)i);
-                    return pPos.offset(vec3.x, 0.0D, vec3.z);
+                    return pPos.offset((int)vec3.x, 0, (int)vec3.z);
                  }
               }
            }

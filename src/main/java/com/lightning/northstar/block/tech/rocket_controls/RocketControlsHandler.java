@@ -1,19 +1,10 @@
 package com.lightning.northstar.block.tech.rocket_controls;
 
-import java.lang.ref.WeakReference;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Vector;
-
-import org.jetbrains.annotations.Nullable;
-import org.lwjgl.glfw.GLFW;
-
-import com.lightning.northstar.NorthstarPackets;
+import com.lightning.northstar.content.NorthstarPackets;
 import com.lightning.northstar.contraptions.RocketContraptionEntity;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.simibubi.create.foundation.utility.ControlsUtil;
-import com.simibubi.create.foundation.utility.Lang;
-
+import com.simibubi.create.foundation.utility.CreateLang;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -23,6 +14,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.LevelAccessor;
+import org.jetbrains.annotations.Nullable;
+import org.lwjgl.glfw.GLFW;
+
+import java.lang.ref.WeakReference;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Vector;
 
 public class RocketControlsHandler {
 
@@ -49,60 +47,60 @@ public class RocketControlsHandler {
         controlsPos = controllerLocalPos;
         displaytime = 0;
         Minecraft.getInstance().player.displayClientMessage(
-            Lang.translateDirect("contraption.controls.start_controlling", entity.getContraptionName()), true);
+                CreateLang.translateDirect("contraption.controls.start_controlling", entity.getContraptionName()), true);
 
     }
 
     @SuppressWarnings("resource")
     public static void stopControlling() {
         ControlsUtil.getControls()
-            .forEach(kb -> kb.setDown(ControlsUtil.isActuallyPressed(kb)));
+                .forEach(kb -> kb.setDown(ControlsUtil.isActuallyPressed(kb)));
         RocketContraptionEntity contrapEntity = entityRef.get();
 
         if (!currentlyPressed.isEmpty() && contrapEntity != null)
             NorthstarPackets.getChannel().sendToServer(new RocketControlsInputPacket(currentlyPressed, false,
-                contrapEntity.getId(), controlsPos, true));
+                    contrapEntity.getId(), controlsPos, true));
 
         packetCooldown = 0;
         entityRef = new WeakReference<>(null);
         controlsPos = null;
         currentlyPressed.clear();
 
-        Minecraft.getInstance().player.displayClientMessage(Lang.translateDirect("contraption.controls.stop_controlling"),
-            true);
+        Minecraft.getInstance().player.displayClientMessage(CreateLang.translateDirect("contraption.controls.stop_controlling"),
+                true);
     }
 
     @SuppressWarnings("resource")
     public static void tick() {
         RocketContraptionEntity entity = entityRef.get();
         LocalPlayer player = Minecraft.getInstance().player;
-        if(displaytime < 61)
-        displaytime++;
-        if(displaytime == 60 && player != null && entity != null && launchtime == -20 && !entity.blasting && !entity.landing && entity.launchtime == 0) {
-            if(!entity.getControllingPlayer().isEmpty()) {
-                if(entity.getControllingPlayer().get() == player.getUUID())
-                    {player.displayClientMessage(
-                            Lang.translateDirect("contraption.controls.rocket_tut").withStyle(ChatFormatting.AQUA), true);}
+        if (displaytime < 61)
+            displaytime++;
+        if (displaytime == 60 && player != null && entity != null && launchtime == -20 && !entity.blasting && !entity.landing && entity.launchtime == 0) {
+            if (!entity.getControllingPlayer().isEmpty()) {
+                if (entity.getControllingPlayer().get() == player.getUUID()) {
+                    player.displayClientMessage(
+                            CreateLang.translateDirect("contraption.controls.rocket_tut").withStyle(ChatFormatting.AQUA), true);
+                }
             }
         }
-        if(launchtime % 20 == 0 && player != null && entity != null && launchtime != -20) {
-            player.displayClientMessage(
-            Component.literal(String.valueOf(launchtime / 20)).withStyle(ChatFormatting.AQUA), true);
-            player.level.playSound(player, player.blockPosition(), SoundEvents.NOTE_BLOCK_PLING, SoundSource.BLOCKS, 10, launchtime / 20 == 0 ? 10 : 1);
+        if (launchtime % 20 == 0 && player != null && entity != null && launchtime != -20) {
+            player.displayClientMessage(Component.literal(String.valueOf(launchtime / 20)).withStyle(ChatFormatting.AQUA), true);
+            player.level().playSound(player, player.blockPosition(), SoundEvents.NOTE_BLOCK_PLING.get(), SoundSource.BLOCKS, 10, launchtime / 20 == 0 ? 10 : 1);
         }
 
-        if(player != null && entity != null) {
-            if(entity.landing && entity.getY() < entity.level.getMaxBuildHeight() + 500)
-            {if(!entity.getControllingPlayer().isEmpty()) {
-                if(entity.getControllingPlayer().get() == player.getUUID())
-                    {player.displayClientMessage(
-                    Lang.translateDirect("contraption.controls.landing_warning").withStyle(ChatFormatting.RED), true);}
+        if (player != null && entity != null) {
+            if (entity.landing && entity.getY() < entity.level().getMaxBuildHeight() + 500) {
+                if (!entity.getControllingPlayer().isEmpty()) {
+                    if (entity.getControllingPlayer().get() == player.getUUID()) {
+                        player.displayClientMessage(CreateLang.translateDirect("contraption.controls.landing_warning").withStyle(ChatFormatting.RED), true);
+                    }
                 }
             }
         }
 
-        if(launchtime > -20)
-        launchtime--;
+        if (launchtime > -20)
+            launchtime--;
 
         if (entity == null)
             return;
@@ -110,12 +108,12 @@ public class RocketControlsHandler {
             packetCooldown--;
 
         if (entity.isRemoved() || InputConstants.isKeyDown(Minecraft.getInstance()
-            .getWindow()
-            .getWindow(), GLFW.GLFW_KEY_ESCAPE)) {
+                .getWindow()
+                .getWindow(), GLFW.GLFW_KEY_ESCAPE)) {
             BlockPos pos = controlsPos;
             stopControlling();
             NorthstarPackets.getChannel()
-                .sendToServer(new RocketControlsInputPacket(currentlyPressed, false, entity.getId(), pos, true));
+                    .sendToServer(new RocketControlsInputPacket(currentlyPressed, false, entity.getId(), pos, true));
             return;
         }
 
@@ -128,18 +126,16 @@ public class RocketControlsHandler {
         entity.clientControl(controlsPos, pressedKeys, player);
 
 
-
         Collection<Integer> newKeys = new HashSet<>(pressedKeys);
         Collection<Integer> releasedKeys = currentlyPressed;
         newKeys.removeAll(releasedKeys);
         releasedKeys.removeAll(pressedKeys);
 
 
-
         // Released Keys
         if (!releasedKeys.isEmpty()) {
             NorthstarPackets.getChannel()
-                .sendToServer(new RocketControlsInputPacket(releasedKeys, false, entity.getId(), controlsPos, false));
+                    .sendToServer(new RocketControlsInputPacket(releasedKeys, false, entity.getId(), controlsPos, false));
 //            AllSoundEvents.CONTROLLER_CLICK.playAt(player.level, player.blockPosition(), 1f, .5f, true);
         }
 
@@ -155,14 +151,14 @@ public class RocketControlsHandler {
 //            if (!pressedKeys.isEmpty()) {
             NorthstarPackets.getChannel()
                     .sendToServer(new RocketControlsInputPacket(pressedKeys, true, entity.getId(), controlsPos, false));
-                packetCooldown = PACKET_RATE;
+            packetCooldown = PACKET_RATE;
 //            }
         }
-        if(!currentlyPressed.isEmpty()) {
-            if(currentlyPressed.contains(4) && launchtime == -20 && !entity.landing && !entity.blasting) {
+        if (!currentlyPressed.isEmpty()) {
+            if (currentlyPressed.contains(4) && launchtime == -20 && !entity.landing && !entity.blasting) {
                 launchtime = 200;
             }
-            if(currentlyPressed.contains(5)) {
+            if (currentlyPressed.contains(5)) {
                 stopControlling();
             }
         }

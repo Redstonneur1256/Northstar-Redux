@@ -1,10 +1,7 @@
 package com.lightning.northstar.block;
 
-import javax.annotation.Nullable;
-
 import com.lightning.northstar.particle.GlowstoneParticleData;
 import com.lightning.northstar.world.OxygenStuff;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -25,6 +22,8 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+
+import javax.annotation.Nullable;
 
 public class GlowstoneTorchBlock extends Block implements SimpleWaterloggedBlock{
     protected static final int AABB_STANDING_OFFSET = 2;

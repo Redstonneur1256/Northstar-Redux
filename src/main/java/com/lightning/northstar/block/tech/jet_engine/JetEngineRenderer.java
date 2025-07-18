@@ -1,22 +1,19 @@
 package com.lightning.northstar.block.tech.jet_engine;
 
-import javax.annotation.Nullable;
-
-import com.jozufozu.flywheel.core.virtual.VirtualRenderWorld;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.simibubi.create.AllPartialModels;
 import com.simibubi.create.AllSpriteShifts;
 import com.simibubi.create.content.contraptions.behaviour.MovementContext;
 import com.simibubi.create.content.contraptions.render.ContraptionMatrices;
-import com.simibubi.create.foundation.block.render.SpriteShiftEntry;
 import com.simibubi.create.foundation.blockEntity.renderer.SafeBlockEntityRenderer;
-import com.simibubi.create.foundation.render.CachedBufferer;
-import com.simibubi.create.foundation.render.SuperByteBuffer;
-import com.simibubi.create.foundation.utility.AngleHelper;
-import com.simibubi.create.foundation.utility.AnimationTickHolder;
-import com.simibubi.create.foundation.utility.animation.LerpedFloat;
-
+import com.simibubi.create.foundation.virtualWorld.VirtualRenderWorld;
+import net.createmod.catnip.animation.AnimationTickHolder;
+import net.createmod.catnip.animation.LerpedFloat;
+import net.createmod.catnip.math.AngleHelper;
+import net.createmod.catnip.render.CachedBuffers;
+import net.createmod.catnip.render.SpriteShiftEntry;
+import net.createmod.catnip.render.SuperByteBuffer;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -24,6 +21,8 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+
+import javax.annotation.Nullable;
 
 public class JetEngineRenderer extends SafeBlockEntityRenderer<JetEngineBlockEntity>  {
     
@@ -34,7 +33,7 @@ public class JetEngineRenderer extends SafeBlockEntityRenderer<JetEngineBlockEnt
             int light, int overlay) {}
 
     public static void renderInContraption(MovementContext context, VirtualRenderWorld renderWorld,
-            ContraptionMatrices matrices, MultiBufferSource bufferSource, LerpedFloat headAngle, boolean conductor) {
+                                           ContraptionMatrices matrices, MultiBufferSource bufferSource, LerpedFloat headAngle, boolean conductor) {
             BlockState state = context.state;
             Boolean doJetTrail = state.getValue(JetEngineBlock.BOTTOM);
             if (!doJetTrail)
@@ -75,7 +74,7 @@ public class JetEngineRenderer extends SafeBlockEntityRenderer<JetEngineBlockEnt
             uScroll = uScroll - Math.floor(uScroll);
             uScroll = uScroll * spriteWidth / 2;
 
-        SuperByteBuffer flameBuffer = CachedBufferer.partial(AllPartialModels.BLAZE_BURNER_FLAME, blockState);
+        SuperByteBuffer flameBuffer = CachedBuffers.partial(AllPartialModels.BLAZE_BURNER_FLAME, blockState);
         if (modelTransform != null)
             flameBuffer.transform(modelTransform);
         flameBuffer.shiftUVScrolling(spriteShift, (float) uScroll, (float) vScroll);
@@ -85,7 +84,7 @@ public class JetEngineRenderer extends SafeBlockEntityRenderer<JetEngineBlockEnt
     }
 
     private static void draw(SuperByteBuffer buffer, float horizontalAngle, PoseStack ms, VertexConsumer vc) {
-        buffer.rotateCentered(Direction.UP, horizontalAngle)
+        buffer.rotate(Direction.Axis.Y, horizontalAngle)
             .light(LightTexture.FULL_BRIGHT)
             .renderInto(ms, vc);
     }

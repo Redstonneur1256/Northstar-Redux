@@ -1,9 +1,9 @@
 package com.lightning.northstar.advancements;
 
+import net.minecraft.advancements.CriteriaTriggers;
+
 import java.util.LinkedList;
 import java.util.List;
-
-import net.minecraft.advancements.CriteriaTriggers;
 
 public class NorthstarTriggers {
 

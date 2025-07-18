@@ -1,55 +1,52 @@
 package com.lightning.northstar.compat.jei.animations;
 
-import com.lightning.northstar.block.NorthstarTechBlocks;
 import com.lightning.northstar.block.tech.NorthstarPartialModels;
+import com.lightning.northstar.content.NorthstarTechBlocks;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.compat.jei.category.animations.AnimatedKinetics;
-import com.simibubi.create.foundation.utility.AnimationTickHolder;
-
-import net.minecraft.core.Direction.Axis;
+import net.createmod.catnip.animation.AnimationTickHolder;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.Direction;
 
 public class AnimatedEngraver extends AnimatedKinetics {
 
-
-    public AnimatedEngraver() {
-    }
-
     @Override
-    public void draw(PoseStack matrixStack, int xOffset, int yOffset) {
-        matrixStack.pushPose();
-        matrixStack.translate(xOffset, yOffset - 16, 200);
-        matrixStack.mulPose(Vector3f.XP.rotationDegrees(-15.5f));
-        matrixStack.mulPose(Vector3f.YP.rotationDegrees(22.5f));
+    public void draw(GuiGraphics graphics, int xOffset, int yOffset) {
+        PoseStack pose = graphics.pose();
+
+        pose.pushPose();
+        pose.translate(xOffset, yOffset - 16, 200);
+        pose.mulPose(Axis.XP.rotationDegrees(-15.5f));
+        pose.mulPose(Axis.YP.rotationDegrees(22.5f));
         int scale = 24;
 
-        blockElement(shaft(Axis.Z))
+        blockElement(shaft(Direction.Axis.Z))
                 .rotateBlock(0, 0, getCurrentAngle())
                 .scale(scale)
-                .render(matrixStack);
+                .render(graphics);
         blockElement(NorthstarTechBlocks.CIRCUIT_ENGRAVER.getDefaultState())
                 .scale(scale)
-                .render(matrixStack);
+                .render(graphics);
         blockElement(NorthstarPartialModels.CIRCUIT_ENGRAVER_HEAD)
                 .rotateBlock(0, getAnimatedHeadOffset(), 0)
                 .scale(scale)
-                .render(matrixStack);
+                .render(graphics);
         blockElement(NorthstarPartialModels.CIRCUIT_ENGRAVER_LASER)
                 .rotateBlock(0, getAnimatedHeadOffset(), 0)
                 .scale(scale)
-                .render(matrixStack);
+                .render(graphics);
         blockElement(AllBlocks.DEPOT.getDefaultState())
                 .atLocal(0, 1.65, 0)
                 .scale(scale)
-                .render(matrixStack);
+                .render(graphics);
 
-        matrixStack.popPose();
+        pose.popPose();
     }
 
     private float getAnimatedHeadOffset() {
         return (AnimationTickHolder.getRenderTime() - offset * 8) % 90 * 4;
-
     }
 
 }

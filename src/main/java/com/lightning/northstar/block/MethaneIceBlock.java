@@ -1,12 +1,9 @@
 package com.lightning.northstar.block;
 
-import javax.annotation.Nullable;
-
-import com.lightning.northstar.NorthstarTags;
-import com.lightning.northstar.fluids.NorthstarFluids;
+import com.lightning.northstar.content.NorthstarFluids;
+import com.lightning.northstar.content.NorthstarTags;
 import com.lightning.northstar.particle.ColdAirParticleData;
 import com.lightning.northstar.world.TemperatureStuff;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -24,7 +21,8 @@ import net.minecraft.world.level.block.HalfTransparentBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.PushReaction;
+
+import javax.annotation.Nullable;
 
 public class MethaneIceBlock extends HalfTransparentBlock {
     public MethaneIceBlock(BlockBehaviour.Properties pProperties) {

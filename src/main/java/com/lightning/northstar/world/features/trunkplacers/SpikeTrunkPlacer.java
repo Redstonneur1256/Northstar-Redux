@@ -1,19 +1,14 @@
 package com.lightning.northstar.world.features.trunkplacers;
 
-import java.util.List;
-import java.util.function.BiConsumer;
-import java.util.function.Function;
-
 import com.google.common.collect.Lists;
-import com.lightning.northstar.block.NorthstarBlocks;
+import com.lightning.northstar.content.NorthstarBlocks;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderSet;
-import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryCodecs;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.level.LevelSimulatedReader;
@@ -25,11 +20,15 @@ import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
 
+import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
+
 public class SpikeTrunkPlacer extends TrunkPlacer {
        public static final Codec<SpikeTrunkPlacer> CODEC = RecordCodecBuilder.create((p_226236_) -> {
               return trunkPlacerParts(p_226236_).and(p_226236_.group(IntProvider.POSITIVE_CODEC.fieldOf("extra_branch_steps").forGetter((p_226242_) -> {
                  return p_226242_.extraBranchSteps;
-              }), RegistryCodecs.homogeneousList(Registry.BLOCK_REGISTRY).fieldOf("can_grow_through").forGetter((p_226234_) -> {
+              }), RegistryCodecs.homogeneousList(Registries.BLOCK).fieldOf("can_grow_through").forGetter((p_226234_) -> {
                  return p_226234_.canGrowThrough;
               }))).apply(p_226236_, SpikeTrunkPlacer::new);
            });

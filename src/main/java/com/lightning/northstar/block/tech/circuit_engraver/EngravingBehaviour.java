@@ -1,17 +1,13 @@
 package com.lightning.northstar.block.tech.circuit_engraver;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.lightning.northstar.sound.NorthstarSounds;
+import com.lightning.northstar.content.NorthstarSounds;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.content.kinetics.belt.behaviour.BeltProcessingBehaviour;
 import com.simibubi.create.content.kinetics.belt.behaviour.TransportedItemStackHandlerBehaviour;
 import com.simibubi.create.content.kinetics.belt.transport.TransportedItemStack;
 import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
-import com.simibubi.create.foundation.utility.NBTHelper;
-
+import net.createmod.catnip.nbt.NBTHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
@@ -24,6 +20,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.phys.AABB;
 
+import java.util.ArrayList;
+import java.util.List;
+
+// TODO: Change behaviour to match create behaviour. (stopping items on a belt even when unpowered)
 public class EngravingBehaviour extends BeltProcessingBehaviour {
 
     public static final int CYCLE = 5280;
@@ -41,27 +41,27 @@ public class EngravingBehaviour extends BeltProcessingBehaviour {
     int entityScanCooldown;
 
     public interface EngravingBehaviourSpecifics {
-        public boolean tryProcessInBasin(boolean simulate);
+        boolean tryProcessInBasin(boolean simulate);
 
-        public boolean tryProcessOnBelt(TransportedItemStack input, List<ItemStack> outputList, boolean simulate);
+        boolean tryProcessOnBelt(TransportedItemStack input, List<ItemStack> outputList, boolean simulate);
 
-        public boolean tryProcessInWorld(ItemEntity itemEntity, boolean simulate);
+        boolean tryProcessInWorld(ItemEntity itemEntity, boolean simulate);
 
-        public boolean canProcessInBulk();
+        boolean canProcessInBulk();
 
-        public void onPressingCompleted();
+        void onPressingCompleted();
 
-        public int getParticleAmount();
+        int getParticleAmount();
 
-        public float getKineticSpeed();
+        float getKineticSpeed();
     }
 
 
     public <T extends SmartBlockEntity & EngravingBehaviourSpecifics> EngravingBehaviour(T be) {
         super(be);
-        this.specifics = (EngravingBehaviourSpecifics) be;
-        mode = Mode.WORLD;
-        entityScanCooldown = ENTITY_SCAN;
+        this.specifics = be;
+        this.mode = Mode.WORLD;
+        this.entityScanCooldown = ENTITY_SCAN;
         whenItemEnters((s, i) -> BeltEngravingCallback.onItemReceived(s, i, this));
         whileItemHeld((s, i) -> BeltEngravingCallback.whenItemHeld(s, i, this));
     }
@@ -76,7 +76,7 @@ public class EngravingBehaviour extends BeltProcessingBehaviour {
 
         if (clientPacket) {
             NBTHelper.iterateCompoundList(compound.getList("ParticleItems", Tag.TAG_COMPOUND),
-                c -> particleItems.add(ItemStack.of(c)));
+                    c -> particleItems.add(ItemStack.of(c)));
         }
     }
 
@@ -114,25 +114,28 @@ public class EngravingBehaviour extends BeltProcessingBehaviour {
         Level level = getWorld();
         BlockPos worldPosition = getPos();
 
+        if (specifics.getKineticSpeed() == 0) {
+            running = false;
+            return;
+        }
+
         if (!running || level == null) {
             if (level != null && !level.isClientSide) {
 
-                if (specifics.getKineticSpeed() == 0)
-                    return;
                 if (entityScanCooldown > 0)
                     entityScanCooldown--;
                 if (entityScanCooldown <= 0) {
                     entityScanCooldown = ENTITY_SCAN;
 
                     if (BlockEntityBehaviour.get(level, worldPosition.below(2),
-                        TransportedItemStackHandlerBehaviour.TYPE) != null)
+                            TransportedItemStackHandlerBehaviour.TYPE) != null)
                         return;
                     if (AllBlocks.BASIN.has(level.getBlockState(worldPosition.below(2))))
                         return;
 
                     for (ItemEntity itemEntity : level.getEntitiesOfClass(ItemEntity.class,
-                        new AABB(worldPosition.below()).deflate(.125f))) {
-                        if (!itemEntity.isAlive() || !itemEntity.isOnGround())
+                            new AABB(worldPosition.below()).deflate(.125f))) {
+                        if (!itemEntity.isAlive() || !itemEntity.onGround())
                             continue;
                         if (!specifics.tryProcessInWorld(itemEntity, true))
                             continue;
@@ -154,14 +157,11 @@ public class EngravingBehaviour extends BeltProcessingBehaviour {
             if (inWorld())
                 applyInWorld();
 
-            if (level.getBlockState(worldPosition.below(2))
-                .getSoundType() == SoundType.WOOL)
-                level.playLocalSound(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(),
-                        NorthstarSounds.LASER_BURN.get(), SoundSource.BLOCKS, 0.5f, 0.75f + (Math.abs(specifics.getKineticSpeed())), false);
-            else
-                level.playLocalSound(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(),
-                        NorthstarSounds.LASER_BURN.get(), SoundSource.BLOCKS, 0.5f, 0.75f + (Math.abs(specifics.getKineticSpeed())), false);
-
+            if (level.getBlockState(worldPosition.below(2)).getSoundType() == SoundType.WOOL) {
+                level.playLocalSound(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), NorthstarSounds.LASER_BURN.get(), SoundSource.BLOCKS, 0.5f, 0.75f + (Math.abs(specifics.getKineticSpeed())), false);
+            } else {
+                level.playLocalSound(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), NorthstarSounds.LASER_BURN.get(), SoundSource.BLOCKS, 0.5f, 0.75f + (Math.abs(specifics.getKineticSpeed())), false);
+            }
             if (!level.isClientSide)
                 blockEntity.sendData();
         }
@@ -199,7 +199,7 @@ public class EngravingBehaviour extends BeltProcessingBehaviour {
         for (Entity entity : level.getEntities(null, bb)) {
             if (!(entity instanceof ItemEntity itemEntity))
                 continue;
-            if (!entity.isAlive() || !entity.isOnGround())
+            if (!entity.isAlive() || !entity.onGround())
                 continue;
 
             entityScanCooldown = 0;
@@ -220,7 +220,7 @@ public class EngravingBehaviour extends BeltProcessingBehaviour {
     public enum Mode {
         WORLD(1), BELT(19f / 16f), BASIN(22f / 16f);
 
-        public float headOffset;
+        public final float headOffset;
 
         Mode(float headOffset) {
             this.headOffset = headOffset;

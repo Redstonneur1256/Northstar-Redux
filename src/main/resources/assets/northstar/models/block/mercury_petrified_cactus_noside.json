@@ -1,6 +1,7 @@
 {
   "credit": "Made with Blockbench",
   "ambientocclusion": false,
+  "render_type": "minecraft:cutout",
   "textures": {
     "1": "northstar:block/mercury_petrified_cactus_thorns",
     "particle": "northstar:block/mercury_petrified_cactus",

@@ -6,6 +6,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
 @OnlyIn(Dist.CLIENT)
 public class RocketAirSound extends AbstractTickableSoundInstance {
 
@@ -27,13 +28,14 @@ public class RocketAirSound extends AbstractTickableSoundInstance {
         this.x = parent.getX();
         this.y = parent.getY();
         this.z = parent.getZ();
-        if(parent.isRemoved())
-            stop();
+
+        if (parent.isRemoved()) stop();
     }
 
     public void setPitch(float pitch) {
         this.pitch = pitch;
     }
+
     public void setVolume(float vol) {
         this.volume = vol;
     }

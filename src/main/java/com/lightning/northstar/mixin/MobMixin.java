@@ -1,26 +1,23 @@
 package com.lightning.northstar.mixin;
 
+import com.lightning.northstar.item.NorthstarEnchantments;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import com.lightning.northstar.item.NorthstarEnchantments;
-
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
-
 @Mixin(Mob.class)
 public class MobMixin {
 
-    @Inject(method = "doHurtTarget", at = @At("HEAD"), cancellable = true)
-    private void doHurtTarget(Entity pEntity, CallbackInfoReturnable<Boolean> info) {
-        int i = EnchantmentHelper.getEnchantmentLevel(NorthstarEnchantments.FROSTBITE.get(), (Mob)(Object) this);
+    @Inject(method = "doHurtTarget", at = @At("HEAD"))
+    private void doHurtTarget(Entity entity, CallbackInfoReturnable<Boolean> info) {
+        int i = EnchantmentHelper.getEnchantmentLevel(NorthstarEnchantments.FROSTBITE.get(), (Mob) (Object) this);
         if (i > 0) {
-            pEntity.setTicksFrozen((i * 80) + 150);
+            entity.setTicksFrozen((i * 80) + 150);
         }
-
     }
 
 }

@@ -1,7 +1,6 @@
 package com.lightning.northstar.world.features;
 
 import com.mojang.serialization.Codec;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
@@ -74,11 +73,11 @@ public class WormNestFeature extends Feature<StructureFeatureConfig>  {
 
     protected BlockPos scan(Direction dir, BlockPos pos, WorldGenLevel level, int scanDist) {
         BlockPos.MutableBlockPos mutable = pos.mutable();
-        if(level.getBlockState(pos).getMaterial().isReplaceable() && !level.getBlockState(pos.below()).getMaterial().isReplaceable())
+        if(level.getBlockState(pos).canBeReplaced() && !level.getBlockState(pos.below()).canBeReplaced())
         {return pos;}
         for(int i = 0; i < scanDist; i++) {
             mutable.move(Direction.UP);
-            if(level.getBlockState(mutable).getMaterial().isReplaceable() && !level.getBlockState(mutable.below()).getMaterial().isReplaceable()) {
+            if(level.getBlockState(mutable).canBeReplaced() && !level.getBlockState(mutable.below()).canBeReplaced()) {
                 BlockPos newblockpos = new BlockPos(mutable.getX(),mutable.getY(),mutable.getZ());
                 return newblockpos;
             }
@@ -86,7 +85,7 @@ public class WormNestFeature extends Feature<StructureFeatureConfig>  {
         mutable = pos.mutable();
         for(int i = 0; i < scanDist; i++) {
             mutable.move(Direction.DOWN);
-            if(!level.getBlockState(mutable).getMaterial().isReplaceable() && level.getBlockState(mutable.above()).getMaterial().isReplaceable()) {
+            if(!level.getBlockState(mutable).canBeReplaced() && level.getBlockState(mutable.above()).canBeReplaced()) {
                 BlockPos newblockpos = new BlockPos(mutable.getX(),mutable.getY(),mutable.getZ());
                 return newblockpos;
             }

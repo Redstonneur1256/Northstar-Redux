@@ -1,19 +1,14 @@
 package com.lightning.northstar.world.features.trunkplacers;
 
-import java.util.List;
-import java.util.function.BiConsumer;
-import java.util.function.Function;
-
 import com.google.common.collect.Lists;
-import com.lightning.northstar.block.NorthstarBlocks;
+import com.lightning.northstar.content.NorthstarBlocks;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderSet;
-import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryCodecs;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -22,11 +17,16 @@ import net.minecraft.world.level.LevelSimulatedReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
+
+import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 //
 
@@ -38,7 +38,7 @@ public class TestSaplingTrunkPlacer extends TrunkPlacer {
                  return p_226240_.placeBranchPerLogProbability;
               }), IntProvider.NON_NEGATIVE_CODEC.fieldOf("extra_branch_length").forGetter((p_226238_) -> {
                  return p_226238_.extraBranchLength;
-              }), RegistryCodecs.homogeneousList(Registry.BLOCK_REGISTRY).fieldOf("can_grow_through").forGetter((p_226234_) -> {
+              }), RegistryCodecs.homogeneousList(Registries.BLOCK).fieldOf("can_grow_through").forGetter((p_226234_) -> {
                  return p_226234_.canGrowThrough;
               }), IntProvider.NON_NEGATIVE_CODEC.fieldOf("extra_branch_length").forGetter((p_226238_) -> {
                      return p_226238_.spinFactor;
@@ -97,32 +97,32 @@ public class TestSaplingTrunkPlacer extends TrunkPlacer {
                    int Xpos = mutable.getX();
                    int Zpos = mutable.getZ();
                    boolean moveFlag = false;
-                   if(pLevel.isStateAtPosition(mutable.below(), block -> {return block.isSolidRender((BlockGetter) pLevel, mutable.below());}) && pLevel.isStateAtPosition(mutable, block -> {return block.getMaterial().isReplaceable();})) {
+                   if(pLevel.isStateAtPosition(mutable.below(), block -> {return block.isSolidRender((BlockGetter) pLevel, mutable.below());}) && pLevel.isStateAtPosition(mutable, block -> {return block.canBeReplaced();})) {
                        yPos = mutable.getY();
                        moveFlag = true;
                        this.placeLog(pLevel, pBlockSetter, pRandom, mutable.set(Xpos, yPos, Zpos), treeconfiguration, dir);
-                   }else if(pLevel.isStateAtPosition(mutable.below(), block -> {return block.getMaterial().isReplaceable();})) {
+                   }else if(pLevel.isStateAtPosition(mutable.below(), BlockBehaviour.BlockStateBase::canBeReplaced)) {
                        this.placeLog(pLevel, pBlockSetter, pRandom, new BlockPos(mutable.set(Xpos, yPos, Zpos)), treeconfiguration, Direction.DOWN);
                        mutable.move(Direction.DOWN);
-                   }else if(pLevel.isStateAtPosition(mutable, block -> {return block.isSolidRender((BlockGetter) pLevel, mutable);}) && pLevel.isStateAtPosition(mutable.above(), block -> {return block.getMaterial().isReplaceable();})) {
+                   }else if(pLevel.isStateAtPosition(mutable, block -> {return block.isSolidRender((BlockGetter) pLevel, mutable);}) && pLevel.isStateAtPosition(mutable.above(), block -> {return block.canBeReplaced();})) {
                        mutable.move(0, 1, 0);
                        moveFlag = true;
                        yPos = mutable.getY();
                        this.placeLog(pLevel, pBlockSetter, pRandom, mutable.set(Xpos, yPos, Zpos), treeconfiguration, dir);
-                   }else if(pLevel.isStateAtPosition(mutable.below().below(), block -> {return block.isSolidRender((BlockGetter) pLevel, mutable.below().below());}) && pLevel.isStateAtPosition(mutable.below(), block -> {return block.getMaterial().isReplaceable();})) {
+                   }else if(pLevel.isStateAtPosition(mutable.below().below(), block -> {return block.isSolidRender((BlockGetter) pLevel, mutable.below().below());}) && pLevel.isStateAtPosition(mutable.below(), block -> {return block.canBeReplaced();})) {
                        mutable.move(0, -1, 0);
                        moveFlag = true;
                        yPos = mutable.getY();
                        this.placeLog(pLevel, pBlockSetter, pRandom, mutable.set(Xpos, yPos, Zpos), treeconfiguration, dir);
-                   }else if(pLevel.isStateAtPosition(mutable.relative(dir), block -> {return block.isSolidRender((BlockGetter) pLevel, mutable.relative(dir));}) && pLevel.isStateAtPosition(mutable, block -> {return block.getMaterial().isReplaceable();})) {
+                   }else if(pLevel.isStateAtPosition(mutable.relative(dir), block -> {return block.isSolidRender((BlockGetter) pLevel, mutable.relative(dir));}) && pLevel.isStateAtPosition(mutable, block -> {return block.canBeReplaced();})) {
                        this.placeLog(pLevel, pBlockSetter, pRandom, new BlockPos(mutable.set(Xpos, yPos, Zpos)), treeconfiguration, Direction.UP);
                        mutable.move(Direction.UP);
                    }else {
                        i += 999999999;
                    }
-                   if((pLevel.isStateAtPosition(mutable.relative(dir).below(), block -> {return block.getMaterial().isReplaceable();})
-                   || pLevel.isStateAtPosition(mutable.relative(dir), block -> {return block.getMaterial().isReplaceable();})
-                   || pLevel.isStateAtPosition(mutable.relative(dir).above(), block -> {return block.getMaterial().isReplaceable();})) && moveFlag) {
+                   if((pLevel.isStateAtPosition(mutable.relative(dir).below(), block -> {return block.canBeReplaced();})
+                   || pLevel.isStateAtPosition(mutable.relative(dir), block -> {return block.canBeReplaced();})
+                   || pLevel.isStateAtPosition(mutable.relative(dir).above(), block -> {return block.canBeReplaced();})) && moveFlag) {
                        mutable.move(dir);
                    }
                    i++;
@@ -152,32 +152,32 @@ public class TestSaplingTrunkPlacer extends TrunkPlacer {
                    if(i <= dist) {
                        newDir = offshootDir;
                    }
-                   if(pLevel.isStateAtPosition(mutable.below(), block -> {return block.isSolidRender((BlockGetter) pLevel, mutable.below());}) && pLevel.isStateAtPosition(mutable, block -> {return block.getMaterial().isReplaceable();})) {
+                   if(pLevel.isStateAtPosition(mutable.below(), block -> {return block.isSolidRender((BlockGetter) pLevel, mutable.below());}) && pLevel.isStateAtPosition(mutable, block -> {return block.canBeReplaced();})) {
                        yPos = mutable.getY();
                        moveFlag = true;
                        this.placeLog(pLevel, pBlockSetter, pRandom, new BlockPos(mutable.set(Xpos, yPos, Zpos)), treeconfiguration, newDir);
-                   }else if(pLevel.isStateAtPosition(mutable.below(), block -> {return block.getMaterial().isReplaceable();})) {
+                   }else if(pLevel.isStateAtPosition(mutable.below(), block -> {return block.canBeReplaced();})) {
                        this.placeLog(pLevel, pBlockSetter, pRandom, new BlockPos(mutable.set(Xpos, yPos, Zpos)), treeconfiguration, Direction.DOWN);
                        mutable.move(Direction.DOWN);
-                   }else if(pLevel.isStateAtPosition(mutable, block -> {return block.isSolidRender((BlockGetter) pLevel, mutable);}) && pLevel.isStateAtPosition(mutable.above(), block -> {return block.getMaterial().isReplaceable();})) {
+                   }else if(pLevel.isStateAtPosition(mutable, block -> {return block.isSolidRender((BlockGetter) pLevel, mutable);}) && pLevel.isStateAtPosition(mutable.above(), block -> {return block.canBeReplaced();})) {
                        mutable.move(0, 1, 0);
                        moveFlag = true;
                        yPos = mutable.getY();
                        this.placeLog(pLevel, pBlockSetter, pRandom, new BlockPos(mutable.set(Xpos, yPos, Zpos)), treeconfiguration, newDir);
-                   }else if(pLevel.isStateAtPosition(mutable.below().below(), block -> {return block.isSolidRender((BlockGetter) pLevel, mutable.below().below());}) && pLevel.isStateAtPosition(mutable.below(), block -> {return block.getMaterial().isReplaceable();})) {
+                   }else if(pLevel.isStateAtPosition(mutable.below().below(), block -> {return block.isSolidRender((BlockGetter) pLevel, mutable.below().below());}) && pLevel.isStateAtPosition(mutable.below(), block -> {return block.canBeReplaced();})) {
                        mutable.move(0, -1, 0);
                        moveFlag = true;
                        yPos = mutable.getY();
                        this.placeLog(pLevel, pBlockSetter, pRandom, new BlockPos(mutable.set(Xpos, yPos, Zpos)), treeconfiguration, newDir);
-                   }else if(pLevel.isStateAtPosition(mutable.relative(dir), block -> {return block.isSolidRender((BlockGetter) pLevel, mutable.relative(dir));}) && pLevel.isStateAtPosition(mutable, block -> {return block.getMaterial().isReplaceable();})) {
+                   }else if(pLevel.isStateAtPosition(mutable.relative(dir), block -> {return block.isSolidRender((BlockGetter) pLevel, mutable.relative(dir));}) && pLevel.isStateAtPosition(mutable, block -> {return block.canBeReplaced();})) {
                        this.placeLog(pLevel, pBlockSetter, pRandom, new BlockPos(mutable.set(Xpos, yPos, Zpos)), treeconfiguration, Direction.UP);
                        mutable.move(Direction.UP);
                    }else {
                        i += 999999999;
                    }
-                   if(pLevel.isStateAtPosition(mutable.relative(dir).below(), block -> {return block.getMaterial().isReplaceable();})
-                   || pLevel.isStateAtPosition(mutable.relative(dir), block -> {return block.getMaterial().isReplaceable();})
-                   || pLevel.isStateAtPosition(mutable.relative(dir).above(), block -> {return block.getMaterial().isReplaceable();})) {
+                   if(pLevel.isStateAtPosition(mutable.relative(dir).below(), block -> {return block.canBeReplaced();})
+                   || pLevel.isStateAtPosition(mutable.relative(dir), block -> {return block.canBeReplaced();})
+                   || pLevel.isStateAtPosition(mutable.relative(dir).above(), block -> {return block.canBeReplaced();})) {
                        if(i <= dist && moveFlag)
                        {mutable.move(offshootDir);}
                        else if (moveFlag) {mutable.move(dir);}

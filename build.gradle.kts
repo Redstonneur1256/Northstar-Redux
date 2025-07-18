@@ -5,7 +5,7 @@ plugins {
     id("org.parchmentmc.librarian.forgegradle") version "1.+"
 }
 
-version = "0.1.1-SNAPSHOT+1.20.1" // https://semver.org/
+version = "0.2.0+1.20.1" // https://semver.org/
 group = "com.lightning.northstar" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 //archivesBaseName = "northstar"
 
@@ -24,19 +24,39 @@ repositories {
     mavenCentral()
     maven("https://modmaven.dev/")
     maven("https://maven.tterrag.com/")
+    maven("https://maven.createmod.net")
+    maven("https://raw.githubusercontent.com/Fuzss/modresources/main/maven/") // Ponder
     maven("https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/") // GeckoLib
     maven("https://maven.blamejared.com/") // JEI
+
+    flatDir {
+        dir("run/mods-obf") // extra mods for testing, files must be named "<name without dashes>-1.20.1.jar"
+    }
 }
 
 dependencies {
     minecraft("net.minecraftforge:forge:1.20.1-47.4.0")
 
     // TODO: regroup versions in a separate place
-    compileOnly(fg.deobf("com.simibubi.create:create-1.20.1:6.0.6-205:slim"))
-    compileOnly(fg.deobf("com.tterrag.registrate:Registrate:MC1.20-1.3.3"))
-    compileOnly(fg.deobf("com.jozufozu.flywheel:flywheel-forge-1.20.1:1.0.0-beta-88"))
-    compileOnly(fg.deobf("software.bernie.geckolib:geckolib-forge-1.20.1:4.7.2"))
-    compileOnly(fg.deobf("mezz.jei:jei-1.20.1-forge-api:15.20.0.112"))
+    implementation(fg.deobf("com.simibubi.create:create-1.20.1:6.0.6-205:slim"))
+    implementation(fg.deobf("net.createmod.ponder:Ponder-Forge-1.20.1:1.0.83"))
+    implementation(fg.deobf("com.tterrag.registrate:Registrate:MC1.20-1.3.3"))
+    implementation(fg.deobf("dev.engine-room.flywheel:flywheel-forge-api-1.20.1:1.0.0-beta-193"))
+    implementation(fg.deobf("software.bernie.geckolib:geckolib-forge-1.20.1:4.7.2"))
+    implementation(fg.deobf("mezz.jei:jei-1.20.1-forge:15.20.0.112"))
+
+    runtimeOnly(fg.deobf("dev.engine-room.flywheel:flywheel-forge-1.20.1:1.0.0-beta-193"))
+    runtimeOnly(fg.deobf("io.github.llamalad7:mixinextras-forge:0.4.1"))
+
+    file("run/mods-obf").listFiles()?.forEach {
+        runtimeOnly(fg.deobf("local:${it.nameWithoutExtension.replace("-1.20.1", "")}:1.20.1"))
+    }
+}
+
+gradle.projectsEvaluated {
+    tasks.withType(JavaCompile::class) {
+        options.compilerArgs.addAll(arrayOf("-Xmaxerrs", "10000"))
+    }
 }
 
 minecraft {
@@ -110,14 +130,22 @@ tasks.jar {
 
     manifest {
         attributes(mapOf(
-            "Specification-Title" to "northstar",
-            "Specification-Vendor" to "lightning",
-            "Specification-Version" to version,
-            "Implementation-Title" to project.name,
-            "Implementation-Version" to version,
-            "Implementation-Vendor" to "lightning",
+            "Specification-Title"      to "northstar",
+            "Specification-Vendor"     to "Redstonneur1256",
+            "Specification-Version"    to version,
+            "Implementation-Title"     to project.name,
+            "Implementation-Version"   to version,
+            "Implementation-Vendor"    to "Redstonneur1256",
             "Implementation-Timestamp" to Instant.now().toString()
         ))
+    }
+}
+
+tasks.processResources {
+    val buildProps = project.properties.toMutableMap()
+    buildProps["file"] = mapOf("jarVersion" to project.version)
+    filesMatching(listOf("META-INF/mods.toml")) {
+        expand(buildProps)
     }
 }
 

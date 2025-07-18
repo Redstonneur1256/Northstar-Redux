@@ -1,14 +1,12 @@
 package com.lightning.northstar.block.tech.temperature_regulator;
 
-import com.jozufozu.flywheel.backend.Backend;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.simibubi.create.AllPartialModels;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntityRenderer;
-import com.simibubi.create.foundation.render.CachedBufferer;
-import com.simibubi.create.foundation.render.SuperByteBuffer;
-import com.simibubi.create.foundation.utility.AnimationTickHolder;
-import com.simibubi.create.foundation.utility.Iterate;
-
+import net.createmod.catnip.animation.AnimationTickHolder;
+import net.createmod.catnip.data.Iterate;
+import net.createmod.catnip.render.CachedBuffers;
+import net.createmod.catnip.render.SuperByteBuffer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
@@ -24,10 +22,7 @@ public class TemperatureRegulatorRenderer extends KineticBlockEntityRenderer<Tem
     }
 
     @Override
-    protected void renderSafe(TemperatureRegulatorBlockEntity be, float partialTicks, PoseStack ms, MultiBufferSource buffer,
-            int light, int overlay) {
-        if (Backend.canUseInstancing(be.getLevel())) return;
-
+    protected void renderSafe(TemperatureRegulatorBlockEntity be, float partialTicks, PoseStack ms, MultiBufferSource buffer, int light, int overlay) {
         final Axis boxAxis = be.getBlockState().getValue(BlockStateProperties.AXIS);
         final BlockPos pos = be.getBlockPos();
         float time = AnimationTickHolder.getRenderTime(be.getLevel());
@@ -37,7 +32,7 @@ public class TemperatureRegulatorRenderer extends KineticBlockEntityRenderer<Tem
             if (boxAxis == axis)
                 continue;
 
-            SuperByteBuffer shaft = CachedBufferer.partialFacing(AllPartialModels.SHAFT_HALF, be.getBlockState(), direction);
+            SuperByteBuffer shaft = CachedBuffers.partialFacing(AllPartialModels.SHAFT_HALF, be.getBlockState(), direction);
             float offset = getRotationOffsetForPosition(be, pos, axis);
             float angle = (time * be.getSpeed() * 3f / 10) % 360;
 

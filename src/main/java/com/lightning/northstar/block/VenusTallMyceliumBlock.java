@@ -1,7 +1,5 @@
 package com.lightning.northstar.block;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;
@@ -15,6 +13,8 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+
+import javax.annotation.Nullable;
 
 public class VenusTallMyceliumBlock extends BushBlock {
     protected static final BooleanProperty IS_ON_CEILING = BooleanProperty.create("is_on_ceiling");

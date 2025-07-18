@@ -1,11 +1,8 @@
 package com.lightning.northstar.block;
 
-import javax.annotation.Nullable;
-
-import com.lightning.northstar.block.entity.NorthstarBlockEntityTypes;
 import com.lightning.northstar.block.entity.VenusExhaustBlockEntity;
+import com.lightning.northstar.content.NorthstarBlockEntityTypes;
 import com.lightning.northstar.particle.SulfurPoofParticleData;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -14,6 +11,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+
+import javax.annotation.Nullable;
 
 public class VenusExhaustBlock extends BaseEntityBlock {
 

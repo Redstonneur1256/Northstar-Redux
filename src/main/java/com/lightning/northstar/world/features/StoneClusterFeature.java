@@ -1,11 +1,7 @@
 package com.lightning.northstar.world.features;
 
-import java.util.Optional;
-import java.util.OptionalInt;
-
 import com.lightning.northstar.world.features.configuration.StoneClusterConfiguration;
 import com.mojang.serialization.Codec;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
@@ -16,9 +12,11 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.Column;
-import net.minecraft.world.level.levelgen.feature.DripstoneUtils;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+
+import java.util.Optional;
+import java.util.OptionalInt;
 
 public class StoneClusterFeature extends Feature<StoneClusterConfiguration> {
 

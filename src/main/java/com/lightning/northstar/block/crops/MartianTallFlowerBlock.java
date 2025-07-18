@@ -1,7 +1,6 @@
 package com.lightning.northstar.block.crops;
 
-import com.lightning.northstar.block.NorthstarBlocks;
-
+import com.lightning.northstar.content.NorthstarBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;

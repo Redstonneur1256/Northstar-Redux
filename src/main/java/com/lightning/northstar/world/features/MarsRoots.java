@@ -1,9 +1,8 @@
 package com.lightning.northstar.world.features;
 
-import com.lightning.northstar.block.NorthstarBlocks;
+import com.lightning.northstar.content.NorthstarBlocks;
 import com.lightning.northstar.world.features.configuration.MarsRootsConfig;
 import com.mojang.serialization.Codec;
-
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Blocks;

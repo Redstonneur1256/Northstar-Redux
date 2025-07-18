@@ -1,16 +1,9 @@
 package com.lightning.northstar.entity;
 
-import java.util.EnumSet;
-import java.util.UUID;
-import java.util.function.Predicate;
-
-import javax.annotation.Nullable;
-
-import com.lightning.northstar.NorthstarTags.NorthstarBlockTags;
-import com.lightning.northstar.block.NorthstarBlocks;
-import com.lightning.northstar.sound.NorthstarSounds;
+import com.lightning.northstar.content.NorthstarBlocks;
+import com.lightning.northstar.content.NorthstarSounds;
+import com.lightning.northstar.content.NorthstarTags.NorthstarBlockTags;
 import com.simibubi.create.content.decoration.palettes.AllPaletteStoneTypes;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
@@ -18,18 +11,13 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
@@ -41,21 +29,25 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.IAnimationTickable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.builder.ILoopType.EDefaultLoopTypes;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
-import software.bernie.geckolib3.util.GeckoLibUtil;
+import software.bernie.geckolib.core.animatable.GeoAnimatable;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.*;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class VenusMimicEntity extends Monster implements IAnimatable, IAnimationTickable {
-    AnimationFactory factory = GeckoLibUtil.createFactory(this);
+import javax.annotation.Nullable;
+import java.util.EnumSet;
+import java.util.UUID;
+import java.util.function.Predicate;
+
+public class VenusMimicEntity extends Monster implements GeoAnimatable {
+
     private static final UUID SPEED_MODIFIER_ATTACKING_UUID = UUID.fromString("49455A49-7EC5-45BA-B886-3B90B23A1718");
     private static final AttributeModifier SPEED_MODIFIER_ATTACKING = new AttributeModifier(SPEED_MODIFIER_ATTACKING_UUID, "Attacking speed boost", 0.2D, AttributeModifier.Operation.ADDITION);
+
+    private final AnimatableInstanceCache animatableCache = GeckoLibUtil.createInstanceCache(this);
+
     private int attackTick;
     private int hideTick;
     private int ignoreHideTimer = 0;
@@ -69,33 +61,50 @@ public class VenusMimicEntity extends Monster implements IAnimatable, IAnimation
         super(pEntityType, pLevel);
     }
 
+    // region GeoAnimatable
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>(this, "controller", 2, this::predicate));
+    }
+
+    @Override
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return animatableCache;
+    }
+
+    @Override
+    public double getTick(Object object) {
+        return tickCount;
+    }
+
+    private PlayState predicate(AnimationState<VenusMimicEntity> event) {
+        AnimationController<VenusMimicEntity> controller = event.getController();
+
+        if (this.attackTick > 0) {
+            this.attackTick--;
+            controller.setAnimation(RawAnimation.begin().then("mimic_bite", Animation.LoopType.PLAY_ONCE));
+        } else if (!(event.getLimbSwingAmount() > -0.15F && event.getLimbSwingAmount() < 0.15F) && !attacking) {
+            controller.setAnimation(RawAnimation.begin().thenLoop("mimic_walk"));
+        } else if (!(event.getLimbSwingAmount() > -0.15F && event.getLimbSwingAmount() < 0.15F) && attacking) {
+            controller.setAnimation(RawAnimation.begin().thenLoop("mimic_run"));
+        } else if (hiding && hideTick > 0) {
+            controller.setAnimation(RawAnimation.begin().thenLoop("mimic_hide"));
+        } else if (hiding) {
+            controller.setAnimation(RawAnimation.begin().thenLoop("mimic_hide_idle"));
+        } else {
+            controller.setAnimation(RawAnimation.begin().thenLoop("mimic_idle"));
+        }
+
+        return PlayState.CONTINUE;
+    }
+
+    // endregion
+
     public static AttributeSupplier.Builder createAttributes() {
         return Monster.createMonsterAttributes().add(Attributes.FOLLOW_RANGE, 16.0D).add(Attributes.MAX_HEALTH, 20.0D).add(Attributes.ATTACK_DAMAGE, 5).add(Attributes.MOVEMENT_SPEED, 0.2f);
     }
 
-    private <P extends IAnimatable> PlayState predicate(AnimationEvent<P> event) {
-        if(this.attackTick > 0) {
-            this.attackTick--;
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("mimic_bite", EDefaultLoopTypes.PLAY_ONCE));
-        }else if (!(event.getLimbSwingAmount() > -0.15F && event.getLimbSwingAmount() < 0.15F) && !attacking) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("mimic_walk", EDefaultLoopTypes.LOOP));
-        }else if (!(event.getLimbSwingAmount() > -0.15F && event.getLimbSwingAmount() < 0.15F) && attacking) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("mimic_run", EDefaultLoopTypes.LOOP));
-        }else if (hiding && hideTick > 0) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("mimic_hide", EDefaultLoopTypes.LOOP));
-        } else if (hiding) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("mimic_hide_idle", EDefaultLoopTypes.LOOP));
-        } else {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("mimic_idle", EDefaultLoopTypes.LOOP));
-        }
-        return PlayState.CONTINUE;
-    }
-
-    @Override
-    public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController<VenusMimicEntity>(this, "controller", 2, this::predicate));
-
-    }
     @Override
     public boolean canBeCollidedWith() {
         return this.isAlive();
@@ -111,18 +120,18 @@ public class VenusMimicEntity extends Monster implements IAnimatable, IAnimation
     public void handleEntityEvent(byte pId) {
         if (pId == 4) {
             this.attackTick = 40;
-        }else if (pId == 8) {
+        } else if (pId == 8) {
             this.hiding = true;
             hideTick = 12;
 //            this.setXRot(Mth.roundToward((int)this.getXRot(), 90));
-        }else if (pId == 9) {
+        } else if (pId == 9) {
             this.hiding = false;
             this.ignoreHideTimer = 1200;
-        }else if (pId == 12) {
+        } else if (pId == 12) {
             this.attacking = true;
-        }else if (pId == 13) {
+        } else if (pId == 13) {
             this.attacking = false;
-        }else{
+        } else {
             super.handleEntityEvent(pId);
         }
 
@@ -131,49 +140,48 @@ public class VenusMimicEntity extends Monster implements IAnimatable, IAnimation
     @Override
     public void tick() {
         super.tick();
-        if(!deepCheck) {
-            if(level.getBlockState(blockPosition().below()).is(NorthstarBlocks.VENUS_DEEP_STONE.get()) || level.getBlockState(blockPosition().below()).is(AllPaletteStoneTypes.SCORCHIA.getBaseBlock().get())) {
+        if (!deepCheck) {
+            if (level().getBlockState(blockPosition().below()).is(NorthstarBlocks.VENUS_DEEP_STONE.get()) || level().getBlockState(blockPosition().below()).is(AllPaletteStoneTypes.SCORCHIA.getBaseBlock().get())) {
                 isDeep = true;
             }
             deepCheck = true;
         }
-        if(this.getTarget() != null) {
-            if(this.distanceTo(this.getTarget()) < 5) {
-                if(aggroTimer > 100)
-                {
+        if (this.getTarget() != null) {
+            if (this.distanceTo(this.getTarget()) < 5) {
+                if (aggroTimer > 100) {
                     this.hiding = false;
                     this.ignoreHideTimer = 500;
-                    this.level.broadcastEntityEvent(this, (byte)9);
+                    this.level().broadcastEntityEvent(this, (byte) 9);
                     this.targetSelector.enableControlFlag(Goal.Flag.MOVE);
                     this.targetSelector.enableControlFlag(Goal.Flag.LOOK);
                     this.targetSelector.enableControlFlag(Goal.Flag.JUMP);
                 }
                 aggroTimer++;
 
-            }else {
+            } else {
                 aggroTimer--;
             }
         }
 
-        if(this.level.random.nextInt(250) == 0 && this.getTarget() == null && !hiding && !this.level.isClientSide) {
-            if(ignoreHideTimer <= 0) {
-                this.level.broadcastEntityEvent(this, (byte)8);
+        if (this.level().random.nextInt(250) == 0 && this.getTarget() == null && !hiding && !this.level().isClientSide) {
+            if (ignoreHideTimer <= 0) {
+                this.level().broadcastEntityEvent(this, (byte) 8);
                 hiding = true;
                 hideTick = 12;
-                this.setXRot(Mth.roundToward((int)this.getXRot(), 90));
+                this.setXRot(Mth.roundToward((int) this.getXRot(), 90));
             }
         }
-        if(hiding && this.level.random.nextInt(2000) == 0 && !this.level.isClientSide){
-            this.level.broadcastEntityEvent(this, (byte)9);
+        if (hiding && this.level().random.nextInt(2000) == 0 && !this.level().isClientSide) {
+            this.level().broadcastEntityEvent(this, (byte) 9);
             this.ignoreHideTimer = 100;
             hiding = false;
         }
-        if (hiding && !this.level.isClientSide && this.getTarget() != null) {
+        if (hiding && !this.level().isClientSide && this.getTarget() != null) {
             this.targetSelector.disableControlFlag(Goal.Flag.MOVE);
             this.targetSelector.disableControlFlag(Goal.Flag.LOOK);
             this.targetSelector.disableControlFlag(Goal.Flag.JUMP);
             this.getNavigation().stop();
-            if(hideTick == 12) {
+            if (hideTick == 12) {
 //                if(Math.abs(this.position().x - Math.round(this.position().x)) > 0.1)
 //                {double dif = this.position().x - Math.round(this.position().x);
 //                this.setDeltaMovement(this.getDeltaMovement().add(dif, 0, 0));}
@@ -186,7 +194,7 @@ public class VenusMimicEntity extends Monster implements IAnimatable, IAnimation
             this.setYBodyRot(0);
             this.setYHeadRot(0);
             hideTick--;
-        }else if (hiding && this.level.isClientSide) {
+        } else if (hiding && this.level().isClientSide) {
             this.targetSelector.disableControlFlag(Goal.Flag.MOVE);
             this.targetSelector.disableControlFlag(Goal.Flag.LOOK);
             this.targetSelector.disableControlFlag(Goal.Flag.JUMP);
@@ -195,30 +203,33 @@ public class VenusMimicEntity extends Monster implements IAnimatable, IAnimation
             this.setYHeadRot(0);
             hideTick--;
         }
-        if(!hiding) {
+        if (!hiding) {
 
-            if(ignoreHideTimer > 0) {ignoreHideTimer = Mth.clamp(ignoreHideTimer, 0, ignoreHideTimer - 1);}
+            if (ignoreHideTimer > 0) {
+                ignoreHideTimer = Mth.clamp(ignoreHideTimer, 0, ignoreHideTimer - 1);
+            }
             this.targetSelector.enableControlFlag(Goal.Flag.MOVE);
             this.targetSelector.enableControlFlag(Goal.Flag.LOOK);
             this.targetSelector.enableControlFlag(Goal.Flag.JUMP);
         }
     }
+
     protected void customServerAiStep() {
-          AttributeInstance attributeinstance = this.getAttribute(Attributes.MOVEMENT_SPEED);
-          if (this.getTarget() != null && !this.hiding) {
-             if (!attributeinstance.hasModifier(SPEED_MODIFIER_ATTACKING)) {
+        AttributeInstance attributeinstance = this.getAttribute(Attributes.MOVEMENT_SPEED);
+        if (this.getTarget() != null && !this.hiding) {
+            if (!attributeinstance.hasModifier(SPEED_MODIFIER_ATTACKING)) {
                 attributeinstance.addTransientModifier(SPEED_MODIFIER_ATTACKING);
                 attacking = true;
-                this.level.broadcastEntityEvent(this, (byte)12);
-             }
+                this.level().broadcastEntityEvent(this, (byte) 12);
+            }
 
-          } else if (attributeinstance.hasModifier(SPEED_MODIFIER_ATTACKING)) {
-             attacking = false;
-             this.level.broadcastEntityEvent(this, (byte)13);
-             attributeinstance.removeModifier(SPEED_MODIFIER_ATTACKING);
-          }
+        } else if (attributeinstance.hasModifier(SPEED_MODIFIER_ATTACKING)) {
+            attacking = false;
+            this.level().broadcastEntityEvent(this, (byte) 13);
+            attributeinstance.removeModifier(SPEED_MODIFIER_ATTACKING);
+        }
 
-          super.customServerAiStep();
+        super.customServerAiStep();
     }
 
 
@@ -233,12 +244,13 @@ public class VenusMimicEntity extends Monster implements IAnimatable, IAnimation
 //        this.targetSelector.addGoal(1, new VenusMimicEntity.HideWhenStaredAt(this));
         super.registerGoals();
     }
+
     @Override
     public boolean doHurtTarget(Entity pEntity) {
-        this.level.broadcastEntityEvent(this, (byte)4);
+        this.level().broadcastEntityEvent(this, (byte) 4);
         this.hiding = false;
         this.ignoreHideTimer = 1200;
-        this.level.broadcastEntityEvent(this, (byte)9);
+        this.level().broadcastEntityEvent(this, (byte) 9);
         this.playSound(SoundEvents.RAVAGER_ATTACK, 1.0F, 1.0F);
         return super.doHurtTarget(pEntity);
     }
@@ -255,40 +267,51 @@ public class VenusMimicEntity extends Monster implements IAnimatable, IAnimation
 
         pCompound.putInt("tickCount", this.tickCount);
     }
+
     public void readAdditionalSaveData(CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
         if (pCompound.contains("isDeep")) {
-            this.isDeep = (pCompound.getBoolean("isDeep"));}
+            this.isDeep = (pCompound.getBoolean("isDeep"));
+        }
         if (pCompound.contains("deepCheck")) {
-            this.deepCheck = (pCompound.getBoolean("deepCheck"));}
+            this.deepCheck = (pCompound.getBoolean("deepCheck"));
+        }
         if (pCompound.contains("hiding")) {
-            this.hiding = (pCompound.getBoolean("hiding"));}
+            this.hiding = (pCompound.getBoolean("hiding"));
+        }
         if (pCompound.contains("aggroTimer")) {
-            this.aggroTimer = (pCompound.getInt("aggroTimer"));}
+            this.aggroTimer = (pCompound.getInt("aggroTimer"));
+        }
         if (pCompound.contains("ignoreHideTimer")) {
-            this.ignoreHideTimer = (pCompound.getInt("ignoreHideTimer"));}
+            this.ignoreHideTimer = (pCompound.getInt("ignoreHideTimer"));
+        }
         if (pCompound.contains("hideTick")) {
-            this.hideTick = (pCompound.getInt("hideTick"));}
+            this.hideTick = (pCompound.getInt("hideTick"));
+        }
         if (pCompound.contains("attackTick")) {
-            this.attackTick = (pCompound.getInt("attackTick"));}
+            this.attackTick = (pCompound.getInt("attackTick"));
+        }
 
         if (pCompound.contains("tickCount")) {
-            this.tickCount = (pCompound.getInt("tickCount"));}
+            this.tickCount = (pCompound.getInt("tickCount"));
+        }
     }
 
 
     @Override
     protected SoundEvent getAmbientSound() {
-        if(!hiding)
-        return NorthstarSounds.VENUS_MIMIC_IDLE.get();
+        if (!hiding)
+            return NorthstarSounds.VENUS_MIMIC_IDLE.get();
         else
-        return null;
+            return null;
     }
+
     @Override
     protected SoundEvent getHurtSound(DamageSource pDamageSource) {
         super.getHurtSound(pDamageSource);
         return NorthstarSounds.VENUS_MIMIC_HURT.get();
     }
+
     protected SoundEvent getDeathSound() {
         super.getDeathSound();
         return NorthstarSounds.VENUS_MIMIC_DEATH.get();
@@ -299,25 +322,14 @@ public class VenusMimicEntity extends Monster implements IAnimatable, IAnimation
         if (this.isInvulnerableTo(pSource)) {
             return false;
         } else {
-            if(!this.level.isClientSide && this.hiding) {
+            if (!this.level().isClientSide && this.hiding) {
                 this.hiding = false;
                 this.ignoreHideTimer = 1200;
-                this.level.broadcastEntityEvent(this, (byte)9);
+                this.level().broadcastEntityEvent(this, (byte) 9);
             }
 
             return super.hurt(pSource, pAmount);
         }
-    }
-
-
-    @Override
-    public AnimationFactory getFactory() {
-        return factory;
-    }
-
-    @Override
-    public int tickTimer() {
-        return tickCount;
     }
 
     boolean isLookingAtMe(Player pPlayer) {
@@ -325,15 +337,15 @@ public class VenusMimicEntity extends Monster implements IAnimatable, IAnimation
         if (itemstack.is(Blocks.CARVED_PUMPKIN.asItem())) {
             return false;
         } else {
-             Vec3 vec3 = pPlayer.getViewVector(1.0F).normalize();
-             Vec3 vec31 = new Vec3(this.getX() - pPlayer.getX(), this.getEyeY() - pPlayer.getEyeY(), this.getZ() - pPlayer.getZ());
-             double d0 = vec31.length();
-             vec31 = vec31.normalize();
-             double d1 = vec3.dot(vec31);
+            Vec3 vec3 = pPlayer.getViewVector(1.0F).normalize();
+            Vec3 vec31 = new Vec3(this.getX() - pPlayer.getX(), this.getEyeY() - pPlayer.getEyeY(), this.getZ() - pPlayer.getZ());
+            double d0 = vec31.length();
+            vec31 = vec31.normalize();
+            double d1 = vec3.dot(vec31);
 //             System.out.println(d1);
 //             System.out.println("comparer: " + String.valueOf(1.0D - 0.35D / (d0 / 8)));
-             return d1 > 1.0D - 0.35D / (d0 / 8) ? pPlayer.hasLineOfSight(this) : false;
-          }
+            return d1 > 1.0D - 0.35D / (d0 / 8) ? pPlayer.hasLineOfSight(this) : false;
+        }
     }
 
     static class HideWhenStaredAt extends Goal {
@@ -352,10 +364,11 @@ public class VenusMimicEntity extends Monster implements IAnimatable, IAnimation
                 return false;
             } else {
                 double d0 = this.target.distanceToSqr(this.mimic);
-                if(d0 > 256.0D ? false : this.mimic.isLookingAtMe((Player)this.target) && d0 > 5)
-                {return true;}
-                    else
-                {return false;}
+                if (d0 > 256.0D ? false : this.mimic.isLookingAtMe((Player) this.target) && d0 > 5) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
         }
 
@@ -367,6 +380,7 @@ public class VenusMimicEntity extends Monster implements IAnimatable, IAnimation
             this.mimic.getLookControl().setLookAt(mimic.getX() + 20, mimic.getY(), mimic.getZ() + 20);
         }
     }
+
     boolean canTarget(LivingEntity target) {
         if (!this.canAttack(target)) {
             return false;
@@ -388,12 +402,12 @@ public class VenusMimicEntity extends Monster implements IAnimatable, IAnimation
             super(coberuh, Player.class, 10, false, false, pSelectionPredicate);
             this.mimic = coberuh;
             this.startAggroTargetConditions = TargetingConditions.forCombat().range(this.getFollowDistance()).selector((p_32578_) -> {
-                return coberuh.isLookingAtMe((Player)p_32578_);
+                return coberuh.isLookingAtMe((Player) p_32578_);
             });
         }
 
         public boolean canUse() {
-            this.pendingTarget = this.mimic.level.getNearestPlayer(this.startAggroTargetConditions, this.mimic);
+            this.pendingTarget = this.mimic.level().getNearestPlayer(this.startAggroTargetConditions, this.mimic);
             return this.pendingTarget != null;
         }
 
@@ -414,11 +428,10 @@ public class VenusMimicEntity extends Monster implements IAnimatable, IAnimation
                 } else {
                     stareTimer = Mth.clamp(stareTimer + 1, 0, 120);
                     System.out.println(stareTimer);
-                    if(stareTimer >= 32) {
+                    if (stareTimer >= 32) {
                         this.mimic.lookAt(this.pendingTarget, 10.0F, 10.0F);
                         return true;
-                    }
-                    else {
+                    } else {
                         return false;
                     }
                 }
@@ -429,7 +442,7 @@ public class VenusMimicEntity extends Monster implements IAnimatable, IAnimation
 
         public void tick() {
             if (this.mimic.getTarget() == null) {
-                super.setTarget((LivingEntity)null);
+                super.setTarget((LivingEntity) null);
             }
             if (this.pendingTarget != null) {
                 if (!this.mimic.isLookingAtMe(this.pendingTarget)) {
@@ -437,10 +450,11 @@ public class VenusMimicEntity extends Monster implements IAnimatable, IAnimation
                     System.out.println(stareTimer);
                 }
                 if (--this.aggroTime <= 0) {
-                    if(!this.mimic.hiding) {
-                    this.mimic.hiding = true;
-                    this.mimic.hideTick = 12;
-                    this.mimic.level.broadcastEntityEvent(mimic, (byte) 8);}
+                    if (!this.mimic.hiding) {
+                        this.mimic.hiding = true;
+                        this.mimic.hideTick = 12;
+                        this.mimic.level().broadcastEntityEvent(mimic, EntityEvent.SHAKE_WETNESS);
+                    }
                     this.pendingTarget = null;
                     super.start();
                 }

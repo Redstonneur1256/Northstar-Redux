@@ -1,13 +1,8 @@
 package com.lightning.northstar.block;
 
-import java.util.Map;
-
-import javax.annotation.Nullable;
-
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.lightning.northstar.particle.GlowstoneParticleData;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -30,6 +25,10 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nullable;
+import java.util.Map;
 
 public class GlowstoneTorchWallBlock extends Block implements SimpleWaterloggedBlock{
       public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
@@ -79,8 +78,9 @@ public class GlowstoneTorchWallBlock extends Block implements SimpleWaterloggedB
         return null;
     }
 
-    @SuppressWarnings("deprecation")
-    public FluidState getFluidState(BlockState pState) {
+    @Deprecated
+    @Override
+    public @NotNull FluidState getFluidState(BlockState pState) {
         return pState.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(pState);
     }
 

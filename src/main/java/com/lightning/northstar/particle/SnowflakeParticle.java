@@ -1,18 +1,12 @@
 package com.lightning.northstar.particle;
 
 import com.simibubi.create.content.equipment.bell.BasicParticleData;
-import com.simibubi.create.foundation.utility.VecHelper;
-
+import net.createmod.catnip.math.VecHelper;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.particle.SimpleAnimatedParticle;
-import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.client.particle.*;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleType;
-import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 
 public class SnowflakeParticle  extends SimpleAnimatedParticle {
@@ -52,7 +46,7 @@ public class SnowflakeParticle  extends SimpleAnimatedParticle {
 
     @Override
     public int getLightColor(float partialTick) {
-        BlockPos blockpos = new BlockPos(this.x, this.y, this.z);
+        BlockPos blockpos = BlockPos.containing(this.x, this.y, this.z);
         return this.level.isLoaded(blockpos) ? LevelRenderer.getLightColor(level, blockpos) : 0;
     }
 

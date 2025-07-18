@@ -1,8 +1,7 @@
 package com.lightning.northstar.world.features;
 
-import com.lightning.northstar.block.NorthstarBlocks;
+import com.lightning.northstar.content.NorthstarBlocks;
 import com.mojang.serialization.Codec;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;

@@ -1,8 +1,7 @@
 package com.lightning.northstar.world.features;
 
-import com.lightning.northstar.block.NorthstarBlocks;
+import com.lightning.northstar.content.NorthstarBlocks;
 import com.mojang.serialization.Codec;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -33,7 +32,7 @@ public class MercuryCactusFeature extends Feature<NoneFeatureConfiguration> {
 //        int height = rando.nextInt(5, 10);
         
         for(int i = 0; i < height;) {
-            if(level.getBlockState(newpos).isAir() || level.getBlockState(newpos).getMaterial().isReplaceable())
+            if(level.getBlockState(newpos).isAir() || level.getBlockState(newpos).canBeReplaced())
             {level.setBlock(newpos, NorthstarBlocks.MERCURY_CACTUS.get().defaultBlockState(), 3);}else 
             {i+=99999;}
             if(i == height - 1) {
@@ -59,7 +58,7 @@ public class MercuryCactusFeature extends Feature<NoneFeatureConfiguration> {
             }else if(rando.nextInt(4) != 0) {
                 newpos.move(Direction.UP);
             }else{newpos.move(dir);}
-            if(level.getBlockState(newpos).isAir() || level.getBlockState(newpos).getMaterial().isReplaceable())
+            if(level.getBlockState(newpos).isAir() || level.getBlockState(newpos).canBeReplaced())
             {level.setBlock(newpos, NorthstarBlocks.MERCURY_CACTUS.get().defaultBlockState(), 3);
             level.scheduleTick(newpos, NorthstarBlocks.MERCURY_CACTUS.get(), 2);}else 
             {i+= 99999;}

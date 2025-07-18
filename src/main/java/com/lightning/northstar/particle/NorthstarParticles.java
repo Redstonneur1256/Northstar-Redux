@@ -1,11 +1,7 @@
 package com.lightning.northstar.particle;
 
-import java.util.Locale;
-import java.util.function.Supplier;
-
 import com.lightning.northstar.Northstar;
 import com.simibubi.create.foundation.particle.ICustomParticleData;
-
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraftforge.api.distmarker.Dist;
@@ -15,6 +11,9 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+
+import java.util.Locale;
+import java.util.function.Supplier;
 
 public enum NorthstarParticles {
 

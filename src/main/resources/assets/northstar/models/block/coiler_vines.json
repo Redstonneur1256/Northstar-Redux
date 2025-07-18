@@ -1,5 +1,6 @@
 {
   "ambientocclusion": false,
+  "render_type": "minecraft:cutout",
   "textures": {
     "particle": "northstar:block/coiler_vines",
     "vine": "northstar:block/coiler_vines"

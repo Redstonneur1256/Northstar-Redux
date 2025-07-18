@@ -1,24 +1,10 @@
 package com.lightning.northstar;
 
-import com.lightning.northstar.entity.NorthstarEntityTypes;
+import com.lightning.northstar.content.NorthstarEntityTypes;
 import com.lightning.northstar.entity.projectiles.renderers.LunargradeSpitRenderer;
 import com.lightning.northstar.entity.projectiles.renderers.VenusScorpionSpitRenderer;
-import com.lightning.northstar.entity.renderers.MarsCobraRenderer;
-import com.lightning.northstar.entity.renderers.MarsMothRenderer;
-import com.lightning.northstar.entity.renderers.MarsToadRenderer;
-import com.lightning.northstar.entity.renderers.MarsWormRenderer;
-import com.lightning.northstar.entity.renderers.MercuryRaptorRenderer;
-import com.lightning.northstar.entity.renderers.MercuryRoachRenderer;
-import com.lightning.northstar.entity.renderers.MercuryTortoiseRenderer;
-import com.lightning.northstar.entity.renderers.MoonEelRenderer;
-import com.lightning.northstar.entity.renderers.MoonLunargradeRenderer;
-import com.lightning.northstar.entity.renderers.MoonSnailRenderer;
-import com.lightning.northstar.entity.renderers.VenusMimicRenderer;
-import com.lightning.northstar.entity.renderers.VenusScorpionRenderer;
-import com.lightning.northstar.entity.renderers.VenusStoneBullRenderer;
-import com.lightning.northstar.entity.renderers.VenusVultureRenderer;
+import com.lightning.northstar.entity.renderers.*;
 import com.lightning.northstar.entity.variants.renderers.FrozenZombieRenderer;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

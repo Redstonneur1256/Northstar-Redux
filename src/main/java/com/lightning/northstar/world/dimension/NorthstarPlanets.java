@@ -1,9 +1,6 @@
 package com.lightning.northstar.world.dimension;
 
-import javax.annotation.Nullable;
-
 import com.lightning.northstar.Northstar;
-
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
@@ -11,6 +8,8 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
+
+import javax.annotation.Nullable;
 
 @EventBusSubscriber(modid = Northstar.MOD_ID, bus = Bus.FORGE)
 public class NorthstarPlanets {     
@@ -22,7 +21,6 @@ public class NorthstarPlanets {
     private static final double MARS_GRAV = 0.37;
     private static final double VENUS_GRAV = 0.89;
     private static final double MERCURY_GRAV = 0.38;
-    
 
     private static final double GANYMEDE_GRAV = 0.14;
     private static final double TITAN_GRAV = 0.14;
@@ -325,14 +323,14 @@ public class NorthstarPlanets {
     }
     @Nullable
     public static ResourceKey<Level> getPlanetDimension(String name) {
-        switch (name) {
-        case "mercury": {return NorthstarDimensions.MERCURY_DIM_KEY;}
-        case "mars": {return NorthstarDimensions.MARS_DIM_KEY;}
-        case "venus": {return NorthstarDimensions.VENUS_DIM_KEY;}
-        case "earth": {return Level.OVERWORLD;}
-        case "earth_moon": {return NorthstarDimensions.MOON_DIM_KEY;}
-        case "moon": {return NorthstarDimensions.MOON_DIM_KEY;}
-        default:return null;}
+        return switch (name) {
+            case "mercury" -> NorthstarDimensions.MERCURY_DIM_KEY;
+            case "mars" -> NorthstarDimensions.MARS_DIM_KEY;
+            case "venus" -> NorthstarDimensions.VENUS_DIM_KEY;
+            case "earth" -> Level.OVERWORLD;
+            case "earth_moon", "moon" -> NorthstarDimensions.MOON_DIM_KEY;
+            default -> null;
+        };
     }
     public static boolean getPlanetOxy(ResourceKey<Level> level) {
         if(level == NorthstarDimensions.MARS_DIM_KEY) {return false;}

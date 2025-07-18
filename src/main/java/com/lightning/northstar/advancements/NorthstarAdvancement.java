@@ -1,23 +1,14 @@
 package com.lightning.northstar.advancements;
 
-import java.util.function.Consumer;
-import java.util.function.UnaryOperator;
-
 import com.google.gson.JsonObject;
 import com.lightning.northstar.Northstar;
 import com.simibubi.create.Create;
-import com.simibubi.create.foundation.utility.Components;
 import com.tterrag.registrate.util.entry.ItemProviderEntry;
-
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.CriterionTriggerInstance;
 import net.minecraft.advancements.FrameType;
-import net.minecraft.advancements.critereon.EnchantmentPredicate;
-import net.minecraft.advancements.critereon.InventoryChangeTrigger;
-import net.minecraft.advancements.critereon.ItemPredicate;
-import net.minecraft.advancements.critereon.MinMaxBounds;
-import net.minecraft.advancements.critereon.NbtPredicate;
-import net.minecraft.advancements.critereon.PlacedBlockTrigger;
+import net.minecraft.advancements.critereon.*;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
@@ -27,17 +18,20 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 
+import java.util.function.Consumer;
+import java.util.function.UnaryOperator;
+
 public class NorthstarAdvancement {
 
     static final ResourceLocation BACKGROUND = Create.asResource("textures/gui/advancements.png");
     static final String LANG = "advancement." + Northstar.MOD_ID + ".";
-    static final String SECRET_SUFFIX = "\u00A77\n(Hidden Advancement)";
+    static final String SECRET_SUFFIX = "§7\n(Hidden Advancement)";
 
     private Advancement.Builder builder;
     private SimpleNorthstarTrigger builtinTrigger;
     private NorthstarAdvancement parent;
 
-    Advancement datagenResult;
+    private Advancement datagenResult;
 
     private String id;
     private String title;
@@ -51,14 +45,15 @@ public class NorthstarAdvancement {
         b.apply(t);
 
         if (!t.externalTrigger) {
-
             builtinTrigger = NorthstarTriggers.addSimple(id + "_builtin");
             builder.addCriterion("0", builtinTrigger.instance());
         }
 
-        builder.display(t.icon, Components.translatable(titleKey()),
-            Components.translatable(descriptionKey()).withStyle(s -> s.withColor(0xDBA213)),
-            id.equals("root") ? BACKGROUND : null, t.type.frame, t.type.toast, t.type.announce, t.type.hide);
+        builder.display(t.icon,
+                Component.translatable(titleKey()),
+                Component.translatable(descriptionKey()).withStyle(s -> s.withColor(0xDBA213)),
+                id.equals("root") ? BACKGROUND : null,
+                t.type.frame, t.type.toast, t.type.announce, t.type.hide);
 
         if (t.type == TaskType.SECRET)
             description += SECRET_SUFFIX;
@@ -78,13 +73,13 @@ public class NorthstarAdvancement {
         if (!(player instanceof ServerPlayer sp))
             return true;
         Advancement advancement = sp.getServer()
-            .getAdvancements()
-            .getAdvancement(Northstar.asResource(id));
+                .getAdvancements()
+                .getAdvancement(Northstar.asResource(id));
         if (advancement == null)
             return true;
         return sp.getAdvancements()
-            .getOrStartProgress(advancement)
-            .isDone();
+                .getOrStartProgress(advancement)
+                .isDone();
     }
 
     public void awardTo(Player player) {
@@ -92,7 +87,7 @@ public class NorthstarAdvancement {
             return;
         if (builtinTrigger == null)
             throw new UnsupportedOperationException(
-                "Advancement " + id + " uses external Triggers, it cannot be awarded directly");
+                    "Advancement " + id + " uses external Triggers, it cannot be awarded directly");
         builtinTrigger.trigger(sp);
     }
 
@@ -100,7 +95,7 @@ public class NorthstarAdvancement {
         if (parent != null)
             builder.parent(parent.datagenResult);
         datagenResult = builder.save(t, Northstar.asResource(id)
-            .toString());
+                .toString());
     }
 
     void appendToLang(JsonObject object) {
@@ -172,7 +167,7 @@ public class NorthstarAdvancement {
         }
 
         Builder whenBlockPlaced(Block block) {
-            return externalTrigger(PlacedBlockTrigger.TriggerInstance.placedBlock(block));
+            return externalTrigger(ItemUsedOnLocationTrigger.TriggerInstance.placedBlock(block));
         }
 
         Builder whenIconCollected() {
@@ -181,7 +176,7 @@ public class NorthstarAdvancement {
 
         Builder whenItemCollected(ItemProviderEntry<?> item) {
             return whenItemCollected(item.asStack()
-                .getItem());
+                    .getItem());
         }
 
         Builder whenItemCollected(ItemLike itemProvider) {
@@ -190,8 +185,8 @@ public class NorthstarAdvancement {
 
         Builder whenItemCollected(TagKey<Item> tag) {
             return externalTrigger(InventoryChangeTrigger.TriggerInstance
-                .hasItems(new ItemPredicate(tag, null, MinMaxBounds.Ints.ANY, MinMaxBounds.Ints.ANY,
-                    EnchantmentPredicate.NONE, EnchantmentPredicate.NONE, null, NbtPredicate.ANY)));
+                    .hasItems(new ItemPredicate(tag, null, MinMaxBounds.Ints.ANY, MinMaxBounds.Ints.ANY,
+                            EnchantmentPredicate.NONE, EnchantmentPredicate.NONE, null, NbtPredicate.ANY)));
         }
 
         Builder awardedForFree() {

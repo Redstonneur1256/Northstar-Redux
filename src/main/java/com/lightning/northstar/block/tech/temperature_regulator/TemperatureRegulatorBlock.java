@@ -1,11 +1,10 @@
 package com.lightning.northstar.block.tech.temperature_regulator;
 
-import com.lightning.northstar.block.entity.NorthstarBlockEntityTypes;
+import com.lightning.northstar.content.NorthstarBlockEntityTypes;
 import com.lightning.northstar.world.dimension.NorthstarPlanets;
 import com.simibubi.create.content.kinetics.base.HorizontalKineticBlock;
 import com.simibubi.create.foundation.block.IBE;
-import com.simibubi.create.foundation.gui.ScreenOpener;
-
+import net.createmod.catnip.gui.ScreenOpener;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

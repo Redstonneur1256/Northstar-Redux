@@ -1,22 +1,19 @@
 package com.lightning.northstar.block.tech.oxygen_filler;
 
-import java.util.List;
-
-import com.lightning.northstar.NorthstarTags;
-import com.lightning.northstar.NorthstarTags.NorthstarItemTags;
-import com.lightning.northstar.fluids.NorthstarFluids;
-import com.lightning.northstar.sound.NorthstarSounds;
+import com.lightning.northstar.content.NorthstarFluids;
+import com.lightning.northstar.content.NorthstarSounds;
+import com.lightning.northstar.content.NorthstarTags;
+import com.lightning.northstar.content.NorthstarTags.NorthstarItemTags;
 import com.lightning.northstar.world.OxygenStuff;
 import com.simibubi.create.AllSoundEvents;
-import com.simibubi.create.content.equipment.goggles.IHaveGoggleInformation;
+import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
 import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import com.simibubi.create.foundation.blockEntity.behaviour.fluid.SmartFluidTankBehaviour;
 import com.simibubi.create.foundation.particle.AirParticleData;
-import com.simibubi.create.foundation.utility.Lang;
-import com.simibubi.create.foundation.utility.LangBuilder;
-import com.simibubi.create.foundation.utility.VecHelper;
-
+import com.simibubi.create.foundation.utility.CreateLang;
+import net.createmod.catnip.lang.LangBuilder;
+import net.createmod.catnip.math.VecHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -35,13 +32,15 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
+
+import java.util.List;
 
 @SuppressWarnings("removal")
 public class OxygenFillerBlockEntity extends SmartBlockEntity implements IHaveGoggleInformation {
@@ -193,42 +192,42 @@ public class OxygenFillerBlockEntity extends SmartBlockEntity implements IHaveGo
     }
     @Override
     public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
-        LangBuilder mb = Lang.translate("generic.unit.millibuckets");
-        Lang.translate("gui.goggles.oxygen_filler")
+        LangBuilder mb = CreateLang.translate("generic.unit.millibuckets");
+        CreateLang.translate("gui.goggles.oxygen_filler")
             .forGoggles(tooltip);
         FluidStack fluidStack = tank.getPrimaryHandler().getFluidInTank(0);
         if(!fluidStack.getFluid().getFluidType().isAir()) {
-        Lang.fluidName(fluidStack)
+            CreateLang.fluidName(fluidStack)
             .style(ChatFormatting.GRAY)
             .forGoggles(tooltip);
         }else {
-            Lang.translate("gui.goggles.empty")
+            CreateLang.translate("gui.goggles.empty")
             .style(ChatFormatting.GRAY)
             .forGoggles(tooltip);
         }
-        Lang.builder()
-            .add(Lang.number(fluidStack.getAmount())
+        CreateLang.builder()
+            .add(CreateLang.number(fluidStack.getAmount())
                 .add(mb)
                 .style(ChatFormatting.GOLD))
             .text(ChatFormatting.GRAY, " / ")
-            .add(Lang.number(tank.getPrimaryHandler().getTankCapacity(0))
+            .add(CreateLang.number(tank.getPrimaryHandler().getTankCapacity(0))
                 .add(mb)
                 .style(ChatFormatting.DARK_GRAY))
             .forGoggles(tooltip, 1);
         ItemStack itemStack = container.getItem(0);
         if(!itemStack.isEmpty()) {
-            Lang.builder()
-                .add(Lang.number(itemStack.getCount())
+            CreateLang.builder()
+                .add(CreateLang.number(itemStack.getCount())
                 .style(ChatFormatting.GRAY))
                 .text(ChatFormatting.DARK_GRAY, "x ")
-                .add(Lang.itemName(itemStack)
+                .add(CreateLang.itemName(itemStack)
                 .style(ChatFormatting.GRAY))
             .forGoggles(tooltip, 1);
             CompoundTag thing = itemStack.getTag();
             int currentOxy = thing.getInt("Oxygen");
             if(currentOxy != 0) {
-                Lang.builder()
-                .add(Lang.number(currentOxy)
+                CreateLang.builder()
+                .add(CreateLang.number(currentOxy)
                 .style(ChatFormatting.GRAY))
                 .add(mb)
                 .style(ChatFormatting.GRAY)
@@ -240,7 +239,7 @@ public class OxygenFillerBlockEntity extends SmartBlockEntity implements IHaveGo
     
     @Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
-        if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY && side == getBlockState().getValue(OxygenFillerBlock.HORIZONTAL_FACING).getOpposite())
+        if (cap == ForgeCapabilities.FLUID_HANDLER && side == getBlockState().getValue(OxygenFillerBlock.HORIZONTAL_FACING).getOpposite())
             return tank.getCapability()
                 .cast();
         tank.getCapability().cast();

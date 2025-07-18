@@ -1,15 +1,14 @@
 package com.lightning.northstar.block.tech.oxygen_detector;
 
-import java.util.List;
-
 import com.lightning.northstar.world.OxygenStuff;
 import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+
+import java.util.List;
 
 public class OxygenDetectorBlockEntity extends SmartBlockEntity {
 

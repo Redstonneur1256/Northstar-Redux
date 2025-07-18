@@ -1,11 +1,8 @@
 package com.lightning.northstar.world.features;
 
-import java.util.Optional;
-
 import com.lightning.northstar.block.PointedCrimsiteBlock;
 import com.lightning.northstar.world.features.configuration.PointedStoneClusterConfiguration;
 import com.mojang.serialization.Codec;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -15,6 +12,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.DripstoneUtils;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+
+import java.util.Optional;
 
 public class PointedStoneClusterFeature extends Feature<PointedStoneClusterConfiguration> {
     public PointedStoneClusterFeature(Codec<PointedStoneClusterConfiguration> pCodec) {

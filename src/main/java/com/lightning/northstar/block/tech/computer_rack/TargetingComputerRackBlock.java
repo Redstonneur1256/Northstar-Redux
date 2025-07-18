@@ -1,11 +1,10 @@
 package com.lightning.northstar.block.tech.computer_rack;
 
-import com.lightning.northstar.block.entity.NorthstarBlockEntityTypes;
-import com.lightning.northstar.item.NorthstarItems;
+import com.lightning.northstar.content.NorthstarBlockEntityTypes;
+import com.lightning.northstar.content.NorthstarItems;
 import com.simibubi.create.Create;
 import com.simibubi.create.content.kinetics.base.HorizontalKineticBlock;
 import com.simibubi.create.foundation.block.IBE;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;

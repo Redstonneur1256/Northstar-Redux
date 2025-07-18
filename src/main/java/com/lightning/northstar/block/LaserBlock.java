@@ -1,15 +1,12 @@
 package com.lightning.northstar.block;
 
-import javax.annotation.Nullable;
-
-import com.lightning.northstar.sound.NorthstarSounds;
-
+import com.lightning.northstar.content.NorthstarSounds;
+import com.lightning.northstar.content.NorthstarTechBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
@@ -26,6 +23,8 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.PushReaction;
+
+import javax.annotation.Nullable;
 
 public class LaserBlock extends Block implements SimpleWaterloggedBlock {
     public static final DirectionProperty DIRECTION = BlockStateProperties.FACING;
@@ -108,7 +107,7 @@ public class LaserBlock extends Block implements SimpleWaterloggedBlock {
             }
         }
 
-        pEntity.hurt(DamageSource.IN_FIRE, 4);
+        pEntity.hurt(pLevel.damageSources().inFire(), 4);
         super.entityInside(pState, pLevel, pPos, pEntity);
     }
     

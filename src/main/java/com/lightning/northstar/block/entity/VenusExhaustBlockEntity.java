@@ -1,7 +1,7 @@
 package com.lightning.northstar.block.entity;
 
 import com.lightning.northstar.block.VenusExhaustBlock;
-
+import com.lightning.northstar.content.NorthstarBlockEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;

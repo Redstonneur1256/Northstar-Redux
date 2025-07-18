@@ -1,24 +1,22 @@
 package com.lightning.northstar.block.tech.rocket_controls;
 
-import java.util.Collection;
-
-import com.jozufozu.flywheel.core.virtual.VirtualRenderWorld;
 import com.lightning.northstar.contraptions.RocketContraptionEntity;
+import com.simibubi.create.api.behaviour.movement.MovementBehaviour;
 import com.simibubi.create.content.contraptions.AbstractContraptionEntity;
-import com.simibubi.create.content.contraptions.behaviour.MovementBehaviour;
 import com.simibubi.create.content.contraptions.behaviour.MovementContext;
 import com.simibubi.create.content.contraptions.render.ContraptionMatrices;
-import com.simibubi.create.foundation.utility.AnimationTickHolder;
-import com.simibubi.create.foundation.utility.animation.LerpedFloat;
-import com.simibubi.create.foundation.utility.animation.LerpedFloat.Chaser;
-
+import com.simibubi.create.foundation.virtualWorld.VirtualRenderWorld;
+import net.createmod.catnip.animation.AnimationTickHolder;
+import net.createmod.catnip.animation.LerpedFloat;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class RocketControlsMovementBehaviour  implements MovementBehaviour{
+import java.util.Collection;
+
+public class RocketControlsMovementBehaviour  implements MovementBehaviour {
 
     static class LeverAngles {
         LerpedFloat steering = LerpedFloat.linear();
@@ -68,16 +66,16 @@ public class RocketControlsMovementBehaviour  implements MovementBehaviour{
         if (RocketControlsHandler.getContraption() == entity && RocketControlsHandler.getControlsPos() != null
             && RocketControlsHandler.getControlsPos().equals(context.localPos)) {
             Collection<Integer> pressed = RocketControlsHandler.currentlyPressed;
-            angles.equipAnimation.chase(1, .2f, Chaser.EXP);
-            angles.steering.chase((pressed.contains(3) ? 0.5 : 0) + (pressed.contains(2) ? -0.5 : 0), 0.2f, Chaser.EXP);
+            angles.equipAnimation.chase(1, .2f, LerpedFloat.Chaser.EXP);
+            angles.steering.chase((pressed.contains(3) ? 0.5 : 0) + (pressed.contains(2) ? -0.5 : 0), 0.2f, LerpedFloat.Chaser.EXP);
             float f = pressed.contains(4) ? -1f : 1f;
 //            System.out.println("LENGTH: " + context.motion.length());
-            angles.speed.chase(Mth.clamp((Math.min(context.motion.length(), 0.5f) + 1) / 2 * f, 0, 0.4), 0.6f, Chaser.EXP);
+            angles.speed.chase(Mth.clamp((Math.min(context.motion.length(), 0.5f) + 1) / 2 * f, 0, 0.4), 0.6f, LerpedFloat.Chaser.EXP);
 
         } else {
-            angles.equipAnimation.chase(0, .2f, Chaser.EXP);
-            angles.steering.chase(0, 0, Chaser.EXP);
-            angles.speed.chase(0, 0, Chaser.EXP);
+            angles.equipAnimation.chase(0, .2f, LerpedFloat.Chaser.EXP);
+            angles.steering.chase(0, 0, LerpedFloat.Chaser.EXP);
+            angles.speed.chase(0, 0, LerpedFloat.Chaser.EXP);
         }
 
     }

@@ -1,15 +1,10 @@
-// This mod requires Create & Geckolib to work! //
+### This mod requires [Create](https://modrinth.com/mod/create) & [Geckolib](https://modrinth.com/mod/geckolib) to work!
 
-// https://www.curseforge.com/minecraft/mc-mods/create //
+# Issues/Suggestions:
+Make sure that no existing issue matches the bug or feature and that it isn't planned down below. [new GitHub issue](https://github.com/Redstonneur1256/Northstar-Redux/issues/new).
 
-// https://www.curseforge.com/minecraft/mc-mods/geckolib //
+### Known issues:
+- Blocks are invisible when flywheel is off. Current solution: enable flywheel with `/flywheel backend flywheel:instancing` or `/flywheel backend flywheel:indirect`.
 
-Welcome to Northstar!
-
-Please keep in mind that this mod is a big work in progress! If you encounter any bugs, please report them!
-
-Additionally, please remember that I am only one person, so please be patient when it comes to updates, and don't expect a fabric port anytime soon.
-
-Regardless, I sincerely appreciate that you would check out my mod. I've spent far too long working on this...
-
-Thank you for reading, and have fun!
+### Planned:
+- 1.21.1

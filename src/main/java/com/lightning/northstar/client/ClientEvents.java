@@ -3,7 +3,6 @@ package com.lightning.northstar.client;
 import com.lightning.northstar.contraptions.RocketContraptionEntity;
 import com.lightning.northstar.item.client.SpaceSuitFirstPersonRenderer;
 import com.simibubi.create.content.trains.CameraDistanceModifier;
-
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
@@ -20,7 +19,7 @@ public class ClientEvents {
             return;
         SpaceSuitFirstPersonRenderer.clientTick();
     }
-    @SuppressWarnings("resource")
+
     @SubscribeEvent
     public static void onMount(EntityMountEvent event) {
         if (event.getEntityMounting() != Minecraft.getInstance().player)

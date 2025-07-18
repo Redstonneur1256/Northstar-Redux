@@ -1,11 +1,7 @@
 package com.lightning.northstar.block;
 
-import javax.annotation.Nullable;
-
-import com.lightning.northstar.block.entity.NorthstarBlockEntityTypes;
 import com.lightning.northstar.block.entity.OxygenBubbleGeneratorBlockEntity;
-import com.simibubi.create.foundation.utility.worldWrappers.WrappedWorld;
-
+import com.lightning.northstar.content.NorthstarBlockEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -15,7 +11,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
@@ -30,72 +25,77 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 
-public class OxygenBubbleGeneratorBlock extends BaseEntityBlock{
+import javax.annotation.Nullable;
+
+public class OxygenBubbleGeneratorBlock extends BaseEntityBlock {
+
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
 
-    protected OxygenBubbleGeneratorBlock(Properties pProperties) {
+    public OxygenBubbleGeneratorBlock(Properties pProperties) {
         super(pProperties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
+
+    @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING);builder.add(POWERED);}
-    
+        builder.add(FACING);
+        builder.add(POWERED);
+    }
+
+    @Override
     public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-          return new OxygenBubbleGeneratorBlockEntity(pPos, pState);
-}
+        return new OxygenBubbleGeneratorBlockEntity(pPos, pState);
+    }
+
     @Nullable
+    @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
         return createTickerHelper(type, NorthstarBlockEntityTypes.OXYGEN_BUBBLE_GENERATOR.get(),
-        OxygenBubbleGeneratorBlockEntity::tick);
+                OxygenBubbleGeneratorBlockEntity::tick);
     }
-    
 
+
+    @Override
     public void setPlacedBy(Level pLevel, BlockPos pPos, BlockState pState, @Nullable LivingEntity pPlacer, ItemStack pStack) {
-          if (pStack.hasCustomHoverName()) {
-             BlockEntity blockentity = pLevel.getBlockEntity(pPos);
-             if (blockentity instanceof BeaconBlockEntity) {
-                ((BeaconBlockEntity)blockentity).setCustomName(pStack.getHoverName());
-             }
-          }
+        if (pStack.hasCustomHoverName()) {
+            BlockEntity blockentity = pLevel.getBlockEntity(pPos);
+            if (blockentity instanceof BeaconBlockEntity) {
+                ((BeaconBlockEntity) blockentity).setCustomName(pStack.getHoverName());
+            }
+        }
     }
-    
 
-    
-    
+
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         return defaultBlockState().setValue(FACING, Direction.NORTH);
     }
-    
-    
+
+    @Override
     public void neighborChanged(BlockState pState, Level pLevel, BlockPos pPos, Block pBlock, BlockPos pFromPos, boolean pIsMoving) {
-          if (!pLevel.isClientSide) {
-             boolean flag = pState.getValue(POWERED);
-             if (flag != pLevel.hasNeighborSignal(pPos)) {
+        if (!pLevel.isClientSide) {
+            boolean flag = pState.getValue(POWERED);
+            if (flag != pLevel.hasNeighborSignal(pPos)) {
                 if (flag) {
-                   pLevel.scheduleTick(pPos, this, 4);
+                    pLevel.scheduleTick(pPos, this, 4);
                 } else {
-                   pLevel.setBlock(pPos, pState.cycle(POWERED), 2);
+                    pLevel.setBlock(pPos, pState.cycle(POWERED), 2);
                 }
-             }
-         }
+            }
+        }
     }
-    
+
+    @Override
     public void tick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
         if (pState.getValue(POWERED) && !pLevel.hasNeighborSignal(pPos)) {
             pLevel.setBlock(pPos, pState.cycle(POWERED), 2);
         }
     }
-    
-    
-    protected void blockUpdate(BlockState state, LevelAccessor worldIn, BlockPos pos) {
-        if (worldIn instanceof WrappedWorld)
-            return;
-    }
-    
-    
+
+    @Override
     public boolean isPathfindable(BlockState pState, BlockGetter pLevel, BlockPos pPos, PathComputationType pType) {
-         return false;
+        return false;
     }
+
 }

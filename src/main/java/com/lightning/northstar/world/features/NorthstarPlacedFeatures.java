@@ -1,8 +1,8 @@
 package com.lightning.northstar.world.features;
 
-import java.util.function.Supplier;
-
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+
+import java.util.function.Supplier;
 
 public class NorthstarPlacedFeatures {
 

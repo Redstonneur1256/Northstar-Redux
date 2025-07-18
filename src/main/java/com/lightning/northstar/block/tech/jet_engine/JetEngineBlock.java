@@ -1,9 +1,8 @@
 package com.lightning.northstar.block.tech.jet_engine;
 
-import com.lightning.northstar.block.entity.NorthstarBlockEntityTypes;
+import com.lightning.northstar.content.NorthstarBlockEntityTypes;
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
 import com.simibubi.create.foundation.block.IBE;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;

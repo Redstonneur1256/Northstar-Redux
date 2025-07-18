@@ -1,34 +1,25 @@
 package com.lightning.northstar.contraptions;
 
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import com.jozufozu.flywheel.util.transform.TransformStack;
-import com.lightning.northstar.NorthstarPackets;
-import com.lightning.northstar.entity.NorthstarEntityTypes;
-import com.lightning.northstar.item.NorthstarItems;
-import com.lightning.northstar.sound.NorthstarSounds;
+import com.lightning.northstar.content.NorthstarEntityTypes;
+import com.lightning.northstar.content.NorthstarItems;
+import com.lightning.northstar.content.NorthstarPackets;
+import com.lightning.northstar.content.NorthstarSounds;
 import com.lightning.northstar.world.TemperatureStuff;
 import com.lightning.northstar.world.dimension.NorthstarPlanets;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.simibubi.create.AllMovementBehaviours;
 import com.simibubi.create.AllPackets;
 import com.simibubi.create.AllSoundEvents;
+import com.simibubi.create.api.behaviour.movement.MovementBehaviour;
 import com.simibubi.create.content.contraptions.AbstractContraptionEntity;
 import com.simibubi.create.content.contraptions.Contraption;
 import com.simibubi.create.content.contraptions.ContraptionBlockChangedPacket;
 import com.simibubi.create.content.contraptions.StructureTransform;
 import com.simibubi.create.content.contraptions.actors.harvester.HarvesterMovementBehaviour;
-import com.simibubi.create.content.contraptions.behaviour.MovementBehaviour;
 import com.simibubi.create.content.contraptions.behaviour.MovementContext;
 import com.simibubi.create.content.kinetics.base.BlockBreakingMovementBehaviour;
 import com.simibubi.create.foundation.utility.ServerSpeedProvider;
-import com.simibubi.create.foundation.utility.VecHelper;
-
+import dev.engine_room.flywheel.lib.transform.TransformStack;
+import net.createmod.catnip.math.VecHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -39,6 +30,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -49,7 +41,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Explosion.BlockInteraction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.CocoaBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -62,8 +53,12 @@ import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PacketDistributor;
+import org.jetbrains.annotations.NotNull;
 
-public class RocketContraptionEntity extends AbstractContraptionEntity implements IEntityAdditionalSpawnData  {
+import java.lang.ref.WeakReference;
+import java.util.*;
+
+public class RocketContraptionEntity extends AbstractContraptionEntity implements IEntityAdditionalSpawnData {
 
     double clientOffsetDiff;
     double axisMotion;
@@ -100,6 +95,8 @@ public class RocketContraptionEntity extends AbstractContraptionEntity implement
 
     public RocketContraptionEntity(EntityType<?> entityTypeIn, Level worldIn) {
         super(entityTypeIn, worldIn);
+        noCulling = true;
+
         sequencedOffsetLimit = -1;
         lift_vel = 0.5f;
         launched = true;
@@ -118,9 +115,10 @@ public class RocketContraptionEntity extends AbstractContraptionEntity implement
 
 
     @Override
-    public Packet<?> getAddEntityPacket() {
+    public @NotNull Packet<ClientGamePacketListener> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
+
     @Override
     public void readSpawnData(FriendlyByteBuf additionalData) {
         CompoundTag nbt = additionalData.readAnySizeNbt();
@@ -134,115 +132,133 @@ public class RocketContraptionEntity extends AbstractContraptionEntity implement
     protected void tickContraption() {
         if (!(contraption instanceof RocketContraption))
             return;
-        if(launchtime > 0 && activeLaunch) {launchtime--;}
-        if (level.isClientSide) {
+        if (launchtime > 0 && activeLaunch) {
+            launchtime--;
+        }
+        if (level().isClientSide) {
             clientOffsetDiff *= .75f;
             updateClientMotion();
         }
         tickActors();
-        if(launchtime == 0 && activeLaunch)
-        {blasting = true;}
-        if(visualEngineCount == 0) {
-            visualEngineCount = ((RocketContraption)this.contraption).getVisualJetEngines();
+        if (launchtime == 0 && activeLaunch) {
+            blasting = true;
+        }
+        if (visualEngineCount == 0) {
+            visualEngineCount = ((RocketContraption) this.contraption).getVisualJetEngines();
         }
 
-        if(this.owner == null && ((RocketContraption)this.contraption).owner != null) {
-            this.owner = ((RocketContraption)this.contraption).owner;
+        if (this.owner == null && ((RocketContraption) this.contraption).owner != null) {
+            this.owner = ((RocketContraption) this.contraption).owner;
         }
 //        System.out.println("I EXIST!");
 
-        if(this.owner == null && this.ownerID != null) {
-            this.owner = level.getPlayerByUUID(ownerID);
+        if (this.owner == null && this.ownerID != null) {
+            this.owner = level().getPlayerByUUID(ownerID);
         }
 
-        if(((RocketContraption)this.contraption).isUsingTicket) {
+        if (((RocketContraption) this.contraption).isUsingTicket) {
             this.isUsingTicket = true;
         }
-        if(((RocketContraption)this.contraption).localControlsPos != null) {
-            this.localControlsPos = ((RocketContraption)this.contraption).localControlsPos;
+        if (((RocketContraption) this.contraption).localControlsPos != null) {
+            this.localControlsPos = ((RocketContraption) this.contraption).localControlsPos;
         }
 
-        if(!this.level.isClientSide) {
-            if(this.tickCount % 40 == 0)
-            {NorthstarPackets.getChannel().send(PacketDistributor.TRACKING_ENTITY.with(() -> this),
-                    new RocketContraptionSyncPacket(this.position(), lift_vel,this.getId(), launchtime,  launched, landing, blasting, slowing, activeLaunch));}
-            if(this.landing)
-            {NorthstarPackets.getChannel().send(PacketDistributor.TRACKING_ENTITY.with(() -> this),
-                    new RocketContraptionQuickSyncPacket(slowing,this.getId()));}
+        if (!this.level().isClientSide) {
+            if (this.tickCount % 40 == 0) {
+                NorthstarPackets.getChannel().send(PacketDistributor.TRACKING_ENTITY.with(() -> this),
+                        new RocketContraptionSyncPacket(this.position(), lift_vel, this.getId(), launchtime, launched, landing, blasting, slowing, activeLaunch));
+            }
+            if (this.landing) {
+                NorthstarPackets.getChannel().send(PacketDistributor.TRACKING_ENTITY.with(() -> this),
+                        new RocketContraptionQuickSyncPacket(slowing, this.getId()));
+            }
         }
 
 
+        RocketContraption contrap = ((RocketContraption) this.contraption);
+        if (contrap.owner != null && printed == false) {
 
-
-        RocketContraption contrap = ((RocketContraption)this.contraption);
-        if(contrap.owner != null && printed == false)
-        {
-
-        double heatCost = (TemperatureStuff.getHeatRating(destination) * ((RocketContraption)contraption).blockCount) + TemperatureStuff.getHeatConstant(destination);
-        double heatCostHome = (TemperatureStuff.getHeatRating(level.dimension()) * ((RocketContraption)contraption).blockCount) + TemperatureStuff.getHeatConstant(level.dimension());
-        if(heatCostHome > heatCost) {
-            heatCost = heatCostHome;
+            double heatCost = (TemperatureStuff.getHeatRating(destination) * ((RocketContraption) contraption).blockCount) + TemperatureStuff.getHeatConstant(destination);
+            double heatCostHome = (TemperatureStuff.getHeatRating(level().dimension()) * ((RocketContraption) contraption).blockCount) + TemperatureStuff.getHeatConstant(level().dimension());
+            if (heatCostHome > heatCost) {
+                heatCost = heatCostHome;
+            }
+            int requiredJets = ((RocketContraption) this.contraption).fuelCost / 800;
+            contrap.owner.displayClientMessage(Component.literal
+                    ("Full Fuel Cost: " + (int) (contrap.weightCost + (contrap.fuelCost - (contrap.fuelCost * contrap.computingPower)))).withStyle(ChatFormatting.GOLD), false);
+            contrap.owner.displayClientMessage(Component.literal
+                    ("Current Fuel Supply: " + contrap.fuelAmount()).withStyle(ChatFormatting.GOLD), false);
+            contrap.owner.displayClientMessage(Component.literal
+                    ("Estimated Return Cost: " + contrap.fuelReturnCost).withStyle(ChatFormatting.GOLD), false);
+            contrap.owner.displayClientMessage(Component.literal
+                    ("Required Heat Shielding: " + heatCost).withStyle(ChatFormatting.YELLOW), false);
+            contrap.owner.displayClientMessage(Component.literal
+                    ("Current Heat Shielding: " + contrap.heatShielding()).withStyle(ChatFormatting.YELLOW), false);
+            contrap.owner.displayClientMessage(Component.literal
+                    ("Required Engines: " + requiredJets).withStyle(ChatFormatting.BLUE), false);
+            contrap.owner.displayClientMessage(Component.literal
+                    ("Current Engine Count: " + contrap.hasJetEngine()).withStyle(ChatFormatting.BLUE), false);
+            contrap.owner.displayClientMessage(Component.literal
+                    ("All entities should remain seated for the duration of the flight!").withStyle(ChatFormatting.AQUA), false);
+            printed = true;
         }
-        int requiredJets = ((RocketContraption)this.contraption).fuelCost / 800;
-        contrap.owner.displayClientMessage(Component.literal
-        ("Full Fuel Cost: " + (int)(contrap.weightCost + (contrap.fuelCost - (contrap.fuelCost * contrap.computingPower)))).withStyle(ChatFormatting.GOLD), false);
-        contrap.owner.displayClientMessage(Component.literal
-        ("Current Fuel Supply: " + contrap.fuelAmount()).withStyle(ChatFormatting.GOLD), false);
-        contrap.owner.displayClientMessage(Component.literal
-        ("Estimated Return Cost: " + contrap.fuelReturnCost).withStyle(ChatFormatting.GOLD), false);
-        contrap.owner.displayClientMessage(Component.literal
-        ("Required Heat Shielding: " + heatCost).withStyle(ChatFormatting.YELLOW), false);
-        contrap.owner.displayClientMessage(Component.literal
-        ("Current Heat Shielding: " + contrap.heatShielding()).withStyle(ChatFormatting.YELLOW), false);
-        contrap.owner.displayClientMessage(Component.literal
-        ("Required Engines: " + requiredJets).withStyle(ChatFormatting.BLUE), false);
-        contrap.owner.displayClientMessage(Component.literal
-        ("Current Engine Count: " + contrap.hasJetEngine()).withStyle(ChatFormatting.BLUE), false);
-        contrap.owner.displayClientMessage(Component.literal
-        ("All entities should remain seated for the duration of the flight!").withStyle(ChatFormatting.AQUA), false);
-        printed = true;}
-        if(destination == null) {
+        if (destination == null) {
             //bruh :(
-            destination = Level.OVERWORLD;
+            destination = level().OVERWORLD;
         }
-        if(((RocketContraption)this.contraption).fuelAmount() < ((RocketContraption)this.contraption).fuelCost && fuelBurned == false){
+        if (((RocketContraption) this.contraption).fuelAmount() < ((RocketContraption) this.contraption).fuelCost && fuelBurned == false) {
             this.disassemble();
         }
-        if(!fuelBurned && this.getY() > this.level.getMaxBuildHeight() + 100)
-        {((RocketContraption)this.contraption).burnFuel(); fuelBurned = true;}
+        if (!fuelBurned && this.getY() > this.level().getMaxBuildHeight() + 100) {
+            ((RocketContraption) this.contraption).burnFuel();
+            fuelBurned = true;
+        }
 
-        if (soundTime % 40 == 0 && launchtime == 0 && blasting && !landing)
-        {this.level.playLocalSound(this.getX(), this.getY() - 20, this.getZ(), NorthstarSounds.ROCKET_BLAST.get(), SoundSource.BLOCKS, 5, 0, false); i = 0;
-        soundTime = 0;}else if(!landing){soundTime++;}
+        if (soundTime % 40 == 0 && launchtime == 0 && blasting && !landing) {
+            this.level().playLocalSound(this.getX(), this.getY() - 20, this.getZ(), NorthstarSounds.ROCKET_BLAST.get(), SoundSource.BLOCKS, 5, 0, false);
+            i = 0;
+            soundTime = 0;
+        } else if (!landing) {
+            soundTime++;
+        }
 
         // this code feels really stupid but I don't care enough to clean it up
         //also this is the code for the air sound when soaring through the air
-        if(this.level.isClientSide) {
-        if(Math.abs(final_lift_vel) > 0.5f)
-        {int volume = NorthstarPlanets.getPlanetAtmosphereCost(level.dimension()) / 400;
-        //this is so stupid
-        int final_vol = volume < 1 ? 1 : volume;
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
-        () -> () -> tickAirSound(final_vol));}}
-
-        if (slowing && landing)
-        {this.level.playLocalSound(this.getX(), this.getY() - 8, this.getZ(), NorthstarSounds.ROCKET_LANDING.get(), SoundSource.BLOCKS, 4, 0, false);
-        i = 0; soundTime = 0;
-    //    System.out.println("AAAAAAAAA");
+        if (this.level().isClientSide) {
+            if (Math.abs(final_lift_vel) > 0.5f) {
+                int volume = NorthstarPlanets.getPlanetAtmosphereCost(level().dimension()) / 400;
+                //this is so stupid
+                int final_vol = volume < 1 ? 1 : volume;
+                DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
+                        () -> () -> tickAirSound(final_vol));
+            }
         }
-        entitiesInContraption = this.level.getEntities(this, this.getBoundingBox());
+
+        if (slowing && landing) {
+            this.level().playLocalSound(this.getX(), this.getY() - 8, this.getZ(), NorthstarSounds.ROCKET_LANDING.get(), SoundSource.BLOCKS, 4, 0, false);
+            i = 0;
+            soundTime = 0;
+            //    System.out.println("AAAAAAAAA");
+        }
+        entitiesInContraption = this.level().getEntities(this, this.getBoundingBox());
 
         //blasting is a thing because rocket controls needs it to work
-        if(launched && blasting)
-        {lift_vel += lift_vel / 200;lift_vel = Mth.clamp(lift_vel, 0.5f, maxSpeed); final_lift_vel = lift_vel - 0.5f;
+        if (launched && blasting) {
+            lift_vel += lift_vel / 200;
+            lift_vel = Mth.clamp(lift_vel, 0.5f, maxSpeed);
+            final_lift_vel = lift_vel - 0.5f;
 //        System.out.println(lift_vel);
         }
         if (landing) {
-            if(cooldown <= cooldownLength)
-            {cooldown++;}
-            if(cooldown >= cooldownLength) {
-                if(!slowing)
-                {lift_vel -= 0.02;}else {lift_vel -= lift_vel / 10;}
+            if (cooldown <= cooldownLength) {
+                cooldown++;
+            }
+            if (cooldown >= cooldownLength) {
+                if (!slowing) {
+                    lift_vel -= 0.02;
+                } else {
+                    lift_vel -= lift_vel / 10;
+                }
                 lift_vel = Mth.clamp(lift_vel, -maxSpeed, -0.4f);
 //                System.out.println(lift_vel);
                 final_lift_vel = lift_vel;
@@ -251,7 +267,7 @@ public class RocketContraptionEntity extends AbstractContraptionEntity implement
         }
         //starting landing
         if (this.getY() > 1750 && launched) {
-            if(this.level.isClientSide) {
+            if (this.level().isClientSide) {
                 flyingSound.stopSound();
             }
             this.cooldown = 0;
@@ -262,7 +278,7 @@ public class RocketContraptionEntity extends AbstractContraptionEntity implement
         }
 
         double prevAxisMotion = axisMotion;
-        if (level.isClientSide) {
+        if (level().isClientSide) {
             clientOffsetDiff *= .75f;
             updateClientMotion();
         }
@@ -271,25 +287,26 @@ public class RocketContraptionEntity extends AbstractContraptionEntity implement
         Vec3 movementVec = getDeltaMovement();
         Direction dir = landing ? Direction.DOWN : Direction.UP;
         if (customCollision(dir)) {
-            if(!level.isClientSide) {
-                level.playLocalSound(getX(), getY(), getZ(), AllSoundEvents.STEAM.getMainEvent(), SoundSource.BLOCKS, 3, 0, true);
-                if (!level.isClientSide && (Math.abs(final_lift_vel) < 3 || hasExploded)) {
-                    if(this.landing && !isUsingTicket) {
+            if (!level().isClientSide) {
+                level().playLocalSound(getX(), getY(), getZ(), AllSoundEvents.STEAM.getMainEvent(), SoundSource.BLOCKS, 3, 0, true);
+                if (!level().isClientSide && (Math.abs(final_lift_vel) < 3 || hasExploded)) {
+                    if (this.landing && !isUsingTicket) {
                         ItemStack returnTicket = this.createReturnTicket(this);
-                        if(owner != null) {
-                        Player player = owner;
-                        level.addFreshEntity(new ItemEntity(level, player.getX(), player.getY(), player.getZ(), returnTicket));}
+                        if (owner != null) {
+                            Player player = owner;
+                            level().addFreshEntity(new ItemEntity(level(), player.getX(), player.getY(), player.getZ(), returnTicket));
+                        }
                     }
                     disassemble();
-                    if(this.landing && isUsingTicket) {
-                        RocketHandler.deleteTicket(level, this.blockPosition());
+                    if (this.landing && isUsingTicket) {
+                        RocketHandler.deleteTicket(level(), this.blockPosition());
                     }
                 }
-                if(Math.abs(final_lift_vel) > 3 && !hasExploded) {
-                    level.explode(this, getX(), getY() - 1, getZ(), 30, NorthstarPlanets.getPlanetOxy(destination), BlockInteraction.DESTROY);
+                if (Math.abs(final_lift_vel) > 3 && !hasExploded) {
+                    level().explode(this, getX(), getY() - 1, getZ(), 30, NorthstarPlanets.getPlanetOxy(destination), Level.ExplosionInteraction.MOB);
                     hasExploded = true;
                 }
-            }else {
+            } else {
                 flyingSound.stopSound();
             }
         }
@@ -301,7 +318,7 @@ public class RocketContraptionEntity extends AbstractContraptionEntity implement
                 sequencedOffsetLimit = Math.max(0, sequencedOffsetLimit - movementVec.length());
         }
         if (Math.signum(prevAxisMotion) != Math.signum(axisMotion) && prevAxisMotion != 0)
-            contraption.stop(level);
+            contraption.stop(level());
         slowing = false;
     }
 
@@ -311,20 +328,20 @@ public class RocketContraptionEntity extends AbstractContraptionEntity implement
 
     @OnlyIn(Dist.CLIENT)
     private void tickAirSound(float maxVolume) {
-        if(level.isClientSide) {
+        if (level().isClientSide) {
             float pitch = (float) Mth.clamp(getDeltaMovement()
-                .length(), .2f, 3f);
+                    .length(), .2f, 3f);
             if (flyingSound == null || flyingSound.isStopped()) {
                 flyingSound = new RocketAirSound(SoundEvents.ELYTRA_FLYING, pitch, this);
                 Minecraft.getInstance()
-                    .getSoundManager()
-                    .play(flyingSound);
+                        .getSoundManager()
+                        .play(flyingSound);
             }
             flyingSound.setPitch(pitch);
             flyingSound.fadeIn(maxVolume);
         }
     }
-    @SuppressWarnings("resource")
+
     @OnlyIn(Dist.CLIENT)
     public static void handleSyncPacket(RocketContraptionSyncPacket packet) {
 //        System.out.println("ALERTA!!! ALERTA!!! HANDLING!!!!");
@@ -332,29 +349,29 @@ public class RocketContraptionEntity extends AbstractContraptionEntity implement
         if (!(entity instanceof RocketContraptionEntity rce))
             return;
 
-            rce.setPos(packet.pos.x, packet.pos.y, packet.pos.z);
-            rce.lift_vel = packet.lift_vel;
-            rce.launchtime = packet.launchtime;
+        rce.setPos(packet.pos.x, packet.pos.y, packet.pos.z);
+        rce.lift_vel = packet.lift_vel;
+        rce.launchtime = packet.launchtime;
 
-            rce.launched = packet.launched;
-            rce.landing = packet.landing;
-            rce.blasting = packet.blasting;
-            rce.slowing = packet.slowing;
-            rce.activeLaunch = packet.activeLaunch;
+        rce.launched = packet.launched;
+        rce.landing = packet.landing;
+        rce.blasting = packet.blasting;
+        rce.slowing = packet.slowing;
+        rce.activeLaunch = packet.activeLaunch;
     }
-    @SuppressWarnings("resource")
+
     @OnlyIn(Dist.CLIENT)
     public static void handleQuickSyncPacket(RocketContraptionQuickSyncPacket packet) {
 //        System.out.println("ALERTA!!! ALERTA!!! HANDLING!!!!");
         Entity entity = Minecraft.getInstance().level.getEntity(packet.contraptionEntityId);
         if (!(entity instanceof RocketContraptionEntity rce))
             return;
-            rce.slowing = packet.slowing;
+        rce.slowing = packet.slowing;
     }
 
     public ItemStack createReturnTicket(RocketContraptionEntity entity) {
         ItemStack result = new ItemStack(NorthstarItems.RETURN_TICKET.get());
-        result.setHoverName(Component.translatable("item.northstar.return_ticket" + "_" +  NorthstarPlanets.getPlanetName(entity.home)).setStyle(Style.EMPTY.withColor(ChatFormatting.AQUA).withItalic(false)));
+        result.setHoverName(Component.translatable("item.northstar.return_ticket" + "_" + NorthstarPlanets.getPlanetName(entity.home)).setStyle(Style.EMPTY.withColor(ChatFormatting.AQUA).withItalic(false)));
         CompoundTag tag = result.getOrCreateTagElement("Planet");
         tag.putString("name", NorthstarPlanets.getPlanetName(entity.home));
         return result;
@@ -366,12 +383,13 @@ public class RocketContraptionEntity extends AbstractContraptionEntity implement
         this.landing = true;
         this.lift_vel = 0;
     }
+
     @Override
     public Component getContraptionName() {
-        if(this.contraption instanceof RocketContraption rc)
-        return Component.literal(rc.name);
+        if (this.contraption instanceof RocketContraption rc)
+            return Component.literal(rc.name);
         else
-        return getName();
+            return getName();
     }
 
     @Override
@@ -384,11 +402,11 @@ public class RocketContraptionEntity extends AbstractContraptionEntity implement
     public void updateClientMotion() {
         Direction dir = Direction.UP;
         float modifier = dir.getAxisDirection()
-            .getStep();
+                .getStep();
 //        System.out.println("axisMotion " + axisMotion);
 //        System.out.println("clientOffsetDiff " + clientOffsetDiff);
         Vec3 motion = Vec3.atLowerCornerOf(Direction.UP.getNormal())
-            .scale((axisMotion + clientOffsetDiff * modifier / 2f) * ServerSpeedProvider.get());
+                .scale((axisMotion + clientOffsetDiff * modifier / 2f) * ServerSpeedProvider.get());
         if (sequencedOffsetLimit >= 0)
             motion = VecHelper.clampComponentWise(motion, (float) sequencedOffsetLimit);
         setDeltaMovement(motion);
@@ -398,12 +416,12 @@ public class RocketContraptionEntity extends AbstractContraptionEntity implement
         Level world = this.getCommandSenderWorld();
         AABB bounds = this.getBoundingBox();
         Vec3 position = this.position();
-        BlockPos gridPos = new BlockPos(position);
+        BlockPos gridPos = BlockPos.containing(position);
 
         if (contraption == null)
             return false;
-        if(!(contraption instanceof RocketContraption))
-                return false;
+        if (!(contraption instanceof RocketContraption))
+            return false;
         if (bounds == null)
             return false;
 
@@ -426,84 +444,82 @@ public class RocketContraptionEntity extends AbstractContraptionEntity implement
             return false;
 
         boolean spaceDown = heldControls.contains(4);
-        if(spaceDown && launched && launchtime == 0 && !blasting) {
+        if (spaceDown && launched && launchtime == 0 && !blasting) {
             launchtime = 200;
             activeLaunch = true;
         }
-        if(spaceDown && landing) {
+        if (spaceDown && landing) {
             slowing = true;
         }
         return true;
     }
+
     public boolean clientControl(BlockPos controlsLocalPos, Collection<Integer> heldControls, Player player) {
         if (player == null)
             return false;
         if (player.isSpectator())
             return false;
-        if(controlsLocalPos == null)
+        if (controlsLocalPos == null)
             return false;
         if (!toGlobalVector(VecHelper.getCenterOf(controlsLocalPos), 1).closerThan(player.position(), 8))
             return false;
         if (heldControls.contains(5))
             return false;
         boolean spaceDown = heldControls.contains(4);
-        if(spaceDown && launched && launchtime == 0 && !blasting) {
+        if (spaceDown && launched && launchtime == 0 && !blasting) {
             launchtime = 200;
             activeLaunch = true;
         }
-        if(spaceDown && landing) {
+        if (spaceDown && landing) {
             slowing = true;
         }
         return true;
     }
 
     public static boolean isCollidingWithWorld(Level world, RocketContraption contraption, BlockPos anchor,
-            Direction movementDirection) {
-            for (BlockPos pos : contraption.getOrCreateColliders(world, movementDirection)) {
-                BlockPos colliderPos = pos.offset(anchor);
+                                               Direction movementDirection) {
+        for (BlockPos pos : contraption.getOrCreateColliders(world, movementDirection)) {
+            BlockPos colliderPos = pos.offset(anchor);
 
-                BlockState collidedState = world.getBlockState(colliderPos);
-                StructureBlockInfo blockInfo = contraption.getBlocks()
+            BlockState collidedState = world.getBlockState(colliderPos);
+            StructureBlockInfo blockInfo = contraption.getBlocks()
                     .get(pos);
-                boolean emptyCollider = collidedState.getCollisionShape(world, pos)
+            boolean emptyCollider = collidedState.getCollisionShape(world, pos)
                     .isEmpty();
 
-                if (collidedState.getBlock() instanceof CocoaBlock)
-                    continue;
+            if (collidedState.getBlock() instanceof CocoaBlock)
+                continue;
 
-                MovementBehaviour movementBehaviour = AllMovementBehaviours.getBehaviour(blockInfo.state);
-                if (movementBehaviour != null) {
-                    if (movementBehaviour instanceof BlockBreakingMovementBehaviour) {
-                        BlockBreakingMovementBehaviour behaviour = (BlockBreakingMovementBehaviour) movementBehaviour;
-                        if (!behaviour.canBreak(world, colliderPos, collidedState) && !emptyCollider)
-                            return true;
-                        continue;
-                    }
-                    if (movementBehaviour instanceof HarvesterMovementBehaviour) {
-                        HarvesterMovementBehaviour harvesterMovementBehaviour =
+            MovementBehaviour movementBehaviour = MovementBehaviour.REGISTRY.get(blockInfo.state());
+            if (movementBehaviour != null) {
+                if (movementBehaviour instanceof BlockBreakingMovementBehaviour) {
+                    BlockBreakingMovementBehaviour behaviour = (BlockBreakingMovementBehaviour) movementBehaviour;
+                    if (!behaviour.canBreak(world, colliderPos, collidedState) && !emptyCollider)
+                        return true;
+                    continue;
+                }
+                if (movementBehaviour instanceof HarvesterMovementBehaviour) {
+                    HarvesterMovementBehaviour harvesterMovementBehaviour =
                             (HarvesterMovementBehaviour) movementBehaviour;
-                        if (!harvesterMovementBehaviour.isValidCrop(world, colliderPos, collidedState)
+                    if (!harvesterMovementBehaviour.isValidCrop(world, colliderPos, collidedState)
                             && !harvesterMovementBehaviour.isValidOther(world, colliderPos, collidedState)
                             && !emptyCollider)
-                            return true;
-                        continue;
-                    }
+                        return true;
+                    continue;
                 }
-
-                if (!collidedState.getMaterial()
-                    .isReplaceable() && !emptyCollider) {
-                    return true;
-                }
-
             }
-            return false;
+
+            if (!collidedState.canBeReplaced() && !emptyCollider) {
+                return true;
+            }
+
         }
-
-
+        return false;
+    }
 
 
     public void alignEntity() {
-        if (!this.level.isClientSide()) {
+        if (!this.level().isClientSide()) {
 
             for (Entity e : this.getPassengers()) {
                 if (!(e instanceof Player))
@@ -513,9 +529,9 @@ public class RocketContraptionEntity extends AbstractContraptionEntity implement
             }
 
             if (this.getPassengers()
-                .stream()
-                .anyMatch(p -> p instanceof Player)
-                ) {
+                    .stream()
+                    .anyMatch(p -> p instanceof Player)
+            ) {
             }
 
             this.setServerSidePrevPosition();
@@ -532,6 +548,7 @@ public class RocketContraptionEntity extends AbstractContraptionEntity implement
     public void setServerSidePrevPosition() {
         serverPrevPos = position();
     }
+
     public RocketContraption getContraption() {
         return (RocketContraption) this.contraption;
     }
@@ -569,17 +586,14 @@ public class RocketContraptionEntity extends AbstractContraptionEntity implement
         serialisedEntity = entity.serializeNBT();
         serialisedEntity.remove("Passengers");
         serialisedEntity.getCompound("Contraption")
-            .remove("Passengers");
+                .remove("Passengers");
     }
-
-
-
 
 
     @Override
     public void setBlock(BlockPos localPos, StructureBlockInfo newInfo) {
-            AllPackets.getChannel().send(PacketDistributor.TRACKING_ENTITY.with(() -> this),
-                new ContraptionBlockChangedPacket(this.getId(), localPos, newInfo.state));
+        AllPackets.getChannel().send(PacketDistributor.TRACKING_ENTITY.with(() -> this),
+                new ContraptionBlockChangedPacket(this.getId(), localPos, newInfo.state()));
     }
 
     @Override
@@ -609,8 +623,9 @@ public class RocketContraptionEntity extends AbstractContraptionEntity implement
 
         compound.putString("home", NorthstarPlanets.getPlanetName(home));
         compound.putString("destination", NorthstarPlanets.getPlanetName(destination));
-        if(this.owner != null)
-        {compound.putUUID("player", this.owner.getUUID());}
+        if (this.owner != null) {
+            compound.putUUID("player", this.owner.getUUID());
+        }
 
         compound.putInt("visualEngineCount", this.visualEngineCount);
 
@@ -621,7 +636,7 @@ public class RocketContraptionEntity extends AbstractContraptionEntity implement
     protected void readAdditional(CompoundTag compound, boolean spawnData) {
         super.readAdditional(compound, spawnData);
         sequencedOffsetLimit =
-            compound.contains("SequencedOffsetLimit") ? compound.getDouble("SequencedOffsetLimit") : -1;
+                compound.contains("SequencedOffsetLimit") ? compound.getDouble("SequencedOffsetLimit") : -1;
 
         this.blasting = compound.contains("blasting") ? compound.getBoolean("SequencedOffsetLimit") : false;
         this.slowing = compound.contains("slowing") ? compound.getBoolean("slowing") : false;
@@ -635,15 +650,27 @@ public class RocketContraptionEntity extends AbstractContraptionEntity implement
 
         this.isUsingTicket = compound.contains("isUsingTicket") ? compound.getBoolean("isUsingTicket") : false;
 
-        if(compound.contains("home")) {home = NorthstarPlanets.getPlanetDimension(compound.getString("home"));}
-        if(compound.contains("destination")) {destination = NorthstarPlanets.getPlanetDimension(compound.getString("destination"));}
+        if (compound.contains("home")) {
+            home = NorthstarPlanets.getPlanetDimension(compound.getString("home"));
+        }
+        if (compound.contains("destination")) {
+            destination = NorthstarPlanets.getPlanetDimension(compound.getString("destination"));
+        }
 
-        if(compound.contains("player")){this.ownerID = compound.getUUID("player");}
+        if (compound.contains("player")) {
+            this.ownerID = compound.getUUID("player");
+        }
 
-        if(compound.contains("visualEngineCount")){this.visualEngineCount = compound.getInt("visualEngineCount");}
-        if(compound.contains("lift_vel")){this.lift_vel = compound.getFloat("lift_vel");}
-        if(compound.contains("final_lift_vel")){this.final_lift_vel = compound.getFloat("final_lift_vel");}
-        if(spawnData) {
+        if (compound.contains("visualEngineCount")) {
+            this.visualEngineCount = compound.getInt("visualEngineCount");
+        }
+        if (compound.contains("lift_vel")) {
+            this.lift_vel = compound.getFloat("lift_vel");
+        }
+        if (compound.contains("final_lift_vel")) {
+            this.final_lift_vel = compound.getFloat("final_lift_vel");
+        }
+        if (spawnData) {
             System.out.println("reading spawn data");
         }
     }
@@ -655,7 +682,7 @@ public class RocketContraptionEntity extends AbstractContraptionEntity implement
             return false;
         if (!super.isActorActive(context, actor))
             return false;
-        return level.isClientSide();
+        return level().isClientSide();
     }
 
     @Override
@@ -677,7 +704,7 @@ public class RocketContraptionEntity extends AbstractContraptionEntity implement
 
     @Override
     protected StructureTransform makeStructureTransform() {
-        return new StructureTransform(new BlockPos(getAnchorVec().add(.5, .5, .5)), 0, 0, 0);
+        return new StructureTransform(BlockPos.containing(getAnchorVec().add(.5, .5, .5)), 0, 0, 0);
     }
 
     @Override
@@ -686,11 +713,13 @@ public class RocketContraptionEntity extends AbstractContraptionEntity implement
     }
 
     @Override
-    public void teleportTo(double p_70634_1_, double p_70634_3_, double p_70634_5_) {}
+    public void teleportTo(double p_70634_1_, double p_70634_3_, double p_70634_5_) {
+    }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void lerpTo(double x, double y, double z, float yw, float pt, int inc, boolean t) {}
+    public void lerpTo(double x, double y, double z, float yw, float pt, int inc, boolean t) {
+    }
 
     @Override
     protected void handleStallInformation(double x, double y, double z, float angle) {
@@ -704,10 +733,6 @@ public class RocketContraptionEntity extends AbstractContraptionEntity implement
     }
 
     @Override
-    protected void outOfWorld() {
-    }
-
-    @Override
     public void applyLocalTransforms(PoseStack matrixStack, float partialTicks) {
         float angleInitialYaw = 0;
         float angleYaw = getViewYRot(partialTicks);
@@ -715,18 +740,13 @@ public class RocketContraptionEntity extends AbstractContraptionEntity implement
 
         matrixStack.translate(0, 0, 0);
 
-
-        TransformStack.cast(matrixStack)
-            .nudge(getId())
-            .centre()
-            .rotateY(angleYaw)
-            .rotateZ(anglePitch)
-            .rotateY(angleInitialYaw)
-            .unCentre();
+        TransformStack.of(matrixStack)
+                .nudge(getId())
+                .center()
+                .rotateY(angleYaw)
+                .rotateZ(anglePitch)
+                .rotateY(angleInitialYaw)
+                .uncenter();
     }
-
-
-
-
 
 }

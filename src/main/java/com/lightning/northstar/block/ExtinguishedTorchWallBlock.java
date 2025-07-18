@@ -1,13 +1,8 @@
 package com.lightning.northstar.block;
 
-import java.util.Map;
-
-import javax.annotation.Nullable;
-
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.lightning.northstar.world.OxygenStuff;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
@@ -31,6 +26,9 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+
+import javax.annotation.Nullable;
+import java.util.Map;
 
 public class ExtinguishedTorchWallBlock extends Block{
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;

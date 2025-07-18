@@ -1,5 +1,6 @@
 {
   "ambientocclusion": false,
+  "render_type": "minecraft:cutout",
   "textures": {
     "texture": "northstar:block/mercury_petrified_cactus",
     "inside": "northstar:block/mercury_petrified_cactus",

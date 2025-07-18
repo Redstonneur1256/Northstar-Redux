@@ -1,9 +1,6 @@
 package com.lightning.northstar.block;
 
-import java.util.function.Consumer;
-
-import javax.annotation.Nullable;
-
+import com.lightning.northstar.content.NorthstarBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -20,6 +17,9 @@ import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DripstoneThickness;
 import net.minecraft.world.level.material.Fluids;
+
+import javax.annotation.Nullable;
+import java.util.function.Consumer;
 
 public class IcicleBlock extends PointedDripstoneBlock implements Fallable, SimpleWaterloggedBlock {
 

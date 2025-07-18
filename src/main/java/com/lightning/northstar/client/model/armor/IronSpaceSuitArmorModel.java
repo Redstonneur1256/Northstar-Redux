@@ -1,25 +1,25 @@
 package com.lightning.northstar.client.model.armor;
 
-import com.lightning.northstar.client.NorthstarEntityResources;
-import com.lightning.northstar.item.armor.IronSpaceSuitArmorItem;
-
+import com.lightning.northstar.content.NorthstarEntityResources;
+import com.lightning.northstar.item.armor.SpaceSuitArmorItem;
 import net.minecraft.resources.ResourceLocation;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
+import software.bernie.geckolib.model.GeoModel;
 
-public class IronSpaceSuitArmorModel extends AnimatedGeoModel<IronSpaceSuitArmorItem>{
+public class IronSpaceSuitArmorModel extends GeoModel<SpaceSuitArmorItem> {
+
     @Override
-    public ResourceLocation getAnimationResource(IronSpaceSuitArmorItem animatable) {
-        return NorthstarEntityResources.IRONSPACESUITARMOR_ANIMATIONS;
+    public ResourceLocation getAnimationResource(SpaceSuitArmorItem animatable) {
+        return NorthstarEntityResources.IRON_SPACESUIT_ARMOR_ANIMATIONS;
     }
 
     @Override
-    public ResourceLocation getModelResource(IronSpaceSuitArmorItem object) {
-        return NorthstarEntityResources.IRONSPACESUITARMOR_MODEL;
+    public ResourceLocation getModelResource(SpaceSuitArmorItem object) {
+        return NorthstarEntityResources.IRON_SPACESUIT_ARMOR_MODEL;
     }
 
     @Override
-    public ResourceLocation getTextureResource(IronSpaceSuitArmorItem object) {
-        return NorthstarEntityResources.IRONSPACESUITARMOR_TEXTURE;
+    public ResourceLocation getTextureResource(SpaceSuitArmorItem object) {
+        return NorthstarEntityResources.IRON_SPACESUIT_ARMOR_TEXTURE;
     }
 
 }

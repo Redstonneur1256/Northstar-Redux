@@ -1,14 +1,8 @@
 package com.lightning.northstar.mixin.blockstuff;
 
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
 import com.lightning.northstar.block.ExtinguishedTorchWallBlock;
-import com.lightning.northstar.block.NorthstarTechBlocks;
+import com.lightning.northstar.content.NorthstarTechBlocks;
 import com.lightning.northstar.world.OxygenStuff;
-
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -16,6 +10,10 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.StandingAndWallBlockItem;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.state.BlockState;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(StandingAndWallBlockItem.class)
 public class TorchItemMixin {

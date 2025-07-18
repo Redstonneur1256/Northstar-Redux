@@ -3,7 +3,6 @@ package com.lightning.northstar.world.features;
 import com.lightning.northstar.block.crops.VenusVinesBlock;
 import com.lightning.northstar.world.features.configuration.RoofVinesConfig;
 import com.mojang.serialization.Codec;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;

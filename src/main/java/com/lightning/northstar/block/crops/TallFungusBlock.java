@@ -1,9 +1,5 @@
 package com.lightning.northstar.block.crops;
 
-import java.util.function.Supplier;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
@@ -25,12 +21,15 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 
+import javax.annotation.Nullable;
+import java.util.function.Supplier;
+
 public class TallFungusBlock extends TallFlowerBlock {
     protected static final BooleanProperty IS_ON_CEILING = BooleanProperty.create("is_on_ceiling");
-    private final Supplier<Holder<? extends ConfiguredFeature<?, ?>>> featureSupplier;
-    private final Supplier<Holder<? extends ConfiguredFeature<?, ?>>> ceilingFeatureSupplier;
+    private final Supplier<Holder<ConfiguredFeature<?, ?>>> featureSupplier;
+    private final Supplier<Holder<ConfiguredFeature<?, ?>>> ceilingFeatureSupplier;
 
-    public TallFungusBlock(Properties pProperties, Supplier<Holder<? extends ConfiguredFeature<?, ?>>> feature,Supplier<Holder<? extends ConfiguredFeature<?, ?>>> ceilingfeature) {
+    public TallFungusBlock(Properties pProperties, Supplier<Holder<ConfiguredFeature<?, ?>>> feature,Supplier<Holder<ConfiguredFeature<?, ?>>> ceilingfeature) {
         super(pProperties);
         featureSupplier = feature;
         ceilingFeatureSupplier = ceilingfeature;
@@ -126,11 +125,12 @@ public class TallFungusBlock extends TallFlowerBlock {
         else {BlockPos blockpos = pPos.above();
         pLevel.setBlock(blockpos, copyWaterloggedFrom(pLevel, blockpos, this.defaultBlockState().setValue(HALF, DoubleBlockHalf.UPPER)), 3);}
     }
-    
+
     @Override
-    public boolean isValidBonemealTarget(BlockGetter pLevel, BlockPos pPos, BlockState pState, boolean pIsClient) {
+    public boolean isValidBonemealTarget(LevelReader p_256234_, BlockPos p_57304_, BlockState p_57305_, boolean p_57306_) {
         return true;
     }
+
     @Override
     public boolean isBonemealSuccess(Level pLevel, RandomSource pRandom, BlockPos pPos, BlockState pState) {
         return true;

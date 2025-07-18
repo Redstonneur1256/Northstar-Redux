@@ -2,7 +2,6 @@ package com.lightning.northstar.world.features;
 
 import com.lightning.northstar.world.features.configuration.CraterConfig;
 import com.mojang.serialization.Codec;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;

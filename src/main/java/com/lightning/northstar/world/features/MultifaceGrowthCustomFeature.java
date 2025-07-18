@@ -1,25 +1,18 @@
 package com.lightning.northstar.world.features;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import com.google.common.collect.ImmutableMap;
-import com.lightning.northstar.block.NorthstarBlocks;
 import com.mojang.serialization.Codec;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.MultifaceBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.MultifaceGrowthConfiguration;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MultifaceGrowthCustomFeature extends Feature<MultifaceGrowthConfiguration> {
     public MultifaceGrowthCustomFeature(Codec<MultifaceGrowthConfiguration> pCodec) {

@@ -1,20 +1,14 @@
 package com.lightning.northstar.block.tech.rocket_controls;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.UUID;
-
 import com.lightning.northstar.contraptions.RocketContraptionEntity;
-import com.simibubi.create.foundation.utility.IntAttached;
-import com.simibubi.create.foundation.utility.WorldAttached;
-
+import net.createmod.catnip.data.IntAttached;
+import net.createmod.catnip.data.WorldAttached;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.LevelAccessor;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 public class RocketControlsServerHandler {
     public static WorldAttached<Map<UUID, ControlsContext>> receivedInputs = new WorldAttached<>($ -> new HashMap<>());

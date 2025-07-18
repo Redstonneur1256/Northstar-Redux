@@ -1,34 +1,19 @@
 package com.lightning.northstar.block.tech.temperature_regulator;
 
 import com.simibubi.create.foundation.networking.BlockEntityConfigurationPacket;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 
 public class TemperatureRegulatorEditPacket extends BlockEntityConfigurationPacket<TemperatureRegulatorBlockEntity> {
 
-    int offsetX;
-    int offsetY;
-    int offsetZ;
-    int sizeChangeX;
-    int sizeChangeY;
-    int sizeChangeZ;
-    int temp;
-    boolean envFill;
-
-
-    public static TemperatureRegulatorEditPacket changeStuff(BlockPos pos, int X, int Y, int Z, int sizeX, int sizeY, int sizeZ, int tempChange, boolean envFill) {
-        TemperatureRegulatorEditPacket packet = new TemperatureRegulatorEditPacket(pos, X, Y, Z, sizeX, sizeY, sizeZ, tempChange, envFill);
-        packet.offsetX = X;
-        packet.offsetY = Y;
-        packet.offsetZ = Z;
-        packet.sizeChangeX = sizeX;
-        packet.sizeChangeY = sizeY;
-        packet.sizeChangeZ = sizeZ;
-        packet.temp = tempChange;
-        packet.envFill = envFill;
-        return packet;
-    }
+    private int offsetX;
+    private int offsetY;
+    private int offsetZ;
+    private int sizeChangeX;
+    private int sizeChangeY;
+    private int sizeChangeZ;
+    private int temp;
+    private boolean envFill;
 
     public TemperatureRegulatorEditPacket(FriendlyByteBuf buffer) {
         super(buffer);
@@ -69,6 +54,7 @@ public class TemperatureRegulatorEditPacket extends BlockEntityConfigurationPack
         temp = buffer.readVarInt();
         envFill = buffer.readBoolean();
     }
+
     @Override
     protected void applySettings(TemperatureRegulatorBlockEntity be) {
         be.changeTemp(temp);

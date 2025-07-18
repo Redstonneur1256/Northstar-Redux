@@ -1,7 +1,6 @@
 package com.lightning.northstar.entity;
 
 import com.google.common.collect.ImmutableList;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Unit;
 import net.minecraft.world.entity.ai.behavior.BlockPosTracker;
@@ -16,7 +15,7 @@ public class MarsWormAi {
     }
 
     public static void setDisturbanceLocation(MarsWormEntity worm, BlockPos pDisturbanceLocation) {
-        if (worm.level.getWorldBorder().isWithinBounds(pDisturbanceLocation)) {
+        if (worm.level().getWorldBorder().isWithinBounds(pDisturbanceLocation)) {
                 worm.getBrain().setMemoryWithExpiry(MemoryModuleType.SNIFF_COOLDOWN, Unit.INSTANCE, 100L);
                 worm.getBrain().setMemoryWithExpiry(MemoryModuleType.LOOK_TARGET, new BlockPosTracker(pDisturbanceLocation), 100L);
                 worm.getBrain().setMemoryWithExpiry(MemoryModuleType.DISTURBANCE_LOCATION, pDisturbanceLocation, 100L);

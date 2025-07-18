@@ -1,7 +1,5 @@
 package com.lightning.northstar.block;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.FluidTags;
@@ -25,6 +23,8 @@ import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+
+import javax.annotation.Nullable;
 
 public class VerticalSlabBlock extends DirectionalBlock implements SimpleWaterloggedBlock{
        public static final EnumProperty<VerticalSlabTypes> TYPE = EnumProperty.create("type", VerticalSlabTypes.class);

@@ -1,12 +1,7 @@
 package com.lightning.northstar.block.tech.rocket_controls;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.UUID;
-
 import com.lightning.northstar.contraptions.RocketContraptionEntity;
 import com.simibubi.create.foundation.networking.SimplePacketBase;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -14,6 +9,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkEvent.Context;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.UUID;
 
 public class RocketControlsInputPacket extends SimplePacketBase {
 

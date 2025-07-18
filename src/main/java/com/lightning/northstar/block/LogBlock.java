@@ -1,13 +1,13 @@
 package com.lightning.northstar.block;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.ToolAction;
 import net.minecraftforge.common.ToolActions;
+
+import javax.annotation.Nullable;
 
 public class LogBlock extends RotatedPillarBlock {
 

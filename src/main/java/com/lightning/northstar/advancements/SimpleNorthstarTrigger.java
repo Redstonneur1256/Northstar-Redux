@@ -1,16 +1,14 @@
 package com.lightning.northstar.advancements;
 
-import java.util.List;
-import java.util.function.Supplier;
-
-import javax.annotation.Nullable;
-
 import com.google.gson.JsonObject;
-
+import net.minecraft.advancements.critereon.ContextAwarePredicate;
 import net.minecraft.advancements.critereon.DeserializationContext;
-import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.function.Supplier;
 
 public class SimpleNorthstarTrigger extends CriterionTriggerBase2ElectricBoogaloo<SimpleNorthstarTrigger.Instance> {
 
@@ -33,8 +31,8 @@ public class SimpleNorthstarTrigger extends CriterionTriggerBase2ElectricBoogalo
 
     public static class Instance extends CriterionTriggerBase2ElectricBoogaloo.Instance {
 
-        public Instance(ResourceLocation idIn) {
-            super(idIn, EntityPredicate.Composite.ANY);
+        public Instance(ResourceLocation criterion) {
+            super(criterion, ContextAwarePredicate.ANY);
         }
 
         @Override
@@ -42,4 +40,5 @@ public class SimpleNorthstarTrigger extends CriterionTriggerBase2ElectricBoogalo
             return true;
         }
     }
+
 }

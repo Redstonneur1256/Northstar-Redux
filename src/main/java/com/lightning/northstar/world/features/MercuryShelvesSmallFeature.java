@@ -1,9 +1,8 @@
 package com.lightning.northstar.world.features;
 
 import com.lightning.northstar.block.MercuryShelfFungusBlock;
-import com.lightning.northstar.block.NorthstarBlocks;
+import com.lightning.northstar.content.NorthstarBlocks;
 import com.mojang.serialization.Codec;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;

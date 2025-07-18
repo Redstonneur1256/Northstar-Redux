@@ -1,5 +1,6 @@
 {
   "ambientocclusion": false,
+  "render_type": "minecraft:cutout",
   "textures": {
     "particle": "northstar:block/mars_roots",
     "vine": "northstar:block/mars_roots"

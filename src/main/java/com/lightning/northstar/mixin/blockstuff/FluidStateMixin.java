@@ -1,21 +1,18 @@
 package com.lightning.northstar.mixin.blockstuff;
 
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
 import com.lightning.northstar.world.TemperatureStuff;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(FluidState.class)
 public class FluidStateMixin {
@@ -57,7 +54,7 @@ public class FluidStateMixin {
     //EXPLOSION!!!!!! YEAH!!!!!!! I LOVE DEATH AND DESTRUCTION!!!!!!!!!!!!!!!!!!!
     public void combust(Level level, BlockPos pos, FluidState fluid) {
         level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
-        level.explode(null, pos.getX(), pos.getY(), pos.getZ(), 2.5F, true, Explosion.BlockInteraction.DESTROY);
+        level.explode(null, pos.getX(), pos.getY(), pos.getZ(), 2.5F, true, Level.ExplosionInteraction.MOB);
 
     }
 }

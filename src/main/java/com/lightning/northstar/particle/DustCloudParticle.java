@@ -1,18 +1,12 @@
 package com.lightning.northstar.particle;
 
 import com.simibubi.create.content.equipment.bell.BasicParticleData;
-import com.simibubi.create.foundation.utility.VecHelper;
-
+import net.createmod.catnip.math.VecHelper;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.particle.SimpleAnimatedParticle;
-import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.client.particle.*;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleType;
-import net.minecraft.util.Mth;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -41,8 +35,8 @@ public class DustCloudParticle extends SimpleAnimatedParticle {
     @Override
     public void tick() {
         super.tick();
-        x+=0.25;
-        z-=0.25;
+        x += 0.25;
+        z -= 0.25;
         this.setAlpha(0.2f);
     }
 
@@ -52,15 +46,16 @@ public class DustCloudParticle extends SimpleAnimatedParticle {
 
     @Override
     public int getLightColor(float partialTick) {
-        BlockPos blockpos = new BlockPos(this.x, this.y, this.z);
+        BlockPos blockpos = BlockPos.containing(x, y, z);
         return this.level.isLoaded(blockpos) ? LevelRenderer.getLightColor(level, blockpos) : 0;
     }
 
     private void selectSprite(int index) {
         setSprite(sprites.get(index, 8));
     }
+
     public float getQuadSize(float pScaleFactor) {
-        float f = ((float)this.age + pScaleFactor) / (float)this.lifetime;
+        float f = ((float) this.age + pScaleFactor) / (float) this.lifetime;
         return this.quadSize * (1.0F - f * f * 0.5F);
     }
 
@@ -72,7 +67,7 @@ public class DustCloudParticle extends SimpleAnimatedParticle {
         }
 
         public Particle createParticle(DustCloudParticleData data, ClientLevel worldIn, double x, double y, double z,
-                double xSpeed, double ySpeed, double zSpeed) {
+                                       double xSpeed, double ySpeed, double zSpeed) {
             return new DustCloudParticle(worldIn, x, y, z, zSpeed, zSpeed, zSpeed, this.spriteSet);
         }
     }

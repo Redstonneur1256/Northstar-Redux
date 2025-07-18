@@ -1,7 +1,6 @@
 package com.lightning.northstar.block.tech.telescope;
 
 import com.simibubi.create.foundation.networking.BlockEntityConfigurationPacket;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;

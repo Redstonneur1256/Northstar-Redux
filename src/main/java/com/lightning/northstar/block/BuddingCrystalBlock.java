@@ -33,6 +33,8 @@ public class BuddingCrystalBlock extends AmethystBlock {
         * net.minecraft.world.level.block.state.BlockBehaviour.BlockStateBase#getPistonPushReaction} whenever possible.
         * Implementing/overriding is fine.
         */
+       @Deprecated
+       @Override
        public PushReaction getPistonPushReaction(BlockState pState) {
           return PushReaction.DESTROY;
        }

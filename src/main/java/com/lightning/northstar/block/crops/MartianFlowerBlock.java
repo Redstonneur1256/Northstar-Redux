@@ -1,10 +1,7 @@
 package com.lightning.northstar.block.crops;
 
-import javax.annotation.Nullable;
-
-import com.lightning.northstar.block.NorthstarBlocks;
-import com.lightning.northstar.item.NorthstarItems;
-
+import com.lightning.northstar.content.NorthstarBlocks;
+import com.lightning.northstar.content.NorthstarItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
@@ -13,6 +10,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
@@ -25,17 +23,20 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nullable;
 
 public class MartianFlowerBlock extends BushBlock implements BonemealableBlock {
+
     public static final int MAX_AGE = 2;
     public static final IntegerProperty AGE = BlockStateProperties.AGE_2;
-    protected static final float AABB_OFFSET = 3.0F;
     protected static final VoxelShape SHAPE = Block.box(5.0D, 0.0D, 5.0D, 11.0D, 10.0D, 11.0D);
 
+    public MartianFlowerBlock(BlockBehaviour.Properties properties) {
+        super(properties);
 
-    public MartianFlowerBlock(BlockBehaviour.Properties pProperties) {
-        super(pProperties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(this.getAgeProperty(), Integer.valueOf(2)));
+        registerDefaultState(stateDefinition.any().setValue(getAgeProperty(), 2));
     }
 
     public Item getSeedItem() {
@@ -45,11 +46,13 @@ public class MartianFlowerBlock extends BushBlock implements BonemealableBlock {
     public IntegerProperty getAgeProperty() {
         return AGE;
     }
+
     public int getMaxAge() {
         return MAX_AGE;
     }
 
-    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+    @Override
+    public @NotNull VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
         Vec3 vec3 = pState.getOffset(pLevel, pPos);
         return SHAPE.move(vec3.x, vec3.y, vec3.z);
     }
@@ -58,9 +61,11 @@ public class MartianFlowerBlock extends BushBlock implements BonemealableBlock {
     protected boolean mayPlaceOn(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
         return pState.is(BlockTags.DIRT) || pState.is(Blocks.FARMLAND) || pState.is(NorthstarBlocks.MARS_SOIL.get()) || pState.is(NorthstarBlocks.MARS_FARMLAND.get()) || pState.is(NorthstarBlocks.MARTIAN_GRASS.get());
     }
+
     public boolean isMaxAge(BlockState pState) {
         return pState.getValue(this.getAgeProperty()) >= this.getMaxAge();
     }
+
     public boolean isRandomlyTicking(BlockState pState) {
         return !this.isMaxAge(pState);
     }
@@ -71,7 +76,7 @@ public class MartianFlowerBlock extends BushBlock implements BonemealableBlock {
         if (pLevel.getRawBrightness(pPos, 0) >= 9) {
             int i = this.getAge(pState);
             if (i < this.getMaxAge()) {
-                   pLevel.setBlock(pPos, this.getStateForAge(i + 1), 2);
+                pLevel.setBlock(pPos, this.getStateForAge(i + 1), 2);
             }
         }
     }
@@ -92,25 +97,25 @@ public class MartianFlowerBlock extends BushBlock implements BonemealableBlock {
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext pContext) {
         Item playerItem = pContext.getPlayer().getItemInHand(pContext.getHand()).getItem();
-        if(playerItem == this.getSeedItem())
+        if (playerItem == this.getSeedItem())
             return this.defaultBlockState().setValue(AGE, Integer.valueOf(0));
         return this.defaultBlockState();
     }
 
     @Override
-    public boolean isValidBonemealTarget(BlockGetter pLevel, BlockPos pPos, BlockState pState, boolean pIsClient) {
-        return !this.isMaxAge(pState);
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state, boolean isClient) {
+        return !isMaxAge(state);
     }
 
     @Override
-    public boolean isBonemealSuccess(Level pLevel, RandomSource pRandom, BlockPos pPos, BlockState pState) {
+    public boolean isBonemealSuccess(Level level, RandomSource random, BlockPos pos, BlockState state) {
         return true;
     }
 
     @Override
-    public void performBonemeal(ServerLevel pLevel, RandomSource pRandom, BlockPos pPos, BlockState pState) {
-        if(!this.isMaxAge(pState)) {
-            pLevel.setBlock(pPos, this.getStateForAge(this.getAge(pState) + 1), 2);
+    public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
+        if (!isMaxAge(state)) {
+            level.setBlock(pos, getStateForAge(getAge(state) + 1), 2);
         }
     }
 

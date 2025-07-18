@@ -1,10 +1,5 @@
 package com.lightning.northstar.block.tech.ice_box;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-
 import com.lightning.northstar.item.NorthstarRecipeTypes;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipeBuilder.ProcessingRecipeParams;
@@ -15,21 +10,25 @@ import com.simibubi.create.foundation.fluid.FluidIngredient;
 import com.simibubi.create.foundation.item.SmartInventory;
 import com.simibubi.create.foundation.recipe.DummyCraftingContainer;
 import com.simibubi.create.foundation.recipe.IRecipeTypeInfo;
-import com.simibubi.create.foundation.utility.Iterate;
-
+import net.createmod.catnip.data.Iterate;
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
 @SuppressWarnings("removal")
-public class FreezingRecipe extends ProcessingRecipe<SmartInventory>  {
+public class FreezingRecipe extends ProcessingRecipe<SmartInventory> {
 
     //im gonna cry I just want this to work
     public static boolean match(IceBoxBlockEntity iceBox, Recipe<?> recipe) {
@@ -37,15 +36,15 @@ public class FreezingRecipe extends ProcessingRecipe<SmartInventory>  {
         if (filter == null)
             return false;
 
-        boolean filterTest = filter.test(recipe.getResultItem());
+        boolean filterTest = filter.test(recipe.getResultItem(Minecraft.getInstance().level.registryAccess()));
         if (recipe instanceof FreezingRecipe) {
             FreezingRecipe FreezingRecipe = (FreezingRecipe) recipe;
             if (FreezingRecipe.getRollableResults()
-                .isEmpty()
-                && !FreezingRecipe.getFluidResults()
+                    .isEmpty()
+                    && !FreezingRecipe.getFluidResults()
                     .isEmpty())
                 filterTest = filter.test(FreezingRecipe.getFluidResults()
-                    .get(0));
+                        .get(0));
         }
 
         if (!filterTest)
@@ -60,10 +59,8 @@ public class FreezingRecipe extends ProcessingRecipe<SmartInventory>  {
 
     private static boolean apply(IceBoxBlockEntity icebox, Recipe<?> recipe, boolean test) {
         boolean isFreezingRecipe = recipe instanceof FreezingRecipe;
-        IItemHandler availableItems = icebox.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
-            .orElse(null);
-        IFluidHandler availableFluids = icebox.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
-            .orElse(null);
+        IItemHandler availableItems = icebox.getCapability(ForgeCapabilities.ITEM_HANDLER).orElse(null);
+        IFluidHandler availableFluids = icebox.getCapability(ForgeCapabilities.FLUID_HANDLER).orElse(null);
 
         if (availableItems == null || availableFluids == null)
             return false;
@@ -73,22 +70,22 @@ public class FreezingRecipe extends ProcessingRecipe<SmartInventory>  {
 
         List<Ingredient> ingredients = new LinkedList<>(recipe.getIngredients());
         List<FluidIngredient> fluidIngredients =
-            isFreezingRecipe ? ((FreezingRecipe) recipe).getFluidIngredients() : Collections.emptyList();
+                isFreezingRecipe ? ((FreezingRecipe) recipe).getFluidIngredients() : Collections.emptyList();
 
         for (boolean simulate : Iterate.trueAndFalse) {
-
             if (!simulate && test)
                 return true;
 
             int[] extractedItemsFromSlot = new int[availableItems.getSlots()];
             int[] extractedFluidsFromTank = new int[availableFluids.getTanks()];
 
-            Ingredients: for (int i = 0; i < ingredients.size(); i++) {
+            Ingredients:
+            for (int i = 0; i < ingredients.size(); i++) {
                 Ingredient ingredient = ingredients.get(i);
 
                 for (int slot = 0; slot < availableItems.getSlots(); slot++) {
                     if (simulate && availableItems.getStackInSlot(slot)
-                        .getCount() <= extractedItemsFromSlot[slot])
+                            .getCount() <= extractedItemsFromSlot[slot])
                         continue;
                     ItemStack extracted = availableItems.extractItem(slot, 1, true);
                     if (!ingredient.test(extracted))
@@ -104,7 +101,8 @@ public class FreezingRecipe extends ProcessingRecipe<SmartInventory>  {
             }
 
             boolean fluidsAffected = false;
-            FluidIngredients: for (int i = 0; i < fluidIngredients.size(); i++) {
+            FluidIngredients:
+            for (int i = 0; i < fluidIngredients.size(); i++) {
                 FluidIngredient fluidIngredient = fluidIngredients.get(i);
                 int amountRequired = fluidIngredient.getRequiredAmount();
 
@@ -132,9 +130,9 @@ public class FreezingRecipe extends ProcessingRecipe<SmartInventory>  {
 
             if (fluidsAffected) {
                 icebox.getBehaviour(SmartFluidTankBehaviour.INPUT)
-                    .forEach(TankSegment::onFluidStackChanged);
+                        .forEach(TankSegment::onFluidStackChanged);
                 icebox.getBehaviour(SmartFluidTankBehaviour.OUTPUT)
-                    .forEach(TankSegment::onFluidStackChanged);
+                        .forEach(TankSegment::onFluidStackChanged);
             }
 
             if (simulate) {
@@ -143,7 +141,7 @@ public class FreezingRecipe extends ProcessingRecipe<SmartInventory>  {
                     recipeOutputFluids.addAll(FreezingRecipe.getFluidResults());
                     recipeOutputItems.addAll(FreezingRecipe.getRemainingItems(icebox.getInputInventory()));
                 } else {
-                    recipeOutputItems.add(recipe.getResultItem());
+                    recipeOutputItems.add(recipe.getResultItem(icebox.getLevel().registryAccess()));
 
                     if (recipe instanceof CraftingRecipe craftingRecipe) {
                         recipeOutputItems.addAll(craftingRecipe.getRemainingItems(new DummyCraftingContainer(availableItems, extractedItemsFromSlot)));

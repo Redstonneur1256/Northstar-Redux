@@ -3,7 +3,6 @@ package com.lightning.northstar;
 import com.lightning.northstar.block.tech.rocket_controls.RocketControlsHandler;
 import com.lightning.northstar.item.armor.RemainingOxygenOverlay;
 import com.lightning.northstar.particle.NorthstarParticles;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
@@ -18,11 +17,9 @@ public class NorthstarClient {
 
     @SubscribeEvent
     public static void onTick(ClientTickEvent event) {
-
         if (event.phase == Phase.START) {
             RocketControlsHandler.tick();
         }
-
     }
 
     public static void onCtorClient(IEventBus modEventBus, IEventBus forgeEventBus) {
@@ -35,6 +32,6 @@ public class NorthstarClient {
         public static void registerGuiOverlays(RegisterGuiOverlaysEvent event) {
             event.registerAbove(VanillaGuiOverlay.AIR_LEVEL.id(), "remaining_oxygen", RemainingOxygenOverlay.INSTANCE);
         }
-
     }
+
 }

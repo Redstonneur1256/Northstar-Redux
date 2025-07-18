@@ -1,12 +1,11 @@
 package com.lightning.northstar.world.features;
 
-import java.util.List;
-
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
+
+import java.util.List;
 
 public class StructureFeatureConfig implements FeatureConfiguration  {
     public static final Codec<StructureFeatureConfig> CODEC = RecordCodecBuilder.create((p_159816_) -> {

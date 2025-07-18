@@ -1,7 +1,7 @@
 package com.lightning.northstar.block.tech.ice_box;
 
-import com.lightning.northstar.block.NorthstarTechBlocks;
-import com.lightning.northstar.block.entity.NorthstarBlockEntityTypes;
+import com.lightning.northstar.content.NorthstarBlockEntityTypes;
+import com.lightning.northstar.content.NorthstarTechBlocks;
 import com.simibubi.create.AllShapes;
 import com.simibubi.create.Create;
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
@@ -10,7 +10,6 @@ import com.simibubi.create.content.fluids.transfer.GenericItemFilling;
 import com.simibubi.create.foundation.block.IBE;
 import com.simibubi.create.foundation.fluid.FluidHelper;
 import com.simibubi.create.foundation.item.ItemHelper;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
@@ -36,8 +35,8 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
@@ -48,8 +47,8 @@ public class IceBoxBlock extends Block implements IBE<IceBoxBlockEntity>, IWrenc
 
     public static final DirectionProperty FACING = BlockStateProperties.FACING_HOPPER;
 
-    public IceBoxBlock(Properties p_i48440_1_) {
-        super(p_i48440_1_);
+    public IceBoxBlock(Properties properties) {
+        super(properties);
         registerDefaultState(defaultBlockState().setValue(FACING, Direction.DOWN));
     }
 
@@ -63,14 +62,14 @@ public class IceBoxBlock extends Block implements IBE<IceBoxBlockEntity>, IWrenc
     public InteractionResult onWrenched(BlockState state, UseOnContext context) {
         if (!context.getLevel().isClientSide)
             withBlockEntityDo(context.getLevel(), context.getClickedPos(),
-                bte -> bte.onWrenched(context.getClickedFace()));
+                    bte -> bte.onWrenched(context.getClickedFace()));
         return InteractionResult.SUCCESS;
     }
 
     @SuppressWarnings("deprecation")
     @Override
     public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn,
-        BlockHitResult hit) {
+                                 BlockHitResult hit) {
         ItemStack heldItem = player.getItemInHand(handIn);
 
         return onBlockEntityUse(worldIn, pos, be -> {
@@ -81,11 +80,11 @@ public class IceBoxBlock extends Block implements IBE<IceBoxBlockEntity>, IWrenc
                     return InteractionResult.SUCCESS;
 
                 if (GenericItemEmptying.canItemBeEmptied(worldIn, heldItem)
-                    || GenericItemFilling.canItemBeFilled(worldIn, heldItem))
+                        || GenericItemFilling.canItemBeFilled(worldIn, heldItem))
                     return InteractionResult.SUCCESS;
                 if (heldItem.getItem()
-                    .equals(Items.SPONGE)
-                    && !be.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
+                        .equals(Items.SPONGE)
+                        && !be.getCapability(ForgeCapabilities.FLUID_HANDLER)
                         .map(iFluidHandler -> iFluidHandler.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.EXECUTE))
                         .orElse(FluidStack.EMPTY)
                         .isEmpty()) {
@@ -101,13 +100,13 @@ public class IceBoxBlock extends Block implements IBE<IceBoxBlockEntity>, IWrenc
                 if (stackInSlot.isEmpty())
                     continue;
                 player.getInventory()
-                    .placeItemBackInInventory(stackInSlot);
+                        .placeItemBackInInventory(stackInSlot);
                 inv.setStackInSlot(slot, ItemStack.EMPTY);
                 success = true;
             }
             if (success)
                 worldIn.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, .2f,
-                    1f + Create.RANDOM.nextFloat());
+                        1f + Create.RANDOM.nextFloat());
             return InteractionResult.SUCCESS;
         });
     }
@@ -127,7 +126,7 @@ public class IceBoxBlock extends Block implements IBE<IceBoxBlockEntity>, IWrenc
             // Tossed items bypass the quarter-stack limit
             be.inputInventory.withMaxStackSize(64);
             ItemStack insertItem = ItemHandlerHelper.insertItem(be.inputInventory, itemEntity.getItem()
-                .copy(), false);
+                    .copy(), false);
             be.inputInventory.withMaxStackSize(64);
 
             if (insertItem.isEmpty()) {
@@ -169,8 +168,8 @@ public class IceBoxBlock extends Block implements IBE<IceBoxBlockEntity>, IWrenc
     @Override
     public int getAnalogOutputSignal(BlockState blockState, Level worldIn, BlockPos pos) {
         return getBlockEntityOptional(worldIn, pos).map(IceBoxBlockEntity::getInputInventory)
-            .map(ItemHelper::calcRedstoneFromInventory)
-            .orElse(0);
+                .map(ItemHelper::calcRedstoneFromInventory)
+                .orElse(0);
     }
 
     @Override

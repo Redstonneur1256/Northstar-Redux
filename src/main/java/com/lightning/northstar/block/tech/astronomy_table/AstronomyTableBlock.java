@@ -1,8 +1,7 @@
 package com.lightning.northstar.block.tech.astronomy_table;
 
-import com.lightning.northstar.block.entity.NorthstarBlockEntityTypes;
+import com.lightning.northstar.content.NorthstarBlockEntityTypes;
 import com.simibubi.create.foundation.block.IBE;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;

@@ -1,9 +1,8 @@
 package com.lightning.northstar.entity.goals;
 
 import com.lightning.northstar.block.MarsWormNestBlock;
-import com.lightning.northstar.block.NorthstarBlocks;
+import com.lightning.northstar.content.NorthstarBlocks;
 import com.lightning.northstar.entity.MarsWormEntity;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 import net.minecraft.sounds.SoundEvents;
@@ -40,7 +39,7 @@ public class LayEggInNestGoal extends MoveToBlockGoal {
         */
        @Override
        public boolean canUse() {
-          if (!net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.removerMob.level, this.removerMob)) {
+          if (!net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.removerMob.level(), this.removerMob)) {
              return false;
           } else if (this.removerMob.eggTimer > 0) {
               return false;
@@ -57,7 +56,7 @@ public class LayEggInNestGoal extends MoveToBlockGoal {
        }
 
        private boolean tryFindBlock() {
-          return this.blockPos != null && this.isValidTarget(this.mob.level, this.blockPos) ? true : this.findNearestBlock();
+          return this.blockPos != null && this.isValidTarget(this.mob.level(), this.blockPos) ? true : this.findNearestBlock();
        }
 
        /**
@@ -90,7 +89,7 @@ public class LayEggInNestGoal extends MoveToBlockGoal {
        @Override
        public void tick() {
           super.tick();
-          Level level = this.removerMob.level;
+          Level level = this.removerMob.level();
           BlockState state = level.getBlockState(pos);
           if(this.removerMob.eggTimer != 0) {
               this.stop();

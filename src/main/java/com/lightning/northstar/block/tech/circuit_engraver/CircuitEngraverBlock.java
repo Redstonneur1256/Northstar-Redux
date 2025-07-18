@@ -1,11 +1,10 @@
 package com.lightning.northstar.block.tech.circuit_engraver;
 
 import com.lightning.northstar.block.LaserBlock;
-import com.lightning.northstar.block.NorthstarTechBlocks;
-import com.lightning.northstar.block.entity.NorthstarBlockEntityTypes;
+import com.lightning.northstar.content.NorthstarBlockEntityTypes;
+import com.lightning.northstar.content.NorthstarTechBlocks;
 import com.simibubi.create.content.kinetics.base.HorizontalKineticBlock;
 import com.simibubi.create.foundation.block.IBE;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;

@@ -1,9 +1,6 @@
 package com.lightning.northstar.block;
 
-import javax.annotation.Nullable;
-
 import com.lightning.northstar.world.OxygenStuff;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
@@ -34,6 +31,8 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+
+import javax.annotation.Nullable;
 
 public class ExtinguishedLanternBlock extends Block implements SimpleWaterloggedBlock {
     public static final BooleanProperty HANGING = BlockStateProperties.HANGING;
@@ -96,6 +95,8 @@ public class ExtinguishedLanternBlock extends Block implements SimpleWaterlogged
      * net.minecraft.world.level.block.state.BlockBehaviour.BlockStateBase#getPistonPushReaction} whenever possible.
      * Implementing/overriding is fine.
      */
+    @Override
+    @Deprecated
     public PushReaction getPistonPushReaction(BlockState pState) {
         return PushReaction.DESTROY;
     }

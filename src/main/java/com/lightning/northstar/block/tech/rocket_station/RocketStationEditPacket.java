@@ -1,7 +1,6 @@
 package com.lightning.northstar.block.tech.rocket_station;
 
 import com.simibubi.create.foundation.networking.BlockEntityConfigurationPacket;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -10,7 +9,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class RocketStationEditPacket extends BlockEntityConfigurationPacket<RocketStationBlockEntity> {
 
-    Boolean tryAssemble;
+    private Boolean tryAssemble;
 
     public static RocketStationEditPacket dropSchedule(BlockPos pos) {
         RocketStationEditPacket packet = new RocketStationEditPacket(pos);
@@ -71,8 +70,6 @@ public class RocketStationEditPacket extends BlockEntityConfigurationPacket<Rock
 
         if (tryAssemble)
             be.queueAssembly(player);
-        else
-            return;
     }
 
     @Override

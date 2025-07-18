@@ -1,25 +1,25 @@
 package com.lightning.northstar.client.model.armor;
 
-import com.lightning.northstar.client.NorthstarEntityResources;
-import com.lightning.northstar.item.armor.MartianSteelSpaceSuitArmorItem;
-
+import com.lightning.northstar.content.NorthstarEntityResources;
+import com.lightning.northstar.item.armor.SpaceSuitArmorItem;
 import net.minecraft.resources.ResourceLocation;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
+import software.bernie.geckolib.model.GeoModel;
 
-public class MartianSteelSpaceSuitArmorModel extends AnimatedGeoModel<MartianSteelSpaceSuitArmorItem>{
+public class MartianSteelSpaceSuitArmorModel extends GeoModel<SpaceSuitArmorItem> {
+
     @Override
-    public ResourceLocation getAnimationResource(MartianSteelSpaceSuitArmorItem animatable) {
-        return NorthstarEntityResources.MARTIANSTEELSPACESUITARMOR_ANIMATIONS;
+    public ResourceLocation getAnimationResource(SpaceSuitArmorItem animatable) {
+        return NorthstarEntityResources.MARTIAN_STEEL_SPACESUIT_ARMOR_ANIMATIONS;
     }
 
     @Override
-    public ResourceLocation getModelResource(MartianSteelSpaceSuitArmorItem object) {
-        return NorthstarEntityResources.MARTIANSTEELSPACESUITARMOR_MODEL;
+    public ResourceLocation getModelResource(SpaceSuitArmorItem object) {
+        return NorthstarEntityResources.MARTIAN_STEEL_SPACESUIT_ARMOR_MODEL;
     }
 
     @Override
-    public ResourceLocation getTextureResource(MartianSteelSpaceSuitArmorItem object) {
-        return NorthstarEntityResources.MARTIANSTEELSPACESUITARMOR_TEXTURE;
+    public ResourceLocation getTextureResource(SpaceSuitArmorItem object) {
+        return NorthstarEntityResources.MARTIAN_STEEL_SPACESUIT_ARMOR_TEXTURE;
     }
 
 }

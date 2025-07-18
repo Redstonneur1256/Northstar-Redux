@@ -1,16 +1,14 @@
 package com.lightning.northstar.mixin.gravitystuff;
 
+import com.lightning.northstar.world.dimension.NorthstarDimensions;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import com.lightning.northstar.world.dimension.NorthstarDimensions;
-
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.projectile.ThrowableProjectile;
-import net.minecraft.world.phys.Vec3;
 
 @Mixin(ThrowableProjectile.class)
 public class ThrowableProjectileGravityMixin {
@@ -29,15 +27,15 @@ public class ThrowableProjectileGravityMixin {
     public void northstar$tick(CallbackInfo ci) {
             Entity entity = (Entity) (Object) this;
             Vec3 velocity = entity.getDeltaMovement();
-            if (entity.getLevel().dimension() == NorthstarDimensions.MARS_DIM_KEY)
+            if (entity.level().dimension() == NorthstarDimensions.MARS_DIM_KEY)
             {PLANET_GRAV = MARS_GRAV;}else 
-            if (entity.getLevel().dimension() == NorthstarDimensions.MOON_DIM_KEY)
+            if (entity.level().dimension() == NorthstarDimensions.MOON_DIM_KEY)
             {PLANET_GRAV = MOON_GRAV;}else 
-            if (entity.getLevel().dimension() == NorthstarDimensions.VENUS_DIM_KEY)
+            if (entity.level().dimension() == NorthstarDimensions.VENUS_DIM_KEY)
             {PLANET_GRAV = VENUS_GRAV;}else 
-            if (entity.getLevel().dimension() == NorthstarDimensions.MERCURY_DIM_KEY)
+            if (entity.level().dimension() == NorthstarDimensions.MERCURY_DIM_KEY)
             {PLANET_GRAV = MERCURY_GRAV;}else 
-            if (entity.getLevel().dimension() == NorthstarDimensions.EARTH_ORBIT_DIM_KEY)
+            if (entity.level().dimension() == NorthstarDimensions.EARTH_ORBIT_DIM_KEY)
             {PLANET_GRAV = ORBIT_GRAV;}else 
             {PLANET_GRAV = EARTH_GRAV;}
             if (!entity.isNoGravity()) {

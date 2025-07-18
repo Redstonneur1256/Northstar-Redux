@@ -1,5 +1,47 @@
- package com.lightning.northstar.compat.jei;
+package com.lightning.northstar.compat.jei;
 
+import com.lightning.northstar.Northstar;
+import com.lightning.northstar.block.tech.circuit_engraver.EngravingRecipe;
+import com.lightning.northstar.block.tech.electrolysis_machine.ElectrolysisRecipe;
+import com.lightning.northstar.block.tech.ice_box.FreezingRecipe;
+import com.lightning.northstar.compat.jei.category.ElectrolysisCategory;
+import com.lightning.northstar.compat.jei.category.EngravingCategory;
+import com.lightning.northstar.compat.jei.category.FreezingCategory;
+import com.lightning.northstar.content.NorthstarTechBlocks;
+import com.lightning.northstar.item.NorthstarRecipeTypes;
+import com.simibubi.create.AllFluids;
+import com.simibubi.create.compat.jei.*;
+import com.simibubi.create.compat.jei.category.CreateRecipeCategory;
+import com.simibubi.create.content.equipment.blueprint.BlueprintScreen;
+import com.simibubi.create.content.fluids.potion.PotionFluid;
+import com.simibubi.create.content.logistics.filter.AbstractFilterScreen;
+import com.simibubi.create.content.redstone.link.controller.LinkedControllerScreen;
+import com.simibubi.create.content.trains.schedule.ScheduleScreen;
+import com.simibubi.create.foundation.gui.menu.AbstractSimiContainerScreen;
+import com.simibubi.create.foundation.recipe.IRecipeTypeInfo;
+import com.simibubi.create.foundation.utility.CreateLang;
+import com.simibubi.create.infrastructure.config.AllConfigs;
+import com.simibubi.create.infrastructure.config.CRecipes;
+import mezz.jei.api.IModPlugin;
+import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.constants.RecipeTypes;
+import mezz.jei.api.forge.ForgeTypes;
+import mezz.jei.api.gui.drawable.IDrawable;
+import mezz.jei.api.helpers.IPlatformFluidHelper;
+import mezz.jei.api.recipe.category.IRecipeCategory;
+import mezz.jei.api.registration.*;
+import mezz.jei.api.runtime.IIngredientManager;
+import net.createmod.catnip.config.ConfigBase;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.ItemLike;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -8,62 +50,6 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import com.lightning.northstar.Northstar;
-import com.lightning.northstar.block.NorthstarTechBlocks;
-import com.lightning.northstar.block.tech.circuit_engraver.EngravingRecipe;
-import com.lightning.northstar.block.tech.electrolysis_machine.ElectrolysisRecipe;
-import com.lightning.northstar.block.tech.ice_box.FreezingRecipe;
-import com.lightning.northstar.compat.jei.category.ElectrolysisCategory;
-import com.lightning.northstar.compat.jei.category.EngravingCategory;
-import com.lightning.northstar.compat.jei.category.FreezingCategory;
-import com.lightning.northstar.item.NorthstarRecipeTypes;
-import com.simibubi.create.AllFluids;
-import com.simibubi.create.compat.jei.BlueprintTransferHandler;
-import com.simibubi.create.compat.jei.CreateJEI;
-import com.simibubi.create.compat.jei.DoubleItemIcon;
-import com.simibubi.create.compat.jei.EmptyBackground;
-import com.simibubi.create.compat.jei.GhostIngredientHandler;
-import com.simibubi.create.compat.jei.ItemIcon;
-import com.simibubi.create.compat.jei.PotionFluidSubtypeInterpreter;
-import com.simibubi.create.compat.jei.SlotMover;
-import com.simibubi.create.compat.jei.ToolboxColoringRecipeMaker;
-import com.simibubi.create.compat.jei.category.CreateRecipeCategory;
-import com.simibubi.create.content.equipment.blueprint.BlueprintScreen;
-import com.simibubi.create.content.fluids.potion.PotionFluid;
-import com.simibubi.create.content.logistics.filter.AbstractFilterScreen;
-import com.simibubi.create.content.redstone.link.controller.LinkedControllerScreen;
-import com.simibubi.create.content.trains.schedule.ScheduleScreen;
-import com.simibubi.create.foundation.config.ConfigBase.ConfigBool;
-import com.simibubi.create.foundation.gui.menu.AbstractSimiContainerScreen;
-import com.simibubi.create.foundation.recipe.IRecipeTypeInfo;
-import com.simibubi.create.foundation.utility.Lang;
-import com.simibubi.create.infrastructure.config.AllConfigs;
-import com.simibubi.create.infrastructure.config.CRecipes;
-
-import mezz.jei.api.IModPlugin;
-import mezz.jei.api.JeiPlugin;
-import mezz.jei.api.constants.RecipeTypes;
-import mezz.jei.api.forge.ForgeTypes;
-import mezz.jei.api.gui.drawable.IDrawable;
-import mezz.jei.api.helpers.IPlatformFluidHelper;
-import mezz.jei.api.recipe.category.IRecipeCategory;
-import mezz.jei.api.registration.IGuiHandlerRegistration;
-import mezz.jei.api.registration.IRecipeCatalystRegistration;
-import mezz.jei.api.registration.IRecipeCategoryRegistration;
-import mezz.jei.api.registration.IRecipeRegistration;
-import mezz.jei.api.registration.IRecipeTransferRegistration;
-import mezz.jei.api.registration.ISubtypeRegistration;
-import mezz.jei.api.runtime.IIngredientManager;
-import net.minecraft.client.Minecraft;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.level.ItemLike;
 
 @JeiPlugin
 @SuppressWarnings("unused")
@@ -80,26 +66,26 @@ public class NorthstarJei implements IModPlugin {
 
         CreateRecipeCategory<?>
 
-        engraving = builder(EngravingRecipe.class)
-        .addTypedRecipes(NorthstarRecipeTypes.ENGRAVING)
-        .catalyst(NorthstarTechBlocks.CIRCUIT_ENGRAVER::get)
-        .itemIcon(NorthstarTechBlocks.CIRCUIT_ENGRAVER.get())
-        .emptyBackground(177, 70)
-        .build("engraving", EngravingCategory::new),
+                engraving = builder(EngravingRecipe.class)
+                .addTypedRecipes(NorthstarRecipeTypes.ENGRAVING)
+                .catalyst(NorthstarTechBlocks.CIRCUIT_ENGRAVER::get)
+                .itemIcon(NorthstarTechBlocks.CIRCUIT_ENGRAVER.get())
+                .emptyBackground(177, 70)
+                .build("engraving", EngravingCategory::new),
 
-        freezing = builder(FreezingRecipe.class)
-        .addTypedRecipes(NorthstarRecipeTypes.FREEZING)
-        .catalyst(NorthstarTechBlocks.ICE_BOX::get)
-        .itemIcon(NorthstarTechBlocks.ICE_BOX.get())
-        .emptyBackground(177, 70)
-        .build("freezing", FreezingCategory::new),
+                freezing = builder(FreezingRecipe.class)
+                        .addTypedRecipes(NorthstarRecipeTypes.FREEZING)
+                        .catalyst(NorthstarTechBlocks.ICE_BOX::get)
+                        .itemIcon(NorthstarTechBlocks.ICE_BOX.get())
+                        .emptyBackground(177, 70)
+                        .build("freezing", FreezingCategory::new),
 
-        electrolysis = builder(ElectrolysisRecipe.class)
-        .addRecipes(() -> ElectrolysisCategory.RECIPES)
-        .catalyst(NorthstarTechBlocks.ELECTROLYSIS_MACHINE::get)
-        .itemIcon(NorthstarTechBlocks.ELECTROLYSIS_MACHINE.get())
-        .emptyBackground(177, 70)
-        .build("electrolysis", ElectrolysisCategory::new);
+                electrolysis = builder(ElectrolysisRecipe.class)
+                        .addRecipes(() -> ElectrolysisCategory.RECIPES)
+                        .catalyst(NorthstarTechBlocks.ELECTROLYSIS_MACHINE::get)
+                        .itemIcon(NorthstarTechBlocks.ELECTROLYSIS_MACHINE.get())
+                        .emptyBackground(177, 70)
+                        .build("electrolysis", ElectrolysisCategory::new);
 
     }
 
@@ -176,7 +162,7 @@ public class NorthstarJei implements IModPlugin {
             return this;
         }
 
-        public CategoryBuilder<T> enableWhen(Function<CRecipes, ConfigBool> configValue) {
+        public CategoryBuilder<T> enableWhen(Function<CRecipes, ConfigBase.ConfigBool> configValue) {
             predicate = c -> configValue.apply(c).get();
             return this;
         }
@@ -228,7 +214,7 @@ public class NorthstarJei implements IModPlugin {
         }
 
         public CategoryBuilder<T> addTypedRecipesExcluding(Supplier<RecipeType<? extends T>> recipeType,
-            Supplier<RecipeType<? extends T>> excluded) {
+                                                           Supplier<RecipeType<? extends T>> excluded) {
             return addRecipeListConsumer(recipes -> {
                 List<Recipe<?>> excludedRecipes = getTypedRecipes(excluded.get());
                 CreateJEI.<T>consumeTypedRecipes(recipe -> {
@@ -261,7 +247,7 @@ public class NorthstarJei implements IModPlugin {
 
         public CategoryBuilder<T> catalyst(Supplier<ItemLike> supplier) {
             return catalystStack(() -> new ItemStack(supplier.get()
-                .asItem()));
+                    .asItem()));
         }
 
         public CategoryBuilder<T> icon(IDrawable icon) {
@@ -304,7 +290,7 @@ public class NorthstarJei implements IModPlugin {
 
             CreateRecipeCategory.Info<T> info = new CreateRecipeCategory.Info<>(
                     new mezz.jei.api.recipe.RecipeType<>(Northstar.asResource(name), recipeClass),
-                    Lang.translateDirect("recipe." + name), background, icon, recipesSupplier, catalysts);
+                    CreateLang.translateDirect("recipe." + name), background, icon, recipesSupplier, catalysts);
             CreateRecipeCategory<T> category = factory.create(info);
             northstarCategories.add(category);
             return category;
@@ -313,10 +299,10 @@ public class NorthstarJei implements IModPlugin {
 
     public static void consumeAllRecipes(Consumer<Recipe<?>> consumer) {
         Minecraft.getInstance()
-            .getConnection()
-            .getRecipeManager()
-            .getRecipes()
-            .forEach(consumer);
+                .getConnection()
+                .getRecipeManager()
+                .getRecipes()
+                .forEach(consumer);
     }
 
 
@@ -334,14 +320,14 @@ public class NorthstarJei implements IModPlugin {
 
     public static boolean doInputsMatch(Recipe<?> recipe1, Recipe<?> recipe2) {
         if (recipe1.getIngredients()
-            .isEmpty()
-            || recipe2.getIngredients()
+                .isEmpty()
+                || recipe2.getIngredients()
                 .isEmpty()) {
             return false;
         }
         ItemStack[] matchingStacks = recipe1.getIngredients()
-            .get(0)
-            .getItems();
+                .get(0)
+                .getItems();
         if (matchingStacks.length == 0) {
             return false;
         }
@@ -351,7 +337,8 @@ public class NorthstarJei implements IModPlugin {
     }
 
     public static boolean doOutputsMatch(Recipe<?> recipe1, Recipe<?> recipe2) {
-        return ItemStack.isSame(recipe1.getResultItem(), recipe2.getResultItem());
+        RegistryAccess registry = Minecraft.getInstance().level.registryAccess();
+        return ItemStack.isSameItem(recipe1.getResultItem(registry), recipe2.getResultItem(registry));
     }
 
 }

@@ -1,7 +1,7 @@
 package com.lightning.northstar.entity;
 
 import com.lightning.northstar.Northstar;
-
+import com.lightning.northstar.content.NorthstarEntityTypes;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;

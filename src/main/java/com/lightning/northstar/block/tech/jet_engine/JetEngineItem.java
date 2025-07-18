@@ -1,9 +1,8 @@
 package com.lightning.northstar.block.tech.jet_engine;
 
-import com.lightning.northstar.block.NorthstarTechBlocks;
-import com.lightning.northstar.block.entity.NorthstarBlockEntityTypes;
+import com.lightning.northstar.content.NorthstarBlockEntityTypes;
+import com.lightning.northstar.content.NorthstarTechBlocks;
 import com.simibubi.create.api.connectivity.ConnectivityHandler;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -34,7 +33,7 @@ public class JetEngineItem extends BlockItem {
 
     @Override
     protected boolean updateCustomBlockEntityTag(BlockPos p_195943_1_, Level p_195943_2_, Player p_195943_3_,
-        ItemStack p_195943_4_, BlockState p_195943_5_) {
+                                                 ItemStack p_195943_4_, BlockState p_195943_5_) {
         MinecraftServer minecraftserver = p_195943_2_.getServer();
         if (minecraftserver == null)
             return false;
@@ -57,7 +56,7 @@ public class JetEngineItem extends BlockItem {
             return;
         Direction face = ctx.getClickedFace();
         if (!face.getAxis()
-            .isVertical())
+                .isVertical())
             return;
         ItemStack stack = ctx.getItemInHand();
         Level world = ctx.getLevel();
@@ -69,7 +68,7 @@ public class JetEngineItem extends BlockItem {
             return;
         boolean creative = getBlock().equals(NorthstarTechBlocks.JET_ENGINE.get());
         JetEngineBlockEntity tankAt = ConnectivityHandler.partAt(
-            creative ? NorthstarBlockEntityTypes.JET_ENGINE.get(): NorthstarBlockEntityTypes.JET_ENGINE.get(), world, placedOnPos
+                creative ? NorthstarBlockEntityTypes.JET_ENGINE.get() : NorthstarBlockEntityTypes.JET_ENGINE.get(), world, placedOnPos
         );
 
         if (tankAt == null)
@@ -85,8 +84,8 @@ public class JetEngineItem extends BlockItem {
 
         int tanksToPlace = 0;
         BlockPos startPos = face == Direction.DOWN ? controllerBE.getBlockPos()
-            .below()
-            : controllerBE.getBlockPos()
+                .below()
+                : controllerBE.getBlockPos()
                 .above(controllerBE.height);
 
         if (startPos.getY() != pos.getY())
@@ -98,8 +97,7 @@ public class JetEngineItem extends BlockItem {
                 BlockState blockState = world.getBlockState(offsetPos);
                 if (JetEngineBlock.isTank(blockState))
                     continue;
-                if (!blockState.getMaterial()
-                    .isReplaceable())
+                if (!blockState.canBeReplaced())
                     return;
                 tanksToPlace++;
             }
@@ -107,7 +105,6 @@ public class JetEngineItem extends BlockItem {
 
         if (!player.isCreative() && stack.getCount() < tanksToPlace)
             return;
-
 
 
         for (int xOffset = 0; xOffset < width; xOffset++) {
@@ -118,10 +115,10 @@ public class JetEngineItem extends BlockItem {
                     continue;
                 BlockPlaceContext context = BlockPlaceContext.at(ctx, offsetPos, face);
                 player.getPersistentData()
-                    .putBoolean("SilenceTankSound", true);
+                        .putBoolean("SilenceTankSound", true);
                 super.place(context);
                 player.getPersistentData()
-                    .remove("SilenceTankSound");
+                        .remove("SilenceTankSound");
             }
         }
 

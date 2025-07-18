@@ -1,15 +1,10 @@
 package com.lightning.northstar.block.tech.telescope;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
-import com.lightning.northstar.block.entity.NorthstarBlockEntityTypes;
-import com.lightning.northstar.item.NorthstarItems;
+import com.lightning.northstar.content.NorthstarBlockEntityTypes;
+import com.lightning.northstar.content.NorthstarItems;
 import com.lightning.northstar.world.dimension.NorthstarPlanets;
 import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -31,6 +26,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class TelescopeBlockEntity extends SmartBlockEntity implements MenuProvider {
 
@@ -82,7 +80,7 @@ public class TelescopeBlockEntity extends SmartBlockEntity implements MenuProvid
         if (flag == false) {return;}
         ItemStack paper = inv.getItem(paperslot);
         paper.setCount(paper.getCount() - 1);
-        inv.player.level.playSound((Player) null, inv.player.blockPosition(), SoundEvents.UI_CARTOGRAPHY_TABLE_TAKE_RESULT, SoundSource.BLOCKS, 1.0F, 1.0F);
+        inv.player.level().playSound((Player) null, inv.player.blockPosition(), SoundEvents.UI_CARTOGRAPHY_TABLE_TAKE_RESULT, SoundSource.BLOCKS, 1.0F, 1.0F);
         ItemStack itemstack = new ItemStack(NorthstarItems.ASTRONOMICAL_READING.get(), 1);
         itemstack.setHoverName(Component.translatable("item.northstar.reading_" + name).setStyle(Style.EMPTY.withColor(ChatFormatting.WHITE).withItalic(false)));
         CompoundTag tag = itemstack.getOrCreateTagElement("Planet");
