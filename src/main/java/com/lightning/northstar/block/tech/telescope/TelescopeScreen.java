@@ -25,7 +25,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import org.lwjgl.opengl.GL11;
 
 import java.util.List;
 
@@ -55,7 +54,7 @@ public class TelescopeScreen extends AbstractContainerScreen<TelescopeMenu> {
     private double scrollY = 450;
 
     private Inventory inv;
-    public String SelectedPlanet = null;
+    public String selectedPlanet = null;
 
     public TelescopeScreen(TelescopeMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
@@ -69,13 +68,28 @@ public class TelescopeScreen extends AbstractContainerScreen<TelescopeMenu> {
     @Override
     protected void init() {
         super.init();
+
+        int x = (width - imageWidth) / 2;
+        int y = (height - imageHeight) / 2;
+
+        IconButton printButton = new IconButton(x - 33, y + 200, AllIcons.I_ADD);
+        printButton.withCallback(() -> {
+            if (selectedPlanet != null) {
+                NorthstarPackets.getChannel().sendToServer(TelescopePrintPacket.print(menu.blockEntity.getBlockPos(), selectedPlanet));
+                //System.out.println("WE'VE BEEN CLICKED, SCATTER!!!!!");
+            }
+        });
+
+        printButton.setToolTip(CreateLang.translateDirect("northstar.gui.telescope.button_tooltip").withStyle(ChatFormatting.WHITE));
+
+        printButton.active = paperCheck();
+        printButton.setToolTip(Component.translatable("container.northstar.paper_check"));
+        addRenderableWidget(printButton);
     }
 
     @Override
     protected void renderLabels(GuiGraphics graphics, int pMouseX, int pMouseY) {
-        int x = 0;//(width - imageWidth) / 2;
-        int y = 0;//(height - imageHeight) / 2;
-        graphics.drawCenteredString(font, title, titleLabelX, titleLabelY, 0x404040);
+        graphics.drawString(font, title, titleLabelX - font.width(title) / 2, titleLabelY, 0x404040, false);
     }
 
     @Override
@@ -83,28 +97,22 @@ public class TelescopeScreen extends AbstractContainerScreen<TelescopeMenu> {
         int x = (width - imageWidth) / 2;
         int y = (height - imageHeight) / 2;
 
+        graphics.enableScissor(x + 3, y + 3, x + imageWidth - 3, y + imageHeight - 3);
         graphics.blitRepeating(BACKGROUND, x, y, imageWidth, imageHeight, (int) -scrollX, (int) -scrollY, imageWidth, imageHeight, 900, 900);
-
-        enableScissor(x, y, 300, 300);
         renderPlanets(graphics, mouseX, mouseY, partialTick);
-        RenderSystem.disableScissor();
+        graphics.disableScissor();
 
-        graphics.blit(TELESCOPE_TEXTURE_SIDE, x - 150, y + 100, 0, 0, 255, 255);
+        graphics.blit(TELESCOPE_TEXTURE_SIDE, x - 174, y, 0, 0, imageWidth, imageHeight, imageWidth, imageHeight);
         graphics.blit(TELESCOPE_TEXTURE, x, y, 0, 0, imageWidth, imageHeight, imageWidth, imageHeight);
     }
 
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-        //renderBackground(graphics);
         super.render(graphics, mouseX, mouseY, partialTick);
-
-        //renderFrame(graphics, mouseX, mouseY);
 
         renderTooltip(graphics, mouseX, mouseY);
         renderPlanetTooltips(graphics, mouseX, mouseY);
-        renderLabels(graphics, mouseX, mouseY);
         renderSelectedPlanet(graphics);
-        renderButton(graphics, mouseX, mouseY, partialTick);
     }
 
     public void renderPlanets(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
@@ -221,39 +229,6 @@ public class TelescopeScreen extends AbstractContainerScreen<TelescopeMenu> {
         }
     }
 
-
-    public void renderPlanetTooltip(PoseStack pPoseStack, int mouseX, int mouseY, float delta) {
-        int mars_x = (int) NorthstarPlanets.mars_x;
-        int mars_y = (int) NorthstarPlanets.mars_y;
-        if (Math.abs(mars_x - mouseX) < 15 && Math.abs(mars_y - mouseY) < 15) {
-
-        }
-    }
-
-    protected void renderFrame(GuiGraphics graphics, int mouseX, int mouseY) {
-        PoseStack pose = graphics.pose();
-
-        int x = ((width - (imageWidth + (imageWidth / 2))) / 2);
-        int y = (height - (imageHeight + (imageHeight / 2))) / 2;
-        int x2 = (int) (x - (imageWidth / 1.19));
-
-        graphics.blit(TELESCOPE_TEXTURE, x, y, 0, 0, 255, 255);
-
-        RenderSystem.depthFunc(GL11.GL_GEQUAL);
-        pose.translate(0.0D, 0.0D, -950.0D);
-        RenderSystem.colorMask(false, false, false, false);
-        graphics.fill(4680, 2260, -4680, -2260, -16777216);
-        RenderSystem.colorMask(true, true, true, true);
-        RenderSystem.depthFunc(GL11.GL_LEQUAL);
-
-        if (SelectedPlanet != null) {
-            graphics.drawString(font, getPlanetName(SelectedPlanet), (int) (x2 + (imageWidth / 1.6)), (int) (y + (imageHeight / 2.4)), 6944, true);
-            graphics.drawString(font, "X: " + (int) NorthstarPlanets.getPlanetX(SelectedPlanet), (float) (x2 + (imageWidth / 1.6)), (float) (y + (imageHeight / 1.48)), 6944, true);
-            graphics.drawString(font, "Y: " + (int) NorthstarPlanets.getPlanetY(SelectedPlanet), (float) (x2 + (imageWidth / 1.6)), (float) (y + (imageHeight / 1.36)), 6944, true);
-        }
-    }
-
-
     public boolean paperCheck() {
         boolean flag = false;
 
@@ -269,51 +244,15 @@ public class TelescopeScreen extends AbstractContainerScreen<TelescopeMenu> {
         return flag;
     }
 
-
-    public void renderButton(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-        PoseStack pose = graphics.pose();
-        pose.pushPose();
-        pose.scale(10, 10, 10);
-
-        int x = ((width - (imageWidth + (imageWidth / 2))) / 2);
-        int y = (height - (imageHeight + (imageHeight / 2))) / 2;
-        IconButton printButton = new IconButton(x + imageWidth - 250, y + imageHeight - 1, AllIcons.I_ADD);
-        printButton.withCallback(() -> {
-            if (SelectedPlanet != null) {
-                NorthstarPackets.getChannel()
-                        .sendToServer(TelescopePrintPacket.print(menu.blockEntity.getBlockPos(), SelectedPlanet));
-//            System.out.println("WE'VE BEEN CLICKED, SCATTER!!!!!");
-            }
-        });
-
-        printButton.active = paperCheck();
-        printButton.setToolTip(Component.translatable("container.northstar.paper_check"));
-        printButton.render(graphics, mouseX, mouseY, delta);
-        addRenderableWidget(printButton);
-        if ((Math.abs(x + imageWidth - 196 - mouseX) < 9 && Math.abs(y + imageHeight - 1 + 8 - mouseY) < 9)) {
-            List<Component> list = Lists.newArrayList();
-            RenderSystem.colorMask(true, true, true, true);
-            list.add((CreateLang.translateDirect("northstar.gui.telescope.button_tooltip").withStyle(ChatFormatting.WHITE)));
-
-            graphics.renderComponentTooltip(font, list, mouseX, mouseY);
-        }
-
-        pose.popPose();
-    }
-
     public void renderSelectedPlanet(GuiGraphics graphics) {
-        if (SelectedPlanet != null) {
-            PoseStack pose = graphics.pose();
-            pose.pushPose();
+        if (selectedPlanet != null) {
+            int x = (width - imageWidth) / 2;
+            int y = (height - imageHeight) / 2;
 
-            int x = ((width - (imageWidth + (imageWidth / 2))) / 2);
-            int y = (height - (imageHeight + (imageHeight / 2))) / 2;
-            int x2 = (int) (x - (imageWidth / 1.19));
-
-            pose.scale(0.1F, 0.1F, 0.1F);
-            graphics.blit(getPlanetSprite(SelectedPlanet), (int) (x2 + (imageWidth / 1.51)) * 10, (int) (y + (imageHeight / 2.06)) * 10, 0, 0, 255, 255);
-
-            pose.popPose();
+            graphics.blit(getPlanetSprite(selectedPlanet), x - 40, y + 93, 0, 0, 35, 35, 35, 35);
+            graphics.drawString(font, getPlanetName(selectedPlanet), x - 45, y + 130, 6944, false);
+            graphics.drawString(font, "X: " + (int) NorthstarPlanets.getPlanetX(selectedPlanet), x - 45, y + 140, 6944, false);
+            graphics.drawString(font, "Y: " + (int) NorthstarPlanets.getPlanetY(selectedPlanet), x - 45, y + 150, 6944, false);
         }
     }
 
@@ -493,7 +432,7 @@ public class TelescopeScreen extends AbstractContainerScreen<TelescopeMenu> {
         }
     }
 
-
+    @Override
     public boolean mouseDragged(double pMouseX, double pMouseY, int pButton, double pDragX, double pDragY) {
         if (pButton != 0) {
             this.isScrolling = false;
@@ -507,50 +446,48 @@ public class TelescopeScreen extends AbstractContainerScreen<TelescopeMenu> {
         }
     }
 
-
+    @Override
     public boolean mouseClicked(double mouseX, double mouseY, int pButton) {
         if (pButton == 0 || pButton == 1) {
             if (Math.abs(NorthstarPlanets.mercury_x + scrollX + 7 - mouseX) < 8 && Math.abs(NorthstarPlanets.mercury_y + scrollY + 7 - mouseY) < 8 && Minecraft.getInstance().level.dimension() != NorthstarDimensions.MERCURY_DIM_KEY) {
-                SelectedPlanet = "mercury";
+                selectedPlanet = "mercury";
             }
             if (Math.abs((NorthstarPlanets.venus_x) + scrollX + 8 - mouseX) < 8 && Math.abs((NorthstarPlanets.venus_y) + scrollY + 8 - mouseY) < 8 && Minecraft.getInstance().level.dimension() != NorthstarDimensions.VENUS_DIM_KEY) {
-                SelectedPlanet = "venus";
+                selectedPlanet = "venus";
             }
             if (Math.abs(NorthstarPlanets.earth_x + scrollX + 8 - mouseX) < 8 && Math.abs(NorthstarPlanets.earth_y + scrollY + 8 - mouseY) < 8 && Minecraft.getInstance().level.dimension() != Level.OVERWORLD) {
-                SelectedPlanet = "earth";
+                selectedPlanet = "earth";
             }
             if ((Math.abs(NorthstarPlanets.earth_moon_x + scrollX - mouseX) < 18 && Math.abs(NorthstarPlanets.earth_moon_y + scrollY - mouseY) < 18) && Minecraft.getInstance().level.dimension() == Level.OVERWORLD && Minecraft.getInstance().level.dimension() != NorthstarDimensions.MOON_DIM_KEY) {
-                SelectedPlanet = "earth_moon";
+                selectedPlanet = "earth_moon";
             }
             if (Math.abs(NorthstarPlanets.moon_x + scrollX + 8 - mouseX) < 8 && Math.abs(NorthstarPlanets.moon_y + scrollY + 8 - mouseY) < 8 && Minecraft.getInstance().level.dimension() != Level.OVERWORLD && Minecraft.getInstance().level.dimension() != NorthstarDimensions.MOON_DIM_KEY) {
-                SelectedPlanet = "moon";
+                selectedPlanet = "moon";
             }
             if (Math.abs(NorthstarPlanets.mars_x + scrollX + 8 - mouseX) < 8 && Math.abs(NorthstarPlanets.mars_y + scrollY + 8 - mouseY) < 8 && Minecraft.getInstance().level.dimension() != NorthstarDimensions.MARS_DIM_KEY) {
-                SelectedPlanet = "mars";
+                selectedPlanet = "mars";
             }
             if (Math.abs(NorthstarPlanets.ceres_x + scrollX + 8 - mouseX) < 8 && Math.abs(NorthstarPlanets.ceres_y + scrollY + 8 - mouseY) < 8) {
-                SelectedPlanet = "ceres";
+                selectedPlanet = "ceres";
             }
             if (Math.abs(NorthstarPlanets.jupiter_x + scrollX + 8 - mouseX) < 8 && Math.abs(NorthstarPlanets.jupiter_y + scrollY + 8 - mouseY) < 8) {
-                SelectedPlanet = "jupiter";
+                selectedPlanet = "jupiter";
             }
             if (Math.abs((NorthstarPlanets.saturn_x) + scrollX + 8 - mouseX) < 8 && Math.abs((NorthstarPlanets.saturn_y) + scrollY + 8 - mouseY) < 8) {
-                SelectedPlanet = "saturn";
+                selectedPlanet = "saturn";
             }
             if (Math.abs(NorthstarPlanets.uranus_x + scrollX + 7 - mouseX) < 8 && Math.abs(NorthstarPlanets.uranus_y + scrollY + 7 - mouseY) < 8) {
-                SelectedPlanet = "uranus";
+                selectedPlanet = "uranus";
             }
             if (Math.abs(NorthstarPlanets.neptune_x + scrollX + 7 - mouseX) < 8 && Math.abs(NorthstarPlanets.neptune_y + scrollY + 7 - mouseY) < 8) {
-                SelectedPlanet = "neptune";
+                selectedPlanet = "neptune";
             }
             if (Math.abs(NorthstarPlanets.pluto_x + scrollX + 7 - mouseX) < 8 && Math.abs(NorthstarPlanets.pluto_y + scrollY + 7 - mouseY) < 8) {
-                SelectedPlanet = "pluto";
+                selectedPlanet = "pluto";
             }
             if (Math.abs(NorthstarPlanets.eris_x + scrollX + 7 - mouseX) < 8 && Math.abs(NorthstarPlanets.eris_y + scrollY + 7 - mouseY) < 8) {
-                SelectedPlanet = "eris";
+                selectedPlanet = "eris";
             }
-        }
-        if (pButton == 1) {
         }
 
         return super.mouseClicked(mouseX, mouseY, pButton);
@@ -584,16 +521,6 @@ public class TelescopeScreen extends AbstractContainerScreen<TelescopeMenu> {
 
     public Component getPlanetName(String planet) {
         return Component.translatable("planets." + planet + ".name");
-    }
-
-    private void enableScissor(int x, int y, int width, int height) {
-        Minecraft mc = Minecraft.getInstance();
-        int scale = (int) mc.getWindow().getGuiScale();
-        int scissorX = x * scale;
-        int scissorY = (mc.getWindow().getHeight() - (y + height) * scale);
-        int scissorW = width * scale;
-        int scissorH = height * scale;
-        RenderSystem.enableScissor(scissorX, scissorY, scissorW, scissorH);
     }
 
 }
