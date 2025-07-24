@@ -37,8 +37,6 @@ import static net.minecraft.world.level.block.Blocks.STONE;
 
 public class NorthstarBlocks {
 
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Northstar.MOD_ID);
-
     static {
         REGISTRATE.setCreativeTab(NorthstarCreativeModeTab.BLOCKS);
     }
@@ -2193,12 +2191,11 @@ public class NorthstarBlocks {
         return state -> state.getValue(BlockStateProperties.LIT) ? level : 0;
     }
 
-    private static Registry<ConfiguredFeature<?,?>> configuredFeatures() {
+    private static Registry<ConfiguredFeature<?, ?>> configuredFeatures() {
         return Minecraft.getInstance().level.registryAccess().registryOrThrow(Registries.CONFIGURED_FEATURE);
     }
 
-    public static void register(IEventBus eventBus) {
-        BLOCKS.register(eventBus);
+    public static void register() {
     }
 
 }

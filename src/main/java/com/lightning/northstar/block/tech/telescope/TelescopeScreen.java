@@ -3,6 +3,7 @@ package com.lightning.northstar.block.tech.telescope;
 import com.google.common.collect.Lists;
 import com.lightning.northstar.Northstar;
 import com.lightning.northstar.content.NorthstarPackets;
+import com.lightning.northstar.content.NorthstarTextures;
 import com.lightning.northstar.world.dimension.NorthstarDimensions;
 import com.lightning.northstar.world.dimension.NorthstarPlanets;
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -28,26 +29,14 @@ import net.minecraft.world.level.Level;
 
 import java.util.List;
 
+import static com.lightning.northstar.content.NorthstarTextures.*;
+
 public class TelescopeScreen extends AbstractContainerScreen<TelescopeMenu> {
 
     private static final ResourceLocation TELESCOPE_TEXTURE = Northstar.asResource("textures/gui/telescope_gui.png");
     private static final ResourceLocation TELESCOPE_TEXTURE_SIDE = Northstar.asResource("textures/gui/telescope_gui_side.png");
-    private static final ResourceLocation MERCURY = Northstar.asResource("textures/environment/mercury_far.png");
-    private static final ResourceLocation VENUS = Northstar.asResource("textures/environment/venus_far.png");
-    private static final ResourceLocation EARTH = Northstar.asResource("textures/environment/earth_far.png");
-    private static final ResourceLocation MOON = Northstar.asResource("textures/environment/moon_far.png");
-    private static final ResourceLocation MARS = Northstar.asResource("textures/environment/mars_far.png");
-    private static final ResourceLocation PHOBOS_DEIMOS = Northstar.asResource("textures/environment/phobos_and_deimos_far.png");
-    private static final ResourceLocation CERES = Northstar.asResource("textures/environment/ceres_far.png");
-    private static final ResourceLocation JUPITER = Northstar.asResource("textures/environment/jupiter_far.png");
-    private static final ResourceLocation SATURN = Northstar.asResource("textures/environment/saturn_far.png");
-    private static final ResourceLocation URANUS = Northstar.asResource("textures/environment/uranus_far.png");
-    private static final ResourceLocation NEPTUNE = Northstar.asResource("textures/environment/neptune_far.png");
-    private static final ResourceLocation PLUTO = Northstar.asResource("textures/environment/pluto_far.png");
-    private static final ResourceLocation ERIS = Northstar.asResource("textures/environment/eris_far.png");
     private static final ResourceLocation BACKGROUND = Northstar.asResource("textures/environment/space_background.png");
     private static final ResourceLocation MOON_GLOW = ResourceLocation.parse("textures/environment/moon_phases.png");
-    private static final ResourceLocation MOON_FLAT = Northstar.asResource("textures/environment/moon_flat.png");
 
     private boolean isScrolling;
     private double scrollX = 450;
@@ -124,7 +113,7 @@ public class TelescopeScreen extends AbstractContainerScreen<TelescopeMenu> {
             int mars_y = (int) NorthstarPlanets.mars_y;
             pose.pushPose();
             pose.scale(0.05F, 0.05F, 0.05F);
-            graphics.blit(MARS, (mars_x * 20) + (int) scrollX * 20, (mars_y * 20) + (int) scrollY * 20, 0, 0, 255, 255);
+            graphics.blit(MARS_FAR, (mars_x * 20) + (int) scrollX * 20, (mars_y * 20) + (int) scrollY * 20, 0, 0, 255, 255);
             pose.popPose();
 
             int pd_x = (int) NorthstarPlanets.pd_x;
@@ -140,7 +129,7 @@ public class TelescopeScreen extends AbstractContainerScreen<TelescopeMenu> {
             int venus_y = (int) NorthstarPlanets.venus_y;
             pose.pushPose();
             pose.scale(0.05F, 0.05F, 0.05F);
-            graphics.blit(VENUS, ((venus_x * 20) + (int) scrollX * 20), ((venus_y * 20) + (int) scrollY * 20), 0, 0, 255, 255);
+            graphics.blit(VENUS_FAR, ((venus_x * 20) + (int) scrollX * 20), ((venus_y * 20) + (int) scrollY * 20), 0, 0, 255, 255);
             pose.popPose();
         }
 
@@ -149,7 +138,7 @@ public class TelescopeScreen extends AbstractContainerScreen<TelescopeMenu> {
             int mercury_y = (int) NorthstarPlanets.mercury_y;
             pose.pushPose();
             pose.scale(0.05F, 0.05F, 0.05F);
-            graphics.blit(MERCURY, (mercury_x * 20) + (int) scrollX * 20, (mercury_y * 20) + (int) scrollY * 20, 0, 0, 255, 255);
+            graphics.blit(MERCURY_FAR, (mercury_x * 20) + (int) scrollX * 20, (mercury_y * 20) + (int) scrollY * 20, 0, 0, 255, 255);
             pose.popPose();
         }
 
@@ -157,42 +146,42 @@ public class TelescopeScreen extends AbstractContainerScreen<TelescopeMenu> {
         int jupiter_y = (int) NorthstarPlanets.jupiter_y;
         pose.pushPose();
         pose.scale(0.05F, 0.05F, 0.05F);
-        graphics.blit(JUPITER, (jupiter_x * 20) + (int) scrollX * 20, (jupiter_y * 20) + (int) scrollY * 20, 0, 0, 255, 255);
+        graphics.blit(JUPITER_FAR, (jupiter_x * 20) + (int) scrollX * 20, (jupiter_y * 20) + (int) scrollY * 20, 0, 0, 255, 255);
         pose.popPose();
 
         int saturn_x = (int) NorthstarPlanets.saturn_x;
         int saturn_y = (int) NorthstarPlanets.saturn_y;
         pose.pushPose();
         pose.scale(0.05F, 0.05F, 0.05F);
-        graphics.blit(SATURN, (saturn_x * 20) + (int) scrollX * 20, (saturn_y * 20) + (int) scrollY * 20, 0, 0, 255, 255);
+        graphics.blit(SATURN_FAR, (saturn_x * 20) + (int) scrollX * 20, (saturn_y * 20) + (int) scrollY * 20, 0, 0, 255, 255);
         pose.popPose();
 
         int uranus_x = (int) NorthstarPlanets.uranus_x;
         int uranus_y = (int) NorthstarPlanets.uranus_y;
         pose.pushPose();
         pose.scale(0.05F, 0.05F, 0.05F);
-        graphics.blit(URANUS, (uranus_x * 20) + (int) scrollX * 20, (uranus_y * 20) + (int) scrollY * 20, 0, 0, 255, 255);
+        graphics.blit(URANUS_FAR, (uranus_x * 20) + (int) scrollX * 20, (uranus_y * 20) + (int) scrollY * 20, 0, 0, 255, 255);
         pose.popPose();
 
         int neptune_x = (int) NorthstarPlanets.neptune_x;
         int neptune_y = (int) NorthstarPlanets.neptune_y;
         pose.pushPose();
         pose.scale(0.05F, 0.05F, 0.05F);
-        graphics.blit(NEPTUNE, (neptune_x * 20) + (int) scrollX * 20, (neptune_y * 20) + (int) scrollY * 20, 0, 0, 255, 255);
+        graphics.blit(NEPTUNE_FAR, (neptune_x * 20) + (int) scrollX * 20, (neptune_y * 20) + (int) scrollY * 20, 0, 0, 255, 255);
         pose.popPose();
 
         int pluto_x = (int) NorthstarPlanets.pluto_x;
         int pluto_y = (int) NorthstarPlanets.pluto_x;
         pose.pushPose();
         pose.scale(0.05F, 0.05F, 0.05F);
-        graphics.blit(PLUTO, (pluto_x * 20) + (int) scrollX * 20, (pluto_y * 20) + (int) scrollY * 20, 0, 0, 255, 255);
+        graphics.blit(PLUTO_FAR, (pluto_x * 20) + (int) scrollX * 20, (pluto_y * 20) + (int) scrollY * 20, 0, 0, 255, 255);
         pose.popPose();
 
         int eris_x = (int) NorthstarPlanets.eris_x;
         int eris_y = (int) NorthstarPlanets.eris_y;
         pose.pushPose();
         pose.scale(0.05F, 0.05F, 0.05F);
-        graphics.blit(ERIS, (eris_x * 20) + (int) scrollX * 20, (eris_y * 20) + (int) scrollY * 20, 0, 0, 255, 255);
+        graphics.blit(ERIS_FAR, (eris_x * 20) + (int) scrollX * 20, (eris_y * 20) + (int) scrollY * 20, 0, 0, 255, 255);
         pose.popPose();
 
         if (player_dim != ClientLevel.OVERWORLD && player_dim != NorthstarDimensions.MOON_DIM_KEY) {
@@ -200,13 +189,13 @@ public class TelescopeScreen extends AbstractContainerScreen<TelescopeMenu> {
             int earth_y = (int) NorthstarPlanets.earth_y;
             pose.pushPose();
             pose.scale(0.05F, 0.05F, 0.05F);
-            graphics.blit(EARTH, (earth_x * 20) + (int) scrollX * 20, (earth_y * 20) + (int) scrollY * 20, 0, 0, 255, 255);
+            graphics.blit(EARTH_FAR, (earth_x * 20) + (int) scrollX * 20, (earth_y * 20) + (int) scrollY * 20, 0, 0, 255, 255);
             pose.popPose();
             int moon_x = (int) NorthstarPlanets.moon_x;
             int moon_y = (int) NorthstarPlanets.moon_y;
             pose.pushPose();
             pose.scale(0.05F, 0.05F, 0.05F);
-            graphics.blit(MOON, (moon_x * 20) + (int) scrollX * 20, (moon_y * 20) + (int) scrollY * 20, 0, 0, 255, 255);
+            graphics.blit(MOON_FAR, (moon_x * 20) + (int) scrollX * 20, (moon_y * 20) + (int) scrollY * 20, 0, 0, 255, 255);
             pose.popPose();
         }
 
@@ -224,7 +213,7 @@ public class TelescopeScreen extends AbstractContainerScreen<TelescopeMenu> {
             pose.popPose();
             RenderSystem.disableBlend();
             pose.scale(2F, 1F, 1F);
-            graphics.blit(MOON_FLAT, ((int) NorthstarPlanets.earth_moon_x + (int) scrollX / 2) - 27, ((int) NorthstarPlanets.earth_moon_y + (int) scrollY) - 57, 0 + moon_uv_x, 0 + moon_uv_y, 64, 128);
+            graphics.blit(NorthstarTextures.MOON_FLAT, ((int) NorthstarPlanets.earth_moon_x + (int) scrollX / 2) - 27, ((int) NorthstarPlanets.earth_moon_y + (int) scrollY) - 57, 0 + moon_uv_x, 0 + moon_uv_y, 64, 128);
             pose.popPose();
         }
     }
@@ -502,18 +491,18 @@ public class TelescopeScreen extends AbstractContainerScreen<TelescopeMenu> {
 
     public ResourceLocation getPlanetSprite(String planet) {
         return switch (planet) {
-            case "mercury" -> MERCURY;
-            case "venus" -> VENUS;
-            case "earth" -> EARTH;
-            case "earth_moon", "moon" -> MOON;
-            case "mars" -> MARS;
-            case "ceres" -> CERES;
-            case "jupiter" -> JUPITER;
-            case "saturn" -> SATURN;
-            case "uranus" -> URANUS;
-            case "neptune" -> NEPTUNE;
-            case "pluto" -> PLUTO;
-            case "eris" -> ERIS;
+            case "mercury" -> MERCURY_FAR;
+            case "venus" -> VENUS_FAR;
+            case "earth" -> EARTH_FAR;
+            case "earth_moon", "moon" -> MOON_FAR;
+            case "mars" -> MARS_FAR;
+            case "ceres" -> CERES_FAR;
+            case "jupiter" -> JUPITER_FAR;
+            case "saturn" -> SATURN_FAR;
+            case "uranus" -> URANUS_FAR;
+            case "neptune" -> NEPTUNE_FAR;
+            case "pluto" -> PLUTO_FAR;
+            case "eris" -> ERIS_FAR;
             default -> null;
         };
 

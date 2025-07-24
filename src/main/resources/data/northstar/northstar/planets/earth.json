@@ -1,0 +1,28 @@
+{
+  "dimension": "minecraft:overworld",
+  "central_body": "northstar:sun",
+
+  "type": "planet",
+  "gravity": 9.807,
+  "atmosphere": true,
+  "atmosphere_comment": "maybe make it namespaced, northstar:breathable, northstar:none",
+  "temperature": 15,
+
+  "rotation_period_days": 1,
+  "circumference": 40075,
+
+  "orbit": {
+    "type": "northstar:simple",
+    "duration_days": 365.256,
+    "radius": 1.0,
+    "inclination_deg": 0.0,
+    "ascending_node_deg": 0.0,
+    "initial_mean_anomaly_deg": 357.51716
+  },
+  "textures": {
+    "far": "northstar:environment/earth_far.png",
+    "close": "northstar:environment/earth_close.png",
+    "very_close": "northstar:environment/earth_very_close.png"
+  },
+  "orrery_model": "northstar:block/orrery/earth"
+}

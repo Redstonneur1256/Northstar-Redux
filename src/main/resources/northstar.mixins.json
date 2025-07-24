@@ -8,7 +8,6 @@
     "BucketItemMixin",
     "CompassMixin",
     "ContraptionTestMixin",
-    "GravityStuffMixin",
     "MobMixin",
     "OxygenAndTempEntityMixin",
     "PlayerMixin",
@@ -23,11 +22,14 @@
     "blockstuff.TorchItemMixin",
     "blockstuff.TorchMixin",
     "blockstuff.WallTorchMixin",
-    "gravitystuff.AbstractArrowGravityMixin",
-    "gravitystuff.AbstractMinecartGravityMixin",
-    "gravitystuff.BoatGravityMixin",
-    "gravitystuff.ItemEntityGravityMixin",
-    "gravitystuff.ThrowableProjectileGravityMixin"
+    "gravity.AbstractArrowGravityMixin",
+    "gravity.AbstractMinecartGravityMixin",
+    "gravity.BoatGravityMixin",
+    "gravity.FallingBlockGravityMixin",
+    "gravity.GravityStuffMixin",
+    "gravity.ItemEntityGravityMixin",
+    "gravity.LivingEntityGravityMixin",
+    "gravity.ThrowableProjectileGravityMixin"
   ],
   "client": [
     "LivingEntityRendererMixin",

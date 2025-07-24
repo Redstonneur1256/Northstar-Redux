@@ -7,10 +7,12 @@ import com.lightning.northstar.block.tech.cogs.SpaceCogWheelBlock;
 import com.lightning.northstar.block.tech.combustion_engine.CombustionEngineBlock;
 import com.lightning.northstar.block.tech.computer_rack.TargetingComputerRackBlock;
 import com.lightning.northstar.block.tech.electrolysis_machine.ElectrolysisMachineBlock;
+import com.lightning.northstar.block.tech.globe.GlobeBlock;
 import com.lightning.northstar.block.tech.ice_box.IceBoxBlock;
 import com.lightning.northstar.block.tech.jet_engine.JetEngineBlock;
 import com.lightning.northstar.block.tech.jet_engine.JetEngineItem;
 import com.lightning.northstar.block.tech.jet_engine.JetEngineMovementBehaviour;
+import com.lightning.northstar.block.tech.orrery.OrreryBlock;
 import com.lightning.northstar.block.tech.oxygen_concentrator.OxygenConcentratorBlock;
 import com.lightning.northstar.block.tech.oxygen_detector.OxygenDetectorBlock;
 import com.lightning.northstar.block.tech.oxygen_filler.OxygenFillerBlock;
@@ -369,6 +371,20 @@ public class NorthstarTechBlocks {
             .blockstate(BlockStateGen.axisBlockProvider(false))
             .onRegister(CreateRegistrate.blockModel(() -> BracketedKineticBlockModel::new))
             .item(CogwheelBlockItem::new)
+            .build()
+            .register();
+
+    // TODO: crafting
+    public static final BlockEntry<GlobeBlock> GLOBE = REGISTRATE
+            .block("globe", GlobeBlock::new)
+            .item()
+            .build()
+            .register();
+
+    // TODO: crafting
+    public static final BlockEntry<OrreryBlock> ORRERY = REGISTRATE
+            .block("orrery", OrreryBlock::new)
+            .item()
             .build()
             .register();
 

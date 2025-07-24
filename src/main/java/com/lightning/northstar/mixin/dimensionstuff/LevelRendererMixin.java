@@ -1,7 +1,9 @@
 package com.lightning.northstar.mixin.dimensionstuff;
 
 import com.lightning.northstar.content.NorthstarTextures;
+import com.lightning.northstar.planet.PlanetRenderer;
 import com.lightning.northstar.world.dimension.NorthstarDimensions;
+import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Matrix4f;
@@ -12,8 +14,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Camera;
 import net.minecraft.client.renderer.LevelRenderer;
@@ -37,15 +37,13 @@ public class LevelRendererMixin {
             at = @At(value = "FIELD",
                     target = "Lnet/minecraft/client/renderer/LevelRenderer;MOON_LOCATION:Lnet/minecraft/resources/ResourceLocation;"))
     private ResourceLocation northstar$disableMoonFromTheMoon() {
-        System.out.println("on " + level);
         if (level != null && level.dimension().equals(NorthstarDimensions.MOON_DIM_KEY)) {
-            System.out.println("on the moon");
             return NorthstarTextures.EMPTY;
         }
         return MOON_LOCATION;
     }
 
-    @Inject(method = "renderSky", at = @At("HEAD"))
+    @Inject(method = "renderSky", at = @At("TAIL"))
     private void northstar$renderPlanets(PoseStack poseStack,
                                          Matrix4f projectionMatrix,
                                          float partialTick,
@@ -53,6 +51,8 @@ public class LevelRendererMixin {
                                          boolean isFoggy,
                                          Runnable skyFogSetup,
                                          CallbackInfo ci) {
+        assert level != null;
+        PlanetRenderer.render(level, poseStack, projectionMatrix, camera, partialTick);
     }
 
     /*@Final

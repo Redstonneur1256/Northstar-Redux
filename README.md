@@ -12,3 +12,7 @@ Make sure that no existing issue matches the bug or feature and that it isn't pl
 
 ### Planned:
 - 1.21.1
+- Globe item/block that shows where you are on the planet (to help visualize other planet positions)
+- [Orrery](https://en.wikipedia.org/wiki/Orrery#/media/File:Orrery_small.jpg) that uses kinetic force to show a live view of the planets. Base planet can be selected by right-clicking in case of multiple systems.
+- Space stations
+- Distant Horizons integration for takeoffs and space stations

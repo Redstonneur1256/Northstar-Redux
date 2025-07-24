@@ -79,6 +79,8 @@ minecraft {
                 "forge.enabledGameTestNamespaces" to "northstar",
             ))
 
+            args("-mixin.config=northstar.mixins.json")
+
             /*mods {
                 "northstar" {
                     source(sourceSets.main.get())
@@ -130,6 +132,7 @@ tasks.jar {
 
     manifest {
         attributes(mapOf(
+            "MixinConfigs"             to "northstar.mixins.json",
             "Specification-Title"      to "northstar",
             "Specification-Vendor"     to "Redstonneur1256",
             "Specification-Version"    to version,

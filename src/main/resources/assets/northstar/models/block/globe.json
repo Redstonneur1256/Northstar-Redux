@@ -1,0 +1,80 @@
+{
+	"format_version": "1.9.0",
+	"credit": "Made with Blockbench",
+	"texture_size": [32, 32],
+	"textures": {
+		"1": "northstar:block/globe/globe"
+	},
+	"elements": [
+		{
+			"name": "base",
+			"from": [5, 0, 5],
+			"to": [11, 1, 11],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7, 0, 7]},
+			"faces": {
+				"north": {"uv": [8, 12, 11, 12.5], "texture": "#1"},
+				"east": {"uv": [12, 10, 15, 10.5], "texture": "#1"},
+				"south": {"uv": [12, 10.5, 15, 11], "texture": "#1"},
+				"west": {"uv": [11, 12, 14, 12.5], "texture": "#1"},
+				"up": {"uv": [15, 7, 12, 4], "texture": "#1"},
+				"down": {"uv": [15, 7, 12, 10], "texture": "#1"}
+			}
+		},
+		{
+			"name": "base2",
+			"from": [7, 1, 7],
+			"to": [9, 1.5, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7, 1, 7]},
+			"faces": {
+				"north": {"uv": [9, 12.5, 10, 13], "texture": "#1"},
+				"east": {"uv": [10, 12.5, 11, 13], "texture": "#1"},
+				"south": {"uv": [11, 12.5, 12, 13], "texture": "#1"},
+				"west": {"uv": [12, 12.5, 13, 13], "texture": "#1"},
+				"up": {"uv": [13, 12, 12, 11], "texture": "#1"},
+				"down": {"uv": [9, 12.5, 8, 13.5], "texture": "#1"}
+			}
+		},
+		{
+			"name": "connector",
+			"from": [7.5, 1.5, 7.5],
+			"to": [8.5, 2.5, 8.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7, 0.5, 7]},
+			"faces": {
+				"north": {"uv": [9, 13, 9.5, 13.5], "texture": "#1"},
+				"east": {"uv": [9.5, 13, 10, 13.5], "texture": "#1"},
+				"south": {"uv": [10, 13, 10.5, 13.5], "texture": "#1"},
+				"west": {"uv": [10.5, 13, 11, 13.5], "texture": "#1"},
+				"up": {"uv": [11.5, 13.5, 11, 13], "texture": "#1"},
+				"down": {"uv": [13.5, 11, 13, 11.5], "texture": "#1"}
+			}
+		},
+		{
+			"name": "globe",
+			"from": [4, 2.5, 4],
+			"to": [12, 10.5, 12],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 6.5, 8]},
+			"faces": {
+				"north": {"uv": [4, 8, 8, 12], "texture": "#1"},
+				"east": {"uv": [8, 4, 12, 8], "texture": "#1"},
+				"south": {"uv": [8, 8, 12, 12], "texture": "#1"},
+				"west": {"uv": [0, 12, 4, 16], "texture": "#1"},
+				"up": {"uv": [16, 4, 12, 0], "texture": "#1"},
+				"down": {"uv": [8, 12, 4, 16], "texture": "#1"}
+			}
+		},
+		{
+			"name": "clouds",
+			"from": [3.95, 2.45, 3.95],
+			"to": [12.05, 10.55, 12.05],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 6.5, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 4, 4], "texture": "#1"},
+				"east": {"uv": [0, 4, 4, 8], "texture": "#1"},
+				"south": {"uv": [4, 0, 8, 4], "texture": "#1"},
+				"west": {"uv": [4, 4, 8, 8], "texture": "#1"},
+				"up": {"uv": [4, 12, 0, 8], "texture": "#1"},
+				"down": {"uv": [12, 0, 8, 4], "texture": "#1"}
+			}
+		}
+	]
+}

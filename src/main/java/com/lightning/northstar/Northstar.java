@@ -15,6 +15,8 @@ import com.lightning.northstar.item.NorthstarEnchantments;
 import com.lightning.northstar.item.NorthstarPotions;
 import com.lightning.northstar.item.NorthstarRecipeTypes;
 import com.lightning.northstar.particle.NorthstarParticles;
+import com.lightning.northstar.planet.NorthstarPlanet;
+import com.lightning.northstar.planet.PlanetOrbitTracker;
 import com.lightning.northstar.world.OxygenStuff;
 import com.lightning.northstar.world.TemperatureStuff;
 import com.lightning.northstar.world.dimension.NorthstarDimensions;
@@ -48,6 +50,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
+import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -56,6 +59,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.DataPackRegistryEvent;
 import net.minecraftforge.registries.RegisterEvent;
 import org.slf4j.Logger;
 import software.bernie.geckolib.GeckoLib;
@@ -63,15 +67,10 @@ import software.bernie.geckolib.GeckoLib;
 @Mod(Northstar.MOD_ID)
 public class Northstar {
 
-    // Define mod id in a common place for everything to reference
-    public static final double GRAV_CONSTANT = 0.08;
-    public static final double EARTH_GRAV = 1;
-    public static final double MARS_GRAV = 0.37;
-    public static final double VENUS_GRAV = 0.89;
-
     public static final String MOD_ID = "northstar";
     public static final Logger LOGGER = LogUtils.getLogger();
     public static final CreateRegistrate REGISTRATE = CreateRegistrate.create(MOD_ID);
+    public static final PlanetOrbitTracker ORBIT_TRACKER = new PlanetOrbitTracker();
 
     static {
         REGISTRATE.setTooltipModifierFactory(item -> new ItemDescription.Modifier(item, new FontHelper.Palette(TooltipHelper.styleFromColor(0x9ba4ae), TooltipHelper.styleFromColor(0x80afd2))).andThen(TooltipModifier.mapNull(KineticStats.create(item))));
@@ -92,7 +91,7 @@ public class Northstar {
 
         NorthstarCreativeModeTab.register(modEventBus);
         NorthstarItems.register();
-        NorthstarBlocks.register(modEventBus);
+        NorthstarBlocks.register();
         NorthstarBlockEntityTypes.register(modEventBus);
         NorthstarPotions.register(modEventBus);
         NorthstarEnchantments.register();
@@ -106,6 +105,7 @@ public class Northstar {
         NorthstarDimensions.register();
         NorthstarEntityTypes.register(modEventBus);
         NorthstarFluids.register();
+        NorthstarOrbitProviders.register();
 
         NorthstarTrunkPlacerTypes.register(modEventBus);
         NorthstarPartialModels.register();
@@ -120,7 +120,6 @@ public class Northstar {
         modEventBus.addListener(NorthstarDataGen::gatherData);
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> NorthstarClient.onCtorClient(modEventBus, forgeEventBus));
-
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
@@ -172,6 +171,11 @@ public class Northstar {
     @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class CommonEventListener {
 
+        @SubscribeEvent
+        public static void registerRegistries(DataPackRegistryEvent.NewRegistry event) {
+            event.dataPackRegistry(NorthstarRegistries.PLANETS, NorthstarPlanet.CODEC, NorthstarPlanet.CODEC);
+        }
+
         private static void registerItem(BuildCreativeModeTabContentsEvent event, String planet) {
             ItemStack earth = new ItemStack(NorthstarItems.STAR_MAP.get());
             earth.setHoverName(Component.translatable("item.northstar.star_map_" + planet).setStyle(Style.EMPTY.withColor(ChatFormatting.AQUA).withItalic(false)));
@@ -204,6 +208,14 @@ public class Northstar {
             }
         }
 
+    }
+
+    @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+    public static class ForgeCommonEvents {
+        @SubscribeEvent
+        public static void onRegistrySync(TagsUpdatedEvent event) {
+            ORBIT_TRACKER.rebuildUpdateOrder(event.getRegistryAccess().registryOrThrow(NorthstarRegistries.PLANETS));
+        }
     }
 
     @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)

@@ -1,0 +1,29 @@
+{
+  "dimension": "northstar:mercury",
+  "central_body": "northstar:sun",
+
+  "type": "planet",
+  "gravity": 3.7,
+  "atmosphere": false,
+  "temperature": -173,
+
+  "rotation_period_days": 58.64583333333333,
+  "circumference": 15329,
+  
+  "orbit": {
+    "type": "northstar:simple",
+    "duration_days": 88,
+    "radius": 0.38709893,
+    "inclination_deg": 7.00487,
+    "ascending_node_deg": 48.33167,
+    "initial_mean_anomaly_deg": 174.79253
+  },
+  
+  "textures": {
+    "far": "northstar:environment/mercury_far.png",
+    "close": "northstar:environment/mercury_close.png",
+    "very_close": "northstar:environment/mercury_very_close.png"
+  },
+  "sprite": "northstar:environment/mercury_far.png",
+  "orrery_model": "northstar:block/orrery/mercury"
+}

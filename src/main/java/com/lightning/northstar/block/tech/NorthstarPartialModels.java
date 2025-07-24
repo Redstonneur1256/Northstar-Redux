@@ -41,7 +41,8 @@ public class NorthstarPartialModels {
             CONTROL_LEVER = block("rocket_controls/stick"),
             CONTROL_LEVER_BLOCK = block("rocket_controls/stick_2"),
             IRON_COGWHEEL = block("iron_cogwheel"),
-            IRON_LARGE_COGWHEEL = block("iron_large_cogwheel");
+            IRON_LARGE_COGWHEEL = block("iron_large_cogwheel"),
+            GLOBE_PIN = block("orrery/pin");
 
 
     public static final Map<FluidTransportBehaviour.AttachmentTypes.ComponentPartials, Map<Direction, PartialModel>> PIPE_ATTACHMENTS =

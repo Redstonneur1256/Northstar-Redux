@@ -1,0 +1,28 @@
+{
+  "dimension": "northstar:mars",
+  "central_body": "northstar:sun",
+
+  "type": "planet",
+  "gravity": 3.73,
+  "atmosphere": false,
+  "temperature": -63,
+  
+  "rotation_period_days": 1.025954166666667,
+  "circumference": 21344,
+  
+  "orbit": {
+    "type": "northstar:simple",
+    "duration_days": 686.93,
+    "radius": 1.52366231,
+    "inclination_deg": 1.85061,
+    "ascending_node_deg": 49.57854,
+    "initial_mean_anomaly_deg": 19.39020
+  },
+
+  "textures": {
+    "far": "northstar:environment/mars_far.png",
+    "close": "northstar:environment/mars_close.png",
+    "very_close": "northstar:environment/mars_very_close.png"
+  },
+  "orrery_model": "northstar:block/orrery/mars"
+}

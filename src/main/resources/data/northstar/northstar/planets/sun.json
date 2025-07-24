@@ -1,0 +1,24 @@
+{
+  "dimension": null,
+  "central_body": null,
+
+  "type": "star",
+  "gravity": 274,
+  "atmosphere": false,
+  "temperature": 5500,
+
+  "rotation_period_days": 24,
+  "circumference": 4370006,
+
+  "orbit": {
+    "type": "northstar:fixed",
+    "position": [ 0, 0, 0 ]
+  },
+  
+  "textures": {
+    "far": "northstar:environment/sun_far.png",
+    "close": "northstar:environment/sun_close.png",
+    "very_close": "northstar:environment/sun_very_close.png"
+  },
+  "orrery_model": "northstar:block/orrery/sun"
+}

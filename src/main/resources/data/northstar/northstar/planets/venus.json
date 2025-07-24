@@ -1,0 +1,28 @@
+{
+  "dimension": "northstar:venus",
+  "central_body": "northstar:sun",
+
+  "type": "gas_giant",
+  "gravity": 8.87,
+  "atmosphere": false,
+  "temperature": 462,
+
+  "rotation_period_days": -243.0208333333333,
+  "circumference": 38025,
+  
+  "orbit": {
+    "type": "northstar:simple",
+    "duration_days": 224.7,
+    "radius": 0.72333199,
+    "inclination_deg": 3.39471,
+    "ascending_node_deg": 76.68069,
+    "initial_mean_anomaly_deg": 50.37663
+  },
+
+  "textures": {
+    "far": "northstar:environment/venus_far.png",
+    "close": "northstar:environment/venus_close.png",
+    "very_close": "northstar:environment/venus_very_close.png"
+  },
+  "orrery_model": "northstar:block/orrery/venus"
+}

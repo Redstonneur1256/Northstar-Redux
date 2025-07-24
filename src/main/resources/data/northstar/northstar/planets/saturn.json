@@ -1,0 +1,28 @@
+{
+  "dimension": null,
+  "central_body": "northstar:sun",
+
+  "type": "gas_giant",
+  "gravity": 10.44,
+  "atmosphere": false,
+  "temperature": 11700,
+
+  "rotation_period_days": 10.656,
+  "circumference": 378675,
+
+  "orbit": {
+    "type": "northstar:simple",
+    "duration_days": 10755.699,
+    "radius": 9.59,
+    "inclination_deg": 2.486,
+    "ascending_node_deg": 113.71504,
+    "initial_mean_anomaly_deg": 49.94432
+  },
+
+  "textures": {
+    "far": "northstar:environment/saturn_far.png",
+    "close": "northstar:environment/saturn_close.png",
+    "very_close": "northstar:environment/saturn_very_close.png"
+  },
+  "orrery_model": "northstar:block/orrery/saturn"
+}

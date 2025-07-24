@@ -1,6 +1,7 @@
 package com.lightning.northstar.content;
 
 import com.lightning.northstar.Northstar;
+import com.lightning.northstar.block.tech.globe.GlobeBlockEntity;
 import com.lightning.northstar.block.entity.LaserLenseBlockEntity;
 import com.lightning.northstar.block.entity.OxygenBubbleGeneratorBlockEntity;
 import com.lightning.northstar.block.entity.VenusExhaustBlockEntity;
@@ -13,8 +14,11 @@ import com.lightning.northstar.block.tech.combustion_engine.CombustionEngineBloc
 import com.lightning.northstar.block.tech.combustion_engine.CombustionEngineVisual;
 import com.lightning.northstar.block.tech.computer_rack.TargetingComputerRackBlockEntity;
 import com.lightning.northstar.block.tech.electrolysis_machine.ElectrolysisMachineBlockEntity;
+import com.lightning.northstar.block.tech.globe.GlobeBlockEntityRenderer;
 import com.lightning.northstar.block.tech.ice_box.IceBoxBlockEntity;
 import com.lightning.northstar.block.tech.jet_engine.JetEngineBlockEntity;
+import com.lightning.northstar.block.tech.orrery.OrreryBlockEntity;
+import com.lightning.northstar.block.tech.orrery.OrreryVisual;
 import com.lightning.northstar.block.tech.oxygen_concentrator.OxygenConcentratorBlockEntity;
 import com.lightning.northstar.block.tech.oxygen_concentrator.OxygenConcentratorVisual;
 import com.lightning.northstar.block.tech.oxygen_detector.OxygenDetectorBlockEntity;
@@ -173,6 +177,19 @@ public class NorthstarBlockEntityTypes {
             .validBlocks(NorthstarTechBlocks.IRON_COGWHEEL, NorthstarTechBlocks.IRON_LARGE_COGWHEEL)
             .renderer(() -> BracketedKineticBlockEntityRenderer::new)
             .register();
+
+    public static final BlockEntityEntry<GlobeBlockEntity> GLOBE = REGISTRATE
+            .blockEntity("globe", GlobeBlockEntity::new)
+            .validBlocks(NorthstarTechBlocks.GLOBE)
+            .renderer(() -> GlobeBlockEntityRenderer::new)
+            .register();
+
+    public static final BlockEntityEntry<OrreryBlockEntity> ORRERY = REGISTRATE
+            .blockEntity("orrery", OrreryBlockEntity::new)
+            .visual(() -> OrreryVisual::new)
+            .validBlocks(NorthstarTechBlocks.ORRERY)
+            .register();
+
 
 //   public static final RegistryObject<BlockEntityType<JetEngineBlockEntity>> JET_ENGINE = BLOCK_ENTITIES.register("jet_engine",
 //           () -> BlockEntityType.Builder.of(JetEngineBlockEntity::new, NorthstarBlocks.JET_ENGINE.get()).build(null));

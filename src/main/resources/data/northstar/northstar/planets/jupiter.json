@@ -1,0 +1,28 @@
+{
+  "dimension": null,
+  "central_body": "northstar:sun",
+
+  "type": "gas_giant",
+  "gravity": 24.79,
+  "atmosphere": false,
+  "temperature": -160,
+  
+  "rotation_period_days": 0.41354,
+  "circumference": 439264,
+
+  "orbit": {
+    "type": "northstar:simple",
+    "duration_days": 4333,
+    "radius": 5,
+    "inclination_deg": 1.304,
+    "ascending_node_deg": 100.55615,
+    "initial_mean_anomaly_deg": 19.65053
+  },
+
+  "textures": {
+    "far": "northstar:environment/jupiter_far.png",
+    "close": "northstar:environment/jupiter_close.png",
+    "very_close": "northstar:environment/jupiter_very_close.png"
+  },
+  "orrery_model": "northstar:block/orrery/jupiter"
+}

@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "northstar:block/orrery/orrery_base"
+    }
+  }
+}

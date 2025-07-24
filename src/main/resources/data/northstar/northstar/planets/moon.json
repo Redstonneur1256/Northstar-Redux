@@ -1,0 +1,28 @@
+{
+  "dimension": "northstar:moon",
+  "central_body": "northstar:earth",
+
+  "type": "moon",
+  "gravity": 1.62,
+  "atmosphere": false,
+  "temperature": 127,
+  "temperature_min": -133,
+
+  "rotation_period_days": 27.321527,
+  "circumference": 10921,
+  
+  "orbit": {
+    "type": "northstar:simple",
+    "duration_days": 27.321527,
+    "radius": 0.00257,
+    "inclination_deg": 5.145,
+    "ascending_node_deg": 125.08,
+    "initial_mean_anomaly_deg": 0.0
+  },
+  "textures": {
+    "far": "northstar:environment/moon_far.png",
+    "close": "northstar:environment/moon_close.png",
+    "very_close": "northstar:environment/moon_very_close.png"
+  },
+  "orrery_model": "northstar:block/orrery/moon"
+}
