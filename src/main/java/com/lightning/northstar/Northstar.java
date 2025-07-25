@@ -15,6 +15,7 @@ import com.lightning.northstar.item.NorthstarEnchantments;
 import com.lightning.northstar.item.NorthstarPotions;
 import com.lightning.northstar.item.NorthstarRecipeTypes;
 import com.lightning.northstar.particle.NorthstarParticles;
+import com.lightning.northstar.ponder.NorthstarPonderPlugin;
 import com.lightning.northstar.world.OxygenStuff;
 import com.lightning.northstar.world.TemperatureStuff;
 import com.lightning.northstar.world.dimension.NorthstarDimensions;
@@ -28,6 +29,7 @@ import com.simibubi.create.foundation.item.KineticStats;
 import com.simibubi.create.foundation.item.TooltipHelper;
 import com.simibubi.create.foundation.item.TooltipModifier;
 import net.createmod.catnip.lang.FontHelper;
+import net.createmod.ponder.foundation.PonderIndex;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -114,6 +116,8 @@ public class Northstar {
         TemperatureStuff.register();
 
         RocketHandler.register();
+
+        PonderIndex.addPlugin(new NorthstarPonderPlugin());
 
         modEventBus.addListener(Northstar::init);
         modEventBus.addListener(this::registerSpawnPlacements);
