@@ -1,72 +1,101 @@
 package com.lightning.northstar.mixin.dimensionstuff;
 
-import com.lightning.northstar.content.NorthstarTextures;
-import com.lightning.northstar.world.dimension.NorthstarDimensions;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.resources.ResourceLocation;
+import javax.annotation.Nullable;
+
+
+import com.lightning.northstar.content.NorthstarSounds;
+import com.mojang.math.Axis;
 import org.joml.Matrix4f;
-import org.spongepowered.asm.mixin.Final;
+import org.joml.Vector3f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import com.lightning.northstar.Northstar;
+import com.lightning.northstar.particle.DustCloudParticleData;
+import com.lightning.northstar.world.dimension.NorthstarDimensions;
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.BufferUploader;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexBuffer;
+import com.mojang.blaze3d.vertex.VertexFormat;
 
 import net.minecraft.client.Camera;
+import net.minecraft.client.CloudStatus;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.ParticleStatus;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.FogRenderer;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.ShaderInstance;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import javax.annotation.Nullable;
 
 @OnlyIn(Dist.CLIENT)
 @Mixin(LevelRenderer.class)
 public class LevelRendererMixin {
+    private static final ResourceLocation EARTH_CLOSE = Northstar.asResource("textures/environment/earth_close.png");
+    private static final ResourceLocation EARTH_FAR = Northstar.asResource("textures/environment/earth_far.png");
+    private static final ResourceLocation MOON_CLOSE = Northstar.asResource("textures/environment/moon_close.png");
+    private static final ResourceLocation MOON_FAR = Northstar.asResource("textures/environment/moon_far.png");
+    private static final ResourceLocation VENUS_FAR = Northstar.asResource("textures/environment/venus_far_sky.png");
+    private static final ResourceLocation VENUS_CLOSE = Northstar.asResource("textures/environment/venus_close.png");
+    private static final ResourceLocation BARE_SUN = Northstar.asResource("textures/environment/baresun.png");
+    private static final ResourceLocation BLURRED_SUN = Northstar.asResource("textures/environment/sun_blurry.png");
+    private static final ResourceLocation MARS_CLOSE = Northstar.asResource("textures/environment/mars_close.png");
+    //private static final ResourceLocation MARS_FAR = new ResourceLocation(Northstar.MOD_ID,"textures/environment/mars_far.png");
+    private static final ResourceLocation MARS_VERY_FAR = Northstar.asResource("textures/environment/mars_very_far_sky.png");
+    private static final ResourceLocation MERCURY_CLOSE = Northstar.asResource("textures/environment/mercury_close.png");
+    private static final ResourceLocation PHOBOS_DEIMOS = Northstar.asResource("textures/environment/phobos_and_deimos.png");
+    private static final ResourceLocation NORTHERN_STAR = Northstar.asResource("textures/environment/northernstar_sky.png");
+    private static final ResourceLocation MARS_DUST = Northstar.asResource("textures/environment/mars_dust.png");
+    private static final ResourceLocation ACID_RAIN = Northstar.asResource("textures/environment/acid_rain.png");
+    private static final ResourceLocation MOON_LOC = ResourceLocation.parse("textures/environment/moon_phases.png");
 
-    @Shadow
-    @Final
-    private static ResourceLocation MOON_LOCATION;
-    @Shadow
+    private static final ResourceLocation CLOUDS_LOCATION = ResourceLocation.parse("textures/environment/clouds.png");
+    private static final ResourceLocation SNOW_LOCATION = ResourceLocation.parse("textures/environment/snow.png");
+
+
     @Nullable
-    private ClientLevel level;
-
-    @Redirect(method = "renderSky",
-            at = @At(value = "FIELD",
-                    target = "Lnet/minecraft/client/renderer/LevelRenderer;MOON_LOCATION:Lnet/minecraft/resources/ResourceLocation;"))
-    private ResourceLocation northstar$disableMoonFromTheMoon() {
-        System.out.println("on " + level);
-        if (level != null && level.dimension().equals(NorthstarDimensions.MOON_DIM_KEY)) {
-            System.out.println("on the moon");
-            return NorthstarTextures.EMPTY;
-        }
-        return MOON_LOCATION;
-    }
-
-    @Inject(method = "renderSky", at = @At("HEAD"))
-    private void northstar$renderPlanets(PoseStack poseStack,
-                                         Matrix4f projectionMatrix,
-                                         float partialTick,
-                                         Camera camera,
-                                         boolean isFoggy,
-                                         Runnable skyFogSetup,
-                                         CallbackInfo ci) {
-    }
-
-    /*@Final
-    @Shadow
-    private Minecraft minecraft;
-    @Shadow
-    private ClientLevel level;
+    private VertexBuffer darkBuffer;
     @Shadow
     private VertexBuffer skyBuffer;
     @Shadow
     private VertexBuffer starBuffer;
+    private VertexBuffer starBuffer2;
+    private VertexBuffer starBuffer3;
+
+    @Nullable
     @Shadow
     private VertexBuffer cloudBuffer;
-
+    @Nullable
+    private VertexBuffer cloudBuffer2;
     private boolean generateClouds = true;
     private int prevCloudX = Integer.MIN_VALUE;
     private int prevCloudY = Integer.MIN_VALUE;
@@ -75,6 +104,11 @@ public class LevelRendererMixin {
     @Nullable
     private CloudStatus prevCloudsType;
 
+    @Nullable
+    @Shadow
+    private ClientLevel level;
+    @Shadow
+    private Minecraft minecraft;
     private float f_alpha = 1;
     private int ticks;
     private int rainSoundTime;
@@ -84,14 +118,15 @@ public class LevelRendererMixin {
     private static final Vector3f VENUS_DIFFUSE_1 = new Vector3f(0.2F, -1.0F, -0.7F).normalize();
     private static final Vector3f VENUS_DIFFUSE_2 = new Vector3f(-0.2F, -1.0F, 0.7F).normalize();
 
+
     private final float[] rainSizeX = new float[1024];
     private final float[] rainSizeZ = new float[1024];
 
-//    @Inject(method = "renderLevel", at = @At("HEAD"), cancellable = true)
-//    public void renderLevel(PoseStack pPoseStack, float pPartialTick, long pFinishNanoTime, boolean pRenderBlockOutline, Camera pCamera, GameRenderer pGameRenderer, LightTexture pLightTexture, Matrix4f pProjectionMatrix, CallbackInfo info) {
-//         if(this.level.dimension() == NorthstarDimensions.VENUS_DIM_KEY)
-//         {RenderSystem.setupLevelDiffuseLighting(VENUS_DIFFUSE_1, VENUS_DIFFUSE_2, pPoseStack.last().pose());}
-//    }
+//	@Inject(method = "renderLevel", at = @At("HEAD"), cancellable = true)
+//	public void renderLevel(PoseStack pPoseStack, float pPartialTick, long pFinishNanoTime, boolean pRenderBlockOutline, Camera pCamera, GameRenderer pGameRenderer, LightTexture pLightTexture, Matrix4f pProjectionMatrix, CallbackInfo info) {
+//		 if(this.level.dimension() == NorthstarDimensions.VENUS_DIM_KEY)
+//		 {RenderSystem.setupLevelDiffuseLighting(VENUS_DIFFUSE_1, VENUS_DIFFUSE_2, pPoseStack.last().pose());}
+//	}
 
     @Inject(method = "renderSnowAndRain", at = @At("HEAD"), cancellable = true)
     private void renderWeather(LightTexture pLightTexture, float pPartialTick, double pCamX, double pCamY, double pCamZ, CallbackInfo info) {
@@ -105,12 +140,11 @@ public class LevelRendererMixin {
         ResourceKey<Level> player_dim = Minecraft.getInstance().level.dimension();
         if (player_dim == NorthstarDimensions.MARS_DIM_KEY) {
             info.cancel();
-//        Minecraft.getInstance().level.setRainLevel(15);
+//		Minecraft.getInstance().level.setRainLevel(15);
             float rain_det = this.minecraft.level.getRainLevel(pPartialTick);
             if (!(rain_det <= 0.0F)) {
                 pLightTexture.turnOnLightLayer();
                 RenderSystem.setShader(GameRenderer::getPositionColorShader);
-                
                 RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
                 RenderSystem.depthMask(false);
                 RenderSystem.enableBlend();
@@ -160,7 +194,7 @@ public class LevelRendererMixin {
                         double d1 = (double) this.rainSizeZ[l1] * 1.25D;
                         blockpos$mutableblockpos.set((double) k1, pCamY, (double) j1);
                         Biome biome = level.getBiome(blockpos$mutableblockpos).value();
-                        if (biome.getPrecipitation() == Biome.Precipitation.NONE) {
+                        if (!biome.hasPrecipitation()) {
                             int i2 = level.getHeight(Heightmap.Types.MOTION_BLOCKING, k1, j1);
                             int j2 = j - l;
                             int k2 = j + l;
@@ -248,7 +282,7 @@ public class LevelRendererMixin {
 
                 RenderSystem.enableCull();
                 RenderSystem.disableBlend();
-                pLightTexture.turnOffLightLayer();
+                //pLightTexture.turnOffLightLayer();
 
             }
 
@@ -256,7 +290,7 @@ public class LevelRendererMixin {
         }
         if (player_dim == NorthstarDimensions.VENUS_DIM_KEY) {
             info.cancel();
-//        Minecraft.getInstance().level.setRainLevel(2);
+//		Minecraft.getInstance().level.setRainLevel(2);
             float rain_det = this.minecraft.level.getRainLevel(pPartialTick);
             if (!(rain_det <= 0.0F)) {
                 pLightTexture.turnOnLightLayer();
@@ -288,7 +322,7 @@ public class LevelRendererMixin {
                         double d1 = (double) this.rainSizeZ[l1] * 0.5D;
                         blockpos$mutableblockpos.set((double) k1, pCamY, (double) j1);
                         Biome biome = level.getBiome(blockpos$mutableblockpos).value();
-                        if (biome.getPrecipitation() == Biome.Precipitation.NONE) {
+                        if (!biome.hasPrecipitation()) {
                             int i2 = level.getHeight(Heightmap.Types.MOTION_BLOCKING, k1, j1);
                             int j2 = j - l;
                             int k2 = j + l;
@@ -343,9 +377,10 @@ public class LevelRendererMixin {
 
                 RenderSystem.enableCull();
                 RenderSystem.disableBlend();
-                pLightTexture.turnOffLightLayer();
+                //pLightTexture.turnOffLightLayer();
             }
         }
+
     }
 
     @SuppressWarnings("resource")
@@ -364,7 +399,7 @@ public class LevelRendererMixin {
             info.cancel();
             float rain_det = this.minecraft.level.getRainLevel(3);
             if (level.random.nextInt(2) == 0 && level.isDay()) {
-//                System.out.println("tubble weed :)");
+//	        	System.out.println("tubble weed :)");
                 BlockPos newpos = level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING,
                         new BlockPos(pCamera.getBlockPosition().getX() + level.random.nextIntBetweenInclusive(-64, 64), 0, pCamera.getBlockPosition().getZ() + level.random.nextIntBetweenInclusive(-64, 64)));
                 level.isClientSide();
@@ -377,7 +412,7 @@ public class LevelRendererMixin {
                 if (!(f <= 0.0F)) {
                     RandomSource randomsource = RandomSource.create((long) this.ticks * 312987231L);
                     LevelReader levelreader = this.minecraft.level;
-                    BlockPos blockpos = new BlockPos(pCamera.getPosition());
+                    BlockPos blockpos = BlockPos.containing(pCamera.getPosition());
                     BlockPos blockpos1 = null;
                     int i = (int) (100.0F * f * f) / (this.minecraft.options.particles().get() == ParticleStatus.DECREASED ? 2 : 1);
 
@@ -386,7 +421,7 @@ public class LevelRendererMixin {
                         int l = randomsource.nextInt(21) - 10;
                         BlockPos blockpos2 = levelreader.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, blockpos.offset(k, 0, l));
                         Biome biome = levelreader.getBiome(blockpos2).value();
-                        if (blockpos2.getY() > levelreader.getMinBuildHeight() && blockpos2.getY() <= blockpos.getY() + 10 && blockpos2.getY() >= blockpos.getY() - 10 && biome.getPrecipitation() == Biome.Precipitation.NONE && biome.warmEnoughToRain(blockpos2)) {
+                        if (blockpos2.getY() > levelreader.getMinBuildHeight() && blockpos2.getY() <= blockpos.getY() + 10 && blockpos2.getY() >= blockpos.getY() - 10 && !biome.hasPrecipitation() && biome.warmEnoughToRain(blockpos2)) {
                             blockpos1 = blockpos2.below();
                             if (this.minecraft.options.particles().get() == ParticleStatus.MINIMAL) {
                                 break;
@@ -427,7 +462,7 @@ public class LevelRendererMixin {
                 if (!(f <= 0.0F)) {
                     RandomSource randomsource = RandomSource.create((long) this.ticks * 312987231L);
                     LevelReader levelreader = this.minecraft.level;
-                    BlockPos blockpos = new BlockPos(pCamera.getPosition());
+                    BlockPos blockpos = BlockPos.containing(pCamera.getPosition());
                     BlockPos blockpos1 = null;
                     int i = (int) (100.0F * f * f) / (this.minecraft.options.particles().get() == ParticleStatus.DECREASED ? 2 : 1);
 
@@ -436,7 +471,7 @@ public class LevelRendererMixin {
                         int l = randomsource.nextInt(21) - 10;
                         BlockPos blockpos2 = levelreader.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, blockpos.offset(k, 0, l));
                         Biome biome = levelreader.getBiome(blockpos2).value();
-                        if (blockpos2.getY() > levelreader.getMinBuildHeight() && blockpos2.getY() <= blockpos.getY() + 10 && blockpos2.getY() >= blockpos.getY() - 10 && biome.getPrecipitation() == Biome.Precipitation.NONE && biome.warmEnoughToRain(blockpos2)) {
+                        if (blockpos2.getY() > levelreader.getMinBuildHeight() && blockpos2.getY() <= blockpos.getY() + 10 && blockpos2.getY() >= blockpos.getY() - 10 && !biome.hasPrecipitation() && biome.warmEnoughToRain(blockpos2)) {
                             blockpos1 = blockpos2.below();
                             if (this.minecraft.options.particles().get() == ParticleStatus.MINIMAL) {
                                 break;
@@ -466,7 +501,126 @@ public class LevelRendererMixin {
             }
         }
     }
-    
+
+    @Inject(method = "createStars", at = @At("TAIL"))
+    private void createStars(CallbackInfo ci) {
+        //stars 2
+        Tesselator tesselator2 = Tesselator.getInstance();
+        BufferBuilder bufferbuilder2 = tesselator2.getBuilder();
+        RenderSystem.setShader(GameRenderer::getPositionShader);
+        if (this.starBuffer2 != null) {
+            this.starBuffer2.close();
+        }
+
+        this.starBuffer2 = new VertexBuffer(VertexBuffer.Usage.STATIC);
+        BufferBuilder.RenderedBuffer bufferbuilder$renderedbuffer2 = this.drawStars2(bufferbuilder2);
+        this.starBuffer2.bind();
+        this.starBuffer2.upload(bufferbuilder$renderedbuffer2);
+        VertexBuffer.unbind();
+        //stars 3
+        Tesselator tesselator3 = Tesselator.getInstance();
+        BufferBuilder bufferbuilder3 = tesselator3.getBuilder();
+        RenderSystem.setShader(GameRenderer::getPositionShader);
+        if (this.starBuffer3 != null) {
+            this.starBuffer3.close();
+        }
+
+        this.starBuffer3 = new VertexBuffer(VertexBuffer.Usage.STATIC);
+        BufferBuilder.RenderedBuffer bufferbuilder$renderedbuffer3 = this.drawStars3(bufferbuilder3);
+        this.starBuffer3.bind();
+        this.starBuffer3.upload(bufferbuilder$renderedbuffer3);
+        VertexBuffer.unbind();
+    }
+
+    private BufferBuilder.RenderedBuffer drawStars2(BufferBuilder pBuilder) {
+        RandomSource randomsource = RandomSource.create(92410L);
+        pBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION);
+//		System.out.println("big bingus");
+        for (int i = 0; i < 2500; ++i) {
+            double d0 = (double) (randomsource.nextFloat() * 2.0F - 1.0F);
+            double d1 = (double) (randomsource.nextFloat() * 2.0F - 1.0F);
+            double d2 = (double) (randomsource.nextFloat() * 2.0F - 1.0F);
+            double d3 = (double) (0.15F + randomsource.nextFloat() * 0.1F);
+            double d4 = d0 * d0 + d1 * d1 + d2 * d2;
+            if (d4 < 1.0D && d4 > 0.01D) {
+                d4 = 1.0D / Math.sqrt(d4);
+                d0 *= d4;
+                d1 *= d4;
+                d2 *= d4;
+                double d5 = d0 * 100.0D;
+                double d6 = d1 * 100.0D;
+                double d7 = d2 * 100.0D;
+                double d8 = Math.atan2(d0, d2);
+                double d9 = Math.sin(d8);
+                double d10 = Math.cos(d8);
+                double d11 = Math.atan2(Math.sqrt(d0 * d0 + d2 * d2), d1);
+                double d12 = Math.sin(d11);
+                double d13 = Math.cos(d11);
+                double d14 = randomsource.nextDouble() * Math.PI * 2.0D;
+                double d15 = Math.sin(d14);
+                double d16 = Math.cos(d14);
+
+                for (int j = 0; j < 4; ++j) {
+                    double d18 = (double) ((j & 2) - 1) * d3;
+                    double d19 = (double) ((j + 1 & 2) - 1) * d3;
+                    double d21 = d18 * d16 - d19 * d15;
+                    double d22 = d19 * d16 + d18 * d15;
+                    double d23 = d21 * d12 + 0.0D * d13;
+                    double d24 = 0.0D * d12 - d21 * d13;
+                    double d25 = d24 * d9 - d22 * d10;
+                    double d26 = d22 * d9 + d24 * d10;
+                    pBuilder.vertex(d5 + d25, d6 + d23, d7 + d26).endVertex();
+                }
+            }
+        }
+
+        return pBuilder.end();
+    }
+
+    private BufferBuilder.RenderedBuffer drawStars3(BufferBuilder pBuilder) {
+        RandomSource randomsource = RandomSource.create(64094L);
+        pBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION);
+        for (int i = 0; i < 1800; ++i) {
+            double d0 = (double) (randomsource.nextFloat() * 2.0F - 1.0F);
+            double d1 = (double) (randomsource.nextFloat() * 2.0F - 1.0F);
+            double d2 = (double) (randomsource.nextFloat() * 2.0F - 1.0F);
+            double d3 = (double) (0.15F + randomsource.nextFloat() * 0.1F);
+            double d4 = d0 * d0 + d1 * d1 + d2 * d2;
+            if (d4 < 1.0D && d4 > 0.01D) {
+                d4 = 1.0D / Math.sqrt(d4);
+                d0 *= d4;
+                d1 *= d4;
+                d2 *= d4;
+                double d5 = d0 * 100.0D;
+                double d6 = d1 * 100.0D;
+                double d7 = d2 * 100.0D;
+                double d8 = Math.atan2(d0, d2);
+                double d9 = Math.sin(d8);
+                double d10 = Math.cos(d8);
+                double d11 = Math.atan2(Math.sqrt(d0 * d0 + d2 * d2), d1);
+                double d12 = Math.sin(d11);
+                double d13 = Math.cos(d11);
+                double d14 = randomsource.nextDouble() * Math.PI * 2.0D;
+                double d15 = Math.sin(d14);
+                double d16 = Math.cos(d14);
+
+                for (int j = 0; j < 4; ++j) {
+                    double d18 = (double) ((j & 2) - 1) * d3;
+                    double d19 = (double) ((j + 1 & 2) - 1) * d3;
+                    double d21 = d18 * d16 - d19 * d15;
+                    double d22 = d19 * d16 + d18 * d15;
+                    double d23 = d21 * d12 + 0.0D * d13;
+                    double d24 = 0.0D * d12 - d21 * d13;
+                    double d25 = d24 * d9 - d22 * d10;
+                    double d26 = d22 * d9 + d24 * d10;
+                    pBuilder.vertex(d5 + d25, d6 + d23, d7 + d26).endVertex();
+                }
+            }
+        }
+
+        return pBuilder.end();
+    }
+
     @Inject(method = "renderSky", at = @At("HEAD"), cancellable = true)
     private void renderSky(PoseStack pPoseStack, Matrix4f pProjectionMatrix, float pPartialTick, Camera camera, boolean thing, Runnable runnable, CallbackInfo info) {
         ResourceKey<Level> player_dim = Minecraft.getInstance().level.dimension();
@@ -476,7 +630,6 @@ public class LevelRendererMixin {
                 info.cancel();
                 runnable.run();
                 BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
-                
                 Vec3 vec3 = this.level.getSkyColor(this.minecraft.gameRenderer.getMainCamera().getPosition(), pPartialTick);
                 float playerEyeLevel = (float) this.minecraft.player.getEyePosition(pPartialTick).y;
                 float f = (float) vec3.x;
@@ -523,13 +676,12 @@ public class LevelRendererMixin {
                 float[] afloat = this.level.effects().getSunriseColor(this.level.getTimeOfDay(pPartialTick), pPartialTick);
                 if (afloat != null) {
                     RenderSystem.setShader(GameRenderer::getPositionColorShader);
-                    
                     RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
                     pPoseStack.pushPose();
-                    pPoseStack.mulPose(Vector3f.XP.rotationDegrees(90.0F));
+                    pPoseStack.mulPose(Axis.XP.rotationDegrees(90.0F));
                     float f3 = Mth.sin(this.level.getSunAngle(pPartialTick)) < 0.0F ? 180.0F : 0.0F;
-                    pPoseStack.mulPose(Vector3f.ZP.rotationDegrees(f3));
-                    pPoseStack.mulPose(Vector3f.ZP.rotationDegrees(90.0F));
+                    pPoseStack.mulPose(Axis.ZP.rotationDegrees(f3));
+                    pPoseStack.mulPose(Axis.ZP.rotationDegrees(90.0F));
                     float f4 = afloat[0];
                     float f5 = afloat[1];
                     float f6 = afloat[2];
@@ -549,8 +701,8 @@ public class LevelRendererMixin {
                 }
 
                 pPoseStack.pushPose();
-                pPoseStack.mulPose(Vector3f.YP.rotationDegrees(-90.0F));
-                pPoseStack.mulPose(Vector3f.XP.rotationDegrees(this.level.getTimeOfDay(pPartialTick) * 360.0F));
+                pPoseStack.mulPose(Axis.YP.rotationDegrees(-90.0F));
+                pPoseStack.mulPose(Axis.XP.rotationDegrees(this.level.getTimeOfDay(pPartialTick) * 360.0F));
 
                 Matrix4f matrix4f1 = pPoseStack.last().pose();
                 float rain_det2 = this.minecraft.level.getRainLevel(pPartialTick);
@@ -587,7 +739,6 @@ public class LevelRendererMixin {
                 }
 
                 RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, f11);
-                RenderSystem.enableTexture();
                 RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
                 RenderSystem.setShader(GameRenderer::getPositionTexShader);
                 RenderSystem.setShaderTexture(0, PHOBOS_DEIMOS);
@@ -650,8 +801,8 @@ public class LevelRendererMixin {
                 RenderSystem.depthMask(true);
                 pPoseStack.popPose();
                 pPoseStack.pushPose();
-                pPoseStack.mulPose(Vector3f.YP.rotationDegrees(0));
-                pPoseStack.mulPose(Vector3f.XP.rotationDegrees(0));
+                pPoseStack.mulPose(Axis.YP.rotationDegrees(0));
+                pPoseStack.mulPose(Axis.XP.rotationDegrees(0));
                 float mars_alpha = (playerEyeLevel - 400) / 100;
                 float mars_dist = (playerEyeLevel - 400) / 10;
                 if (playerEyeLevel > 400) {
@@ -663,7 +814,6 @@ public class LevelRendererMixin {
                     }
                     Matrix4f matrix4f2 = pPoseStack.last().pose();
                     RenderSystem.setShaderColor(1, 1, 1, mars_alpha);
-                    RenderSystem.enableTexture();
                     RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
                     RenderSystem.setShader(GameRenderer::getPositionTexShader);
                     RenderSystem.setShaderTexture(0, MARS_CLOSE);
@@ -684,7 +834,6 @@ public class LevelRendererMixin {
                     info.cancel();
                     runnable.run();
                     BufferBuilder bufferbuilder3 = Tesselator.getInstance().getBuilder();
-                    
                     Vec3 vec3 = this.level.getSkyColor(this.minecraft.gameRenderer.getMainCamera().getPosition(), pPartialTick);
                     float f = (float) vec3.x;
                     float f1 = (float) vec3.y;
@@ -713,8 +862,8 @@ public class LevelRendererMixin {
                     VertexBuffer.unbind();
 
                     pPoseStack.pushPose();
-                    pPoseStack.mulPose(Vector3f.YP.rotationDegrees(-90.0F));
-                    pPoseStack.mulPose(Vector3f.XP.rotationDegrees(this.level.getTimeOfDay(pPartialTick) * 360.0F));
+                    pPoseStack.mulPose(Axis.YP.rotationDegrees(-90.0F));
+                    pPoseStack.mulPose(Axis.XP.rotationDegrees(this.level.getTimeOfDay(pPartialTick) * 360.0F));
                     Matrix4f matrix4f3 = pPoseStack.last().pose();
                     float starBrightness;
                     float starBrightness2;
@@ -765,7 +914,6 @@ public class LevelRendererMixin {
                     float earth_sky_planet_brightness = (float) (this.level.getStarBrightness(pPartialTick) * 1.5) * (this.level.isRaining() && playerEyeLevel < 450 ? 0 : 1);
                     float northstar_brightness = earth_sky_planet_brightness * 2;
 
-                    RenderSystem.enableTexture();
                     RenderSystem.enableBlend();
                     RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
                     RenderSystem.depthMask(true);
@@ -812,8 +960,6 @@ public class LevelRendererMixin {
                     RenderSystem.depthMask(true);
                     RenderSystem.enableBlend();
 
-
-                    RenderSystem.enableTexture();
                     RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
                     float f11 = 1.0F - this.level.getRainLevel(pPartialTick);
                     if (playerEyeLevel > 400) {
@@ -857,12 +1003,11 @@ public class LevelRendererMixin {
                         }
                         float EC = 2000;
                         pPoseStack.pushPose();
-                        pPoseStack.mulPose(Vector3f.YP.rotationDegrees(0));
-                        pPoseStack.mulPose(Vector3f.XP.rotationDegrees(0));
+                        pPoseStack.mulPose(Axis.YP.rotationDegrees(0));
+                        pPoseStack.mulPose(Axis.XP.rotationDegrees(0));
                         Matrix4f matrix4f2 = pPoseStack.last().pose();
                         BufferBuilder bufferbuilder2 = Tesselator.getInstance().getBuilder();
                         RenderSystem.setShaderColor(1, 1, 1, earth_alpha);
-                        RenderSystem.enableTexture();
                         RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
                         RenderSystem.setShader(GameRenderer::getPositionTexShader);
                         RenderSystem.setShaderTexture(0, EARTH_CLOSE);
@@ -884,7 +1029,6 @@ public class LevelRendererMixin {
                 info.cancel();
                 runnable.run();
                 BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
-                
                 float time = this.level.getTimeOfDay(pPartialTick);
                 float skydarken = Mth.cos(time * ((float) Math.PI * 2F)) * 2.0F + 0.5F;
                 Vec3 skycolor = new Vec3(1F, 0.874F, 0.336F);
@@ -934,13 +1078,12 @@ public class LevelRendererMixin {
                 float[] afloat = this.level.effects().getSunriseColor(this.level.getTimeOfDay(pPartialTick), pPartialTick);
                 if (afloat != null) {
                     RenderSystem.setShader(GameRenderer::getPositionColorShader);
-                    
                     RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
                     pPoseStack.pushPose();
-                    pPoseStack.mulPose(Vector3f.XP.rotationDegrees(90.0F));
+                    pPoseStack.mulPose(Axis.XP.rotationDegrees(90.0F));
                     float f3 = Mth.sin(this.level.getSunAngle(pPartialTick)) < 0.0F ? 180.0F : 0.0F;
-                    pPoseStack.mulPose(Vector3f.ZP.rotationDegrees(f3));
-                    pPoseStack.mulPose(Vector3f.ZP.rotationDegrees(-90.0F));
+                    pPoseStack.mulPose(Axis.ZP.rotationDegrees(f3));
+                    pPoseStack.mulPose(Axis.ZP.rotationDegrees(-90.0F));
                     float f4 = afloat[0];
                     float f5 = afloat[1];
                     float f6 = afloat[2];
@@ -963,7 +1106,6 @@ public class LevelRendererMixin {
                 pPoseStack.mulPose(Axis.XP.rotationDegrees(this.level.getTimeOfDay(pPartialTick) * 360.0F));
 
                 Matrix4f matrix4f1 = pPoseStack.last().pose();
-                RenderSystem.enableTexture();
                 RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 
                 RenderSystem.setShader(GameRenderer::getPositionTexShader);
@@ -1067,8 +1209,8 @@ public class LevelRendererMixin {
                 RenderSystem.depthMask(true);
                 pPoseStack.popPose();
                 pPoseStack.pushPose();
-                pPoseStack.mulPose(Vector3f.YP.rotationDegrees(0));
-                pPoseStack.mulPose(Vector3f.XP.rotationDegrees(0));
+                pPoseStack.mulPose(Axis.YP.rotationDegrees(0));
+                pPoseStack.mulPose(Axis.XP.rotationDegrees(0));
                 float venus_alpha = (playerEyeLevel - 600) / 150;
                 float venus_dist = (playerEyeLevel - 600) / 10;
                 if (playerEyeLevel > 600) {
@@ -1080,7 +1222,6 @@ public class LevelRendererMixin {
                     }
                     Matrix4f matrix4f2 = pPoseStack.last().pose();
                     RenderSystem.setShaderColor(1, 1, 1, venus_alpha);
-                    RenderSystem.enableTexture();
                     RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
                     RenderSystem.setShader(GameRenderer::getPositionTexShader);
                     RenderSystem.setShaderTexture(0, VENUS_CLOSE);
@@ -1091,6 +1232,7 @@ public class LevelRendererMixin {
                     bufferbuilder.vertex(matrix4f2, VC, -100.0F - venus_dist, VC).uv(0.0F, 1.0F).endVertex();
                     BufferUploader.drawWithShader(bufferbuilder.end());
                 }
+                RenderSystem.setShaderColor(1, 1, 1, 1);
                 RenderSystem.depthMask(true);
                 RenderSystem.enableBlend();
                 pPoseStack.popPose();
@@ -1100,7 +1242,6 @@ public class LevelRendererMixin {
                 info.cancel();
                 runnable.run();
                 BufferBuilder bufferbuilder3 = Tesselator.getInstance().getBuilder();
-                
                 float f = 0;
                 float f1 = 0;
                 float f2 = 0;
@@ -1115,8 +1256,8 @@ public class LevelRendererMixin {
                 VertexBuffer.unbind();
 
                 pPoseStack.pushPose();
-                pPoseStack.mulPose(Vector3f.YP.rotationDegrees(-90.0F));
-                pPoseStack.mulPose(Vector3f.XP.rotationDegrees(this.level.getTimeOfDay(pPartialTick) * 360.0F));
+                pPoseStack.mulPose(Axis.YP.rotationDegrees(-90.0F));
+                pPoseStack.mulPose(Axis.XP.rotationDegrees(this.level.getTimeOfDay(pPartialTick) * 360.0F));
                 Matrix4f matrix4f3 = pPoseStack.last().pose();
                 float starBrightness;
                 float f10 = 2;
@@ -1177,7 +1318,6 @@ public class LevelRendererMixin {
                 RenderSystem.depthMask(true);
 
 
-                RenderSystem.enableTexture();
                 RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
                 float f11 = 1.0F - this.level.getRainLevel(pPartialTick);
                 RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0f);
@@ -1193,11 +1333,10 @@ public class LevelRendererMixin {
                 RenderSystem.disableBlend();
 
                 pPoseStack.pushPose();
-                pPoseStack.mulPose(Vector3f.YP.rotationDegrees(0));
-                pPoseStack.mulPose(Vector3f.XP.rotationDegrees(-135));
+                pPoseStack.mulPose(Axis.YP.rotationDegrees(0));
+                pPoseStack.mulPose(Axis.XP.rotationDegrees(-135));
                 Matrix4f matrix4f2 = pPoseStack.last().pose();
                 RenderSystem.setShaderColor(1, 1, 1, 1);
-                RenderSystem.enableTexture();
                 RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
                 RenderSystem.setShader(GameRenderer::getPositionTexShader);
                 float earth_sky_dist = 35;
@@ -1223,12 +1362,11 @@ public class LevelRendererMixin {
                     }
                     float EC = 2000;
                     pPoseStack.pushPose();
-                    pPoseStack.mulPose(Vector3f.YP.rotationDegrees(0));
-                    pPoseStack.mulPose(Vector3f.XP.rotationDegrees(0));
+                    pPoseStack.mulPose(Axis.YP.rotationDegrees(0));
+                    pPoseStack.mulPose(Axis.XP.rotationDegrees(0));
                     matrix4f2 = pPoseStack.last().pose();
                     BufferBuilder bufferbuilder2 = Tesselator.getInstance().getBuilder();
                     RenderSystem.setShaderColor(1, 1, 1, earth_alpha);
-                    RenderSystem.enableTexture();
                     RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
                     RenderSystem.setShader(GameRenderer::getPositionTexShader);
                     RenderSystem.setShaderTexture(0, MOON_CLOSE);
@@ -1247,7 +1385,6 @@ public class LevelRendererMixin {
                 float playerEyeLevel = (float) this.minecraft.player.getEyePosition(pPartialTick).y;
                 info.cancel();
                 runnable.run();
-                
                 float f = 0;
                 float f1 = 0;
                 float f2 = 0;
@@ -1294,7 +1431,6 @@ public class LevelRendererMixin {
                 info.cancel();
                 runnable.run();
                 BufferBuilder bufferbuilder3 = Tesselator.getInstance().getBuilder();
-                
                 float f = 0;
                 float f1 = 0;
                 float f2 = 0;
@@ -1308,8 +1444,8 @@ public class LevelRendererMixin {
                 VertexBuffer.unbind();
 
                 pPoseStack.pushPose();
-                pPoseStack.mulPose(Vector3f.YP.rotationDegrees(-90.0F));
-                pPoseStack.mulPose(Vector3f.XP.rotationDegrees(this.level.getTimeOfDay(pPartialTick) * 360.0F));
+                pPoseStack.mulPose(Axis.YP.rotationDegrees(-90.0F));
+                pPoseStack.mulPose(Axis.XP.rotationDegrees(this.level.getTimeOfDay(pPartialTick) * 360.0F));
                 Matrix4f matrix4f3 = pPoseStack.last().pose();
                 float starBrightness;
                 float f10 = 2;
@@ -1371,7 +1507,6 @@ public class LevelRendererMixin {
                 RenderSystem.depthMask(true);
 
 
-                RenderSystem.enableTexture();
                 RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
                 float f11 = 1.0F - this.level.getRainLevel(pPartialTick);
                 RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, f11);
@@ -1392,12 +1527,11 @@ public class LevelRendererMixin {
                 float EC = 2000;
                 Matrix4f matrix4f2 = pPoseStack.last().pose();
                 pPoseStack.pushPose();
-                pPoseStack.mulPose(Vector3f.YP.rotationDegrees(0));
-                pPoseStack.mulPose(Vector3f.XP.rotationDegrees(0));
+                pPoseStack.mulPose(Axis.YP.rotationDegrees(0));
+                pPoseStack.mulPose(Axis.XP.rotationDegrees(0));
                 matrix4f2 = pPoseStack.last().pose();
                 BufferBuilder bufferbuilder2 = Tesselator.getInstance().getBuilder();
                 RenderSystem.setShaderColor(1, 1, 1, 1);
-                RenderSystem.enableTexture();
                 RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
                 RenderSystem.setShader(GameRenderer::getPositionTexShader);
                 RenderSystem.setShaderTexture(0, EARTH_CLOSE);
@@ -1416,7 +1550,6 @@ public class LevelRendererMixin {
                 info.cancel();
                 runnable.run();
                 BufferBuilder bufferbuilder3 = Tesselator.getInstance().getBuilder();
-                
                 float f = 0;
                 float f1 = 0;
                 float f2 = 0;
@@ -1430,8 +1563,8 @@ public class LevelRendererMixin {
                 VertexBuffer.unbind();
 
                 pPoseStack.pushPose();
-                pPoseStack.mulPose(Vector3f.YP.rotationDegrees(-90.0F));
-                pPoseStack.mulPose(Vector3f.XP.rotationDegrees(this.level.getTimeOfDay(pPartialTick) * 360.0F));
+                pPoseStack.mulPose(Axis.YP.rotationDegrees(-90.0F));
+                pPoseStack.mulPose(Axis.XP.rotationDegrees(this.level.getTimeOfDay(pPartialTick) * 360.0F));
                 Matrix4f matrix4f3 = pPoseStack.last().pose();
                 float starBrightness;
                 float f10 = 2;
@@ -1504,7 +1637,6 @@ public class LevelRendererMixin {
                 RenderSystem.depthMask(true);
 
 
-                RenderSystem.enableTexture();
                 float f11 = 1.0F - this.level.getRainLevel(pPartialTick);
                 RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, f11);
                 float f12 = 30.0F;
@@ -1532,12 +1664,11 @@ public class LevelRendererMixin {
                     }
                     float EC = 2000;
                     pPoseStack.pushPose();
-                    pPoseStack.mulPose(Vector3f.YP.rotationDegrees(0));
-                    pPoseStack.mulPose(Vector3f.XP.rotationDegrees(0));
+                    pPoseStack.mulPose(Axis.YP.rotationDegrees(0));
+                    pPoseStack.mulPose(Axis.XP.rotationDegrees(0));
                     matrix4f2 = pPoseStack.last().pose();
                     BufferBuilder bufferbuilder2 = Tesselator.getInstance().getBuilder();
                     RenderSystem.setShaderColor(1, 1, 1, earth_alpha);
-                    RenderSystem.enableTexture();
                     RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
                     RenderSystem.setShader(GameRenderer::getPositionTexShader);
                     RenderSystem.setShaderTexture(0, MERCURY_CLOSE);
@@ -1576,7 +1707,6 @@ public class LevelRendererMixin {
                 float earth_sky_planet_brightness = (float) (this.level.getStarBrightness(pPartialTick) * 1.5) * (this.level.isRaining() && playerEyeLevel < 450 ? 0 : 1);
                 float northstar_brightness = earth_sky_planet_brightness * 2;
 
-                RenderSystem.enableTexture();
                 RenderSystem.enableBlend();
                 RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
                 RenderSystem.depthMask(true);
@@ -1691,17 +1821,17 @@ public class LevelRendererMixin {
                         if (this.cloudBuffer != null) {
                             this.cloudBuffer.close();
                         }
-                        this.cloudBuffer = new VertexBuffer();
+                        this.cloudBuffer = new VertexBuffer(VertexBuffer.Usage.STATIC);
                         BufferBuilder.RenderedBuffer bufferbuilder$renderedbuffer = this.buildClouds(bufferbuilder, d2, d3, d4, vec3, 1);
                         this.cloudBuffer.bind();
                         this.cloudBuffer.upload(bufferbuilder$renderedbuffer);
                         VertexBuffer.unbind();
 
-//                    this.cloudBuffer2 = new VertexBuffer();
-//                    BufferBuilder.RenderedBuffer bufferbuilder$renderedbuffer2 = this.buildClouds(bufferbuilder, d2 + 50, d3 + 50, d4 + 50, vec3,   2);
-//                    this.cloudBuffer2.bind();
-//                    this.cloudBuffer2.upload(bufferbuilder$renderedbuffer2);
-//                    VertexBuffer.unbind();
+//		            this.cloudBuffer2 = new VertexBuffer();
+//		            BufferBuilder.RenderedBuffer bufferbuilder$renderedbuffer2 = this.buildClouds(bufferbuilder, d2 + 50, d3 + 50, d4 + 50, vec3,   2);
+//		            this.cloudBuffer2.bind();
+//		            this.cloudBuffer2.upload(bufferbuilder$renderedbuffer2);
+//		            VertexBuffer.unbind();
                     }
 
                     RenderSystem.setShader(GameRenderer::getPositionTexColorNormalShader);
@@ -1723,7 +1853,7 @@ public class LevelRendererMixin {
 
                             ShaderInstance shaderinstance = RenderSystem.getShader();
                             this.cloudBuffer.drawWithShader(pPoseStack.last().pose(), pProjectionMatrix, shaderinstance);
-//                       this.cloudBuffer2.drawWithShader(pPoseStack.last().pose(), pProjectionMatrix, shaderinstance);
+//		               this.cloudBuffer2.drawWithShader(pPoseStack.last().pose(), pProjectionMatrix, shaderinstance);
                         }
 
                         VertexBuffer.unbind();
@@ -1738,6 +1868,95 @@ public class LevelRendererMixin {
                 info.cancel();
             }
         }
-    }*/
+    }
+
+    private BufferBuilder.RenderedBuffer buildClouds(BufferBuilder pBuilder, double pX, double pY, double pZ, Vec3 pCloudColor, float offset) {
+        float f3 = (float) Mth.floor(pX) * 0.00390625F;
+        float f4 = (float) Mth.floor(pZ) * 0.00390625F;
+        float f5 = (float) pCloudColor.x;
+        float f6 = (float) pCloudColor.y;
+        float f7 = (float) pCloudColor.z;
+        float f8 = f5 * 0.9F;
+        float f9 = f6 * 0.9F;
+        float f10 = f7 * 0.9F;
+        float f11 = f5 * 0.7F;
+        float f12 = f6 * 0.7F;
+        float f13 = f7 * 0.7F;
+        float f14 = f5 * 0.8F;
+        float f15 = f6 * 0.8F;
+        float f16 = f7 * 0.8F;
+        RenderSystem.setShader(GameRenderer::getPositionTexColorNormalShader);
+        pBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR_NORMAL);
+        float f17 = (float) Math.floor(pY / 4.0D) * 4.0F;
+        if (this.prevCloudsType == CloudStatus.FANCY) {
+            for (int k = -3; k <= 4; ++k) {
+                for (int l = -3; l <= 4; ++l) {
+                    float f18 = (float) (k * 8);
+                    float f19 = (float) (l * 8);
+                    if (f17 > -5.0F) {
+                        pBuilder.vertex((double) (f18 + 0.0F), (double) (f17 + 0.0F), (double) (f19 + 8.0F)).uv((f18 + 0.0F) * 0.00390625F + f3, (f19 + 8.0F) * 0.00390625F + f4).color(f11, f12, f13, 0.8F).normal(0.0F, -1.0F, 0.0F).endVertex();
+                        pBuilder.vertex((double) (f18 + 8.0F), (double) (f17 + 0.0F), (double) (f19 + 8.0F)).uv((f18 + 8.0F) * 0.00390625F + f3, (f19 + 8.0F) * 0.00390625F + f4).color(f11, f12, f13, 0.8F).normal(0.0F, -1.0F, 0.0F).endVertex();
+                        pBuilder.vertex((double) (f18 + 8.0F), (double) (f17 + 0.0F), (double) (f19 + 0.0F)).uv((f18 + 8.0F) * 0.00390625F + f3, (f19 + 0.0F) * 0.00390625F + f4).color(f11, f12, f13, 0.8F).normal(0.0F, -1.0F, 0.0F).endVertex();
+                        pBuilder.vertex((double) (f18 + 0.0F), (double) (f17 + 0.0F), (double) (f19 + 0.0F)).uv((f18 + 0.0F) * 0.00390625F + f3, (f19 + 0.0F) * 0.00390625F + f4).color(f11, f12, f13, 0.8F).normal(0.0F, -1.0F, 0.0F).endVertex();
+                    }
+
+                    if (f17 <= 5.0F) {
+                        pBuilder.vertex((double) (f18 + 0.0F), (double) (f17 + 4.0F - 9.765625E-4F), (double) (f19 + 8.0F)).uv((f18 + 0.0F) * 0.00390625F + f3, (f19 + 8.0F) * 0.00390625F + f4).color(f5, f6, f7, 0.8F).normal(0.0F, 1.0F, 0.0F).endVertex();
+                        pBuilder.vertex((double) (f18 + 8.0F), (double) (f17 + 4.0F - 9.765625E-4F), (double) (f19 + 8.0F)).uv((f18 + 8.0F) * 0.00390625F + f3, (f19 + 8.0F) * 0.00390625F + f4).color(f5, f6, f7, 0.8F).normal(0.0F, 1.0F, 0.0F).endVertex();
+                        pBuilder.vertex((double) (f18 + 8.0F), (double) (f17 + 4.0F - 9.765625E-4F), (double) (f19 + 0.0F)).uv((f18 + 8.0F) * 0.00390625F + f3, (f19 + 0.0F) * 0.00390625F + f4).color(f5, f6, f7, 0.8F).normal(0.0F, 1.0F, 0.0F).endVertex();
+                        pBuilder.vertex((double) (f18 + 0.0F), (double) (f17 + 4.0F - 9.765625E-4F), (double) (f19 + 0.0F)).uv((f18 + 0.0F) * 0.00390625F + f3, (f19 + 0.0F) * 0.00390625F + f4).color(f5, f6, f7, 0.8F).normal(0.0F, 1.0F, 0.0F).endVertex();
+                    }
+
+                    if (k > -1) {
+                        for (int i1 = 0; i1 < 8; ++i1) {
+                            pBuilder.vertex((double) (f18 + (float) i1 + 0.0F), (double) (f17 + 0.0F), (double) (f19 + 8.0F)).uv((f18 + (float) i1 + 0.5F) * 0.00390625F + f3, (f19 + 8.0F) * 0.00390625F + f4).color(f8, f9, f10, 0.8F).normal(-1.0F, 0.0F, 0.0F).endVertex();
+                            pBuilder.vertex((double) (f18 + (float) i1 + 0.0F), (double) (f17 + 4.0F), (double) (f19 + 8.0F)).uv((f18 + (float) i1 + 0.5F) * 0.00390625F + f3, (f19 + 8.0F) * 0.00390625F + f4).color(f8, f9, f10, 0.8F).normal(-1.0F, 0.0F, 0.0F).endVertex();
+                            pBuilder.vertex((double) (f18 + (float) i1 + 0.0F), (double) (f17 + 4.0F), (double) (f19 + 0.0F)).uv((f18 + (float) i1 + 0.5F) * 0.00390625F + f3, (f19 + 0.0F) * 0.00390625F + f4).color(f8, f9, f10, 0.8F).normal(-1.0F, 0.0F, 0.0F).endVertex();
+                            pBuilder.vertex((double) (f18 + (float) i1 + 0.0F), (double) (f17 + 0.0F), (double) (f19 + 0.0F)).uv((f18 + (float) i1 + 0.5F) * 0.00390625F + f3, (f19 + 0.0F) * 0.00390625F + f4).color(f8, f9, f10, 0.8F).normal(-1.0F, 0.0F, 0.0F).endVertex();
+                        }
+                    }
+
+                    if (k <= 1) {
+                        for (int j2 = 0; j2 < 8; ++j2) {
+                            pBuilder.vertex((double) (f18 + (float) j2 + 1.0F - 9.765625E-4F), (double) (f17 + 0.0F), (double) (f19 + 8.0F)).uv((f18 + (float) j2 + 0.5F) * 0.00390625F + f3, (f19 + 8.0F) * 0.00390625F + f4).color(f8, f9, f10, 0.8F).normal(1.0F, 0.0F, 0.0F).endVertex();
+                            pBuilder.vertex((double) (f18 + (float) j2 + 1.0F - 9.765625E-4F), (double) (f17 + 4.0F), (double) (f19 + 8.0F)).uv((f18 + (float) j2 + 0.5F) * 0.00390625F + f3, (f19 + 8.0F) * 0.00390625F + f4).color(f8, f9, f10, 0.8F).normal(1.0F, 0.0F, 0.0F).endVertex();
+                            pBuilder.vertex((double) (f18 + (float) j2 + 1.0F - 9.765625E-4F), (double) (f17 + 4.0F), (double) (f19 + 0.0F)).uv((f18 + (float) j2 + 0.5F) * 0.00390625F + f3, (f19 + 0.0F) * 0.00390625F + f4).color(f8, f9, f10, 0.8F).normal(1.0F, 0.0F, 0.0F).endVertex();
+                            pBuilder.vertex((double) (f18 + (float) j2 + 1.0F - 9.765625E-4F), (double) (f17 + 0.0F), (double) (f19 + 0.0F)).uv((f18 + (float) j2 + 0.5F) * 0.00390625F + f3, (f19 + 0.0F) * 0.00390625F + f4).color(f8, f9, f10, 0.8F).normal(1.0F, 0.0F, 0.0F).endVertex();
+                        }
+                    }
+
+                    if (l > -1) {
+                        for (int k2 = 0; k2 < 8; ++k2) {
+                            pBuilder.vertex((double) (f18 + 0.0F), (double) (f17 + 4.0F), (double) (f19 + (float) k2 + 0.0F)).uv((f18 + 0.0F) * 0.00390625F + f3, (f19 + (float) k2 + 0.5F) * 0.00390625F + f4).color(f14, f15, f16, 0.8F).normal(0.0F, 0.0F, -1.0F).endVertex();
+                            pBuilder.vertex((double) (f18 + 8.0F), (double) (f17 + 4.0F), (double) (f19 + (float) k2 + 0.0F)).uv((f18 + 8.0F) * 0.00390625F + f3, (f19 + (float) k2 + 0.5F) * 0.00390625F + f4).color(f14, f15, f16, 0.8F).normal(0.0F, 0.0F, -1.0F).endVertex();
+                            pBuilder.vertex((double) (f18 + 8.0F), (double) (f17 + 0.0F), (double) (f19 + (float) k2 + 0.0F)).uv((f18 + 8.0F) * 0.00390625F + f3, (f19 + (float) k2 + 0.5F) * 0.00390625F + f4).color(f14, f15, f16, 0.8F).normal(0.0F, 0.0F, -1.0F).endVertex();
+                            pBuilder.vertex((double) (f18 + 0.0F), (double) (f17 + 0.0F), (double) (f19 + (float) k2 + 0.0F)).uv((f18 + 0.0F) * 0.00390625F + f3, (f19 + (float) k2 + 0.5F) * 0.00390625F + f4).color(f14, f15, f16, 0.8F).normal(0.0F, 0.0F, -1.0F).endVertex();
+                        }
+                    }
+
+                    if (l <= 1) {
+                        for (int l2 = 0; l2 < 8; ++l2) {
+                            pBuilder.vertex((double) (f18 + 0.0F), (double) (f17 + 4.0F), (double) (f19 + (float) l2 + 1.0F - 9.765625E-4F)).uv((f18 + 0.0F) * 0.00390625F + f3, (f19 + (float) l2 + 0.5F) * 0.00390625F + f4).color(f14, f15, f16, 0.8F).normal(0.0F, 0.0F, 1.0F).endVertex();
+                            pBuilder.vertex((double) (f18 + 8.0F), (double) (f17 + 4.0F), (double) (f19 + (float) l2 + 1.0F - 9.765625E-4F)).uv((f18 + 8.0F) * 0.00390625F + f3, (f19 + (float) l2 + 0.5F) * 0.00390625F + f4).color(f14, f15, f16, 0.8F).normal(0.0F, 0.0F, 1.0F).endVertex();
+                            pBuilder.vertex((double) (f18 + 8.0F), (double) (f17 + 0.0F), (double) (f19 + (float) l2 + 1.0F - 9.765625E-4F)).uv((f18 + 8.0F) * 0.00390625F + f3, (f19 + (float) l2 + 0.5F) * 0.00390625F + f4).color(f14, f15, f16, 0.8F).normal(0.0F, 0.0F, 1.0F).endVertex();
+                            pBuilder.vertex((double) (f18 + 0.0F), (double) (f17 + 0.0F), (double) (f19 + (float) l2 + 1.0F - 9.765625E-4F)).uv((f18 + 0.0F) * 0.00390625F + f3, (f19 + (float) l2 + 0.5F) * 0.00390625F + f4).color(f14, f15, f16, 0.8F).normal(0.0F, 0.0F, 1.0F).endVertex();
+                        }
+                    }
+                }
+            }
+        } else {
+            for (int l1 = -32; l1 < 32; l1 += 32) {
+                for (int i2 = -32; i2 < 32; i2 += 32) {
+                    pBuilder.vertex((double) (l1 + 0), (double) f17, (double) (i2 + 32)).uv((float) (l1 + 0) * 0.00390625F + f3, (float) (i2 + 32) * 0.00390625F + f4).color(f5, f6, f7, 0.8F).normal(0.0F, -1.0F, 0.0F).endVertex();
+                    pBuilder.vertex((double) (l1 + 32), (double) f17, (double) (i2 + 32)).uv((float) (l1 + 32) * 0.00390625F + f3, (float) (i2 + 32) * 0.00390625F + f4).color(f5, f6, f7, 0.8F).normal(0.0F, -1.0F, 0.0F).endVertex();
+                    pBuilder.vertex((double) (l1 + 32), (double) f17, (double) (i2 + 0)).uv((float) (l1 + 32) * 0.00390625F + f3, (float) (i2 + 0) * 0.00390625F + f4).color(f5, f6, f7, 0.8F).normal(0.0F, -1.0F, 0.0F).endVertex();
+                    pBuilder.vertex((double) (l1 + 0), (double) f17, (double) (i2 + 0)).uv((float) (l1 + 0) * 0.00390625F + f3, (float) (i2 + 0) * 0.00390625F + f4).color(f5, f6, f7, 0.8F).normal(0.0F, -1.0F, 0.0F).endVertex();
+                }
+            }
+        }
+
+        return pBuilder.end();
+    }
+
 
 }
