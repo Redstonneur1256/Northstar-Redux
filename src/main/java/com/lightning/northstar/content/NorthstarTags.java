@@ -26,6 +26,14 @@ import java.util.Collections;
 
 public class NorthstarTags {
 
+    public static void register() {
+        NorthstarFluidTags.init();
+        NorthstarBlockTags.init();
+        NorthstarItemTags.init();
+        NorthstarEntityTags.init();
+        NorthstarBiomeTags.init();
+    }
+
     public static <T> TagKey<T> optionalTag(IForgeRegistry<T> registry, ResourceLocation id) {
         return registry.tags().createOptionalTagKey(id, Collections.emptySet());
     }

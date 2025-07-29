@@ -92,6 +92,7 @@ public class Northstar {
         REGISTRATE.registerEventListeners(modEventBus);
         modEventBus.addListener(this::onRegister);
 
+        NorthstarTags.register();
         NorthstarCreativeModeTab.register(modEventBus);
         NorthstarItems.register();
         NorthstarBlocks.register(modEventBus);
