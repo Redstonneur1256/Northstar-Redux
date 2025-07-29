@@ -3,9 +3,9 @@ package com.lightning.northstar.block.tech.telescope;
 import com.lightning.northstar.content.NorthstarBlockEntityTypes;
 import com.lightning.northstar.world.dimension.NorthstarPlanets;
 import com.simibubi.create.foundation.block.IBE;
-import com.simibubi.create.foundation.utility.CreateLang;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -75,7 +75,7 @@ public class TelescopeBlock extends BaseEntityBlock implements IBE<TelescopeBloc
                 NetworkHooks.openScreen(((ServerPlayer) pPlayer), (TelescopeBlockEntity) entity, pPos);
 
             } else {
-                pPlayer.displayClientMessage(CreateLang.translateDirect("northstar.gui.telescope_fail"), true);
+                pPlayer.displayClientMessage(Component.translatable("northstar.gui.telescope_fail"), true);
             }
         }
 

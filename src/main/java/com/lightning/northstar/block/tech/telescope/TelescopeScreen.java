@@ -80,10 +80,8 @@ public class TelescopeScreen extends AbstractContainerScreen<TelescopeMenu> {
             }
         });
 
-        printButton.setToolTip(CreateLang.translateDirect("northstar.gui.telescope.button_tooltip").withStyle(ChatFormatting.WHITE));
-
         printButton.active = paperCheck();
-        printButton.setToolTip(Component.translatable("container.northstar.paper_check"));
+        printButton.setToolTip(Component.translatable("northstar.gui.telescope.button_tooltip"));
         addRenderableWidget(printButton);
     }
 
