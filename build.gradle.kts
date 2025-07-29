@@ -2,6 +2,7 @@ import java.time.Instant
 
 plugins {
     id("net.minecraftforge.gradle") version "[6.0,6.2)"
+    id("org.spongepowered.mixin") version "0.7-SNAPSHOT"
     id("org.parchmentmc.librarian.forgegradle") version "1.+"
 }
 
@@ -36,6 +37,7 @@ repositories {
 
 dependencies {
     minecraft("net.minecraftforge:forge:1.20.1-47.4.0")
+    annotationProcessor("org.spongepowered:mixin:0.8.5:processor")
 
     // TODO: regroup versions in a separate place
     implementation(fg.deobf("com.simibubi.create:create-1.20.1:6.0.6-205:slim"))
@@ -78,6 +80,8 @@ minecraft {
 
                 "forge.enabledGameTestNamespaces" to "northstar",
             ))
+
+            args("-mixin.config=northstar.mixins.json")
 
             /*mods {
                 "northstar" {
@@ -123,6 +127,11 @@ minecraft {
             }
         }
     }*/
+}
+
+mixin {
+    add(sourceSets.main.get(), "northstar.refmap.json")
+    config("northstar.mixins.json")
 }
 
 tasks.jar {
