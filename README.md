@@ -10,7 +10,6 @@ Make sure that no existing issue matches the bug or feature and that it isn't pl
 ### Known issues:
 - Blocks are invisible when flywheel is off. Current solution: enable flywheel with `/flywheel backend flywheel:instancing` or `/flywheel backend flywheel:indirect`.
 - Not all entities might be affected by custom gravity (e.g. falling blocks).
-- Sky is missing stars and showing clouds on planets other than earth.
 
 ### Planned:
 - 1.21.1

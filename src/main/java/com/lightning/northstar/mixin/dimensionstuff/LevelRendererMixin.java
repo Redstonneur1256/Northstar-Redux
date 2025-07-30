@@ -280,6 +280,7 @@ public class LevelRendererMixin {
                     tesselator.end();
                 }
 
+                RenderSystem.setShaderColor(1, 1, 1, 1);
                 RenderSystem.enableCull();
                 RenderSystem.disableBlend();
                 //pLightTexture.turnOffLightLayer();
@@ -375,6 +376,7 @@ public class LevelRendererMixin {
                     tesselator.end();
                 }
 
+                RenderSystem.setShaderColor(1, 1, 1, 1);
                 RenderSystem.enableCull();
                 RenderSystem.disableBlend();
                 //pLightTexture.turnOffLightLayer();
@@ -824,6 +826,7 @@ public class LevelRendererMixin {
                     bufferbuilder.vertex(matrix4f2, MC, -100.0F - mars_dist, MC).uv(0.0F, 1.0F).endVertex();
                     BufferUploader.drawWithShader(bufferbuilder.end());
                 }
+                RenderSystem.setShaderColor(1, 1, 1, 1);
                 RenderSystem.depthMask(true);
                 RenderSystem.enableBlend();
                 pPoseStack.popPose();
@@ -1018,6 +1021,7 @@ public class LevelRendererMixin {
                         bufferbuilder2.vertex(matrix4f2, EC, -100.0F - earth_dist, EC).uv(0.0F, -1.0F).endVertex();
                         BufferUploader.drawWithShader(bufferbuilder2.end());
                     }
+                    RenderSystem.setShaderColor(1, 1, 1, 1);
                     RenderSystem.depthMask(true);
                     RenderSystem.enableBlend();
                     pPoseStack.popPose();
@@ -1684,7 +1688,6 @@ public class LevelRendererMixin {
                 RenderSystem.depthMask(true);
             }
         }
-
     }
 
     //THIS IS FOR THE OVERWORLD ONLY, OTHERWISE IT (probably) WONT BE CALLED
@@ -1749,6 +1752,7 @@ public class LevelRendererMixin {
                 bufferbuilder_earth_sky.vertex(matrix4f_earth_sky, -60, -29.65f + -MVF, -80 + MVF).uv(1, -1).endVertex();
                 bufferbuilder_earth_sky.vertex(matrix4f_earth_sky, -59.25f, -30f + -MVF, -80 + -MVF).uv(0, -1).endVertex();
                 BufferUploader.drawWithShader(bufferbuilder_earth_sky.end());
+                RenderSystem.setShaderColor(1, 1, 1, 1);
                 RenderSystem.disableBlend();
                 RenderSystem.depthMask(true);
                 RenderSystem.enableBlend();
@@ -1758,8 +1762,6 @@ public class LevelRendererMixin {
 
     }
 
-
-    @SuppressWarnings("resource")
     @Inject(method = "renderClouds", at = @At("HEAD"), cancellable = true)
     public void renderClouds(PoseStack pPoseStack, Matrix4f pProjectionMatrix, float pPartialTick, double pCamX, double pCamY, double pCamZ, CallbackInfo info) {
         ResourceKey<Level> player_dim = Minecraft.getInstance().level.dimension();
