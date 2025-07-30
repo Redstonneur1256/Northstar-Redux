@@ -31,6 +31,7 @@ import com.lightning.northstar.block.tech.temperature_regulator.TemperatureRegul
 import com.simibubi.create.AllPartialModels;
 import com.simibubi.create.content.decoration.slidingDoor.SlidingDoorBlockEntity;
 import com.simibubi.create.content.decoration.slidingDoor.SlidingDoorRenderer;
+import com.simibubi.create.content.kinetics.base.ShaftVisual;
 import com.simibubi.create.content.kinetics.base.SingleAxisRotatingVisual;
 import com.simibubi.create.content.kinetics.simpleRelays.BracketedKineticBlockEntity;
 import com.simibubi.create.content.kinetics.simpleRelays.BracketedKineticBlockEntityRenderer;
@@ -48,9 +49,6 @@ import static com.lightning.northstar.Northstar.REGISTRATE;
 public class NorthstarBlockEntityTypes {
 
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, Northstar.MOD_ID);
-
-//    public static final BlockEntityEntry<RocketStationBlockEntity> ROCKET_STATION = BLOCK_ENTITIES.register("rocket_station",
-//            () -> BlockEntityType.Builder.of(RocketStationBlockEntity::new, NorthstarBlocks.ROCKET_STATION.get()).build(null));
 
     public static final RegistryObject<BlockEntityType<TelescopeBlockEntity>> TELESCOPE = BLOCK_ENTITIES.register("telescope",
             () -> BlockEntityType.Builder.of(TelescopeBlockEntity::new, NorthstarBlocks.TELESCOPE.get()).build(null));
@@ -77,7 +75,7 @@ public class NorthstarBlockEntityTypes {
 
     public static final BlockEntityEntry<SolarPanelBlockEntity> SOLAR_PANEL = REGISTRATE
             .blockEntity("solar_panel", SolarPanelBlockEntity::new)
-            //.instance(() -> ShaftInstance::new, false)
+            .visual(() -> ShaftVisual::new)
             .validBlocks(NorthstarTechBlocks.SOLAR_PANEL)
             //.renderer(() -> SolarPanelRenderer::new)
             .register();
@@ -173,9 +171,6 @@ public class NorthstarBlockEntityTypes {
             .validBlocks(NorthstarTechBlocks.IRON_COGWHEEL, NorthstarTechBlocks.IRON_LARGE_COGWHEEL)
             .renderer(() -> BracketedKineticBlockEntityRenderer::new)
             .register();
-
-//   public static final RegistryObject<BlockEntityType<JetEngineBlockEntity>> JET_ENGINE = BLOCK_ENTITIES.register("jet_engine",
-//           () -> BlockEntityType.Builder.of(JetEngineBlockEntity::new, NorthstarBlocks.JET_ENGINE.get()).build(null));
 
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);
